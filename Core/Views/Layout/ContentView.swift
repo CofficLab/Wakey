@@ -1,7 +1,7 @@
 import OSLog
 import SwiftUI
 
-/// Main content view
+/// 主内容视图
 struct ContentView: View {
     nonisolated static let emoji = "📱"
     nonisolated static let verbose = false
@@ -12,7 +12,7 @@ struct ContentView: View {
     @State private var showSettings = false
     @State private var settingsTab: SettingView.SettingTab = .about
 
-    // Initialization parameters to keep compatibility with ContentLayout
+    // 初始化参数，用于保持与 ContentLayout 的兼容性
     var defaultTab: String? = nil
     var defaultColumnVisibility: NavigationSplitViewVisibility? = nil
     var defaultToolbarVisibility: Bool? = nil
@@ -28,26 +28,26 @@ struct ContentView: View {
             .onOpenSettings(perform: openSettings)
     }
 
-    // MARK: - Event Handler
+    // MARK: - 事件处理器
     
     func updateCachedViews() {
-        // No-op
+        // 无操作
     }
 
     func onAppear() {
-        // No-op
+        // 无操作
     }
 
     func onChangeOfTab() {
-        // No-op
+        // 无操作
     }
 
     func onChangeColumnVisibility() {
-        // No-op
+        // 无操作
     }
 
     func onPluginsLoaded() {
-        // No-op
+        // 无操作
     }
 
     func openSettings() {
@@ -55,9 +55,9 @@ struct ContentView: View {
     }
 }
 
-// MARK: - Preview
+// MARK: - 预览
 
-#Preview("App - Small Screen") {
+#Preview("应用 - 小屏幕") {
     ContentView()
         .environmentObject(AppProvider())
         .environmentObject(PluginProvider())

@@ -1,26 +1,26 @@
 import SwiftUI
 import MagicKit
 
-/// The main interface for the Wakey application
+/// Wakey 应用程序的主界面
 struct CaffeinateMainView: View {
     @State private var manager = CaffeinateManager.shared
     @State private var selectedDuration: TimeInterval = 0
     
-    // Quick action types
+    // 快速操作类型
     enum QuickActionType: Equatable {
-        case systemAndDisplay // Prevent sleep & keep display on
-        case systemOnly // Prevent sleep & allow display off
-        case turnOffDisplay // Prevent sleep & turn off display immediately
+        case systemAndDisplay // 防止休眠并保持屏幕常亮
+        case systemOnly // 防止休眠但允许屏幕关闭
+        case turnOffDisplay // 防止休眠并立即关闭屏幕
     }
     
     @State private var activeAction: QuickActionType? = nil
     
     private let quickDurations: [(title: String, value: TimeInterval)] = [
-        ("Indefinitely", 0),
-        ("10 Min", 600),
-        ("1 Hour", 3600),
-        ("2 Hours", 7200),
-        ("5 Hours", 18000),
+        ("永久", 0),
+        ("10分钟", 600),
+        ("1小时", 3600),
+        ("2小时", 7200),
+        ("5小时", 18000),
     ]
     
     var body: some View {
@@ -55,20 +55,20 @@ struct CaffeinateMainView: View {
             )
             .frame(width: 80, height: 80)
             
-            Text(manager.isActive ? "Wakey is Active" : "Wakey is Resting")
+            Text(manager.isActive ? "Wakey 已激活" : "Wakey 休息中")
                 .font(.largeTitle)
                 .fontWeight(.bold)
             
             if manager.isActive {
                 if selectedDuration > 0 {
-                    Text("Preventing sleep for \(formatDuration(selectedDuration))")
+                    Text("防止休眠：\(formatDuration(selectedDuration))")
                         .foregroundColor(.secondary)
                 } else {
-                    Text("Preventing sleep indefinitely")
+                    Text("永久防止休眠")
                         .foregroundColor(.secondary)
                 }
             } else {
-                Text("System sleep is allowed")
+                Text("允许系统休眠")
                     .foregroundColor(.secondary)
             }
         }
@@ -78,7 +78,7 @@ struct CaffeinateMainView: View {
     
     private var durationSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Duration")
+            Text("持续时间")
                 .font(.headline)
             
             HStack(spacing: 10) {
@@ -100,13 +100,13 @@ struct CaffeinateMainView: View {
     
     private var actionsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Mode")
+            Text("模式")
                 .font(.headline)
             
             VStack(spacing: 12) {
                 MainActionButton(
-                    title: "Keep Awake & Screen On",
-                    subtitle: "Prevents system sleep and keeps display active",
+                    title: "防止休眠且屏幕常亮",
+                    subtitle: "防止系统休眠并保持显示器激活状态",
                     icon: "sun.max.fill",
                     color: .orange,
                     isSelected: activeAction == .systemAndDisplay,
@@ -114,8 +114,8 @@ struct CaffeinateMainView: View {
                 )
                 
                 MainActionButton(
-                    title: "Keep Awake Only",
-                    subtitle: "Prevents system sleep but allows display to dim",
+                    title: "仅防止系统休眠",
+                    subtitle: "防止系统休眠，但允许显示器变暗",
                     icon: "moon.fill",
                     color: .blue,
                     isSelected: activeAction == .systemOnly,
@@ -123,8 +123,8 @@ struct CaffeinateMainView: View {
                 )
                 
                 MainActionButton(
-                    title: "Keep Awake & Screen Off",
-                    subtitle: "Prevents system sleep and turns off display now",
+                    title: "防止休眠且立刻关闭屏幕",
+                    subtitle: "防止系统休眠并立即关闭显示器",
                     icon: "power",
                     color: .purple,
                     isSelected: false, // Instant action
@@ -164,9 +164,9 @@ struct CaffeinateMainView: View {
         let hours = Int(duration) / 3600
         let minutes = (Int(duration) % 3600) / 60
         if hours > 0 {
-            return "\(hours)h \(minutes > 0 ? "\(minutes)m" : "")"
+            return "\(hours)小时 \(minutes > 0 ? "\(minutes)分钟" : "")"
         }
-        return "\(minutes)m"
+        return "\(minutes)分钟"
     }
 }
 
@@ -251,4 +251,5 @@ struct MainActionButton: View {
 
 #Preview {
     CaffeinateMainView()
+        .frame(height: 600)
 }

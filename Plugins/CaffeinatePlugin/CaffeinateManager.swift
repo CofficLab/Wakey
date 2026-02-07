@@ -40,11 +40,11 @@ class CaffeinateManager: SuperLog {
 
     private init() {
         if Self.verbose {
-            os_log("\(self.t)CaffeinateManager initialized")
+            os_log("\(self.t)CaffeinateManager 已初始化")
         }
     }
 
-    // MARK: - Public Methods
+    // MARK: - 公共方法
 
     /// 激活防休眠
     /// - Parameter duration: 持续时间（秒），0 表示永久
@@ -68,20 +68,20 @@ class CaffeinateManager: SuperLog {
         do {
             try task.run()
         } catch {
-            os_log(.error, "\(self.t)Failed to turn off display: \(error.localizedDescription)")
+            os_log(.error, "\(self.t)关闭显示器失败: \(error.localizedDescription)")
         }
     }
 
     func activate(mode: SleepMode, duration: TimeInterval = 0) {
         guard !isActive else {
             if Self.verbose {
-                os_log("\(self.t)Caffeinate already active, ignoring activation request")
+                os_log("\(self.t)防休眠已激活，忽略重复请求")
             }
             return
         }
 
         self.mode = mode
-        let reason = "User prevented sleep via Lumi" as NSString
+        let reason = "用户通过 Lumi 开启了防休眠模式" as NSString
 
         let systemResult = IOPMAssertionCreateWithName(
             kIOPMAssertionTypePreventUserIdleSystemSleep as CFString,

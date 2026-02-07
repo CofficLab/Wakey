@@ -93,7 +93,7 @@ class InteractiveHostingView<Content: View>: NSHostingView<Content> {
                 VStack {
                     LogoView(variant: .general)
                         .frame(width: 120, height: 120)
-                    Text("General").font(.caption)
+                    Text("通用").font(.caption)
                 }
 
                 VStack {

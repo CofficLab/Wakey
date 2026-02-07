@@ -8,8 +8,8 @@ struct SettingView: View {
     @State private var selectedTab: SettingTab
 
     enum SettingTab: String, CaseIterable {
-        case general = "General"
-        case about = "About"
+        case general = "通用"
+        case about = "关于"
 
         var icon: String {
             switch self {
@@ -55,7 +55,7 @@ struct SettingView: View {
                 Divider()
                 HStack {
                     Spacer()
-                    Button("Done") {
+                    Button("完成") {
                         NotificationCenter.postDismissSettings()
                     }
                     .keyboardShortcut(.defaultAction)
