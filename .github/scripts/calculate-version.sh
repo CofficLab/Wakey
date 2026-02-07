@@ -18,10 +18,14 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 INCREMENT_TYPE=$("${SCRIPT_DIR}/bump-version.sh")
 
 # Get the last tag starting with 'v'
-LAST_TAG=$(git describe --tags --match "v*" --abbrev=0 2>/dev/null || echo "v0.0.0")
+GIT_TAG=$(git describe --tags --match "v*" --abbrev=0 2>/dev/null || echo "v0.0.0")
+GIT_TAG="${GIT_TAG#v}"
 
-# Strip 'v' prefix if present
-LAST_TAG="${LAST_TAG#v}"
+# Get MARKETING_VERSION from project.pbxproj
+PROJECT_VERSION=$(grep -m1 "MARKETING_VERSION" Wakey.xcodeproj/project.pbxproj | sed 's/.*MARKETING_VERSION = \([^;]*\).*/\1/' | xargs)
+
+# Compare versions and use the larger one
+LAST_TAG=$(printf '%s\n%s\n' "$GIT_TAG" "$PROJECT_VERSION" | sort -V | tail -n1)
 
 # Parse the version components
 IFS='.' read -r MAJOR MINOR PATCH <<< "$LAST_TAG"

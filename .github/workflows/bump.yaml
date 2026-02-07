@@ -40,12 +40,9 @@ jobs:
 
       - name: Update Xcode Project Version
         run: |
-          # 更新 MARKETING_VERSION
-          agvtool new-marketing-version ${{ env.new_version }} ||
-          (
-            # 如果上面失败，手动编辑项目文件
-            sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = ${{ env.new_version }}/" ${{ env.PROJECT }}/project.pbxproj
-          )
+          # 直接更新 project.pbxproj 中的 MARKETING_VERSION
+          # 同时更新 Debug 和 Release 配置
+          sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = ${{ env.new_version }}/" ${{ env.PROJECT }}/project.pbxproj
 
       - name: 更新构建号
         run: |
