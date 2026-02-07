@@ -95,14 +95,6 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
             object: nil
         )
 
-        // 如果插件已经加载（通知可能在监听器设置之前发送），立即更新
-        if pluginProvider?.isLoaded == true {
-            if Self.verbose {
-                os_log("\(self.t)插件已加载，立即更新状态栏内容视图")
-            }
-            updateStatusBarContentViews()
-        }
-
         if Self.verbose {
             os_log("\(self.t)状态栏已设置")
         }
@@ -112,19 +104,6 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
     func refreshStatusBarMenu() {
         // 如果弹窗正在显示，关闭它以便重新加载
         closePopover()
-
-        // 更新状态栏内容视图
-        updateStatusBarContentViews()
-    }
-
-    /// 更新状态栏内容视图
-    private func updateStatusBarContentViews() {
-        let views = pluginProvider?.getStatusBarContentViews() ?? []
-        iconViewModel.contentViews = views
-
-        if Self.verbose {
-            os_log("\(self.t)更新状态栏内容视图: \(views.count) 个")
-        }
     }
 
     /// 清理状态栏资源

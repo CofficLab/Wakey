@@ -14,9 +14,6 @@ class MacAgent: NSObject, NSApplicationDelegate, SuperLog {
     /// 状态栏控制器
     private var statusBarController: StatusBarController?
 
-    /// 更新控制器
-    private var updateController: UpdateController?
-
     /// 插件提供者
     private var pluginProvider: PluginProvider?
 
@@ -73,9 +70,6 @@ class MacAgent: NSObject, NSApplicationDelegate, SuperLog {
 
     /// 设置各个控制器
     private func setupControllers() {
-        // 初始化更新控制器
-        updateController = UpdateController()
-
         // 初始化状态栏控制器
         statusBarController = StatusBarController()
         statusBarController?.setupStatusBar(pluginProvider: pluginProvider)
