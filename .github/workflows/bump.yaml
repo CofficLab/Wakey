@@ -11,6 +11,8 @@ permissions:
 
 env:
   tag: ${{ github.event.head_commit.id }}
+  PROJECT: Lumi.xcodeproj
+  SCHEME: Lumi
 
 jobs:
   bump:
@@ -47,11 +49,11 @@ jobs:
           OLD_MARKETING_VERSION=$(agvtool what-marketing-version -terse)
 
           # 更新 MARKETING_VERSION - 使用 xcodebuild 确保正确更新
-          xcodebuild -project Lumi.xcodeproj -scheme Lumi -versionInfo ||
+          xcodebuild -project ${{ env.PROJECT }} -scheme ${{ env.SCHEME }} -versionInfo ||
           agvtool new-marketing-version -all ${{ env.new_version }} ||
           (
             # 如果上面都失败，手动编辑项目文件
-            sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = ${{ env.new_version }}/" Lumi.xcodeproj/project.pbxproj
+            sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = ${{ env.new_version }}/" ${{ env.PROJECT }}/project.pbxproj
           )
 
           # 验证更新
@@ -72,7 +74,7 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "尝试手动修复..." >> $GITHUB_STEP_SUMMARY
             # 最后的手段：直接编辑文件
-            sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = ${{ env.new_version }}/" Lumi.xcodeproj/project.pbxproj
+            sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = ${{ env.new_version }}/" ${{ env.PROJECT }}/project.pbxproj
             NEW_MARKETING_VERSION=$(agvtool what-marketing-version -terse)
             echo "| 手动修复后 | \`$NEW_MARKETING_VERSION\` |" >> $GITHUB_STEP_SUMMARY
           fi
