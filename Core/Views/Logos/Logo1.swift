@@ -6,9 +6,7 @@ struct Logo1: View {
     /// 是否使用单色模式（适用于状态栏等需要黑白显示的场景）
     var isMonochrome: Bool = false
     /// 是否禁用呼吸动画（适用于静态图标）
-    var disableAnimation: Bool = false
-
-    @State private var isBreathing = false
+    var disableAnimation: Bool = true
 
     var body: some View {
         GeometryReader { geometry in
@@ -21,7 +19,7 @@ struct Logo1: View {
                     .fill(
                         RadialGradient(
                             gradient: Gradient(colors: [
-                                isMonochrome ? Color.white.opacity(0.99) : Color.orange.opacity(0.6),
+                                isMonochrome ? Color.primary.opacity(0.99) : Color.orange.opacity(0.6),
                                 Color.clear,
                             ]),
                             center: .center,
@@ -29,8 +27,7 @@ struct Logo1: View {
                             endRadius: size * 0.5
                         )
                     )
-                    .scaleEffect(isBreathing ? 1.1 : 1.0)
-                    .opacity(isBreathing ? 1.0 : 0.7)
+                    .opacity(0.8)
 
                 // 灯泡主体
                 VStack(spacing: 0) {
@@ -38,7 +35,7 @@ struct Logo1: View {
                         Circle()
                             .fill(
                                 LinearGradient(
-                                    gradient: Gradient(colors: isMonochrome ? [Color.white, Color.white.opacity(0.9)] : [.yellow, .orange]),
+                                    gradient: Gradient(colors: isMonochrome ? [Color.primary, Color.primary.opacity(0.9)] : [.yellow, .orange]),
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )
@@ -49,20 +46,13 @@ struct Logo1: View {
                         Image(systemName: "bolt.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .foregroundColor(isMonochrome ? .black : .white)
+                            .foregroundColor(isMonochrome ? Color(NSColor.windowBackgroundColor) : .white)
                             .frame(width: bulbSize * 0.4)
                             .shadow(color: isMonochrome ? .clear : .white, radius: 5)
                     }
                 }
             }
             .frame(width: size, height: size)
-            .onAppear {
-                if !disableAnimation {
-                    withAnimation(Animation.easeInOut(duration: 2.0).repeatForever(autoreverses: true)) {
-                        isBreathing = true
-                    }
-                }
-            }
         }
     }
 }
@@ -71,5 +61,7 @@ struct Logo1: View {
 
 #Preview("Logo1") {
     Logo1()
-        .inMagicContainer(.init(width: 1024, height: 1024), scale: 0.5)
+        .magicCentered()
+        .frame(width: 400)
+        .frame(height: 400)
 }

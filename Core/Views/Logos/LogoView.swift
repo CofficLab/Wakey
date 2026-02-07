@@ -45,7 +45,7 @@ struct LogoVariantModifier: ViewModifier {
                 .background(.black)
         case .statusBar:
             content
-                .scaleEffect(0.9)
+                .scaleEffect(1)
         case .about:
             content
                 .shadow(radius: 5)
@@ -63,21 +63,12 @@ struct StatusBarIconView: View {
     @ObservedObject var viewModel: StatusBarIconViewModel
 
     var body: some View {
-        HStack(spacing: 4) {
-            // Logo 图标
-            LogoView(
-                variant: .statusBar,
-                isActive: viewModel.isActive
-            )
-            .infinite()
-            .frame(width: 16, height: 16)
-
-            // 插件提供的内容视图
-            ForEach(viewModel.contentViews.indices, id: \.self) { index in
-                viewModel.contentViews[index]
-            }
-        }
-        .frame(height: 20)
+        LogoView(
+            variant: .statusBar,
+            isActive: viewModel.isActive
+        )
+        .infinite()
+        .frame(width: 24, height: 24)
     }
 }
 
@@ -93,28 +84,6 @@ class InteractiveHostingView<Content: View>: NSHostingView<Content> {
 }
 
 // MARK: - Previews
-
-#Preview("Logo3 - All Modes") {
-    VStack(spacing: 30) {
-        // 彩色模式
-        Logo3()
-            .frame(width: 200, height: 200)
-            .padding()
-            .background(Color.black.opacity(0.8))
-
-        // 单色模式（状态栏适用）
-        HStack(spacing: 20) {
-            Logo3(isMonochrome: true, disableAnimation: true)
-                .frame(width: 40, height: 40)
-                .background(Color.black)
-
-            Logo3(isMonochrome: true, disableAnimation: true)
-                .frame(width: 40, height: 40)
-                .background(Color.white)
-        }
-        .padding()
-    }
-}
 
 #Preview("LogoView - All Variants") {
     ScrollView {
@@ -145,7 +114,6 @@ class InteractiveHostingView<Content: View>: NSHostingView<Content> {
                 VStack {
                     LogoView(variant: .statusBar, isActive: false)
                         .frame(width: 40, height: 40)
-                        .background(Color.black)
                     Text("Status Bar (Inactive)").font(.caption)
                 }
 

@@ -49,10 +49,11 @@ struct CaffeinateMainView: View {
     
     private var statusHeader: some View {
         VStack(spacing: 16) {
-            Image(systemName: manager.isActive ? "cup.and.saucer.fill" : "cup.and.saucer")
-                .font(.system(size: 64))
-                .foregroundColor(manager.isActive ? .orange : .secondary)
-                .symbolEffect(.bounce, value: manager.isActive)
+            LogoView(
+                variant: .general,
+                isActive: manager.isActive
+            )
+            .frame(width: 80, height: 80)
             
             Text(manager.isActive ? "Wakey is Active" : "Wakey is Resting")
                 .font(.largeTitle)

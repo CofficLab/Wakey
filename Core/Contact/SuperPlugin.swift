@@ -11,7 +11,6 @@ protocol SuperPlugin: Actor {
     nonisolated var instanceLabel: String { get }
 
     @MainActor func addStatusBarPopupView() -> AnyView?
-    @MainActor func addStatusBarContentView() -> AnyView?
 
     nonisolated func onRegister()
     nonisolated func onEnable()
@@ -35,7 +34,6 @@ extension SuperPlugin {
     static var shouldRegister: Bool { true }
     
     @MainActor func addStatusBarPopupView() -> AnyView? { nil }
-    @MainActor func addStatusBarContentView() -> AnyView? { nil }
 
     nonisolated func onRegister() {}
     nonisolated func onEnable() {}

@@ -4,9 +4,7 @@ import SwiftUI
 /// 概念：热气腾腾的咖啡杯，象征"提神、不睡觉"
 struct Logo3: View {
     var isMonochrome: Bool = false
-    var disableAnimation: Bool = false
-
-    @State private var steamOffset: CGFloat = 0
+    var disableAnimation: Bool = true
 
     var body: some View {
         GeometryReader { geometry in
@@ -27,14 +25,14 @@ struct Logo3: View {
                 }
 
                 VStack(spacing: size * 0.05) {
-                    // 蒸汽动画
+                    // 蒸汽 (静态)
                     HStack(spacing: size * 0.08) {
                         ForEach(0..<3) { i in
                             SteamPath()
-                                .stroke(isMonochrome ? Color.white : Color.orange.opacity(0.8), lineWidth: size * 0.02)
+                                .stroke(isMonochrome ? Color.primary : Color.orange.opacity(0.8), lineWidth: size * 0.02)
                                 .frame(width: size * 0.05, height: size * 0.15)
-                                .offset(y: steamOffset + (CGFloat(i) * 5))
-                                .opacity(1.0 - (abs(steamOffset) / 10.0))
+                                .offset(y: -5)
+                                .opacity(0.6)
                         }
                     }
                     .offset(y: size * 0.1)
@@ -45,7 +43,7 @@ struct Logo3: View {
                         RoundedRectangle(cornerRadius: cupSize * 0.2)
                             .fill(
                                 LinearGradient(
-                                    gradient: Gradient(colors: isMonochrome ? [Color.white, Color.white.opacity(0.8)] : [Color.brown, Color.orange.opacity(0.8)]),
+                                    gradient: Gradient(colors: isMonochrome ? [Color.primary, Color.primary.opacity(0.8)] : [Color.brown, Color.orange.opacity(0.8)]),
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )
@@ -54,7 +52,7 @@ struct Logo3: View {
 
                         // 杯把手
                         Circle()
-                            .stroke(isMonochrome ? Color.white : Color.brown, lineWidth: cupSize * 0.15)
+                            .stroke(isMonochrome ? Color.primary : Color.brown, lineWidth: cupSize * 0.15)
                             .frame(width: cupSize * 0.4, height: cupSize * 0.4)
                             .offset(x: cupSize * 0.2)
                     }
@@ -62,13 +60,6 @@ struct Logo3: View {
                 .offset(y: -size * 0.05)
             }
             .frame(width: size, height: size)
-            .onAppear {
-                if !disableAnimation {
-                    withAnimation(Animation.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
-                        steamOffset = -10
-                    }
-                }
-            }
         }
     }
 }
@@ -88,7 +79,7 @@ struct SteamPath: Shape {
 
 #Preview {
     Logo3()
-        .frame(width: 200, height: 200)
-        .padding()
-        .background(Color.black)
+        .magicCentered()
+        .frame(width: 400)
+        .frame(height: 400)
 }

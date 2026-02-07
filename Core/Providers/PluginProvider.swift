@@ -43,10 +43,5 @@ final class PluginProvider: ObservableObject, SuperLog {
             .compactMap { $0.addStatusBarPopupView() }
     }
     
-    func getStatusBarContentViews() -> [AnyView] { 
-        plugins
-            .compactMap { $0.addStatusBarContentView() }
-    }
-    
     func reloadPlugins() {}
 }
