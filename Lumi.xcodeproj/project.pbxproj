@@ -26,11 +26,6 @@
 			path = Plugins;
 			sourceTree = "<group>";
 		};
-		0B55A3422F1B1AF2005C6809 /* AppStore */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = AppStore;
-			sourceTree = "<group>";
-		};
 		F54F8C802F1A3B6500AABB2A /* Core */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Core;
@@ -57,7 +52,6 @@
 			children = (
 				0BC0A5632F2F365C00BFB262 /* Lumi-Info.plist */,
 				F53C3ECD2F1A3CB000929321 /* App.entitlements */,
-				0B55A3422F1B1AF2005C6809 /* AppStore */,
 				F53C3ECB2F1A3CB000929321 /* Assets.xcassets */,
 				F54F8C802F1A3B6500AABB2A /* Core */,
 				0B559FC52F1A6A52005C6809 /* Plugins */,
@@ -82,7 +76,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				0B559FC52F1A6A52005C6809 /* Plugins */,
-				0B55A3422F1B1AF2005C6809 /* AppStore */,
 				F54F8C802F1A3B6500AABB2A /* Core */,
 			);
 			name = Lumi;

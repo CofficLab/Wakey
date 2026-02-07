@@ -49,7 +49,7 @@ struct CaffeinateStatusBarPopupView: View {
         // 时间选项按钮
         HStack(spacing: 4) {
             ForEach(quickDurations, id: \.value) { option in
-                DurationButton(
+                PopupDurationButton(
                     title: option.title,
                     isSelected: selectedDuration == option.value,
                     action: {
@@ -138,7 +138,7 @@ struct CaffeinateStatusBarPopupView: View {
 
 // MARK: - 时间选择按钮
 
-private struct DurationButton: View {
+private struct PopupDurationButton: View {
     let title: String
     let isSelected: Bool
     let action: () -> Void
