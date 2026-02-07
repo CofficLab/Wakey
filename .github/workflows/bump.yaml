@@ -35,19 +35,11 @@ jobs:
           # 计算新版本
           NEW_VERSION=$(.github/scripts/calculate-version.sh)
           echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
+          echo "prev_version=$LAST_TAG" >> $GITHUB_ENV
           echo "New Version: $NEW_VERSION"
 
-          # 输出到 Summary
-          echo "## 📊 版本计算" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **上一个版本**: \`$LAST_TAG\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **新版本**: \`$NEW_VERSION\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **分支**: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
       - name: Update Xcode Project Version
         run: |
-          # 读取更新前的版本
-          OLD_MARKETING_VERSION=$(agvtool what-marketing-version -terse)
-
           # 更新 MARKETING_VERSION
           agvtool new-marketing-version ${{ env.new_version }} ||
           (
@@ -55,65 +47,22 @@ jobs:
             sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = ${{ env.new_version }}/" ${{ env.PROJECT }}/project.pbxproj
           )
 
-          # 验证更新
-          NEW_MARKETING_VERSION=$(agvtool what-marketing-version -terse)
-
-          echo "## 📝 MARKETING_VERSION 更新" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| 项目 | 值 |" >> $GITHUB_STEP_SUMMARY
-          echo "|------|-----|" >> $GITHUB_STEP_SUMMARY
-          echo "| 更新前 | \`$OLD_MARKETING_VERSION\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| 更新后 | \`$NEW_MARKETING_VERSION\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| 预期值 | \`${{ env.new_version }}\` |" >> $GITHUB_STEP_SUMMARY
-
-          # 检查是否更新成功
-          if [ "$NEW_MARKETING_VERSION" != "${{ env.new_version }}" ]; then
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "⚠️ **警告**: MARKETING_VERSION 更新失败！" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "尝试手动修复..." >> $GITHUB_STEP_SUMMARY
-            # 最后的手段：直接编辑文件
-            sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = ${{ env.new_version }}/" ${{ env.PROJECT }}/project.pbxproj
-            NEW_MARKETING_VERSION=$(agvtool what-marketing-version -terse)
-            echo "| 手动修复后 | \`$NEW_MARKETING_VERSION\` |" >> $GITHUB_STEP_SUMMARY
-          fi
       - name: 更新构建号
         run: |
-          # 读取更新前的构建号
-          OLD_BUILD_VERSION=$(agvtool what-version -terse)
-
           # 更新 CURRENT_PROJECT_VERSION
           agvtool next-version -all
 
-          # 验证更新
-          NEW_BUILD_VERSION=$(agvtool what-version -terse)
-
-          echo "## 🔢 CURRENT_PROJECT_VERSION 更新" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| 项目 | 值 |" >> $GITHUB_STEP_SUMMARY
-          echo "|------|-----|" >> $GITHUB_STEP_SUMMARY
-          echo "| 更新前 | \`$OLD_BUILD_VERSION\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| 更新后 | \`$NEW_BUILD_VERSION\` |" >> $GITHUB_STEP_SUMMARY
       - name: 生成标签（pre 分支）
         if: github.ref == 'refs/heads/pre'
         run: |
-          build=$(agvtool what-version -terse)
+          build=$(agvtool what-version -terse | tail -n1 | cut -d= -f2 | xargs)
           echo "tag=p${{ env.new_version }}($build)" >> $GITHUB_ENV
 
-          echo "## 🏷️ 生成标签（Pre-release）" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **标签**: \`p${{ env.new_version }}($build)\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **版本**: \`${{ env.new_version }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **构建号**: \`$build\`" >> $GITHUB_STEP_SUMMARY
       - name: 生成标签（main 分支）
         if: github.ref == 'refs/heads/main'
         run: |
           echo "tag=v${{ env.new_version }}" >> $GITHUB_ENV
 
-          echo "## 🏷️ 生成标签（Release）" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **标签**: \`v${{ env.new_version }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **版本**: \`${{ env.new_version }}\`" >> $GITHUB_STEP_SUMMARY
       - name: 打标签并推送到仓库
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
@@ -126,17 +75,19 @@ jobs:
       - name: 输出最终摘要
         if: always()
         run: |
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "---" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+          # 获取更新后的信息
+          NEW_M_VER=$(agvtool what-marketing-version -terse | tail -n1 | cut -d= -f2 | xargs)
+          NEW_B_VER=$(agvtool what-version -terse | tail -n1 | cut -d= -f2 | xargs)
+
           echo "## ✅ 版本 Bump 完成" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| 项目 | 值 |" >> $GITHUB_STEP_SUMMARY
-          echo "|------|-----|" >> $GITHUB_STEP_SUMMARY
-          echo "| 新版本 | \`${{ env.new_version }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| Git 标签 | \`${{ env.tag }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| 构建号 | \`$(agvtool what-version -terse)\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| Marketing Version | \`$(agvtool what-marketing-version -terse)\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 项目 | 详情 |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          echo "| **版本变化** | \`${{ env.prev_version }}\` → \`$NEW_M_VER\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **构建号** | \`$NEW_B_VER\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Git 标签** | \`${{ env.tag }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **分支** | \`${{ github.ref_name }}\` |" >> $GITHUB_STEP_SUMMARY
+
 
   rebase:
     if: github.ref == 'refs/heads/main'
