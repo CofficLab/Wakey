@@ -48,11 +48,10 @@ jobs:
           # 读取更新前的版本
           OLD_MARKETING_VERSION=$(agvtool what-marketing-version -terse)
 
-          # 更新 MARKETING_VERSION - 使用 xcodebuild 确保正确更新
-          xcodebuild -project ${{ env.PROJECT }} -scheme ${{ env.SCHEME }} -versionInfo ||
+          # 更新 MARKETING_VERSION
           agvtool new-marketing-version -all ${{ env.new_version }} ||
           (
-            # 如果上面都失败，手动编辑项目文件
+            # 如果上面失败，手动编辑项目文件
             sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = ${{ env.new_version }}/" ${{ env.PROJECT }}/project.pbxproj
           )
 
