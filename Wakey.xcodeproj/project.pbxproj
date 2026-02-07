@@ -8,16 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		0B0073C22F2F1ABF001B3789 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0B0073C12F2F1ABF001B3789 /* MagicKit */; };
+		0BD3E1D52F36F8830004D426 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BD3E1D42F36F8830004D426 /* Info.plist */; };
 		F53C3ED12F1A3CB000929321 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F53C3ECB2F1A3CB000929321 /* Assets.xcassets */; };
 		F53C415A2F1A3E6500929321 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = F53C41592F1A3E6500929321 /* Sparkle */; };
 		F5826C862F35731C0079B285 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = F5826C852F35731C0079B285 /* MagicKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0BC0A5632F2F365C00BFB262 /* Lumi-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Lumi-Info.plist"; sourceTree = "<group>"; };
+		0BD3E1D42F36F8830004D426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F53C3ECB2F1A3CB000929321 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F53C3ECD2F1A3CB000929321 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
-		F53C49142F1A42EC00929321 /* Lumi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F53C49142F1A42EC00929321 /* Wakey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wakey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -50,21 +51,21 @@
 		F54F8C752F1A3B6500AABB2A = {
 			isa = PBXGroup;
 			children = (
-				0BC0A5632F2F365C00BFB262 /* Lumi-Info.plist */,
+				0BD3E1D42F36F8830004D426 /* Info.plist */,
 				F53C3ECD2F1A3CB000929321 /* App.entitlements */,
 				F53C3ECB2F1A3CB000929321 /* Assets.xcassets */,
 				F54F8C802F1A3B6500AABB2A /* Core */,
 				0B559FC52F1A6A52005C6809 /* Plugins */,
-				F53C49142F1A42EC00929321 /* Lumi.app */,
+				F53C49142F1A42EC00929321 /* Wakey.app */,
 			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F54F8C7D2F1A3B6500AABB2A /* Lumi */ = {
+		F54F8C7D2F1A3B6500AABB2A /* Wakey */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F54F8C8A2F1A3B6600AABB2A /* Build configuration list for PBXNativeTarget "Lumi" */;
+			buildConfigurationList = F54F8C8A2F1A3B6600AABB2A /* Build configuration list for PBXNativeTarget "Wakey" */;
 			buildPhases = (
 				F54F8C7A2F1A3B6500AABB2A /* Sources */,
 				F54F8C7B2F1A3B6500AABB2A /* Frameworks */,
@@ -78,14 +79,14 @@
 				0B559FC52F1A6A52005C6809 /* Plugins */,
 				F54F8C802F1A3B6500AABB2A /* Core */,
 			);
-			name = Lumi;
+			name = Wakey;
 			packageProductDependencies = (
 				F53C41592F1A3E6500929321 /* Sparkle */,
 				0B0073C12F2F1ABF001B3789 /* MagicKit */,
 				F5826C852F35731C0079B285 /* MagicKit */,
 			);
 			productName = "SwiftUI-Template";
-			productReference = F53C49142F1A42EC00929321 /* Lumi.app */;
+			productReference = F53C49142F1A42EC00929321 /* Wakey.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -103,7 +104,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F54F8C792F1A3B6500AABB2A /* Build configuration list for PBXProject "Lumi" */;
+			buildConfigurationList = F54F8C792F1A3B6500AABB2A /* Build configuration list for PBXProject "Wakey" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -121,7 +122,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F54F8C7D2F1A3B6500AABB2A /* Lumi */,
+				F54F8C7D2F1A3B6500AABB2A /* Wakey */,
 			);
 		};
 /* End PBXProject section */
@@ -131,6 +132,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BD3E1D52F36F8830004D426 /* Info.plist in Resources */,
 				F53C3ED12F1A3CB000929321 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,7 +302,7 @@
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Lumi-Info.plist";
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Lumi;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_SUEnableInstallerLauncherService = YES;
@@ -346,7 +348,7 @@
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Lumi-Info.plist";
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Lumi;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_SUEnableInstallerLauncherService = YES;
@@ -367,7 +369,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F54F8C792F1A3B6500AABB2A /* Build configuration list for PBXProject "Lumi" */ = {
+		F54F8C792F1A3B6500AABB2A /* Build configuration list for PBXProject "Wakey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F54F8C882F1A3B6600AABB2A /* Debug */,
@@ -376,7 +378,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F54F8C8A2F1A3B6600AABB2A /* Build configuration list for PBXNativeTarget "Lumi" */ = {
+		F54F8C8A2F1A3B6600AABB2A /* Build configuration list for PBXNativeTarget "Wakey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F54F8C8B2F1A3B6600AABB2A /* Debug */,
