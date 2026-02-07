@@ -12,7 +12,6 @@ permissions:
 
 env:
   TAG: ${{ github.sha }}
-  REPO_LINK: "https://github.com/CofficLab/Lumi"
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
