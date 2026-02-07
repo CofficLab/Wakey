@@ -11,8 +11,8 @@ permissions:
 
 env:
   tag: ${{ github.event.head_commit.id }}
-  PROJECT: Lumi.xcodeproj
-  SCHEME: Lumi
+  PROJECT: Wakey.xcodeproj
+  SCHEME: Wakey
 
 jobs:
   bump:
@@ -49,7 +49,7 @@ jobs:
           OLD_MARKETING_VERSION=$(agvtool what-marketing-version -terse)
 
           # 更新 MARKETING_VERSION
-          agvtool new-marketing-version -all ${{ env.new_version }} ||
+          agvtool new-marketing-version ${{ env.new_version }} ||
           (
             # 如果上面失败，手动编辑项目文件
             sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = ${{ env.new_version }}/" ${{ env.PROJECT }}/project.pbxproj
