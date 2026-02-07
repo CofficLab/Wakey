@@ -13,7 +13,6 @@ permissions:
 env:
   TAG: ${{ github.sha }}
   REPO_LINK: "https://github.com/CofficLab/Lumi"
-  IS_PRERELEASE: true
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
@@ -34,15 +33,17 @@ jobs:
           echo "TAG=$tag" >> $GITHUB_ENV
           if [[ $tag == p* ]]; then
             echo "IS_PRERELEASE=true" >> $GITHUB_ENV
+            is_prerelease="true"
           else
             echo "IS_PRERELEASE=false" >> $GITHUB_ENV
+            is_prerelease="false"
           fi
 
           # 输出到 Summary
           echo "## 🏷️ 版本标签信息" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Tag**: \`$tag\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Is Prerelease**: \`${{ env.IS_PRERELEASE }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Is Prerelease**: \`$is_prerelease\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Branch**: \`${{ github.event.workflow_run.head_branch }}\`" >> $GITHUB_STEP_SUMMARY
 
       - name: Generate Changelog

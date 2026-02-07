@@ -75,15 +75,14 @@ jobs:
       - name: 输出最终摘要
         if: always()
         run: |
-          # 获取更新后的信息 - 使用 sed 提取等号后的内容，若无等号则保持原样
-          NEW_M_VER=$(agvtool what-marketing-version -terse | tail -n1 | sed 's/.*=//' | xargs)
+          # 获取更新后的构建号 - 使用 sed 提取等号后的内容，若无等号则保持原样
           NEW_B_VER=$(agvtool what-version -terse | tail -n1 | sed 's/.*=//' | xargs)
 
           echo "## ✅ 版本 Bump 完成" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| 项目 | 详情 |" >> $GITHUB_STEP_SUMMARY
           echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
-          echo "| **版本变化** | \`${{ env.prev_version }}\` → \`$NEW_M_VER\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **版本变化** | \`${{ env.prev_version }}\` → \`${{ env.new_version }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| **构建号** | \`$NEW_B_VER\` |" >> $GITHUB_STEP_SUMMARY
           echo "| **Git 标签** | \`${{ env.tag }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| **分支** | \`${{ github.ref_name }}\` |" >> $GITHUB_STEP_SUMMARY
