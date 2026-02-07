@@ -10,7 +10,6 @@
 		0B0073C22F2F1ABF001B3789 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0B0073C12F2F1ABF001B3789 /* MagicKit */; };
 		0BD3E1D52F36F8830004D426 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BD3E1D42F36F8830004D426 /* Info.plist */; };
 		F53C3ED12F1A3CB000929321 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F53C3ECB2F1A3CB000929321 /* Assets.xcassets */; };
-		F53C415A2F1A3E6500929321 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = F53C41592F1A3E6500929321 /* Sparkle */; };
 		F5826C862F35731C0079B285 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = F5826C852F35731C0079B285 /* MagicKit */; };
 /* End PBXBuildFile section */
 
@@ -45,7 +44,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5826C862F35731C0079B285 /* MagicKit in Frameworks */,
-				F53C415A2F1A3E6500929321 /* Sparkle in Frameworks */,
 				0B0073C22F2F1ABF001B3789 /* MagicKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,7 +86,6 @@
 			);
 			name = Wakey;
 			packageProductDependencies = (
-				F53C41592F1A3E6500929321 /* Sparkle */,
 				0B0073C12F2F1ABF001B3789 /* MagicKit */,
 				F5826C852F35731C0079B285 /* MagicKit */,
 			);
@@ -121,7 +118,6 @@
 			mainGroup = F54F8C752F1A3B6500AABB2A;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				F53C41582F1A3E6500929321 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				F5826C842F35731C0079B285 /* XCRemoteSwiftPackageReference "MagicKit" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -399,14 +395,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		F53C41582F1A3E6500929321 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sparkle-project/Sparkle";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.8.1;
-			};
-		};
 		F5826C842F35731C0079B285 /* XCRemoteSwiftPackageReference "MagicKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/CofficLab/MagicKit";
@@ -421,11 +409,6 @@
 		0B0073C12F2F1ABF001B3789 /* MagicKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MagicKit;
-		};
-		F53C41592F1A3E6500929321 /* Sparkle */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F53C41582F1A3E6500929321 /* XCRemoteSwiftPackageReference "Sparkle" */;
-			productName = Sparkle;
 		};
 		F5826C852F35731C0079B285 /* MagicKit */ = {
 			isa = XCSwiftPackageProductDependency;
