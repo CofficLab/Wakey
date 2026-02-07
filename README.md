@@ -1,6 +1,6 @@
-# Lumi
+# Wakey
 
-Lumi is a personal assistant application for macOS.
+Wakey is a lightweight macOS status bar assistant.
 
 📖 [中文版](README_zh.md) | English
 
@@ -10,13 +10,12 @@ Lumi is a personal assistant application for macOS.
 
 ## ✨ Features
 
-Lumi is designed to be your capable macOS desktop assistant, offering the following core capabilities:
+Wakey is designed to be your capable macOS status bar assistant, offering the following core capabilities:
 
-- **Device Monitoring**: Keep track of CPU, memory, disk, battery, and system info in real-time, giving you a clear view of your device's health.
 - **Caffeinate Control**: Prevent system sleep with a single click, featuring flexible modes and timers to ensure important tasks aren't interrupted.
-- **Status Bar Assistant**: Persistent access to time, version info, and background activity directly from the menu bar, without switching context.
-- **App & Project Management**: Quick access to application metadata and project/tab details to streamline your workflow.
-- **Personalized Experience**: Enable or disable features in settings to tailor Lumi to your specific needs.
+- **Status Bar Assistant**: Persistent access to features directly from the menu bar, without switching context.
+- **Modular Design**: Built with a plugin-based architecture, making it easy to extend with new features.
+- **Personalized Experience**: Enable or disable features in settings to tailor Wakey to your specific needs.
 
 ## 📋 Requirements
 
@@ -28,13 +27,13 @@ Lumi is designed to be your capable macOS desktop assistant, offering the follow
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Coffic/Lumi.git
-   cd Lumi
+   git clone https://github.com/Coffic/Wakey.git
+   cd Wakey
    ```
 
 2. **Open in Xcode**
    ```bash
-   open Lumi.xcodeproj
+   open Wakey.xcodeproj
    ```
 
 3. **Build and Run**
