@@ -53,7 +53,9 @@ jobs:
             NOTES="## Release $CURRENT_TAG\n\nInitial release"
           else
             NOTES="## Release $CURRENT_TAG\n\n### Changes since $PREVIOUS_TAG\n"
-            NOTES="$NOTES\n$(git log ${PREVIOUS_TAG}..${CURRENT_TAG} --no-merges --pretty=format:'%s' | sort | uniq -c | sort -rn | awk '{print "- "$2}' | head -20)"
+            # 获取完整的提交信息，并去重
+            CHANGELOG=$(git log ${PREVIOUS_TAG}..${CURRENT_TAG} --no-merges --pretty=format:'%s' | sort | uniq | sed 's/^/- /')
+            NOTES="$NOTES\n$CHANGELOG"
           fi
           echo -e "$NOTES" > changelog.md
           echo "### 📋 Release Notes" >> $GITHUB_STEP_SUMMARY
