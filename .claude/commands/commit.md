@@ -66,17 +66,10 @@
      - Breaking Changes 说明
      - 其他参考信息
 
-5. **显示建议**
-   - 展示生成的 commit message
-   - 展示更改的文件列表
-   - 展示代码差异摘要
-
-6. **执行确认**
-   - 询问用户是否使用生成的 commit message
-   - 如果确认，执行：
+5. **执行**
+   - 执行：
      - `git add` （如果需要）
      - `git commit -m "message"`
-   - 如果需要修改，允许用户编辑
 
 ## Commit Message 模板
 
@@ -158,7 +151,7 @@ Modified files:
 
 ## 注意事项
 
-- ✅ 使用英文的 commit message
+- ✅ 使用中文的 commit message
 - ✅ 始终分析实际的代码差异
 - ✅ 遵循项目的现有 commit 风格
 - ✅ 使用清晰、描述性的语言
