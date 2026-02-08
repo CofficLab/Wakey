@@ -81,7 +81,7 @@ class CaffeinateManager: SuperLog {
         }
 
         self.mode = mode
-        let reason = "用户通过 Lumi 开启了防休眠模式" as NSString
+        let reason = "用户通过 Wakey 开启了防休眠模式" as NSString
 
         let systemResult = IOPMAssertionCreateWithName(
             kIOPMAssertionTypePreventUserIdleSystemSleep as CFString,

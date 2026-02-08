@@ -267,10 +267,6 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
                 self?.showMainWindow()
                 self?.closePopover()
             },
-            onCheckForUpdates: { [weak self] in
-                self?.checkForUpdates()
-                self?.closePopover()
-            },
             onQuit: { [weak self] in
                 self?.quitApplication()
             }
@@ -305,11 +301,6 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
     /// 退出应用
     private func quitApplication() {
         NSApp.terminate(nil)
-    }
-
-    /// 检查更新
-    private func checkForUpdates() {
-        NotificationCenter.default.post(name: .checkForUpdates, object: nil)
     }
 }
 

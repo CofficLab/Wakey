@@ -30,9 +30,6 @@ struct AboutView: View {
                 // 系统信息卡片
                 systemInfoCard
 
-                // 更新信息卡片
-                updateInfoCard
-
                 Spacer()
             }
             .padding(32)
@@ -112,22 +109,6 @@ struct AboutView: View {
             AboutInfoRow(label: "应用路径", value: versionInfo.appPath)
         }
     }
-
-    private var updateInfoCard: some View {
-        InfoCard(title: "更新信息", icon: "arrow.down.circle.fill") {
-            VStack(alignment: .leading, spacing: 12) {
-                Text("当前版本是最新稳定版本")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-
-                Divider()
-
-                Text("Lumi 使用 Sparkle 框架进行自动更新。当有新版本可用时，应用会自动提示您更新。")
-                    .font(.caption)
-                    .foregroundStyle(.tertiary)
-            }
-        }
-    }
 }
 
 // MARK: - AppInfo Model
@@ -143,10 +124,10 @@ struct AppInfo {
         let bundle = Bundle.main
         self.name = bundle.object(forInfoDictionaryKey: "CFBundleName") as? String
             ?? bundle.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
-            ?? "Lumi"
+            ?? "Wakey"
         self.version = bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         self.build = bundle.object(forInfoDictionaryKey: "CFBundleVersion") as? String
-        self.bundleIdentifier = bundle.bundleIdentifier ?? "com.lumi.app"
+        self.bundleIdentifier = bundle.bundleIdentifier ?? "com.coffic.wakey"
         self.description = bundle.object(forInfoDictionaryKey: "CFBundleGetInfoString") as? String
     }
 }

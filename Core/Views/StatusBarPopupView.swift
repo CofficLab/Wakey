@@ -11,9 +11,6 @@ struct StatusBarPopupView: View {
     /// 显示主窗口
     let onShowMainWindow: () -> Void
 
-    /// 检查更新
-    let onCheckForUpdates: () -> Void
-
     /// 退出应用
     let onQuit: () -> Void
 
@@ -55,7 +52,7 @@ struct StatusBarPopupView: View {
 
                 // 应用信息
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Lumi")
+                    Text("Wakey")
                         .font(.system(size: 15, weight: .semibold))
 
                     Text("v\(appVersion)")
@@ -91,25 +88,17 @@ struct StatusBarPopupView: View {
 
     private var menuItemsSection: some View {
         VStack(spacing: 0) {
-            // 打开 Lumi
+            // 打开 Wakey
             MenuItemRow(
-                title: "打开 Lumi",
+                title: "打开 Wakey",
                 action: onShowMainWindow
-            )
-
-            Divider()
-
-            // 检查更新
-            MenuItemRow(
-                title: "检查更新",
-                action: onCheckForUpdates
             )
 
             Divider()
 
             // 退出应用
             MenuItemRow(
-                title: "退出 Lumi",
+                title: "退出 Wakey",
                 color: .red,
                 action: onQuit
             )
@@ -162,7 +151,6 @@ struct MenuItemRow: View {
     StatusBarPopupView(
         pluginPopupViews: [],
         onShowMainWindow: {},
-        onCheckForUpdates: {},
         onQuit: {}
     )
     .inRootView()
