@@ -3,9 +3,6 @@ import SwiftUI
 /// 防休眠快捷操作组件
 struct CaffeinateQuickActions: View {
     @Environment(\.demoModeActivated) private var demoModeActivated
-    @Binding var activeAction: CaffeinateManager.QuickActionType?
-    let selectedDuration: TimeInterval
-    
     @State private var manager = CaffeinateManager.shared
     
     var body: some View {
@@ -14,7 +11,7 @@ struct CaffeinateQuickActions: View {
                 title: "防止休眠且屏幕常亮",
                 icon: "sun.max.fill",
                 color: .orange,
-                isSelected: demoModeActivated ? true : (activeAction == .systemAndDisplay),
+                isSelected: demoModeActivated ? true : (manager.activeAction == .systemAndDisplay),
                 action: {
                     if !demoModeActivated {
                         toggleAction(.systemAndDisplay)
@@ -29,7 +26,7 @@ struct CaffeinateQuickActions: View {
                 title: "防止休眠且允许屏幕关闭",
                 icon: "moon.fill",
                 color: .blue,
-                isSelected: demoModeActivated ? false : (activeAction == .systemOnly),
+                isSelected: demoModeActivated ? false : (manager.activeAction == .systemOnly),
                 action: {
                     if !demoModeActivated {
                         toggleAction(.systemOnly)
@@ -48,8 +45,7 @@ struct CaffeinateQuickActions: View {
                 action: {
                     if !demoModeActivated {
                         // 立即关闭屏幕，并切换到"允许关闭"模式
-                        manager.activateAndTurnOffDisplay(duration: selectedDuration)
-                        activeAction = .systemOnly
+                        manager.activateAndTurnOffDisplay(duration: manager.selectedDuration)
                     }
                 }
             )
@@ -60,13 +56,11 @@ struct CaffeinateQuickActions: View {
     // MARK: - 辅助方法
 
     private func toggleAction(_ action: CaffeinateManager.QuickActionType) {
-        if activeAction == action {
+        if manager.activeAction == action {
             // 点击已选中的项，取消选中并停止
-            activeAction = nil
             manager.deactivate()
         } else {
             // 选中新项并启动
-            activeAction = action
             activateAction(action)
         }
     }
@@ -74,11 +68,11 @@ struct CaffeinateQuickActions: View {
     private func activateAction(_ action: CaffeinateManager.QuickActionType) {
         switch action {
         case .systemAndDisplay:
-            manager.activate(mode: .systemAndDisplay, duration: selectedDuration)
+            manager.activate(mode: .systemAndDisplay, duration: manager.selectedDuration)
         case .systemOnly:
-            manager.activate(mode: .systemOnly, duration: selectedDuration)
+            manager.activate(mode: .systemOnly, duration: manager.selectedDuration)
         case .turnOffDisplay:
-            manager.activateAndTurnOffDisplay(duration: selectedDuration)
+            manager.activateAndTurnOffDisplay(duration: manager.selectedDuration)
         }
     }
 }
@@ -139,8 +133,14 @@ private struct QuickActionMenuItem: View {
 }
 
 #Preview {
-    @State var action: CaffeinateManager.QuickActionType? = .systemAndDisplay
-    return CaffeinateQuickActions(activeAction: $action, selectedDuration: 0)
+    CaffeinateQuickActions()
+        .frame(width: 250)
+        .padding()
+}
+
+#Preview("DemoMode-Activated") {
+    CaffeinateQuickActions()
+        .inDemoModeActivated()
         .frame(width: 250)
         .padding()
 }

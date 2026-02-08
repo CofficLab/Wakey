@@ -20,6 +20,12 @@ class CaffeinateManager: SuperLog {
     /// 当前是否激活防休眠
     private(set) var isActive: Bool = false
 
+    /// 当前激活的操作类型，为 nil 表示未激活
+    private(set) var activeAction: QuickActionType? = nil
+
+    /// 用户当前选择的时长（秒），用于下次激活或更新当前激活
+    var selectedDuration: TimeInterval = 0
+
     /// 激活开始时间
     private(set) var startTime: Date?
 
@@ -56,8 +62,12 @@ class CaffeinateManager: SuperLog {
     func activateAndTurnOffDisplay(duration: TimeInterval = 0) {
         // 1. 激活防休眠（仅系统，允许屏幕关闭）
         activate(mode: .systemOnly, duration: duration)
+        
+        // 2. 更新状态
+        self.activeAction = .systemOnly
+        self.selectedDuration = duration
 
-        // 2. 关闭屏幕
+        // 3. 关闭屏幕
         turnOffDisplay()
     }
 
@@ -104,8 +114,10 @@ class CaffeinateManager: SuperLog {
 
         if systemResult == kIOReturnSuccess && displayResult == kIOReturnSuccess {
             isActive = true
+            activeAction = (mode == .systemAndDisplay) ? .systemAndDisplay : .systemOnly
             startTime = Date()
             self.duration = duration
+            self.selectedDuration = duration
 
             if Self.verbose {
                 os_log("\(self.t)Caffeinate activated successfully with duration: \(duration)s")
@@ -150,6 +162,7 @@ class CaffeinateManager: SuperLog {
 
         if systemResult == kIOReturnSuccess && displayResult == kIOReturnSuccess {
             isActive = false
+            activeAction = nil
             startTime = nil
             duration = 0
             assertionID = 0

@@ -2,9 +2,6 @@ import SwiftUI
 
 /// 防休眠时间选择组件
 struct CaffeinateDurationPicker: View {
-    @Binding var selectedDuration: TimeInterval
-    let activeAction: CaffeinateManager.QuickActionType?
-    
     @State private var manager = CaffeinateManager.shared
     
     private let quickDurations: [(title: String, value: TimeInterval)] = [
@@ -20,19 +17,19 @@ struct CaffeinateDurationPicker: View {
             ForEach(quickDurations, id: \.value) { option in
                 PopupDurationButton(
                     title: option.title,
-                    isSelected: selectedDuration == option.value,
+                    isSelected: manager.selectedDuration == option.value,
                     action: {
-                        selectedDuration = option.value
+                        manager.selectedDuration = option.value
                         
                         // 如果防休眠正在运行，重新计时
-                        if manager.isActive, let action = activeAction {
+                        if manager.isActive, let action = manager.activeAction {
                             switch action {
                             case .systemAndDisplay:
-                                manager.activate(mode: .systemAndDisplay, duration: selectedDuration)
+                                manager.activate(mode: .systemAndDisplay, duration: manager.selectedDuration)
                             case .systemOnly:
-                                manager.activate(mode: .systemOnly, duration: selectedDuration)
+                                manager.activate(mode: .systemOnly, duration: manager.selectedDuration)
                             case .turnOffDisplay:
-                                manager.activateAndTurnOffDisplay(duration: selectedDuration)
+                                manager.activateAndTurnOffDisplay(duration: manager.selectedDuration)
                             }
                         }
                     }
@@ -65,7 +62,6 @@ private struct PopupDurationButton: View {
 }
 
 #Preview {
-    @State var duration: TimeInterval = 0
-    return CaffeinateDurationPicker(selectedDuration: $duration, activeAction: .systemAndDisplay)
+    CaffeinateDurationPicker()
         .padding()
 }
