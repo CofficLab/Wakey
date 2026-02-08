@@ -145,8 +145,6 @@ Modified files:
   + components/SearchBar.tsx (new)
   + components/MarketList.tsx (modified)
   + lib/api/search.ts (new)
-
-是否使用此 commit message？(y/n/edit)
 ```
 
 ## 注意事项
