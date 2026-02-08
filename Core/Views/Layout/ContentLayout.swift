@@ -16,9 +16,3 @@ struct ContentLayout: View {
         .inRootView()
         .frame(width: 800, height: 600)
 }
-
-#Preview("Big Screen") {
-    ContentLayout()
-        .inRootView()
-        .frame(width: 1200, height: 1200)
-}

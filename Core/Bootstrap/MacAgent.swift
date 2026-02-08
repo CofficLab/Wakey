@@ -77,7 +77,7 @@ class MacAgent: NSObject, NSApplicationDelegate, SuperLog {
     private func setupControllers() {
         // 初始化状态栏控制器
         statusBarController = StatusBarController()
-        statusBarController?.setupStatusBar(appProvider: appProvider, pluginProvider: pluginProvider)
+        statusBarController?.setupStatusBar()
     }
 
     // MARK: - Cleanup
