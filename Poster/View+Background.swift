@@ -80,6 +80,6 @@ extension View {
 // MARK: - Preview
 
 #Preview("App Store Hero") {
-    AppStoreHero()
+    Mac1()
         .inMagicContainer(.macBook13, scale: 0.4)
 }

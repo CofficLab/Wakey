@@ -1,7 +1,7 @@
 import MagicKit
 import SwiftUI
 
-struct AppStoreICloud: View {
+struct Mac4: View {
     var body: some View {
         GeometryReader { geo in
             HStack {
@@ -48,7 +48,7 @@ struct AppStoreICloud: View {
 
 // MARK: - Preview
 
-#Preview("App Store iCloud") {
-    AppStoreICloud()
-        .inMagicContainer(.macBook13, scale: 0.5)
+#Preview("Mac4") {
+    Mac4()
+        .inMagicContainer(.macBook13, scale: 0.3)
 }

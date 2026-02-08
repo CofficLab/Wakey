@@ -57,7 +57,7 @@ extension View {
 
 // MARK: - Preview
 
-#Preview("App Store Hero") {
-    AppStoreHero()
+#Preview("Mac1") {
+    Mac1()
         .inMagicContainer(.macBook13, scale: 0.5)
 }

@@ -1,7 +1,7 @@
 import MagicKit
 import SwiftUI
 
-struct AppStoreHero: View {
+struct Mac1: View {
     var body: some View {
         GeometryReader { geo in
             HStack {
@@ -17,7 +17,8 @@ struct AppStoreHero: View {
 
                 ZStack {
                     ContentLayout()
-                        .inRootView()                        .frame(width: geo.size.width * 0.15)
+                        .inRootView()
+                        .background(.background).frame(width: geo.size.width * 0.16)
                         .frame(height: geo.size.height * 0.4)
                         .roundedLarge()
                         .rotation3DEffect(
@@ -32,11 +33,11 @@ struct AppStoreHero: View {
 
                     ContentLayout()
                         .inRootView()
-                        .frame(width: geo.size.width * 0.15)
+                        .background(.background)
+                        .frame(width: geo.size.width * 0.16)
                         .frame(height: geo.size.height * 0.4)
-                        .background(.background.opacity(0.5))
                         .roundedLarge()
-                        .shadowXl()
+                        .shadow3xl()
                         .rotation3DEffect(
                             .degrees(8),
                             axis: (x: 0, y: 0, z: 1),
@@ -55,7 +56,7 @@ struct AppStoreHero: View {
 
 // MARK: - Preview
 
-#Preview("App Store Hero") {
-    AppStoreHero()
-        .inMagicContainer(.macBook13, scale: 0.5)
+#Preview("Mac1") {
+    Mac1()
+        .inMagicContainer(.macBook13, scale: 0.2)
 }

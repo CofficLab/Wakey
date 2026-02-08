@@ -1,7 +1,7 @@
 import MagicKit
 import SwiftUI
 
-struct AppStoreMinimal: View {
+struct Mac2: View {
     var body: some View {
         GeometryReader { geo in
             HStack {
@@ -53,7 +53,7 @@ struct AppStoreMinimal: View {
 
 // MARK: - Preview
 
-#Preview("App Store Minimal") {
-    AppStoreMinimal()
-        .inMagicContainer(.macBook13, scale: 0.5)
+#Preview("Mac2") {
+    Mac2()
+        .inMagicContainer(.macBook13, scale: 0.2)
 }

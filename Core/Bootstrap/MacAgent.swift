@@ -91,8 +91,6 @@ class MacAgent: NSObject, NSApplicationDelegate, SuperLog {
 
 #Preview("App") {
     ContentLayout()
-        .hideSidebar()
-        .hideTabPicker()
-        .inRootView()
+            .inRootView()
         .withDebugBar()
 }

@@ -12,13 +12,6 @@ struct ContentView: View {
     @State private var showSettings = false
     @State private var settingsTab: SettingView.SettingTab = .about
 
-    // 初始化参数，用于保持与 ContentLayout 的兼容性
-    var defaultTab: String? = nil
-    var defaultColumnVisibility: NavigationSplitViewVisibility? = nil
-    var defaultToolbarVisibility: Bool? = nil
-    var defaultTabVisibility: Bool? = nil
-    var defaultNavigationId: String? = nil
-
     var body: some View {
         CaffeinateMainView()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -29,26 +22,6 @@ struct ContentView: View {
     }
 
     // MARK: - 事件处理器
-    
-    func updateCachedViews() {
-        // 无操作
-    }
-
-    func onAppear() {
-        // 无操作
-    }
-
-    func onChangeOfTab() {
-        // 无操作
-    }
-
-    func onChangeColumnVisibility() {
-        // 无操作
-    }
-
-    func onPluginsLoaded() {
-        // 无操作
-    }
 
     func openSettings() {
         showSettings = true
@@ -59,7 +32,6 @@ struct ContentView: View {
 
 #Preview("应用 - 小屏幕") {
     ContentView()
-        .environmentObject(AppProvider())
-        .environmentObject(PluginProvider())
+        .inRootView()
         .frame(width: 800, height: 600)
 }

@@ -4,7 +4,7 @@ import SwiftUI
 /**
  * App Store - 购买页面，用于创建订阅时的审核
  */
-struct AppStorePurchaseView: View {
+struct Mac5: View {
     var body: some View {
         PurchaseViewDemo()
             .background(
@@ -184,8 +184,8 @@ extension PurchaseViewDemo {
 
 // MARK: - Preview
 
-#Preview("App Store PurchaseView") {
-    AppStorePurchaseView()
+#Preview("Mac5") {
+    Mac5()
         .inMagicContainer(.macBook13, scale: 0.5)
         .colorScheme(.light)
 }

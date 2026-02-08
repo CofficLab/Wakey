@@ -36,8 +36,3 @@ struct AppStoreFeatureItem: View {
 }
 
 // MARK: - Preview
-
-#Preview("App Store iCloud") {
-    AppStoreICloud()
-        .inMagicContainer(.macBook13, scale: 0.5)
-}
