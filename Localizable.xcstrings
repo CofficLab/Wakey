@@ -4,10 +4,8 @@
     "" : {
 
     },
-    ":" : {
-
-    },
     "Build %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23,16 +21,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ID: WAKEY001"
-          }
-        }
-      }
-    },
-    "Wakey" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wakey"
           }
         }
       }
@@ -98,6 +86,7 @@
       }
     },
     "关于" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -108,6 +97,7 @@
       }
     },
     "启动选项" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -138,6 +128,7 @@
       }
     },
     "完成" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -148,6 +139,7 @@
       }
     },
     "开机启动" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -168,6 +160,7 @@
       }
     },
     "打开App Support目录" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -178,6 +171,7 @@
       }
     },
     "打开容器目录" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -188,6 +182,7 @@
       }
     },
     "打开数据库目录" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -198,6 +193,7 @@
       }
     },
     "打开文档目录" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -288,6 +284,7 @@
       }
     },
     "设置..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -298,6 +295,7 @@
       }
     },
     "调试" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -308,6 +306,7 @@
       }
     },
     "通用" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

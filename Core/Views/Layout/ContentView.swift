@@ -9,22 +9,8 @@ struct ContentView: View {
     @EnvironmentObject var app: AppProvider
     @EnvironmentObject var pluginProvider: PluginProvider
 
-    @State private var showSettings = false
-    @State private var settingsTab: SettingView.SettingTab = .about
-
     var body: some View {
         CaffeinateMainView()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .sheet(isPresented: $showSettings) {
-                SettingView(defaultTab: settingsTab)
-            }
-            .onOpenSettings(perform: openSettings)
-    }
-
-    // MARK: - 事件处理器
-
-    func openSettings() {
-        showSettings = true
     }
 }
 

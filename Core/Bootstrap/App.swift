@@ -21,17 +21,10 @@ struct CoreApp: App, SuperLog {
     @StateObject private var pluginProvider = PluginProvider()
 
     var body: some Scene {
-        WindowGroup {
-            ContentLayout()
-                .environmentObject(appProvider)
-                .environmentObject(pluginProvider)
+        Settings {
+            EmptyView()
         }
-        .windowStyle(.titleBar)
         .modelContainer(AppConfig.getContainer())
-        .commands {
-            DebugCommand()
-            SettingsCommand()
-        }
     }
 }
 

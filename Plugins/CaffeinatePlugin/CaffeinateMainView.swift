@@ -41,7 +41,7 @@ struct CaffeinateMainView: View {
             Spacer()
         }
         .padding(30)
-        .frame(minWidth: 300, minHeight: 500)
+        .frame(minWidth: 200)
         .onChange(of: manager.isActive) { _, newValue in
             if !newValue {
                 activeAction = nil

@@ -263,10 +263,6 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
 
         return StatusBarPopupView(
             pluginPopupViews: pluginViews,
-            onShowMainWindow: { [weak self] in
-                self?.showMainWindow()
-                self?.closePopover()
-            },
             onQuit: { [weak self] in
                 self?.quitApplication()
             }
@@ -289,14 +285,6 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
     }
 
     // MARK: - Menu Actions
-
-    /// 显示主窗口
-    private func showMainWindow() {
-        NSApp.activate(ignoringOtherApps: true)
-        if let window = NSApp.windows.first {
-            window.makeKeyAndOrderFront(nil)
-        }
-    }
 
     /// 退出应用
     private func quitApplication() {

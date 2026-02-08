@@ -8,9 +8,6 @@ struct StatusBarPopupView: View {
     /// 插件提供的弹窗视图
     let pluginPopupViews: [AnyView]
 
-    /// 显示主窗口
-    let onShowMainWindow: () -> Void
-
     /// 退出应用
     let onQuit: () -> Void
 
@@ -88,14 +85,6 @@ struct StatusBarPopupView: View {
 
     private var menuItemsSection: some View {
         VStack(spacing: 0) {
-            // 打开 Wakey
-            MenuItemRow(
-                title: "打开 Wakey",
-                action: onShowMainWindow
-            )
-
-            Divider()
-
             // 退出应用
             MenuItemRow(
                 title: "退出 Wakey",
@@ -150,7 +139,6 @@ struct MenuItemRow: View {
 #Preview("StatusBar Popup") {
     StatusBarPopupView(
         pluginPopupViews: [],
-        onShowMainWindow: {},
         onQuit: {}
     )
     .inRootView()
