@@ -40,7 +40,7 @@ struct Mac4: View {
                     .roundedLarge()
                     .shadowSm()
                     .frame(width: geo.size.width * 0.5)
-                    .scaleEffect(2)
+                    .scaleEffect(4)
             }
         }
         .inPosterContainer()

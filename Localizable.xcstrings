@@ -4,17 +4,6 @@
     "" : {
 
     },
-    "Build %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Build %@"
-          }
-        }
-      }
-    },
     "ID: WAKEY001" : {
       "localizations" : {
         "en" : {
@@ -55,17 +44,6 @@
         }
       }
     },
-    "Wakey 休息中" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wakey Resting"
-          }
-        }
-      }
-    },
     "Wakey 已激活" : {
       "localizations" : {
         "en" : {
@@ -77,7 +55,14 @@
       }
     },
     "允许休眠" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow Sleep"
+          }
+        }
+      }
     },
     "允许系统休眠" : {
       "localizations" : {
@@ -85,28 +70,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Allow System Sleep"
-          }
-        }
-      }
-    },
-    "关于" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "About"
-          }
-        }
-      }
-    },
-    "启动选项" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Startup Options"
           }
         }
       }
@@ -131,27 +94,12 @@
         }
       }
     },
-    "完成" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Done"
-          }
-        }
-      }
-    },
     "已禁止休眠" : {
-
-    },
-    "开机启动" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Launch at Login"
+            "value" : "Sleep Prevented"
           }
         }
       }
@@ -162,50 +110,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Restore Purchase"
-          }
-        }
-      }
-    },
-    "打开App Support目录" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open App Support Directory"
-          }
-        }
-      }
-    },
-    "打开容器目录" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Container Directory"
-          }
-        }
-      }
-    },
-    "打开数据库目录" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Database Directory"
-          }
-        }
-      }
-    },
-    "打开文档目录" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Documents Directory"
           }
         }
       }
@@ -286,39 +190,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "License Agreement"
-          }
-        }
-      }
-    },
-    "设置..." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Settings..."
-          }
-        }
-      }
-    },
-    "调试" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Debug"
-          }
-        }
-      }
-    },
-    "通用" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "General"
           }
         }
       }

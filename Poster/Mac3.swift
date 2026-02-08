@@ -29,7 +29,7 @@ struct Mac3: View {
                     .frame(height: geo.size.height * 0.4)
                     .roundedLarge()
                     .shadowSm()
-                    .scaleEffect(2)
+                    .scaleEffect(4)
                     .frame(width: geo.size.width * 0.5)
             }
         }

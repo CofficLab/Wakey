@@ -2,7 +2,7 @@ import MagicKit
 import SwiftUI
 
 /// 状态栏弹窗视图
-struct StatusBarPopupView: View {
+struct StatusBar: View {
     // MARK: - Properties
 
     @EnvironmentObject var pluginProvider: PluginProvider
@@ -30,7 +30,7 @@ struct StatusBarPopupView: View {
             // 第三部分：菜单项
             menuItemsSection
         }
-        .frame(width: 200)
+        .frame(width: 250)
         .background(Color(nsColor: .windowBackgroundColor))
     }
 
@@ -87,7 +87,7 @@ struct StatusBarPopupView: View {
         VStack(spacing: 0) {
             // 退出应用
             MenuItemRow(
-                title: "退出 Wakey",
+                title: "退出",
                 color: .red,
                 action: {
                     NSApp.terminate(nil)
@@ -139,6 +139,6 @@ struct MenuItemRow: View {
 // MARK: - Preview
 
 #Preview("StatusBar Popup") {
-    StatusBarPopupView()
+    StatusBar()
         .inRootView()
 }

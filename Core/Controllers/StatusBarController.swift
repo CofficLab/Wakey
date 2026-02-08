@@ -256,8 +256,8 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
     }
 
     /// 创建弹窗视图
-    private func createPopupView() -> StatusBarPopupView {
-        StatusBarPopupView()
+    private func createPopupView() -> StatusBar {
+        StatusBar()
     }
 
     // MARK: - Private Methods
