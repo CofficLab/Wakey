@@ -35,6 +35,7 @@ struct Mac1: View {
                     ContentLayout()
                         .inRootView()
                         .inDemoMode()
+                        .inDemoModeActivated()
                         .background(.background)
                         .frame(width: geo.size.width * 0.16)
                         .frame(height: geo.size.height * 0.4)

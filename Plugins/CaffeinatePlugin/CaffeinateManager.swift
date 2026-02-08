@@ -249,7 +249,7 @@ extension CaffeinateManager {
         case indefinite
         case minutes(Int)
         case hours(Int)
-
+        
         var displayName: String {
             switch self {
             case .indefinite:
@@ -260,7 +260,7 @@ extension CaffeinateManager {
                 return "\(h) 小时"
             }
         }
-
+        
         var timeInterval: TimeInterval {
             switch self {
             case .indefinite:
@@ -271,6 +271,13 @@ extension CaffeinateManager {
                 return TimeInterval(h * 3600)
             }
         }
+    }
+
+    /// 快捷操作类型
+    enum QuickActionType: Equatable {
+        case systemAndDisplay // 防止休眠且屏幕常亮
+        case systemOnly // 防止休眠且允许屏幕关闭
+        case turnOffDisplay // 防止休眠且立刻关闭屏幕
     }
 
     /// 常用的时间选项列表

@@ -53,7 +53,7 @@ actor CaffeinatePlugin: SuperPlugin, SuperLog {
     /// 添加状态栏弹窗视图
     /// - Returns: 要添加到状态栏弹窗的视图，如果不需要则返回nil
     @MainActor func addStatusBarPopupView() -> AnyView? {
-        AnyView(CaffeinateStatusBarPopupView())
+        AnyView(CaffeinatePopupView())
     }
 }
 
