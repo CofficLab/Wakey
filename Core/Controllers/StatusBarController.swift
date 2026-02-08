@@ -257,11 +257,7 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
 
     /// 创建弹窗视图
     private func createPopupView() -> StatusBarPopupView {
-        StatusBarPopupView(
-            onQuit: { [weak self] in
-                self?.quitApplication()
-            }
-        )
+        StatusBarPopupView()
     }
 
     // MARK: - Private Methods
@@ -277,13 +273,6 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
         // 更新 ViewModel，触发 SwiftUI 刷新
         iconViewModel.isActive = isActive
         iconViewModel.activeSources = self.activeSources
-    }
-
-    // MARK: - Menu Actions
-
-    /// 退出应用
-    private func quitApplication() {
-        NSApp.terminate(nil)
     }
 }
 

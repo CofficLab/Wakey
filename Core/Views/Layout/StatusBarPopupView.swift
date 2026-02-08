@@ -7,9 +7,6 @@ struct StatusBarPopupView: View {
 
     @EnvironmentObject var pluginProvider: PluginProvider
 
-    /// 退出应用
-    let onQuit: () -> Void
-
     // MARK: - Body
 
     private var pluginPopupViews: [AnyView] {
@@ -92,7 +89,9 @@ struct StatusBarPopupView: View {
             MenuItemRow(
                 title: "退出 Wakey",
                 color: .red,
-                action: onQuit
+                action: {
+                    NSApp.terminate(nil)
+                }
             )
         }
     }
@@ -140,8 +139,6 @@ struct MenuItemRow: View {
 // MARK: - Preview
 
 #Preview("StatusBar Popup") {
-    StatusBarPopupView(
-        onQuit: {}
-    )
-    .inRootView()
+    StatusBarPopupView()
+        .inRootView()
 }

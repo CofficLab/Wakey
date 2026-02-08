@@ -56,6 +56,7 @@
       }
     },
     "Wakey 休息中" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -74,6 +75,9 @@
           }
         }
       }
+    },
+    "允许休眠" : {
+
     },
     "允许系统休眠" : {
       "localizations" : {
@@ -137,6 +141,9 @@
           }
         }
       }
+    },
+    "已禁止休眠" : {
+
     },
     "开机启动" : {
       "extractionState" : "stale",
