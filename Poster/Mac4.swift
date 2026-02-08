@@ -51,5 +51,5 @@ struct Mac4: View {
 
 #Preview("Mac4") {
     Mac4()
-        .inMagicContainer(.macBook13, scale: 0.3)
+        .inMagicContainer(.macBook13, scale: 0.2)
 }
