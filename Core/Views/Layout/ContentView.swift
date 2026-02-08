@@ -10,7 +10,7 @@ struct ContentView: View {
     @EnvironmentObject var pluginProvider: PluginProvider
 
     var body: some View {
-        CaffeinateMainView()
+        StatusBarPopupView()
     }
 }
 
