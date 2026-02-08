@@ -5,13 +5,16 @@ import SwiftUI
 struct StatusBarPopupView: View {
     // MARK: - Properties
 
-    /// 插件提供的弹窗视图
-    let pluginPopupViews: [AnyView]
+    @EnvironmentObject var pluginProvider: PluginProvider
 
     /// 退出应用
     let onQuit: () -> Void
 
     // MARK: - Body
+
+    private var pluginPopupViews: [AnyView] {
+        pluginProvider.getStatusBarPopupViews()
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -138,7 +141,6 @@ struct MenuItemRow: View {
 
 #Preview("StatusBar Popup") {
     StatusBarPopupView(
-        pluginPopupViews: [],
         onQuit: {}
     )
     .inRootView()

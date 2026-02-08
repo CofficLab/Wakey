@@ -24,13 +24,17 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
     /// 弹窗
     private var popover: NSPopover?
 
+    /// 应用提供者
+    private weak var appProvider: AppProvider?
+
     /// 插件提供者，用于获取插件菜单项
     private weak var pluginProvider: PluginProvider?
 
     // MARK: - Public Methods
 
     /// 设置状态栏
-    func setupStatusBar(pluginProvider: PluginProvider?) {
+    func setupStatusBar(appProvider: AppProvider?, pluginProvider: PluginProvider?) {
+        self.appProvider = appProvider
         self.pluginProvider = pluginProvider
 
         // 创建状态栏项，使用 variableLength 以便根据内容动态调整宽度
@@ -193,8 +197,10 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
             popover?.behavior = .transient
             popover?.animates = true
             popover?.delegate = self
+
+            let popupView = createPopupView()
             popover?.contentViewController = NSHostingController(
-                rootView: createPopupView()
+                rootView: popupView.inRootView(appProvider: appProvider, pluginProvider: pluginProvider)
             )
         }
 
@@ -259,10 +265,7 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
 
     /// 创建弹窗视图
     private func createPopupView() -> StatusBarPopupView {
-        let pluginViews = pluginProvider?.getStatusBarPopupViews() ?? []
-
-        return StatusBarPopupView(
-            pluginPopupViews: pluginViews,
+        StatusBarPopupView(
             onQuit: { [weak self] in
                 self?.quitApplication()
             }
