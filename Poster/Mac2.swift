@@ -39,6 +39,7 @@ struct Mac2: View {
 
                 ContentLayout()
                     .inRootView()
+                    .inDemoMode()
                     .roundedLarge()
                     .shadowSm()
                     .frame(width: geo.size.width * 0.15)

@@ -9,6 +9,7 @@ extension View {
         self
             .environmentObject(AppProvider())
             .environmentObject(PluginProvider())
+            .environment(\.demoMode, false)
     }
 }
 

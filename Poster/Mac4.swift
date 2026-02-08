@@ -34,6 +34,7 @@ struct Mac4: View {
 
                 ContentView()
                     .inRootView()
+                    .inDemoMode()
                     .frame(width: geo.size.width * 0.15)
                     .frame(height: geo.size.height * 0.4)
                     .roundedLarge()

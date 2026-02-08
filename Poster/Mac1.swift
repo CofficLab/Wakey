@@ -18,6 +18,7 @@ struct Mac1: View {
                 ZStack {
                     ContentLayout()
                         .inRootView()
+                        .inDemoMode()
                         .background(.background).frame(width: geo.size.width * 0.16)
                         .frame(height: geo.size.height * 0.4)
                         .roundedLarge()
@@ -33,6 +34,7 @@ struct Mac1: View {
 
                     ContentLayout()
                         .inRootView()
+                        .inDemoMode()
                         .background(.background)
                         .frame(width: geo.size.width * 0.16)
                         .frame(height: geo.size.height * 0.4)

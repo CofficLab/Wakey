@@ -3,6 +3,8 @@ import MagicKit
 
 /// Wakey 应用程序的主界面
 struct CaffeinateMainView: View {
+    @Environment(\.demoMode) private var isDemoMode
+
     @State private var manager = CaffeinateManager.shared
     @State private var selectedDuration: TimeInterval = 0
     
@@ -39,7 +41,7 @@ struct CaffeinateMainView: View {
             Spacer()
         }
         .padding(30)
-        .frame(minWidth: 400, minHeight: 500)
+        .frame(minWidth: 300, minHeight: 500)
         .onChange(of: manager.isActive) { _, newValue in
             if !newValue {
                 activeAction = nil
@@ -51,17 +53,17 @@ struct CaffeinateMainView: View {
         VStack(spacing: 16) {
             LogoView(
                 variant: .general,
-                isActive: manager.isActive
+                isActive: isDemoMode ? true : manager.isActive
             )
             .frame(width: 80, height: 80)
-            
-            Text(manager.isActive ? "Wakey 已激活" : "Wakey 休息中")
+
+            Text(isDemoMode ? "Wakey 已激活" : (manager.isActive ? "Wakey 已激活" : "Wakey 休息中"))
                 .font(.largeTitle)
                 .fontWeight(.bold)
-            
-            if manager.isActive {
-                if selectedDuration > 0 {
-                    Text("防止休眠：\(formatDuration(selectedDuration))")
+
+            if isDemoMode || manager.isActive {
+                if isDemoMode || selectedDuration > 0 {
+                    Text("防止休眠：\(isDemoMode ? "2小时" : formatDuration(selectedDuration))")
                         .foregroundColor(.secondary)
                 } else {
                     Text("永久防止休眠")
@@ -109,8 +111,8 @@ struct CaffeinateMainView: View {
                     subtitle: "防止系统休眠并保持显示器激活状态",
                     icon: "sun.max.fill",
                     color: .orange,
-                    isSelected: activeAction == .systemAndDisplay,
-                    action: { toggleAction(.systemAndDisplay) }
+                    isSelected: isDemoMode ? true : activeAction == .systemAndDisplay,
+                    action: { if !isDemoMode { toggleAction(.systemAndDisplay) } }
                 )
                 
                 MainActionButton(
@@ -118,8 +120,8 @@ struct CaffeinateMainView: View {
                     subtitle: "防止系统休眠，但允许显示器变暗",
                     icon: "moon.fill",
                     color: .blue,
-                    isSelected: activeAction == .systemOnly,
-                    action: { toggleAction(.systemOnly) }
+                    isSelected: false,
+                    action: { if !isDemoMode { toggleAction(.systemOnly) } }
                 )
                 
                 MainActionButton(
