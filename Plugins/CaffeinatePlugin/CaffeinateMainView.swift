@@ -57,7 +57,7 @@ struct CaffeinateMainView: View {
             )
             .frame(width: 80, height: 80)
 
-            Text(isDemoMode ? "Wakey 已激活" : (manager.isActive ? "Wakey 已激活" : "Wakey 休息中"))
+            Text(isDemoMode ? "Wakey 已激活" : (manager.isActive ? "已禁止休眠" : "允许休眠"))
                 .font(.largeTitle)
                 .fontWeight(.bold)
 

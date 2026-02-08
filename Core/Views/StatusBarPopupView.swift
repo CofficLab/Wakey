@@ -30,7 +30,7 @@ struct StatusBarPopupView: View {
             // 第三部分：菜单项
             menuItemsSection
         }
-        .frame(width: 300)
+        .frame(width: 200)
         .background(Color(nsColor: .windowBackgroundColor))
     }
 
