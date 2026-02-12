@@ -35,3 +35,11 @@ final class AppProvider: ObservableObject {
         modelContext
     }
 }
+
+// MARK: - Preview
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
+        .withDebugBar()
+}

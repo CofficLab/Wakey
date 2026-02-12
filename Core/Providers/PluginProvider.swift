@@ -1,9 +1,9 @@
 import AppKit
-import MagicKit
+import Combine
 import Foundation
+import MagicKit
 import OSLog
 import SwiftUI
-import Combine
 
 /// Plugin Provider
 @MainActor
@@ -13,7 +13,7 @@ final class PluginProvider: ObservableObject, SuperLog {
 
     @Published private(set) var plugins: [any SuperPlugin] = []
     @Published private(set) var isLoaded: Bool = false
-    
+
     private var cancellables = Set<AnyCancellable>()
 
     init(autoDiscover: Bool = true) {
@@ -25,14 +25,14 @@ final class PluginProvider: ObservableObject, SuperLog {
         let caffeinate = CaffeinatePlugin.shared
         self.plugins = [caffeinate]
         self.isLoaded = true
-        
+
         caffeinate.onRegister()
-        
+
         if Self.verbose {
             os_log("\(self.t)✅ Loaded CaffeinatePlugin.")
         }
     }
-    
+
     func isPluginEnabled(_ plugin: any SuperPlugin) -> Bool {
         // Always enable CaffeinatePlugin
         return true
@@ -42,6 +42,14 @@ final class PluginProvider: ObservableObject, SuperLog {
         plugins
             .compactMap { $0.addStatusBarPopupView() }
     }
-    
+
     func reloadPlugins() {}
+}
+
+// MARK: - Preview
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
+        .withDebugBar()
 }

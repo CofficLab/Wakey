@@ -14,10 +14,10 @@ struct ContentView: View {
     }
 }
 
-// MARK: - 预览
+// MARK: - Preview
 
-#Preview("应用 - 小屏幕") {
-    ContentView()
+#Preview("App") {
+    ContentLayout()
         .inRootView()
-        .frame(width: 800, height: 600)
+        .withDebugBar()
 }

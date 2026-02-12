@@ -3,6 +3,7 @@ import IOKit.pwr_mgt
 import MagicKit
 import Observation
 import OSLog
+import SwiftUI
 
 /// 防休眠管理器：负责管理系统电源状态
 @MainActor
@@ -21,7 +22,7 @@ class CaffeinateManager: SuperLog {
     private(set) var isActive: Bool = false
 
     /// 当前激活的操作类型，为 nil 表示未激活
-    private(set) var activeAction: QuickActionType? = nil
+    private(set) var activeAction: QuickActionType?
 
     /// 用户当前选择的时长（秒），用于下次激活或更新当前激活
     var selectedDuration: TimeInterval = 0
@@ -62,7 +63,7 @@ class CaffeinateManager: SuperLog {
     func activateAndTurnOffDisplay(duration: TimeInterval = 0) {
         // 1. 激活防休眠（仅系统，允许屏幕关闭）
         activate(mode: .systemOnly, duration: duration)
-        
+
         // 2. 更新状态
         self.activeAction = .systemOnly
         self.selectedDuration = duration
@@ -262,7 +263,7 @@ extension CaffeinateManager {
         case indefinite
         case minutes(Int)
         case hours(Int)
-        
+
         var displayName: String {
             switch self {
             case .indefinite:
@@ -273,7 +274,7 @@ extension CaffeinateManager {
                 return "\(h) 小时"
             }
         }
-        
+
         var timeInterval: TimeInterval {
             switch self {
             case .indefinite:
@@ -302,4 +303,12 @@ extension CaffeinateManager {
         .hours(2),
         .hours(5),
     ]
+}
+
+// MARK: - Preview
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
+        .withDebugBar()
 }

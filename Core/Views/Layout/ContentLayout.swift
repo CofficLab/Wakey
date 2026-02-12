@@ -11,8 +11,8 @@ struct ContentLayout: View {
 
 // MARK: - Preview
 
-#Preview("Small Screen") {
+#Preview("App") {
     ContentLayout()
         .inRootView()
-        .frame(width: 800, height: 600)
+        .withDebugBar()
 }

@@ -30,3 +30,9 @@ struct CaffeinatePopupView: View {
         .frame(width: 280)
         .padding()
 }
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
+        .withDebugBar()
+}

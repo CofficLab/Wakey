@@ -7,7 +7,10 @@ class StatusBarIconViewModel: ObservableObject {
     @Published var activeSources: Set<String> = []
 }
 
-#Preview("LogoView - Snapshot") {
-    LogoView(variant: .appIcon)
-        .inMagicContainer(.init(width: 500, height: 500), scale: 1)
+// MARK: - Preview
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
+        .withDebugBar()
 }

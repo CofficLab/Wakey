@@ -142,3 +142,9 @@ struct MenuItemRow: View {
     StatusBar()
         .inRootView()
 }
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
+        .withDebugBar()
+}

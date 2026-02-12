@@ -65,3 +65,9 @@ private struct PopupDurationButton: View {
     CaffeinateDurationPicker()
         .padding()
 }
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
+        .withDebugBar()
+}

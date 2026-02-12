@@ -28,7 +28,6 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
 
     /// 设置状态栏
     func setupStatusBar() {
-
         // 创建状态栏项，使用 variableLength 以便根据内容动态调整宽度
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
@@ -281,4 +280,12 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
 #Preview("StatusBar") {
     StatusBarIconView(viewModel: StatusBarIconViewModel())
         .frame(width: 20, height: 20)
+}
+
+// MARK: - Preview
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
+        .withDebugBar()
 }

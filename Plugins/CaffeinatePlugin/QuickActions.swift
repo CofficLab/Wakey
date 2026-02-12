@@ -4,7 +4,7 @@ import SwiftUI
 struct CaffeinateQuickActions: View {
     @Environment(\.demoModeActivated) private var demoModeActivated
     @State private var manager = CaffeinateManager.shared
-    
+
     var body: some View {
         VStack(spacing: 0) {
             QuickActionMenuItem(
@@ -143,4 +143,10 @@ private struct QuickActionMenuItem: View {
         .inDemoModeActivated()
         .frame(width: 250)
         .padding()
+}
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
+        .withDebugBar()
 }

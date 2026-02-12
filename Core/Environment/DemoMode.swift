@@ -44,3 +44,11 @@ extension View {
         self.environment(\.demoModeActivated, true)
     }
 }
+
+// MARK: - Preview
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
+        .withDebugBar()
+}
