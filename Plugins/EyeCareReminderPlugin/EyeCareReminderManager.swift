@@ -38,6 +38,9 @@ class EyeCareReminderManager: NSObject, SuperLog {
     /// Today's break count
     private(set) var todayBreakCount: Int = 0
 
+    /// Current overlay window
+    private var currentOverlayWindow: EyeCareReminderOverlayWindow?
+
     /// Notification permission status
     enum PermissionStatus {
         case notDetermined

@@ -28,6 +28,7 @@ struct StretchReminderStatusInfo: View {
                         Spacer()
                     }
                 }
+            }
                 HStack {
                     Image(systemName: "checkmark.circle.fill").font(.system(size: 9)).foregroundColor(.green)
                     Text("Today: \(manager.todayBreakCount) breaks", tableName: "StretchReminder").font(.system(size: 10)).foregroundColor(.secondary)

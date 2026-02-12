@@ -33,6 +33,7 @@ struct EyeCareReminderStatusInfo: View {
                         Spacer()
                     }
                 }
+            }
 
                 HStack {
                     Image(systemName: "checkmark.circle.fill")
