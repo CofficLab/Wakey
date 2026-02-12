@@ -413,7 +413,6 @@ extension BreakReminderManager {
     /// Common interval options
     static let commonIntervals: [IntervalOption] = [
         .minutes(10),
-        .minutes(15),
         .minutes(20),
         .minutes(30),
         .hours(1),
