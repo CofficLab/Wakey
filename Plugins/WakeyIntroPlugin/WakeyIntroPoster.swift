@@ -20,7 +20,7 @@ struct WakeyIntroPoster: View {
                     .inRootView()
                     .inDemoMode()
                     .roundedLarge()
-                    .shadowSm()
+                    .shadow3xl()
                     .scaleEffect(2)
                     .frame(width: geo.size.width * 0.15)
                     .frame(height: geo.size.height * 0.4)

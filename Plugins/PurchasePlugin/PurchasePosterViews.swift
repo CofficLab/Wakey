@@ -180,3 +180,10 @@ extension PurchaseViewDemo {
         }
     }
 }
+
+// MARK: - Preview
+
+#Preview("Purchase Poster - Pro") {
+    PurchasePosterPro()
+        .inMagicContainer(.macBook13, scale: 0.4)
+}

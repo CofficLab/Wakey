@@ -11,7 +11,7 @@ actor PurchasePlugin: SuperPlugin, SuperLog {
 
     nonisolated static let emoji = "💳"
 
-    nonisolated(unsafe) static let enable = true
+    static let enable = true
 
     nonisolated static let verbose = true
 
@@ -35,7 +35,7 @@ actor PurchasePlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    nonisolated(unsafe) static let shared = PurchasePlugin()
+    static let shared = PurchasePlugin()
 
     // MARK: - UI Contributions
 
@@ -54,7 +54,4 @@ actor PurchasePlugin: SuperPlugin, SuperLog {
             },
         ]
     }
-
-    /// 提供购买相关的 Logo（可选）
-    @MainActor static func provideLogos() -> [any SuperLogo] { [] }
 }

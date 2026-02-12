@@ -50,9 +50,6 @@ actor WakeyIntroPlugin: SuperPlugin, SuperLog {
             },
         ]
     }
-
-    /// 提供 Logo（无）
-    @MainActor static func provideLogos() -> [any SuperLogo] { [] }
 }
 
 // MARK: - Preview
@@ -60,5 +57,6 @@ actor WakeyIntroPlugin: SuperPlugin, SuperLog {
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .withDebugBar()
+        .frame(height: 600)
+        .frame(width: 300)
 }
