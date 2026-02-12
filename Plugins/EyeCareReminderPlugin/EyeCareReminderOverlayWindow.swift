@@ -94,3 +94,10 @@ private struct EyeCareGradientView: View {
         }
     }
 }
+
+// MARK: - Preview
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
+}

@@ -13,6 +13,7 @@ struct StretchReminderPopupView: View {
                     .font(.system(size: 11, weight: .semibold))
                     .foregroundColor(.primary)
                 Spacer()
+                StretchReminderControls()
             }
             .padding(.horizontal, 12)
             .padding(.top, 8)
@@ -34,15 +35,6 @@ struct StretchReminderPopupView: View {
                     .padding(.horizontal, 12)
                     .padding(.top, 4)
                 StretchIntervalPicker()
-            }
-            Divider().padding(.horizontal, 12).padding(.vertical, 4)
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Actions", tableName: "StretchReminder")
-                    .font(.system(size: 9))
-                    .foregroundColor(.secondary)
-                    .padding(.horizontal, 12)
-                    .padding(.top, 4)
-                StretchReminderControls()
             }
             if manager.permissionStatus == .denied {
                 StretchNotificationPermissionWarning(manager: manager).padding(.top, 8)
@@ -83,4 +75,11 @@ struct StretchNotificationPermissionWarning: View {
         }
         .padding(10).background(Color.orange.opacity(0.05)).cornerRadius(8).padding(.horizontal, 12)
     }
+}
+
+// MARK: - Preview
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
 }

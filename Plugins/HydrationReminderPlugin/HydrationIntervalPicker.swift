@@ -6,7 +6,7 @@ struct HydrationIntervalPicker: View {
         HStack(spacing: 4) {
             ForEach(HydrationReminderManager.commonIntervals) { interval in
                 HydrationIntervalButton(
-                    title: LocalizedStringKey(interval.displayName),
+                    interval: interval,
                     isSelected: manager.selectedInterval == interval.timeInterval,
                     action: { manager.updateInterval(interval.timeInterval) }
                 )
@@ -18,14 +18,21 @@ struct HydrationIntervalPicker: View {
 }
 
 private struct HydrationIntervalButton: View {
-    let title: LocalizedStringKey
+    let interval: HydrationReminderManager.IntervalOption
     let isSelected: Bool
     let action: () -> Void
     @State private var isHovering = false
     var body: some View {
         Button(action: action) {
-            Text(title, tableName: "HydrationReminder")
-                .font(.system(size: 10))
+            Group {
+                switch interval {
+                case .minutes(let m):
+                    Text("\(m) min", tableName: "HydrationReminder")
+                case .hours(let h):
+                    Text("\(h) hr", tableName: "HydrationReminder")
+                }
+            }
+            .font(.system(size: 10))
                 .foregroundColor(isHovering ? .white : (isSelected ? .white : .secondary))
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)

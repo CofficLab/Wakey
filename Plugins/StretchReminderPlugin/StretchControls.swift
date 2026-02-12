@@ -13,8 +13,6 @@ struct StretchReminderControls: View {
                 }
             )
         }
-        .padding(.vertical, 4)
-        .padding(.horizontal, 12)
     }
 }
 

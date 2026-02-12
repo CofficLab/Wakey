@@ -18,6 +18,8 @@ struct EyeCareReminderPopupView: View {
                     .foregroundColor(.primary)
 
                 Spacer()
+                
+                EyeCareReminderControls()
             }
             .padding(.horizontal, 12)
             .padding(.top, 8)
@@ -47,21 +49,6 @@ struct EyeCareReminderPopupView: View {
                     .padding(.top, 4)
 
                 EyeCareIntervalPicker()
-            }
-
-            Divider()
-                .padding(.horizontal, 12)
-                .padding(.vertical, 4)
-
-            // Control buttons
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Actions", tableName: "EyeCareReminder")
-                    .font(.system(size: 9))
-                    .foregroundColor(.secondary)
-                    .padding(.horizontal, 12)
-                    .padding(.top, 4)
-
-                EyeCareReminderControls()
             }
 
             if manager.permissionStatus == .denied {
@@ -136,4 +123,11 @@ struct EyeCareNotificationPermissionWarning: View {
         .cornerRadius(8)
         .padding(.horizontal, 12)
     }
+}
+
+// MARK: - Preview
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
 }

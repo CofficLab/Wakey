@@ -2,8 +2,8 @@ import Foundation
 import MagicKit
 import Observation
 import OSLog
-import UserNotifications
 import SwiftUI
+import UserNotifications
 
 /// Eye Care Reminder Manager: manages eye care break reminders
 @MainActor
@@ -17,12 +17,14 @@ class EyeCareReminderManager: NSObject, SuperLog {
     static let shared = EyeCareReminderManager()
 
     // MARK: - Properties
+    
+    private let userDefaultsKey = "EyeCareReminderInterval"
 
     /// Whether break reminder is currently active
     private(set) var isActive: Bool = false
 
     /// Selected break interval in seconds
-    private(set) var selectedInterval: TimeInterval = 20 * 60 // Default 20 minutes
+    private(set) var selectedInterval: TimeInterval = 60 * 60 // Default 60 minutes
 
     /// Next break time
     private(set) var nextBreakTime: Date?
@@ -51,8 +53,15 @@ class EyeCareReminderManager: NSObject, SuperLog {
 
     // MARK: - Initialization
 
-    private override init() {
+  private override init() {
         super.init()
+        
+        // Load persisted interval
+        let savedInterval = UserDefaults.standard.double(forKey: userDefaultsKey)
+        if savedInterval > 0 {
+            self.selectedInterval = savedInterval
+        }
+
         if Self.verbose {
             os_log("\(self.t)EyeCareReminderManager initialized")
         }
@@ -66,9 +75,9 @@ class EyeCareReminderManager: NSObject, SuperLog {
         Task {
             let center = UNUserNotificationCenter.current()
             let settings = await center.notificationSettings()
-            
+
             let status = settings.authorizationStatus
-            
+
             await MainActor.run {
                 switch status {
                 case .notDetermined:
@@ -148,6 +157,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
     /// - Parameter interval: New interval in seconds
     func updateInterval(_ interval: TimeInterval) {
         selectedInterval = interval
+        UserDefaults.standard.set(interval, forKey: userDefaultsKey)
 
         // Reschedule if active
         if isActive {
@@ -201,8 +211,8 @@ class EyeCareReminderManager: NSObject, SuperLog {
 
     /// Show desktop gradient animation
     private func showDesktopGradient() {
-        let overlayWindow = EyeCareReminderOverlayWindow()
-        overlayWindow.showAndFadeOut()
+        currentOverlayWindow = EyeCareReminderOverlayWindow()
+        currentOverlayWindow?.showAndFadeOut()
     }
 
     /// Schedule system notification
@@ -229,7 +239,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
     /// Request notification permission
     private func requestNotificationPermission() {
         let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.alert, .sound]) { [weak self] granted, error in
+        center.requestAuthorization(options: [.alert, .sound]) { [weak self] granted, _ in
             Task { @MainActor in
                 self?.notificationPermissionGranted = granted
                 self?.permissionStatus = granted ? .authorized : .denied
@@ -255,32 +265,32 @@ extension EyeCareReminderManager {
 
         var id: String {
             switch self {
-            case .minutes(let m): return "m\(m)"
-            case .hours(let h): return "h\(h)"
+            case let .minutes(m): return "m\(m)"
+            case let .hours(h): return "h\(h)"
             }
         }
 
         var displayName: String {
             switch self {
-            case .minutes(let m): return String(localized: "\(m) min", table: "EyeCareReminder")
-            case .hours(let h): return String(localized: "\(h) hr", table: "EyeCareReminder")
+            case let .minutes(m): return "\(m) min"
+            case let .hours(h): return "\(h) hr"
             }
         }
 
         var timeInterval: TimeInterval {
             switch self {
-            case .minutes(let m): return TimeInterval(m * 60)
-            case .hours(let h): return TimeInterval(h * 3600)
+            case let .minutes(m): return TimeInterval(m * 60)
+            case let .hours(h): return TimeInterval(h * 3600)
             }
         }
     }
 
     static let commonIntervals: [IntervalOption] = [
         .minutes(10),
-        .minutes(20),
         .minutes(30),
         .hours(1),
         .hours(2),
+        .hours(3),
     ]
 }
 
@@ -300,4 +310,11 @@ extension EyeCareReminderManager: UNUserNotificationCenterDelegate {
         }
         completionHandler()
     }
+}
+
+// MARK: - Preview
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
 }

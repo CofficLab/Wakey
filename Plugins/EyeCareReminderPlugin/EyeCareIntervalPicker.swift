@@ -8,7 +8,7 @@ struct EyeCareIntervalPicker: View {
         HStack(spacing: 4) {
             ForEach(EyeCareReminderManager.commonIntervals) { interval in
                 EyeCareIntervalButton(
-                    title: LocalizedStringKey(interval.displayName),
+                    interval: interval,
                     isSelected: manager.selectedInterval == interval.timeInterval,
                     action: {
                         manager.updateInterval(interval.timeInterval)
@@ -22,7 +22,7 @@ struct EyeCareIntervalPicker: View {
 }
 
 private struct EyeCareIntervalButton: View {
-    let title: LocalizedStringKey
+    let interval: EyeCareReminderManager.IntervalOption
     let isSelected: Bool
     let action: () -> Void
 
@@ -30,17 +30,31 @@ private struct EyeCareIntervalButton: View {
 
     var body: some View {
         Button(action: action) {
-            Text(title, tableName: "EyeCareReminder")
-                .font(.system(size: 10))
-                .foregroundColor(isHovering ? .white : (isSelected ? .white : .secondary))
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(isSelected || isHovering ? Color.green : Color.secondary.opacity(0.1))
-                .cornerRadius(3)
+            Group {
+                switch interval {
+                case let .minutes(m):
+                    Text("\(m) min", tableName: "EyeCareReminder")
+                case let .hours(h):
+                    Text("\(h) hr", tableName: "EyeCareReminder")
+                }
+            }
+            .font(.system(size: 10))
+            .foregroundColor(isHovering ? .white : (isSelected ? .white : .secondary))
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(isSelected || isHovering ? Color.green : Color.secondary.opacity(0.1))
+            .cornerRadius(3)
         }
         .buttonStyle(.plain)
         .onHover { hovering in
             isHovering = hovering
         }
     }
+}
+
+// MARK: - Preview
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
 }

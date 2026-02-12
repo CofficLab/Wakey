@@ -2,8 +2,8 @@ import Foundation
 import MagicKit
 import Observation
 import OSLog
-import UserNotifications
 import SwiftUI
+import UserNotifications
 
 /// Stretch Reminder Manager: manages stretch break reminders
 @MainActor
@@ -13,6 +13,8 @@ class StretchReminderManager: NSObject, SuperLog {
     nonisolated static let verbose: Bool = true
 
     static let shared = StretchReminderManager()
+    
+    private let userDefaultsKey = "StretchReminderInterval"
 
     private(set) var isActive: Bool = false
     private(set) var selectedInterval: TimeInterval = 60 * 60 // Default 1 hour
@@ -29,9 +31,17 @@ class StretchReminderManager: NSObject, SuperLog {
 
     private(set) var permissionStatus: PermissionStatus = .notDetermined
     private(set) var notificationPermissionGranted: Bool = false
+    private var currentOverlayWindow: StretchReminderOverlayWindow?
 
-    private override init() {
+    override private init() {
         super.init()
+        
+        // Load persisted interval
+        let savedInterval = UserDefaults.standard.double(forKey: userDefaultsKey)
+        if savedInterval > 0 {
+            self.selectedInterval = savedInterval
+        }
+
         if Self.verbose {
             os_log("\(self.t)StretchReminderManager initialized")
         }
@@ -94,6 +104,7 @@ class StretchReminderManager: NSObject, SuperLog {
 
     func updateInterval(_ interval: TimeInterval) {
         selectedInterval = interval
+        UserDefaults.standard.set(interval, forKey: userDefaultsKey)
         if isActive {
             scheduleNextBreak()
         }
@@ -127,8 +138,8 @@ class StretchReminderManager: NSObject, SuperLog {
     }
 
     private func showDesktopGradient() {
-        let overlayWindow = StretchReminderOverlayWindow()
-        overlayWindow.showAndFadeOut()
+        currentOverlayWindow = StretchReminderOverlayWindow()
+        currentOverlayWindow?.showAndFadeOut()
     }
 
     private func scheduleNotification(in interval: TimeInterval) {
@@ -167,24 +178,28 @@ extension StretchReminderManager {
         case hours(Int)
         var id: String {
             switch self {
-            case .minutes(let m): return "m\(m)"
-            case .hours(let h): return "h\(h)"
+            case let .minutes(m): return "m\(m)"
+            case let .hours(h): return "h\(h)"
             }
         }
+
         var displayName: String {
             switch self {
-            case .minutes(let m): return String(localized: "\(m) min", table: "StretchReminder")
-            case .hours(let h): return String(localized: "\(h) hr", table: "StretchReminder")
+            case let .minutes(m): return "\(m) min"
+            case let .hours(h): return "\(h) hr"
             }
         }
+
         var timeInterval: TimeInterval {
             switch self {
-            case .minutes(let m): return TimeInterval(m * 60)
-            case .hours(let h): return TimeInterval(h * 3600)
+            case let .minutes(m): return TimeInterval(m * 60)
+            case let .hours(h): return TimeInterval(h * 3600)
             }
         }
     }
+
     static let commonIntervals: [IntervalOption] = [
+        .minutes(10),
         .minutes(30),
         .hours(1),
         .hours(2),
@@ -196,6 +211,7 @@ extension StretchReminderManager: UNUserNotificationCenterDelegate {
     nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound])
     }
+
     nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let actionIdentifier = response.actionIdentifier
         Task { @MainActor in
@@ -205,4 +221,11 @@ extension StretchReminderManager: UNUserNotificationCenterDelegate {
         }
         completionHandler()
     }
+}
+
+// MARK: - Preview
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
 }

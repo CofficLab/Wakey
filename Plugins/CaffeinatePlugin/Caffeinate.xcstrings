@@ -1,578 +1,614 @@
 {
-  "sourceLanguage" : "en",
-  "strings" : {
-    "%lld hours" : {
-      "comment" : "Label for duration in hours",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 小时"
+  "sourceLanguage": "en",
+  "strings": {
+    "%lld hours": {
+      "comment": "Label for duration in hours",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 小时"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 小時"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 小時"
           }
         }
       }
     },
-    "%lld minutes" : {
-      "comment" : "Label for duration in minutes",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 分钟"
+    "%lld minutes": {
+      "comment": "Label for duration in minutes",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分钟"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 分鐘"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分鐘"
           }
         }
       }
     },
-    "Actions" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "操作"
+    "Actions": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "操作"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作"
           }
         }
       }
     },
-    "Anti-sleep mode enabled via Wakey" : {
-      "comment" : "Reason shown in system power assertions when anti-sleep is active",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用户通过 Wakey 开启了防休眠模式"
+    "Anti-sleep mode enabled via Wakey": {
+      "comment": "Reason shown in system power assertions when anti-sleep is active",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用户通过 Wakey 开启了防休眠模式"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用戶通過 Wakey 開啟了防休眠模式"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用戶通過 Wakey 開啟了防休眠模式"
           }
         }
       }
     },
-    "Auto-restore Timer" : {
-      "comment" : "Feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "定时自动恢复"
+    "Auto-restore Timer": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定时自动恢复"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "定時自動恢復"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定時自動恢復"
           }
         }
       }
     },
-    "Caffeinate" : {
-      "comment" : "Name of the anti-sleep plugin",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "防休眠"
+    "Caffeinate": {
+      "comment": "Name of the anti-sleep plugin",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "防休眠"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "防休眠"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "防休眠"
           }
         }
       }
     },
-    "Caffeinate Poster" : {
-      "comment" : "Name of the caffeinate poster plugin"
-    },
-    "Click to prevent system from entering sleep mode" : {
-      "comment" : "Feature description",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "点击即可阻止系统进入睡眠模式"
+    "Caffeinate Poster": {
+      "comment": "Name of the caffeinate poster plugin",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "防休眠海报"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "點擊即可阻止系統進入睡眠模式"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "防休眠海報"
           }
         }
       }
     },
-    "Display Always On" : {
-      "comment" : "Feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示器常亮"
+    "Click to prevent system from entering sleep mode": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击即可阻止系统进入睡眠模式"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "顯示器常亮"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點擊即可阻止系統進入睡眠模式"
           }
         }
       }
     },
-    "Duration" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "时长"
+    "Display Always On": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示器常亮"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "時長"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示器常亮"
           }
         }
       }
     },
-    "Ensure screen stays on during presentations or work" : {
-      "comment" : "Feature description",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "确保演示或工作时屏幕不熄灭"
+    "Duration": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "时长"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "確保演示或工作時螢幕不熄滅"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "時長"
           }
         }
       }
     },
-    "Flexible Options" : {
-
-    },
-    "Force Display Off" : {
-      "comment" : "Feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "强制息屏"
+    "Ensure screen stays on during presentations or work": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确保演示或工作时屏幕不熄灭"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "強制息屏"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "確保演示或工作時螢幕不熄滅"
           }
         }
       }
     },
-    "Immediately force display off while preventing system sleep" : {
-      "comment" : "Feature description",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻止系统休眠的同时，立即强制关闭显示器"
+    "Flexible Options": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "灵活选项"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻止系統休眠的同時，立即強制關閉顯示器"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "靈活選項"
           }
         }
       }
     },
-    "Indefinite" : {
-      "comment" : "Label for infinite duration",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "永久"
+    "Force Display Off": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "强制息屏"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "永久"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "強制息屏"
           }
         }
       }
     },
-    "Keep Awake & Allow Display Sleep" : {
-      "comment" : "Option to keep system awake but allow display to sleep",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻止休眠并允许屏幕关闭"
+    "Immediately force display off while preventing system sleep": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止系统休眠的同时，立即强制关闭显示器"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻止休眠並允許螢幕關閉"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止系統休眠的同時，立即強制關閉顯示器"
           }
         }
       }
     },
-    "Keep Awake & Display On" : {
-      "comment" : "Option to keep both system and display awake",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻止休眠并保持屏幕常亮"
+    "Indefinite": {
+      "comment": "Label for infinite duration",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "永久"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻止休眠並保持螢幕常亮"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "永久"
           }
         }
       }
     },
-    "Keep Awake & Turn Off Display Now" : {
-      "comment" : "Option to keep system awake and turn off display immediately",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻止休眠并立即关闭屏幕"
+    "Keep Awake & Allow Display Sleep": {
+      "comment": "Option to keep system awake but allow display to sleep",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠并允许屏幕关闭"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻止休眠並立即關閉螢幕"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠並允許螢幕關閉"
           }
         }
       }
     },
-    "Keep Screen On" : {
-      "comment" : "Feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保持屏幕常亮"
+    "Keep Awake & Display On": {
+      "comment": "Option to keep both system and display awake",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠并保持屏幕常亮"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保持螢幕常亮"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠並保持螢幕常亮"
           }
         }
       }
     },
-    "Keep system awake, allow display sleep" : {
-      "comment" : "Option to prevent system sleep but allow the monitor to turn off",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻止休眠，允许关闭屏幕"
+    "Keep Awake & Turn Off Display Now": {
+      "comment": "Option to keep system awake and turn off display immediately",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠并立即关闭屏幕"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻止休眠，允許關閉螢幕"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠並立即關閉螢幕"
           }
         }
       }
     },
-    "Keep system awake, prevent display sleep" : {
-      "comment" : "Option to prevent both system and monitor from sleeping",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻止休眠，禁止关闭屏幕"
+    "Keep Screen On": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持屏幕常亮"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻止休眠，禁止關閉螢幕"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持螢幕常亮"
           }
         }
       }
     },
-    "Key Features" : {
-
-    },
-    "Low resource usage, runs silently without interruption" : {
-      "comment" : "Feature description",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "低资源占用，静默运行，不打扰工作"
+    "Keep system awake, allow display sleep": {
+      "comment": "Option to prevent system sleep but allow the monitor to turn off",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠，允许关闭屏幕"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "低資源佔用，靜默運行，不打擾工作"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠，允許關閉螢幕"
           }
         }
       }
     },
-    "Minimalist Design" : {
-      "comment" : "Title for features poster",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "极简设计"
+    "Keep system awake, prevent display sleep": {
+      "comment": "Option to prevent both system and monitor from sleeping",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠，禁止关闭屏幕"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "極簡設計"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠，禁止關閉螢幕"
           }
         }
       }
     },
-    "Multi-mode Support" : {
-      "comment" : "Title for modes poster",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "多模式支持"
+    "Key Features": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "核心功能"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "多模式支持"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "核心功能"
           }
         }
       }
     },
-    "One-click Anti-sleep" : {
-      "comment" : "Feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一键防休眠"
+    "Low resource usage, runs silently without interruption": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "低资源占用，静默运行，不打扰工作"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一鍵防休眠"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "低資源佔用，靜默運行，不打擾工作"
           }
         }
       }
     },
-    "Only prevent system sleep, allow display to sleep as scheduled" : {
-      "comment" : "Feature description",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "仅阻止系统睡眠，允许显示器按计划关闭"
+    "Minimalist Design": {
+      "comment": "Title for features poster",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "极简设计"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "僅阻止系統睡眠，允許顯示器按計劃關閉"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "極簡設計"
           }
         }
       }
     },
-    "Prevent both system and display from entering sleep mode" : {
-      "comment" : "Feature description",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "同时阻止系统和显示器进入睡眠状态"
+    "Multi-mode Support": {
+      "comment": "Title for modes poster",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "多模式支持"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "同時阻止系統和顯示器進入睡眠狀態"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "多模式支持"
           }
         }
       }
     },
-    "Prevent system sleep, supporting scheduled and manual control" : {
-      "comment" : "Description of what the Caffeinate plugin does",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻止系统休眠，支持定时和手动控制"
+    "One-click Anti-sleep": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一键防休眠"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "阻止系統休眠，支援定時和手動控制"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一鍵防休眠"
           }
         }
       }
     },
-    "Provide anti-sleep related poster views" : {
-      "comment" : "Description of what the Caffeinate Poster plugin does"
-    },
-    "Quick Menu" : {
-      "comment" : "Feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "快捷菜单"
+    "Only prevent system sleep, allow display to sleep as scheduled": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅阻止系统睡眠，允许显示器按计划关闭"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "快捷菜單"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "僅阻止系統睡眠，允許顯示器按計劃關閉"
           }
         }
       }
     },
-    "Quickly switch different anti-sleep modes via status bar menu" : {
-      "comment" : "Feature description",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通过状态栏菜单快速切换不同的防休眠模式"
+    "Prevent both system and display from entering sleep mode": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同时阻止系统和显示器进入睡眠状态"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通過狀態欄菜單快速切換不同的防休眠模式"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同時阻止系統和顯示器進入睡眠狀態"
           }
         }
       }
     },
-    "Set a specific duration, system restores sleep after time ends" : {
-      "comment" : "Feature description",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "设置特定时长，结束后自动恢复系统休眠"
+    "Prevent system sleep, supporting scheduled and manual control": {
+      "comment": "Description of what the Caffeinate plugin does",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止系统休眠，支持定时和手动控制"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "設置特定時長，結束後自動恢復系統休眠"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止系統休眠，支援定時和手動控制"
           }
         }
       }
     },
-    "Simple and pure anti-sleep tool" : {
-      "comment" : "Slogan of the anti-sleep plugin",
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "简单纯粹的防休眠工具"
+    "Provide anti-sleep related poster views": {
+      "comment": "Description of what the Caffeinate Poster plugin does",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提供防休眠相关的海报视图"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "簡單純粹的防休眠工具"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提供防休眠相關的海報視圖"
           }
         }
       }
     },
-    "Status Bar Control" : {
-      "comment" : "Title for status bar poster",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "状态栏控制"
+    "Quick Menu": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷菜单"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "狀態欄控制"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷菜單"
           }
         }
       }
     },
-    "System Anti-sleep" : {
-      "comment" : "Feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "系统防休眠"
+    "Quickly switch different anti-sleep modes via status bar menu": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通过状态栏菜单快速切换不同的防休眠模式"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "系統防休眠"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通過狀態欄菜單快速切換不同的防休眠模式"
           }
         }
       }
     },
-    "Ultra Lightweight" : {
-      "comment" : "Feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "极致轻量"
+    "Set a specific duration, system restores sleep after time ends": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置特定时长，结束后自动恢复系统休眠"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "極致輕量"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設置特定時長，結束後自動恢復系統休眠"
+          }
+        }
+      }
+    },
+    "Status Bar Control": {
+      "comment": "Title for status bar poster",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "状态栏控制"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "狀態欄控制"
+          }
+        }
+      }
+    },
+    "System Anti-sleep": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统防休眠"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系統防休眠"
+          }
+        }
+      }
+    },
+    "Ultra Lightweight": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "极致轻量"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "極致輕量"
           }
         }
       }
     }
   },
-  "version" : "1.1"
+  "version": "1.1"
 }

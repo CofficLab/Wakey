@@ -1,127 +1,243 @@
 {
-  "sourceLanguage" : "en",
-  "strings" : {
-    "Customize reminder intervals and other parameters" : {
-      "comment" : "Feature description",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自定义提醒间隔和其他参数"
+  "sourceLanguage": "en",
+  "strings": {
+    "Customize reminder intervals and other parameters": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义提醒间隔等参数"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定義提醒間隔等參數"
           }
         }
       }
     },
-    "Flexible Configuration" : {
-      "comment" : "Feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "灵活配置"
+    "Flexible Configuration": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "灵活配置"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "靈活配置"
           }
         }
       }
     },
-    "Hydration" : {
-      "comment" : "Poster title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "补水"
+    "Hydration": {
+      "comment": "Poster title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "补水"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "補水"
           }
         }
       }
     },
-    "Hydration Poster" : {
-      "comment" : "Name of the hydration poster plugin"
-    },
-    "Hydration Reminder" : {
-      "comment" : "Poster feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "补水提醒"
+    "Hydration Poster": {
+      "comment": "Name of the hydration poster plugin",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "补水提醒海报"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "補水提醒海報"
           }
         }
       }
     },
-    "Keep your body and mind in top condition" : {
-      "comment" : "Feature description",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "让您的身心保持在最佳状态"
+    "Hydration Reminder": {
+      "comment": "Poster feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "补水提醒"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "補水提醒"
           }
         }
       }
     },
-    "Key Features" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "主要功能"
+    "Keep your body and mind in top condition": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持身心最佳状态"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持身心最佳狀態"
           }
         }
       }
     },
-    "Provide hydration related poster views" : {
-      "comment" : "Description of what the Hydration Poster plugin does"
-    },
-    "Remind you to drink water regularly" : {
-      "comment" : "Feature description",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "提醒您定期饮水"
+    "Key Features": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "核心功能"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "核心功能"
           }
         }
       }
     },
-    "Scheduled Reminder" : {
-      "comment" : "Feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "定时提醒"
+    "Provide hydration related poster views": {
+      "comment": "Description of what the Hydration Poster plugin does",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提供补水相关的海报视图"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提供補水相關的海報視圖"
           }
         }
       }
     },
-    "Stay Hydrated" : {
-      "comment" : "Feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保持水分"
+    "Remind you to drink water regularly": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定时提醒你喝水"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定時提醒你喝水"
           }
         }
       }
     },
-    "Stay hydrated, stay focused" : {
-      "comment" : "Poster subtitle",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "补充水分，保持专注"
+    "Scheduled Reminder": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定时提醒"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定時提醒"
           }
         }
       }
     },
-    "Time for a Break!" : {
-      "comment" : "Demo title"
+    "Stay Hydrated": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持水分"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持水分"
+          }
+        }
+      }
     },
-    "You've been working for 2 hours" : {
-      "comment" : "Demo description"
+    "Stay hydrated, stay focused": {
+      "comment": "Poster subtitle",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持水分，保持专注"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保持水分，保持專注"
+          }
+        }
+      }
+    },
+    "Time for a Break!": {
+      "comment": "Demo title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "该休息了！"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "該休息了！"
+          }
+        }
+      }
+    },
+    "You've been working for 2 hours": {
+      "comment": "Demo description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已经工作了 2 小时"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已經工作了 2 小時"
+          }
+        }
+      }
     }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

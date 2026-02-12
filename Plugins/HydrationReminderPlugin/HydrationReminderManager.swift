@@ -13,6 +13,8 @@ class HydrationReminderManager: NSObject, SuperLog {
     nonisolated static let verbose: Bool = true
 
     static let shared = HydrationReminderManager()
+    
+    private let userDefaultsKey = "HydrationReminderInterval"
 
     private(set) var isActive: Bool = false
     private(set) var selectedInterval: TimeInterval = 2 * 60 * 60 // Default 2 hours
@@ -29,9 +31,17 @@ class HydrationReminderManager: NSObject, SuperLog {
 
     private(set) var permissionStatus: PermissionStatus = .notDetermined
     private(set) var notificationPermissionGranted: Bool = false
+    private var currentOverlayWindow: HydrationReminderOverlayWindow?
 
     private override init() {
         super.init()
+        
+        // Load persisted interval
+        let savedInterval = UserDefaults.standard.double(forKey: userDefaultsKey)
+        if savedInterval > 0 {
+            self.selectedInterval = savedInterval
+        }
+
         if Self.verbose {
             os_log("\(self.t)HydrationReminderManager initialized")
         }
@@ -94,6 +104,7 @@ class HydrationReminderManager: NSObject, SuperLog {
 
     func updateInterval(_ interval: TimeInterval) {
         selectedInterval = interval
+        UserDefaults.standard.set(interval, forKey: userDefaultsKey)
         if isActive {
             scheduleNextBreak()
         }
@@ -127,8 +138,8 @@ class HydrationReminderManager: NSObject, SuperLog {
     }
 
     private func showDesktopGradient() {
-        let overlayWindow = HydrationReminderOverlayWindow()
-        overlayWindow.showAndFadeOut()
+        currentOverlayWindow = HydrationReminderOverlayWindow()
+        currentOverlayWindow?.showAndFadeOut()
     }
 
     private func scheduleNotification(in interval: TimeInterval) {
@@ -173,8 +184,8 @@ extension HydrationReminderManager {
         }
         var displayName: String {
             switch self {
-            case .minutes(let m): return String(localized: "\(m) min", table: "HydrationReminder")
-            case .hours(let h): return String(localized: "\(h) hr", table: "HydrationReminder")
+            case .minutes(let m): return "\(m) min"
+            case .hours(let h): return "\(h) hr"
             }
         }
         var timeInterval: TimeInterval {
@@ -185,6 +196,7 @@ extension HydrationReminderManager {
         }
     }
     static let commonIntervals: [IntervalOption] = [
+        .minutes(10),
         .minutes(30),
         .hours(1),
         .hours(2),

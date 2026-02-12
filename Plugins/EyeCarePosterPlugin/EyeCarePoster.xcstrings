@@ -1,139 +1,243 @@
 {
-  "sourceLanguage" : "en",
-  "strings" : {
-    "20-20-20 Rule" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "20-20-20 法则"
+  "sourceLanguage": "en",
+  "strings": {
+    "Automatically remind you to rest your eyes": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动提醒你休息眼睛"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動提醒你休息眼睛"
           }
         }
       }
     },
-    "Automatically remind you to rest your eyes" : {
-      "comment" : "Feature description"
-    },
-    "Customize reminder intervals and other parameters" : {
-      "comment" : "Feature description",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自定义提醒间隔和其他参数"
+    "Customize reminder intervals and other parameters": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义提醒间隔等参数"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定義提醒間隔等參數"
           }
         }
       }
     },
-    "Eye Care" : {
-      "comment" : "Poster title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "护眼"
+    "Eye Care": {
+      "comment": "Poster title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "护眼"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "護眼"
           }
         }
       }
     },
-    "Eye Care Poster" : {
-      "comment" : "Name of the eye care poster plugin"
-    },
-    "Eye Care Reminder" : {
-      "comment" : "Poster feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "护眼提醒"
+    "Eye Care Poster": {
+      "comment": "Name of the eye care poster plugin",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "护眼海报"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "護眼海報"
           }
         }
       }
     },
-    "Flexible Configuration" : {
-      "comment" : "Feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "灵活配置"
+    "Eye Care Reminder": {
+      "comment": "Poster feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "护眼提醒"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "護眼提醒"
           }
         }
       }
     },
-    "Follow the 20-20-20 rule to protect your vision" : {
-      "comment" : "Feature description"
-    },
-    "Help you follow the professional eye care advice" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "帮助您遵循专业的护眼建议"
+    "Flexible Configuration": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "灵活配置"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "靈活配置"
           }
         }
       }
     },
-    "Key Features" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "主要功能"
+    "Follow the 20-20-20 rule to protect your vision": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "遵循20-20-20法则保护视力"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "遵循20-20-20法則保護視力"
           }
         }
       }
     },
-    "Protect your eyes, stay productive" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保护视力，高效工作"
+    "Key Features": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "核心功能"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "核心功能"
           }
         }
       }
     },
-    "Protect your eyes, take breaks regularly" : {
-      "comment" : "Poster subtitle"
-    },
-    "Provide eye care related poster views" : {
-      "comment" : "Description of what the Eye Care Poster plugin does"
-    },
-    "Remind you to rest your eyes every 20 minutes" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每20分钟提醒您休息眼睛"
+    "Protect your eyes, take breaks regularly": {
+      "comment": "Poster subtitle",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保护眼睛，定期休息"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保護眼睛，定期休息"
           }
         }
       }
     },
-    "Scheduled Reminder" : {
-      "comment" : "Feature title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "定时提醒"
+    "Provide eye care related poster views": {
+      "comment": "Description of what the Eye Care Poster plugin does",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提供护眼相关的海报视图"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提供護眼相關的海報視圖"
           }
         }
       }
     },
-    "Scientific Method" : {
-      "comment" : "Feature title"
+    "Scheduled Reminder": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定时提醒"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定時提醒"
+          }
+        }
+      }
     },
-    "Time for a Break!" : {
-      "comment" : "Demo title"
+    "Scientific Method": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "科学方法"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "科學方法"
+          }
+        }
+      }
     },
-    "You've been working for 20 minutes" : {
-      "comment" : "Demo description"
+    "Time for a Break!": {
+      "comment": "Demo title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "该休息了！"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "該休息了！"
+          }
+        }
+      }
+    },
+    "You've been working for 20 minutes": {
+      "comment": "Demo description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已经工作了 20 分钟"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已經工作了 20 分鐘"
+          }
+        }
+      }
     }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

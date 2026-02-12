@@ -13,6 +13,7 @@ struct HydrationReminderPopupView: View {
                     .font(.system(size: 11, weight: .semibold))
                     .foregroundColor(.primary)
                 Spacer()
+                HydrationReminderControls()
             }
             .padding(.horizontal, 12)
             .padding(.top, 8)
@@ -34,15 +35,6 @@ struct HydrationReminderPopupView: View {
                     .padding(.horizontal, 12)
                     .padding(.top, 4)
                 HydrationIntervalPicker()
-            }
-            Divider().padding(.horizontal, 12).padding(.vertical, 4)
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Actions", tableName: "HydrationReminder")
-                    .font(.system(size: 9))
-                    .foregroundColor(.secondary)
-                    .padding(.horizontal, 12)
-                    .padding(.top, 4)
-                HydrationReminderControls()
             }
             if manager.permissionStatus == .denied {
                 HydrationNotificationPermissionWarning(manager: manager).padding(.top, 8)
@@ -83,4 +75,11 @@ struct HydrationNotificationPermissionWarning: View {
         }
         .padding(10).background(Color.orange.opacity(0.05)).cornerRadius(8).padding(.horizontal, 12)
     }
+}
+
+// MARK: - Preview
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
 }
