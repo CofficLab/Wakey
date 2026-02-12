@@ -1,17 +1,17 @@
 import MagicKit
 import SwiftUI
 
-/// 防休眠插件的状态栏弹窗视图
+/// Status bar popup view for the Caffeinate plugin
 struct CaffeinatePopupView: View {
     var body: some View {
         VStack(spacing: 0) {
-            // 第一区块：时间选项
+            // Section 1: Duration Options
             CaffeinateDurationPicker()
 
             Divider()
                 .padding(.horizontal, 12)
 
-            // 第二区块：快捷菜单
+            // Section 2: Quick Actions
             CaffeinateQuickActions()
         }
         .padding(.vertical, 8)

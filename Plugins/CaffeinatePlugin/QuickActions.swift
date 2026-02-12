@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// 防休眠快捷操作组件
+/// Anti-sleep quick actions component
 struct CaffeinateQuickActions: View {
     @Environment(\.demoModeActivated) private var demoModeActivated
     @State private var manager = CaffeinateManager.shared
@@ -8,7 +8,7 @@ struct CaffeinateQuickActions: View {
     var body: some View {
         VStack(spacing: 0) {
             QuickActionMenuItem(
-                title: "防止休眠且屏幕常亮",
+                title: "Keep Awake & Display On",
                 icon: "sun.max.fill",
                 color: .orange,
                 isSelected: demoModeActivated ? true : (manager.activeAction == .systemAndDisplay),
@@ -23,7 +23,7 @@ struct CaffeinateQuickActions: View {
                 .padding(.leading, 36)
 
             QuickActionMenuItem(
-                title: "防止休眠且允许屏幕关闭",
+                title: "Keep Awake & Allow Display Sleep",
                 icon: "moon.fill",
                 color: .blue,
                 isSelected: demoModeActivated ? false : (manager.activeAction == .systemOnly),
@@ -38,13 +38,13 @@ struct CaffeinateQuickActions: View {
                 .padding(.leading, 36)
 
             QuickActionMenuItem(
-                title: "防止休眠且立刻关闭屏幕",
+                title: "Keep Awake & Turn Off Display Now",
                 icon: "power",
                 color: .purple,
-                showCheckmark: false, // 瞬时操作，不显示对号
+                showCheckmark: false, // Instant action, no checkmark
                 action: {
                     if !demoModeActivated {
-                        // 立即关闭屏幕，并切换到"允许关闭"模式
+                        // Turn off display immediately and switch to "systemOnly" mode
                         manager.activateAndTurnOffDisplay(duration: manager.selectedDuration)
                     }
                 }
@@ -53,14 +53,14 @@ struct CaffeinateQuickActions: View {
         .padding(.vertical, 4)
     }
 
-    // MARK: - 辅助方法
+    // MARK: - Helper Methods
 
     private func toggleAction(_ action: CaffeinateManager.QuickActionType) {
         if manager.activeAction == action {
-            // 点击已选中的项，取消选中并停止
+            // Clicking the selected item deactivates it
             manager.deactivate()
         } else {
-            // 选中新项并启动
+            // Select new item and activate
             activateAction(action)
         }
     }
@@ -77,14 +77,14 @@ struct CaffeinateQuickActions: View {
     }
 }
 
-// MARK: - 快捷菜单项
+// MARK: - Quick Action Menu Item
 
 private struct QuickActionMenuItem: View {
     let title: String
     let icon: String
     let color: Color
     var isSelected: Bool = false
-    var showCheckmark: Bool? = nil // nil 表示根据 isSelected 自动决定
+    var showCheckmark: Bool? = nil // nil means automatic based on isSelected
     let action: () -> Void
 
     @State private var isHovering = false
@@ -110,7 +110,7 @@ private struct QuickActionMenuItem: View {
 
                 Spacer()
 
-                // 显示对号
+                // Show checkmark
                 if shouldShowCheckmark {
                     Image(systemName: "checkmark")
                         .font(.system(size: 10, weight: .semibold))

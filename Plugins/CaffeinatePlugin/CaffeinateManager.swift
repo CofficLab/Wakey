@@ -5,7 +5,7 @@ import Observation
 import OSLog
 import SwiftUI
 
-/// 防休眠管理器：负责管理系统电源状态
+/// Anti-sleep manager: responsible for managing system power states
 @MainActor
 @Observable
 class CaffeinateManager: SuperLog {
@@ -18,57 +18,57 @@ class CaffeinateManager: SuperLog {
 
     // MARK: - Properties
 
-    /// 当前是否激活防休眠
+    /// Whether anti-sleep is currently active
     private(set) var isActive: Bool = false
 
-    /// 当前激活的操作类型，为 nil 表示未激活
+    /// Currently active action type, nil if not active
     private(set) var activeAction: QuickActionType?
 
-    /// 用户当前选择的时长（秒），用于下次激活或更新当前激活
+    /// Duration selected by the user (seconds), used for next activation or updating current activation
     var selectedDuration: TimeInterval = 0
 
-    /// 激活开始时间
+    /// Activation start time
     private(set) var startTime: Date?
 
-    /// 预设持续时间（秒），0 表示永久
+    /// Preset duration (seconds), 0 for indefinite
     private(set) var duration: TimeInterval = 0
 
     private(set) var mode: SleepMode = .systemAndDisplay
 
-    /// IOKit 断言 ID
+    /// IOKit assertion ID
     private var assertionID: IOPMAssertionID = 0
 
     private var displayAssertionID: IOPMAssertionID = 0
 
-    /// 定时器（用于定时模式）
+    /// Timer (for timed mode)
     private var timer: Timer?
 
     // MARK: - Initialization
 
     private init() {
         if Self.verbose {
-            os_log("\(self.t)CaffeinateManager 已初始化")
+            os_log("\(self.t)CaffeinateManager initialized")
         }
     }
 
-    // MARK: - 公共方法
+    // MARK: - Public Methods
 
-    /// 激活防休眠
-    /// - Parameter duration: 持续时间（秒），0 表示永久
+    /// Activate anti-sleep
+    /// - Parameter duration: Duration (seconds), 0 for indefinite
     func activate(duration: TimeInterval = 0) {
         activate(mode: .systemAndDisplay, duration: duration)
     }
 
-    /// 激活防休眠并立即关闭屏幕
+    /// Activate anti-sleep and turn off display immediately
     func activateAndTurnOffDisplay(duration: TimeInterval = 0) {
-        // 1. 激活防休眠（仅系统，允许屏幕关闭）
+        // 1. Activate anti-sleep (system only, allowing display sleep)
         activate(mode: .systemOnly, duration: duration)
 
-        // 2. 更新状态
+        // 2. Update state
         self.activeAction = .systemOnly
         self.selectedDuration = duration
 
-        // 3. 关闭屏幕
+        // 3. Turn off display
         turnOffDisplay()
     }
 
@@ -79,20 +79,20 @@ class CaffeinateManager: SuperLog {
         do {
             try task.run()
         } catch {
-            os_log(.error, "\(self.t)关闭显示器失败: \(error.localizedDescription)")
+            os_log(.error, "\(self.t)Failed to turn off display: \(error.localizedDescription)")
         }
     }
 
     func activate(mode: SleepMode, duration: TimeInterval = 0) {
         guard !isActive else {
             if Self.verbose {
-                os_log("\(self.t)防休眠已激活，忽略重复请求")
+                os_log("\(self.t)Anti-sleep already active, ignoring duplicate request")
             }
             return
         }
 
         self.mode = mode
-        let reason = "用户通过 Wakey 开启了防休眠模式" as NSString
+        let reason = "Anti-sleep mode enabled via Wakey" as NSString
 
         let systemResult = IOPMAssertionCreateWithName(
             kIOPMAssertionTypePreventUserIdleSystemSleep as CFString,
@@ -124,12 +124,12 @@ class CaffeinateManager: SuperLog {
                 os_log("\(self.t)Caffeinate activated successfully with duration: \(duration)s")
             }
 
-            // 如果设置了定时，启动定时器
+            // If timed, start timer
             if duration > 0 {
                 startTimer(duration: duration)
             }
 
-            // 通知系统更新状态栏外观
+            // Notify system to update status bar appearance
             NotificationCenter.postRequestStatusBarAppearanceUpdate(isActive: true, source: "CaffeinatePlugin")
         } else {
             if systemResult != kIOReturnSuccess {
@@ -149,7 +149,7 @@ class CaffeinateManager: SuperLog {
         }
     }
 
-    /// 停用防休眠
+    /// Deactivate anti-sleep
     func deactivate() {
         guard isActive else {
             if Self.verbose {
@@ -169,7 +169,7 @@ class CaffeinateManager: SuperLog {
             assertionID = 0
             displayAssertionID = 0
 
-            // 停止定时器
+            // Stop timer
             timer?.invalidate()
             timer = nil
 
@@ -177,19 +177,19 @@ class CaffeinateManager: SuperLog {
                 os_log("\(self.t)Caffeinate deactivated successfully")
             }
 
-            // 通知系统恢复状态栏外观
+            // Notify system to restore status bar appearance
             NotificationCenter.postRequestStatusBarAppearanceUpdate(isActive: false, source: "CaffeinatePlugin")
         } else {
             if systemResult != kIOReturnSuccess {
-                os_log(.error, "\(self.t)释放系统休眠断言失败: \(systemResult)")
+                os_log(.error, "\(self.t)Failed to release system sleep assertion: \(systemResult)")
             }
             if displayResult != kIOReturnSuccess {
-                os_log(.error, "\(self.t)释放显示休眠断言失败: \(displayResult)")
+                os_log(.error, "\(self.t)Failed to release display sleep assertion: \(displayResult)")
             }
         }
     }
 
-    /// 切换防休眠状态
+    /// Toggle anti-sleep state
     func toggle() {
         if isActive {
             deactivate()
@@ -198,8 +198,8 @@ class CaffeinateManager: SuperLog {
         }
     }
 
-    /// 获取已激活的持续时间
-    /// - Returns: 激活至今的时间间隔（秒），如果未激活则返回 nil
+    /// Get the duration since activation
+    /// - Returns: Time interval since activation (seconds), or nil if not active
     func getActiveDuration() -> TimeInterval? {
         guard let start = startTime else { return nil }
         return Date().timeIntervalSince(start)
@@ -207,8 +207,8 @@ class CaffeinateManager: SuperLog {
 
     // MARK: - Private Methods
 
-    /// 启动定时器
-    /// - Parameter duration: 持续时间（秒）
+    /// Start timer
+    /// - Parameter duration: Duration (seconds)
     private func startTimer(duration: TimeInterval) {
         timer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { [weak self] _ in
             Task { @MainActor [weak self] in
@@ -227,17 +227,17 @@ class CaffeinateManager: SuperLog {
     // MARK: - Cleanup
 
     deinit {
-        // 注意：作为 @MainActor 类，deinit 在主线程执行
-        // 但 deinit 不能访问 actor-isolated 属性
+        // Note: As a @MainActor class, deinit is executed on the main thread
+        // However, deinit cannot access actor-isolated properties
         //
-        // 正常情况下，资源应该通过 deactivate() 清理
-        // deactivate() 已经清理了：
-        //   - IOKit 断言 (assertionID, displayAssertionID)
+        // Normally, resources should be cleaned up via deactivate()
+        // deactivate() already cleans up:
+        //   - IOKit assertions (assertionID, displayAssertionID)
         //   - Timer
         //
-        // 如果对象在没有 deactivate 的情况下被释放，
-        // 系统会自动清理 IOKit 断言（进程结束时）
-        // Timer 也会被自动释放
+        // If the object is released without deactivate,
+        // the system automatically cleans up IOKit assertions (when process ends)
+        // Timer will also be automatically released
     }
 }
 
@@ -247,18 +247,18 @@ extension CaffeinateManager {
     enum SleepMode: String, CaseIterable {
         case systemOnly
         case systemAndDisplay
-
+        
         var displayName: String {
             switch self {
             case .systemOnly:
-                return "阻止休眠，允许关闭屏幕"
+                return "Keep system awake, allow display sleep"
             case .systemAndDisplay:
-                return "阻止休眠，禁止关闭屏幕"
+                return "Keep system awake, prevent display sleep"
             }
         }
     }
 
-    /// 预设的时间选项
+    /// Preset duration options
     enum DurationOption: Hashable, Equatable {
         case indefinite
         case minutes(Int)
@@ -267,11 +267,11 @@ extension CaffeinateManager {
         var displayName: String {
             switch self {
             case .indefinite:
-                return "永久"
+                return "Indefinite"
             case let .minutes(m):
-                return "\(m) 分钟"
+                return "\(m) minutes"
             case let .hours(h):
-                return "\(h) 小时"
+                return "\(h) hours"
             }
         }
 
@@ -287,14 +287,14 @@ extension CaffeinateManager {
         }
     }
 
-    /// 快捷操作类型
+    /// Quick action types
     enum QuickActionType: Equatable {
-        case systemAndDisplay // 防止休眠且屏幕常亮
-        case systemOnly // 防止休眠且允许屏幕关闭
-        case turnOffDisplay // 防止休眠且立刻关闭屏幕
+        case systemAndDisplay // Prevent sleep and keep display on
+        case systemOnly // Prevent sleep and allow display to turn off
+        case turnOffDisplay // Prevent sleep and turn off display immediately
     }
 
-    /// 常用的时间选项列表
+    /// Common duration options list
     static let commonDurations: [DurationOption] = [
         .indefinite,
         .minutes(10),

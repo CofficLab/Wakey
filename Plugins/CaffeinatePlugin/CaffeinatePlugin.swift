@@ -5,43 +5,42 @@ import MagicKit
 import OSLog
 import SwiftUI
 
-/// 防休眠插件：阻止系统休眠，支持定时和手动控制
-/// 防休眠插件：阻止系统休眠，支持定时和手动控制
+/// Anti-sleep plugin: prevents system sleep, supports scheduled and manual control
 actor CaffeinatePlugin: SuperPlugin, SuperLog {
     // MARK: - Plugin Properties
 
-    /// 日志标识符
+    /// Log identifier
     nonisolated static let emoji = "☕️"
 
-    /// 是否启用该插件
+    /// Whether to enable this plugin
     nonisolated(unsafe) static let enable = true
 
-    /// 是否启用详细日志输出
+    /// Whether to enable detailed log output
     nonisolated static let verbose = true
 
-    /// 插件唯一标识符
+    /// Plugin unique identifier
     nonisolated(unsafe) static var id: String = "CaffeinatePlugin"
 
     static let navigationId = "\(id).settings"
 
-    /// 插件显示名称
-    nonisolated(unsafe) static var displayName: String = "防休眠"
+    /// Plugin display name
+    nonisolated(unsafe) static var displayName: String = "Caffeinate"
 
-    /// 插件功能描述
-    nonisolated(unsafe) static var description: String = "阻止系统休眠，支持定时和手动控制"
+    /// Plugin functional description
+    nonisolated(unsafe) static var description: String = "Prevent system sleep, supporting scheduled and manual control"
 
-    /// 插件图标名称
+    /// Plugin icon name
     nonisolated(unsafe) static var iconName: String = "bolt"
 
-    /// 是否可配置
+    /// Whether it is configurable
     nonisolated(unsafe) static var isConfigurable: Bool = true
 
-    /// 注册顺序
+    /// Registration order
     nonisolated(unsafe) static var order: Int { 7 }
 
     // MARK: - Instance
 
-    /// 插件实例标签（用于识别唯一实例）
+    /// Plugin instance label (used to identify unique instance)
     nonisolated var instanceLabel: String {
         Self.id
     }
@@ -50,8 +49,8 @@ actor CaffeinatePlugin: SuperPlugin, SuperLog {
 
     // MARK: - UI Contributions
 
-    /// 添加状态栏弹窗视图
-    /// - Returns: 要添加到状态栏弹窗的视图，如果不需要则返回nil
+    /// Add status bar popup view
+    /// - Returns: View to be added to the status bar popup, or nil if not needed
     @MainActor func addStatusBarPopupView() -> AnyView? {
         AnyView(CaffeinatePopupView())
     }

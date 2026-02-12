@@ -1,15 +1,15 @@
 import SwiftUI
 
-/// 防休眠时间选择组件
+/// Anti-sleep duration picker component
 struct CaffeinateDurationPicker: View {
     @State private var manager = CaffeinateManager.shared
     
     private let quickDurations: [(title: String, value: TimeInterval)] = [
-        ("永久", 0),
-        ("10分钟", 600),
-        ("1小时", 3600),
-        ("2小时", 7200),
-        ("5小时", 18000),
+        ("Indefinite", 0),
+        ("10 mins", 600),
+        ("1 hr", 3600),
+        ("2 hrs", 7200),
+        ("5 hrs", 18000),
     ]
     
     var body: some View {
@@ -21,7 +21,7 @@ struct CaffeinateDurationPicker: View {
                     action: {
                         manager.selectedDuration = option.value
                         
-                        // 如果防休眠正在运行，重新计时
+                        // If anti-sleep is running, restart timer
                         if manager.isActive, let action = manager.activeAction {
                             switch action {
                             case .systemAndDisplay:
@@ -40,7 +40,7 @@ struct CaffeinateDurationPicker: View {
     }
 }
 
-// MARK: - 时间选择按钮
+// MARK: - Duration Selection Button
 
 private struct PopupDurationButton: View {
     let title: String
