@@ -43,7 +43,7 @@ actor WakeyIntroPlugin: SuperPlugin, SuperLog {
             PosterViewConfiguration(
                 id: "wakey.intro",
                 title: String(localized: "Wakey Introduction", table: "WakeyIntro"),
-                subtitle: String(localized: "Simple and pure anti-sleep tool", table: "WakeyIntro"),
+                subtitle: String(localized: "Your work companion", table: "WakeyIntro"),
                 order: 0
             ) {
                 WakeyIntroPoster()

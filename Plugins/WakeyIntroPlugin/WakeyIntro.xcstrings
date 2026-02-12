@@ -33,18 +33,18 @@
         }
       }
     },
-    "Simple and pure anti-sleep tool": {
+    "Your work companion": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "简单纯粹的防休眠工具"
+            "value": "你的工作伴侣"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "簡單純粹的防休眠工具"
+            "value": "你的工作伴侶"
           }
         }
       }

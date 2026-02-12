@@ -10,7 +10,7 @@ struct WakeyIntroPoster: View {
                     Text("Wakey")
                         .asPosterTitle(in: geo)
 
-                    Text(String(localized: "Simple and pure anti-sleep tool", table: "WakeyIntro", comment: "Slogan of Wakey app"))
+                    Text(String(localized: "Your work companion", table: "WakeyIntro", comment: "Slogan of Wakey app"))
                         .asPosterSubTitle(in: geo)
                 }
                 .frame(width: geo.size.width * 0.5)
