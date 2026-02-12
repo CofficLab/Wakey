@@ -11,17 +11,19 @@ class MacAgent: NSObject, NSApplicationDelegate, SuperLog {
 
     // MARK: - Controllers
 
-    /// 状态栏控制器
+    /// 状态栏控制器，管理菜单栏图标和弹窗
     private var statusBarController: StatusBarController?
 
-    /// 插件提供者
+    /// 插件提供者，管理所有加载的插件
     private var pluginProvider: PluginProvider?
 
-    /// 应用提供者
+    /// 应用提供者，提供核心业务逻辑
     private var appProvider: AppProvider?
 
     // MARK: - Application Lifecycle
 
+    /// 应用启动完成回调
+    /// - Parameter notification: 启动通知
     func applicationDidFinishLaunching(_ notification: Notification) {
         if Self.verbose {
             os_log("\(self.t)应用启动完成")
@@ -34,6 +36,8 @@ class MacAgent: NSObject, NSApplicationDelegate, SuperLog {
         NotificationCenter.postApplicationDidFinishLaunching()
     }
 
+    /// 应用即将退出回调
+    /// - Parameter notification: 退出通知
     func applicationWillTerminate(_ notification: Notification) {
         if Self.verbose {
             os_log("\(self.t)应用即将终止")
@@ -45,6 +49,8 @@ class MacAgent: NSObject, NSApplicationDelegate, SuperLog {
         NotificationCenter.postApplicationWillTerminate()
     }
 
+    /// 应用进入前台活跃状态回调
+    /// - Parameter notification: 活跃通知
     func applicationDidBecomeActive(_ notification: Notification) {
         if Self.verbose {
             os_log("\(self.t)应用变为活跃状态")
@@ -54,6 +60,8 @@ class MacAgent: NSObject, NSApplicationDelegate, SuperLog {
         NotificationCenter.postApplicationDidBecomeActive()
     }
 
+    /// 应用退出前台非活跃状态回调
+    /// - Parameter notification: 非活跃通知
     func applicationDidResignActive(_ notification: Notification) {
         if Self.verbose {
             os_log("\(self.t)应用变为非活跃状态")

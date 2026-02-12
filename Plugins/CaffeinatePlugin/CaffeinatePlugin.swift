@@ -23,24 +23,24 @@ actor CaffeinatePlugin: SuperPlugin, SuperLog {
 
     static let navigationId = "\(id).settings"
 
-    /// Plugin display name
-    nonisolated(unsafe) static var displayName: String = "Caffeinate"
+    /// 插件显示名称
+    nonisolated(unsafe) static var displayName: String = String(localized: "Caffeinate", table: "Caffeinate", comment: "Name of the anti-sleep plugin")
 
-    /// Plugin functional description
-    nonisolated(unsafe) static var description: String = "Prevent system sleep, supporting scheduled and manual control"
+    /// 插件功能描述
+    nonisolated(unsafe) static var description: String = String(localized: "Prevent system sleep, supporting scheduled and manual control", table: "Caffeinate", comment: "Description of what the Caffeinate plugin does")
 
-    /// Plugin icon name
+    /// 插件图标名称
     nonisolated(unsafe) static var iconName: String = "bolt"
 
-    /// Whether it is configurable
+    /// 是否可配置
     nonisolated(unsafe) static var isConfigurable: Bool = true
 
-    /// Registration order
+    /// 注册顺序
     nonisolated(unsafe) static var order: Int { 7 }
 
     // MARK: - Instance
 
-    /// Plugin instance label (used to identify unique instance)
+    /// 插件实例标签（用于识别唯一实例）
     nonisolated var instanceLabel: String {
         Self.id
     }
@@ -49,8 +49,8 @@ actor CaffeinatePlugin: SuperPlugin, SuperLog {
 
     // MARK: - UI Contributions
 
-    /// Add status bar popup view
-    /// - Returns: View to be added to the status bar popup, or nil if not needed
+    /// 添加状态栏弹出视图
+    /// - Returns: 要添加到状态栏弹出的视图，如果不需要则返回 nil
     @MainActor func addStatusBarPopupView() -> AnyView? {
         AnyView(CaffeinatePopupView())
     }

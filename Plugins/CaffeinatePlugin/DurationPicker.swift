@@ -4,7 +4,7 @@ import SwiftUI
 struct CaffeinateDurationPicker: View {
     @State private var manager = CaffeinateManager.shared
     
-    private let quickDurations: [(title: String, value: TimeInterval)] = [
+    private let quickDurations: [(title: LocalizedStringKey, value: TimeInterval)] = [
         ("Indefinite", 0),
         ("10 mins", 600),
         ("1 hr", 3600),
@@ -12,16 +12,17 @@ struct CaffeinateDurationPicker: View {
         ("5 hrs", 18000),
     ]
     
+    /// 持续时间选择器的视图主体
     var body: some View {
         HStack(spacing: 4) {
-            ForEach(quickDurations, id: \.value) { option in
+            ForEach(quickDurations, id: \.value.self) { option in
                 PopupDurationButton(
                     title: option.title,
                     isSelected: manager.selectedDuration == option.value,
                     action: {
                         manager.selectedDuration = option.value
                         
-                        // If anti-sleep is running, restart timer
+                        // 如果防休眠正在运行，则重启计时器
                         if manager.isActive, let action = manager.activeAction {
                             switch action {
                             case .systemAndDisplay:
@@ -42,14 +43,16 @@ struct CaffeinateDurationPicker: View {
 
 // MARK: - Duration Selection Button
 
+/// 持续时间选择按钮
 private struct PopupDurationButton: View {
-    let title: String
+    let title: LocalizedStringKey
     let isSelected: Bool
     let action: () -> Void
 
+    /// 按钮的视图主体
     var body: some View {
         Button(action: action) {
-            Text(title)
+            Text(title, tableName: "Caffeinate")
                 .font(.system(size: 10))
                 .foregroundColor(isSelected ? .white : .secondary)
                 .padding(.horizontal, 8)

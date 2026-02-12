@@ -1,211 +1,242 @@
 {
   "sourceLanguage": "en",
   "strings": {
-    "": {},
-    "ID: WAKEY001": {
+    "Caffeinate": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "ID：WAKEY001"
+            "value": "防休眠"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "ID：WAKEY001"
+            "value": "防休眠"
           }
         }
       }
     },
-    "v%@": {
+    "Prevent system sleep, supporting scheduled and manual control": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "v%@"
+            "value": "阻止系统休眠，支持定时和手动控制"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "v%@"
+            "value": "阻止系統休眠，支援定時和手動控制"
           }
         }
       }
     },
-    "Wakey": {
+    "Keep Awake & Display On": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wakey"
+            "value": "防止休眠且屏幕常亮"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wakey"
+            "value": "防止休眠且螢幕常亮"
           }
         }
       }
     },
-    "Wakey Pro": {
+    "Keep Awake & Allow Display Sleep": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wakey Pro"
+            "value": "防止休眠且允许屏幕关闭"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wakey Pro"
+            "value": "防止休眠且允許螢幕關閉"
           }
         }
       }
     },
-    "多模式支持": {
+    "Keep Awake & Turn Off Display Now": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "多模式支援"
+            "value": "防止休眠且立刻关闭屏幕"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "多模式支援"
+            "value": "防止休眠且立刻關閉螢幕"
           }
         }
       }
     },
-    "如果您之前在其他设备上购买过订阅,可以通过点击下方的\"恢复购买\"按钮来恢复您的订阅。请确保您使用的是购买时所用的Apple ID 账号。": {
+    "Indefinite": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "如果您之前在其他裝置上購買過訂閱,可以通過點擊下方的「恢復購買」按鈕來恢復您的訂閱。請確保您使用的是購買時所用的 Apple ID 帳號。"
+            "value": "永久"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "如果您之前在其他裝置上購買過訂閱,可以通過點擊下方的「恢復購買」按鈕來恢復您的訂閱。請確保您使用的是購買時所用的 Apple ID 帳號。"
+            "value": "永久"
           }
         }
       }
     },
-    "恢复购买": {
+    "10 mins": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "恢復購買"
+            "value": "10分钟"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "恢復購買"
+            "value": "10分鐘"
           }
         }
       }
     },
-    "极简设计": {
+    "1 hr": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "極簡設計"
+            "value": "1小时"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "極簡設計"
+            "value": "1小時"
           }
         }
       }
     },
-    "状态栏控制": {
+    "2 hrs": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "狀態欄控制"
+            "value": "2小时"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "狀態欄控制"
+            "value": "2小時"
           }
         }
       }
     },
-    "简单纯粹的防休眠工具": {
+    "5 hrs": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "簡單純粹的防休眠工具"
+            "value": "5小时"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "簡單純粹的防休眠工具"
+            "value": "5小時"
           }
         }
       }
     },
-    "解锁全部高级功能": {
+    "Keep system awake, allow display sleep": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "解鎖全部高級功能"
+            "value": "阻止休眠，允许关闭屏幕"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "解鎖全部高級功能"
+            "value": "阻止休眠，允許關閉螢幕"
           }
         }
       }
     },
-    "许可协议": {
+    "Keep system awake, prevent display sleep": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "許可協議"
+            "value": "阻止休眠，禁止关闭屏幕"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "許可協議"
+            "value": "阻止休眠，禁止關閉螢幕"
           }
         }
       }
     },
-    "隐私政策": {
+    "%lld minutes": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "隱私政策"
+            "value": "%lld 分钟"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "隱私政策"
+            "value": "%lld 分鐘"
+          }
+        }
+      }
+    },
+    "%lld hours": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 小时"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 小時"
+          }
+        }
+      }
+    },
+    "Anti-sleep mode enabled via Wakey": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用户通过 Wakey 开启了防休眠模式"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用戶通過 Wakey 開啟了防休眠模式"
           }
         }
       }

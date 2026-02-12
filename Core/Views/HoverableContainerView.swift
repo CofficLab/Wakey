@@ -141,14 +141,14 @@ struct HoverableContainerView<Content: View, Detail: View>: View {
                 HStack {
                     Image(systemName: "network")
                         .foregroundColor(.blue)
-                    Text("网络监控")
+                    Text("Network Monitoring", tableName: "Core")
                         .font(.headline)
                     Spacer()
                 }
 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("下载速度")
+                        Text("Download Speed", tableName: "Core")
                             .font(.caption)
                             .foregroundColor(.secondary)
                         Text("1.2 MB/s")
@@ -158,7 +158,7 @@ struct HoverableContainerView<Content: View, Detail: View>: View {
                     Spacer()
 
                     VStack(alignment: .trailing) {
-                        Text("上传速度")
+                        Text("Upload Speed", tableName: "Core")
                             .font(.caption)
                             .foregroundColor(.secondary)
                         Text("256 KB/s")

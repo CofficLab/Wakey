@@ -11,17 +11,18 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
 
     // MARK: - Properties
 
-    /// 系统状态栏项
+    /// 系统状态栏项（菜单栏中的图标）
     private var statusItem: NSStatusItem?
 
-    /// 活跃的插件源集合（用于决定状态栏图标颜色）
+    /// 活跃的插件源集合（用于决定状态栏图标激活状态）
     private var activeSources: Set<String> = []
 
-    /// 状态栏图标相关
+    /// 状态栏图标视图模型，管理图标状态
     private var iconViewModel = StatusBarIconViewModel()
+    /// 状态栏图标的 SwiftUI 容器视图
     private var iconHostingView: InteractiveHostingView<StatusBarIconView>?
 
-    /// 弹窗
+    /// 状态栏弹窗，显示应用主界面
     private var popover: NSPopover?
 
     // MARK: - Public Methods

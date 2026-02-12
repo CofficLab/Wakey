@@ -49,11 +49,11 @@ struct StatusBar: View {
 
                 // 应用信息
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Wakey")
+                    Text("Wakey", tableName: "Core")
                         .font(.system(size: 15, weight: .semibold))
 
-                    Text("v\(appVersion)")
-                        .font(.system(size: 10))
+                    Text("v\(appVersion)", tableName: "Core")
+                        .font(.system(size: 10) )
                         .foregroundColor(.secondary)
                 }
 
@@ -87,7 +87,7 @@ struct StatusBar: View {
         VStack(spacing: 0) {
             // 退出应用
             MenuItemRow(
-                title: "退出",
+                title: "Quit",
                 color: .red,
                 action: {
                     NSApp.terminate(nil)
@@ -103,19 +103,22 @@ struct StatusBar: View {
     }
 }
 
-// MARK: - Menu Item Row
-
+/// 菜单项行
 struct MenuItemRow: View {
-    let title: String
+    /// 标题（支持国际化）
+    let title: LocalizedStringKey
+    /// 颜色
     var color: Color = .primary
+    /// 点击动作
     let action: () -> Void
 
+    /// 是否处于悬停状态
     @State private var isHovering = false
 
     var body: some View {
         Button(action: action) {
             HStack(spacing: 12) {
-                Text(title)
+                Text(title, tableName: "Core")
                     .font(.system(size: 13))
                     .foregroundColor(isHovering ? .white : color)
                     .padding(.horizontal)

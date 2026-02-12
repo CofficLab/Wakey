@@ -54,17 +54,21 @@ struct CaffeinateQuickActions: View {
     }
 
     // MARK: - Helper Methods
-
+    
+    /// 切换防休眠动作的状态
+    /// - Parameter action: 要切换的动作类型
     private func toggleAction(_ action: CaffeinateManager.QuickActionType) {
         if manager.activeAction == action {
-            // Clicking the selected item deactivates it
+            // 点击已选中的项将其停用
             manager.deactivate()
         } else {
-            // Select new item and activate
+            // 选择新项并激活
             activateAction(action)
         }
     }
 
+    /// 激活指定的防休眠动作
+    /// - Parameter action: 要激活的动作类型
     private func activateAction(_ action: CaffeinateManager.QuickActionType) {
         switch action {
         case .systemAndDisplay:
@@ -80,7 +84,7 @@ struct CaffeinateQuickActions: View {
 // MARK: - Quick Action Menu Item
 
 private struct QuickActionMenuItem: View {
-    let title: String
+    let title: LocalizedStringKey
     let icon: String
     let color: Color
     var isSelected: Bool = false
@@ -96,15 +100,16 @@ private struct QuickActionMenuItem: View {
         return isSelected
     }
 
+    /// 快捷操作菜单项的视图主体
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 10) {
+            HStack(spacing: 12) {
                 Image(systemName: icon)
                     .font(.system(size: 11))
                     .foregroundColor(isHovering ? .white : color)
                     .frame(width: 18)
 
-                Text(title)
+                Text(title, tableName: "Caffeinate")
                     .font(.system(size: 11))
                     .foregroundColor(isHovering ? .white : .secondary)
 

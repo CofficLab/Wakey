@@ -53,25 +53,27 @@ class CaffeinateManager: SuperLog {
 
     // MARK: - Public Methods
 
-    /// Activate anti-sleep
-    /// - Parameter duration: Duration (seconds), 0 for indefinite
+    /// 激活防休眠模式
+    /// - Parameter duration: 持续时间（秒），0 表示永久
     func activate(duration: TimeInterval = 0) {
         activate(mode: .systemAndDisplay, duration: duration)
     }
 
-    /// Activate anti-sleep and turn off display immediately
+    /// 激活防休眠模式并立即关闭显示器
+    /// - Parameter duration: 持续时间（秒），0 表示永久
     func activateAndTurnOffDisplay(duration: TimeInterval = 0) {
-        // 1. Activate anti-sleep (system only, allowing display sleep)
+        // 1. 激活防休眠（仅系统，允许显示器休眠）
         activate(mode: .systemOnly, duration: duration)
 
-        // 2. Update state
+        // 2. 更新状态
         self.activeAction = .systemOnly
         self.selectedDuration = duration
 
-        // 3. Turn off display
+        // 3. 关闭显示器
         turnOffDisplay()
     }
 
+    /// 立即关闭显示器
     private func turnOffDisplay() {
         let task = Process()
         task.launchPath = "/usr/bin/pmset"
@@ -83,6 +85,10 @@ class CaffeinateManager: SuperLog {
         }
     }
 
+    /// 激活指定的防休眠模式
+    /// - Parameters:
+    ///   - mode: 休眠模式（仅系统或系统与显示器）
+    ///   - duration: 持续时间（秒），0 表示永久
     func activate(mode: SleepMode, duration: TimeInterval = 0) {
         guard !isActive else {
             if Self.verbose {
@@ -92,7 +98,7 @@ class CaffeinateManager: SuperLog {
         }
 
         self.mode = mode
-        let reason = "Anti-sleep mode enabled via Wakey" as NSString
+        let reason = String(localized: "Anti-sleep mode enabled via Wakey", table: "Caffeinate", comment: "Reason shown in system power assertions when anti-sleep is active") as NSString
 
         let systemResult = IOPMAssertionCreateWithName(
             kIOPMAssertionTypePreventUserIdleSystemSleep as CFString,
@@ -149,44 +155,34 @@ class CaffeinateManager: SuperLog {
         }
     }
 
-    /// Deactivate anti-sleep
+    /// 停止防休眠并清理资源
     func deactivate() {
-        guard isActive else {
-            if Self.verbose {
-                os_log("\(self.t)Caffeinate not active, ignoring deactivation request")
-            }
-            return
+        guard isActive else { return }
+        
+        if Self.verbose {
+            os_log("\(self.t)Deactivating Caffeinate")
         }
 
-        let systemResult = assertionID == 0 ? kIOReturnSuccess : IOPMAssertionRelease(assertionID)
-        let displayResult = displayAssertionID == 0 ? kIOReturnSuccess : IOPMAssertionRelease(displayAssertionID)
-
-        if systemResult == kIOReturnSuccess && displayResult == kIOReturnSuccess {
-            isActive = false
-            activeAction = nil
-            startTime = nil
-            duration = 0
+        // 1. 释放 IOKit 断言
+        if assertionID != 0 {
+            IOPMAssertionRelease(assertionID)
             assertionID = 0
-            displayAssertionID = 0
-
-            // Stop timer
-            timer?.invalidate()
-            timer = nil
-
-            if Self.verbose {
-                os_log("\(self.t)Caffeinate deactivated successfully")
-            }
-
-            // Notify system to restore status bar appearance
-            NotificationCenter.postRequestStatusBarAppearanceUpdate(isActive: false, source: "CaffeinatePlugin")
-        } else {
-            if systemResult != kIOReturnSuccess {
-                os_log(.error, "\(self.t)Failed to release system sleep assertion: \(systemResult)")
-            }
-            if displayResult != kIOReturnSuccess {
-                os_log(.error, "\(self.t)Failed to release display sleep assertion: \(displayResult)")
-            }
         }
+        
+        if displayAssertionID != 0 {
+            IOPMAssertionRelease(displayAssertionID)
+            displayAssertionID = 0
+        }
+
+        // 2. 更新状态
+        isActive = false
+        activeAction = nil
+        startTime = nil
+        duration = 0
+
+        // 3. 停止定时器
+        timer?.invalidate()
+        timer = nil
     }
 
     /// Toggle anti-sleep state
@@ -198,27 +194,24 @@ class CaffeinateManager: SuperLog {
         }
     }
 
-    /// Get the duration since activation
-    /// - Returns: Time interval since activation (seconds), or nil if not active
-    func getActiveDuration() -> TimeInterval? {
-        guard let start = startTime else { return nil }
+    /// 获取自激活以来的持续时间
+    /// - Returns: 持续时间（秒）
+    func getActiveDuration() -> TimeInterval {
+        guard let start = startTime else { return 0 }
         return Date().timeIntervalSince(start)
     }
 
     // MARK: - Private Methods
 
-    /// Start timer
-    /// - Parameter duration: Duration (seconds)
+    /// 启动定时器
+    /// - Parameter duration: 持续时间（秒）
     private func startTimer(duration: TimeInterval) {
         timer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { [weak self] _ in
-            Task { @MainActor [weak self] in
-                guard let self = self else { return }
-                if Self.verbose {
-                    os_log("\(Self.t)Timer expired, deactivating caffeinate")
-                }
-                self.deactivate()
+            Task { @MainActor in
+                self?.deactivate()
             }
         }
+        
         if Self.verbose {
             os_log("\(self.t)Timer scheduled for \(duration)s")
         }
@@ -244,37 +237,41 @@ class CaffeinateManager: SuperLog {
 // MARK: - Duration Options
 
 extension CaffeinateManager {
+    /// 休眠模式枚举
     enum SleepMode: String, CaseIterable {
         case systemOnly
         case systemAndDisplay
         
+        /// 获取模式的显示名称
         var displayName: String {
             switch self {
             case .systemOnly:
-                return "Keep system awake, allow display sleep"
+                return String(localized: "Keep system awake, allow display sleep", table: "Caffeinate", comment: "Option to prevent system sleep but allow the monitor to turn off")
             case .systemAndDisplay:
-                return "Keep system awake, prevent display sleep"
+                return String(localized: "Keep system awake, prevent display sleep", table: "Caffeinate", comment: "Option to prevent both system and monitor from sleeping")
             }
         }
     }
 
-    /// Preset duration options
+    /// 预设持续时间选项
     enum DurationOption: Hashable, Equatable {
         case indefinite
         case minutes(Int)
         case hours(Int)
 
+        /// 获取持续时间的显示名称
         var displayName: String {
             switch self {
             case .indefinite:
-                return "Indefinite"
+                return String(localized: "Indefinite", table: "Caffeinate", comment: "Label for infinite duration")
             case let .minutes(m):
-                return "\(m) minutes"
+                return String(localized: "\(m) minutes", table: "Caffeinate", comment: "Label for duration in minutes")
             case let .hours(h):
-                return "\(h) hours"
+                return String(localized: "\(h) hours", table: "Caffeinate", comment: "Label for duration in hours")
             }
         }
 
+        /// 获取对应的秒数
         var timeInterval: TimeInterval {
             switch self {
             case .indefinite:

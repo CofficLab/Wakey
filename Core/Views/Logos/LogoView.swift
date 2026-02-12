@@ -93,19 +93,19 @@ class InteractiveHostingView<Content: View>: NSHostingView<Content> {
                 VStack {
                     LogoView(variant: .general)
                         .frame(width: 120, height: 120)
-                    Text("通用").font(.caption)
+                    Text("General", tableName: "Core").font(.caption)
                 }
 
                 VStack {
                     LogoView(variant: .appIcon)
                         .frame(width: 120, height: 120)
-                    Text("App Icon").font(.caption)
+                    Text("App Icon", tableName: "Core").font(.caption)
                 }
 
                 VStack {
                     LogoView(variant: .about)
                         .frame(width: 120, height: 120)
-                    Text("About").font(.caption)
+                    Text("About", tableName: "Core").font(.caption)
                 }
             }
 
@@ -114,14 +114,14 @@ class InteractiveHostingView<Content: View>: NSHostingView<Content> {
                 VStack {
                     LogoView(variant: .statusBar, isActive: false)
                         .frame(width: 40, height: 40)
-                    Text("Status Bar (Inactive)").font(.caption)
+                    Text("Status Bar (Inactive)", tableName: "Core").font(.caption)
                 }
 
                 VStack {
                     LogoView(variant: .statusBar, isActive: true)
                         .frame(width: 40, height: 40)
                         .background(Color.black)
-                    Text("Status Bar (Active)").font(.caption)
+                    Text("Status Bar (Active)", tableName: "Core").font(.caption)
                 }
             }
         }
