@@ -56,12 +56,12 @@ actor LogoPlugin: SuperPlugin, SuperLog {
                 LogoLightBulb(isMonochrome: isMonochrome)
             },
             LogoConfiguration(
-                id: "logo.book",
-                title: "探索之书",
-                description: "书本 + 发光元素，象征知识探索",
+                id: "logo.owl",
+                title: "夜猫子",
+                description: "猫头鹰眼睛，象征夜间工作、保持清醒",
                 order: 2
             ) { isMonochrome, _ in
-                LogoBook(isMonochrome: isMonochrome)
+                LogoOwl(isMonochrome: isMonochrome)
             },
             LogoConfiguration(
                 id: "logo.coffee",
