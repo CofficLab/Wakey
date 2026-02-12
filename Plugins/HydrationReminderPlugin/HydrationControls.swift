@@ -5,7 +5,7 @@ struct HydrationReminderControls: View {
     var body: some View {
         HStack(spacing: 8) {
             HydrationControlButton(
-                title: manager.isActive ? "Stop" : "Start",
+                title: manager.isActive ? "Stop_Button" : "Start_Button",
                 icon: manager.isActive ? "stop.fill" : "play.fill",
                 color: manager.isActive ? .red : .green,
                 action: {

@@ -6,10 +6,10 @@ struct CaffeinateDurationPicker: View {
     
     private let quickDurations: [(title: LocalizedStringKey, value: TimeInterval)] = [
         ("Indefinite", 0),
-        ("10 mins", 600),
-        ("1 hr", 3600),
-        ("2 hrs", 7200),
-        ("5 hrs", 18000),
+        ("10_mins_Short", 600),
+        ("1_hr_Short", 3600),
+        ("2_hrs_Short", 7200),
+        ("5_hrs_Short", 18000),
     ]
     
     /// 持续时间选择器的视图主体

@@ -7,7 +7,7 @@ struct EyeCareReminderControls: View {
     var body: some View {
         HStack(spacing: 8) {
             EyeCareControlButton(
-                title: manager.isActive ? "Stop" : "Start",
+                title: manager.isActive ? "Stop_Button" : "Start_Button",
                 icon: manager.isActive ? "stop.fill" : "play.fill",
                 color: manager.isActive ? .red : .green,
                 action: {
@@ -52,4 +52,11 @@ private struct EyeCareControlButton: View {
             isHovering = hovering
         }
     }
+}
+
+// MARK: - Preview
+
+#Preview("App") {
+    ContentLayout()
+        .inRootView()
 }
