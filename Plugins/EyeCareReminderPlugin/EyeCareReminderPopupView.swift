@@ -1,19 +1,19 @@
 import MagicKit
 import SwiftUI
 
-/// Status bar popup view for the Break Reminder plugin
-struct BreakReminderPopupView: View {
-    @State private var manager = BreakReminderManager.shared
+/// Status bar popup view for the Eye Care Reminder plugin
+struct EyeCareReminderPopupView: View {
+    @State private var manager = EyeCareReminderManager.shared
 
     var body: some View {
         VStack(spacing: 0) {
             // Header with plugin name
             HStack {
-                Image(systemName: "heart.fill")
+                Image(systemName: "eye.fill")
                     .font(.system(size: 11))
                     .foregroundColor(.green)
 
-                Text("Break Reminder", tableName: "BreakReminder")
+                Text("Eye Care", tableName: "EyeCareReminder")
                     .font(.system(size: 11, weight: .semibold))
                     .foregroundColor(.primary)
 
@@ -25,28 +25,13 @@ struct BreakReminderPopupView: View {
 
             // Status info
             VStack(alignment: .leading, spacing: 4) {
-                Text("Status", tableName: "BreakReminder")
+                Text("Status", tableName: "EyeCareReminder")
                     .font(.system(size: 9))
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 12)
                     .padding(.top, 4)
 
-                BreakReminderStatusInfo()
-            }
-
-            Divider()
-                .padding(.horizontal, 12)
-                .padding(.vertical, 4)
-
-            // Break type selector
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Reminder Type", tableName: "BreakReminder")
-                    .font(.system(size: 9))
-                    .foregroundColor(.secondary)
-                    .padding(.horizontal, 12)
-                    .padding(.top, 4)
-
-                BreakTypeSelector()
+                EyeCareReminderStatusInfo()
             }
 
             Divider()
@@ -55,13 +40,13 @@ struct BreakReminderPopupView: View {
 
             // Interval picker
             VStack(alignment: .leading, spacing: 4) {
-                Text("Interval", tableName: "BreakReminder")
+                Text("Interval", tableName: "EyeCareReminder")
                     .font(.system(size: 9))
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 12)
                     .padding(.top, 4)
 
-                BreakIntervalPicker()
+                EyeCareIntervalPicker()
             }
 
             Divider()
@@ -70,24 +55,23 @@ struct BreakReminderPopupView: View {
 
             // Control buttons
             VStack(alignment: .leading, spacing: 4) {
-                Text("Actions", tableName: "BreakReminder")
+                Text("Actions", tableName: "EyeCareReminder")
                     .font(.system(size: 9))
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 12)
                     .padding(.top, 4)
 
-                BreakReminderControls()
+                EyeCareReminderControls()
             }
 
             if manager.permissionStatus == .denied {
-                NotificationPermissionWarning(manager: manager)
+                EyeCareNotificationPermissionWarning(manager: manager)
                     .padding(.top, 8)
             }
         }
         .padding(.bottom, 8)
         .background(
             ZStack {
-                // Subtle health gradient
                 LinearGradient(
                     colors: [
                         Color.green.opacity(0.05),
@@ -98,19 +82,12 @@ struct BreakReminderPopupView: View {
                     endPoint: .bottomTrailing
                 )
 
-                // Decorative watermark icons
                 ZStack {
-                    Image(systemName: "heart.fill")
+                    Image(systemName: "eye.fill")
                         .font(.system(size: 80))
                         .foregroundColor(.green.opacity(0.04))
                         .rotationEffect(.degrees(-15))
                         .offset(x: 100, y: 40)
-
-                    Image(systemName: "leaf.fill")
-                        .font(.system(size: 60))
-                        .foregroundColor(.green.opacity(0.03))
-                        .rotationEffect(.degrees(15))
-                        .offset(x: -110, y: 50)
                 }
             }
         )
@@ -118,20 +95,9 @@ struct BreakReminderPopupView: View {
     }
 }
 
-#Preview("Break Reminder Status Bar Popup") {
-    BreakReminderPopupView()
-        .frame(width: StatusBarController.defaultPopoverWidth)
-}
-
-#Preview("App") {
-    ContentLayout()
-        .inRootView()
-        .frame(width: StatusBarController.defaultPopoverWidth)
-}
-
 /// Warning view when notification permission is denied
-struct NotificationPermissionWarning: View {
-    let manager: BreakReminderManager
+struct EyeCareNotificationPermissionWarning: View {
+    let manager: EyeCareReminderManager
 
     var body: some View {
         VStack(spacing: 8) {
@@ -140,14 +106,14 @@ struct NotificationPermissionWarning: View {
                     .foregroundColor(.orange)
                     .font(.system(size: 14))
 
-                Text("Notifications Disabled", tableName: "BreakReminder")
+                Text("Notifications Disabled", tableName: "EyeCareReminder")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundColor(.primary)
 
                 Spacer()
             }
 
-            Text("Please enable notifications in System Settings to receive break reminders.", tableName: "BreakReminder")
+            Text("Please enable notifications in System Settings to receive break reminders.", tableName: "EyeCareReminder")
                 .font(.system(size: 10))
                 .foregroundColor(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
@@ -156,7 +122,7 @@ struct NotificationPermissionWarning: View {
             Button(action: {
                 manager.openNotificationSettings()
             }) {
-                Text("Open Settings", tableName: "BreakReminder")
+                Text("Open Settings", tableName: "EyeCareReminder")
                     .font(.system(size: 10, weight: .medium))
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)

@@ -1,0 +1,127 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Customize reminder intervals and other parameters" : {
+      "comment" : "Feature description",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义提醒间隔和其他参数"
+          }
+        }
+      }
+    },
+    "Flexible Configuration" : {
+      "comment" : "Feature title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "灵活配置"
+          }
+        }
+      }
+    },
+    "Hydration" : {
+      "comment" : "Poster title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "补水"
+          }
+        }
+      }
+    },
+    "Hydration Poster" : {
+      "comment" : "Name of the hydration poster plugin"
+    },
+    "Hydration Reminder" : {
+      "comment" : "Poster feature title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "补水提醒"
+          }
+        }
+      }
+    },
+    "Keep your body and mind in top condition" : {
+      "comment" : "Feature description",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让您的身心保持在最佳状态"
+          }
+        }
+      }
+    },
+    "Key Features" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主要功能"
+          }
+        }
+      }
+    },
+    "Provide hydration related poster views" : {
+      "comment" : "Description of what the Hydration Poster plugin does"
+    },
+    "Remind you to drink water regularly" : {
+      "comment" : "Feature description",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒您定期饮水"
+          }
+        }
+      }
+    },
+    "Scheduled Reminder" : {
+      "comment" : "Feature title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定时提醒"
+          }
+        }
+      }
+    },
+    "Stay Hydrated" : {
+      "comment" : "Feature title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持水分"
+          }
+        }
+      }
+    },
+    "Stay hydrated, stay focused" : {
+      "comment" : "Poster subtitle",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "补充水分，保持专注"
+          }
+        }
+      }
+    },
+    "Time for a Break!" : {
+      "comment" : "Demo title"
+    },
+    "You've been working for 2 hours" : {
+      "comment" : "Demo description"
+    }
+  },
+  "version" : "1.0"
+}

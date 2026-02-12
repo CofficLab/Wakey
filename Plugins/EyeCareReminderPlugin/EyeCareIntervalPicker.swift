@@ -1,13 +1,13 @@
 import SwiftUI
 
-/// Break interval picker component
-struct BreakIntervalPicker: View {
-    @State private var manager = BreakReminderManager.shared
+/// Eye care interval picker component
+struct EyeCareIntervalPicker: View {
+    @State private var manager = EyeCareReminderManager.shared
 
     var body: some View {
         HStack(spacing: 4) {
-            ForEach(BreakReminderManager.commonIntervals) { interval in
-                IntervalButton(
+            ForEach(EyeCareReminderManager.commonIntervals) { interval in
+                EyeCareIntervalButton(
                     title: LocalizedStringKey(interval.displayName),
                     isSelected: manager.selectedInterval == interval.timeInterval,
                     action: {
@@ -17,12 +17,11 @@ struct BreakIntervalPicker: View {
             }
         }
         .padding(.vertical, 4)
+        .padding(.horizontal, 12)
     }
 }
 
-// MARK: - Interval Button
-
-private struct IntervalButton: View {
+private struct EyeCareIntervalButton: View {
     let title: LocalizedStringKey
     let isSelected: Bool
     let action: () -> Void
@@ -31,7 +30,7 @@ private struct IntervalButton: View {
 
     var body: some View {
         Button(action: action) {
-            Text(title, tableName: "BreakReminder")
+            Text(title, tableName: "EyeCareReminder")
                 .font(.system(size: 10))
                 .foregroundColor(isHovering ? .white : (isSelected ? .white : .secondary))
                 .padding(.horizontal, 8)
@@ -44,15 +43,4 @@ private struct IntervalButton: View {
             isHovering = hovering
         }
     }
-}
-
-#Preview {
-    BreakIntervalPicker()
-        .padding()
-}
-
-#Preview("App") {
-    ContentLayout()
-        .inRootView()
-        .withDebugBar()
 }

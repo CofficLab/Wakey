@@ -1,0 +1,139 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "20-20-20 Rule" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "20-20-20 法则"
+          }
+        }
+      }
+    },
+    "Automatically remind you to rest your eyes" : {
+      "comment" : "Feature description"
+    },
+    "Customize reminder intervals and other parameters" : {
+      "comment" : "Feature description",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义提醒间隔和其他参数"
+          }
+        }
+      }
+    },
+    "Eye Care" : {
+      "comment" : "Poster title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "护眼"
+          }
+        }
+      }
+    },
+    "Eye Care Poster" : {
+      "comment" : "Name of the eye care poster plugin"
+    },
+    "Eye Care Reminder" : {
+      "comment" : "Poster feature title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "护眼提醒"
+          }
+        }
+      }
+    },
+    "Flexible Configuration" : {
+      "comment" : "Feature title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "灵活配置"
+          }
+        }
+      }
+    },
+    "Follow the 20-20-20 rule to protect your vision" : {
+      "comment" : "Feature description"
+    },
+    "Help you follow the professional eye care advice" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "帮助您遵循专业的护眼建议"
+          }
+        }
+      }
+    },
+    "Key Features" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主要功能"
+          }
+        }
+      }
+    },
+    "Protect your eyes, stay productive" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保护视力，高效工作"
+          }
+        }
+      }
+    },
+    "Protect your eyes, take breaks regularly" : {
+      "comment" : "Poster subtitle"
+    },
+    "Provide eye care related poster views" : {
+      "comment" : "Description of what the Eye Care Poster plugin does"
+    },
+    "Remind you to rest your eyes every 20 minutes" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每20分钟提醒您休息眼睛"
+          }
+        }
+      }
+    },
+    "Scheduled Reminder" : {
+      "comment" : "Feature title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定时提醒"
+          }
+        }
+      }
+    },
+    "Scientific Method" : {
+      "comment" : "Feature title"
+    },
+    "Time for a Break!" : {
+      "comment" : "Demo title"
+    },
+    "You've been working for 20 minutes" : {
+      "comment" : "Demo description"
+    }
+  },
+  "version" : "1.0"
+}

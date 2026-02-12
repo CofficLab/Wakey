@@ -37,18 +37,43 @@ final class PluginProvider: ObservableObject, SuperLog {
         let wakeyIntro = WakeyIntroPlugin.shared
         let caffeinate = CaffeinatePlugin.shared
         let caffeinatePoster = CaffeinatePosterPlugin.shared
-        let breakReminder = BreakReminderPlugin.shared
-        let breakReminderPoster = BreakReminderPosterPlugin.shared
+        
+        let eyeCare = EyeCareReminderPlugin.shared
+        let eyeCarePoster = EyeCarePosterPlugin.shared
+        let stretch = StretchReminderPlugin.shared
+        let stretchPoster = StretchPosterPlugin.shared
+        let hydration = HydrationReminderPlugin.shared
+        let hydrationPoster = HydrationPosterPlugin.shared
+        
         let purchase = PurchasePlugin.shared
-        self.plugins = [logo, wakeyIntro, caffeinate, caffeinatePoster, breakReminder, breakReminderPoster, purchase]
+        
+        self.plugins = [
+            logo,
+            wakeyIntro,
+            caffeinate,
+            caffeinatePoster,
+            eyeCare,
+            eyeCarePoster,
+            stretch,
+            stretchPoster,
+            hydration,
+            hydrationPoster,
+            purchase
+        ]
         self.isLoaded = true
 
         logo.onRegister()
         wakeyIntro.onRegister()
         caffeinate.onRegister()
         caffeinatePoster.onRegister()
-        breakReminder.onRegister()
-        breakReminderPoster.onRegister()
+        
+        eyeCare.onRegister()
+        eyeCarePoster.onRegister()
+        stretch.onRegister()
+        stretchPoster.onRegister()
+        hydration.onRegister()
+        hydrationPoster.onRegister()
+        
         purchase.onRegister()
 
         if Self.verbose {
@@ -56,8 +81,12 @@ final class PluginProvider: ObservableObject, SuperLog {
             os_log("\(self.t)✅ Loaded WakeyIntroPlugin.")
             os_log("\(self.t)✅ Loaded CaffeinatePlugin.")
             os_log("\(self.t)✅ Loaded CaffeinatePosterPlugin.")
-            os_log("\(self.t)✅ Loaded BreakReminderPlugin.")
-            os_log("\(self.t)✅ Loaded BreakReminderPosterPlugin.")
+            os_log("\(self.t)✅ Loaded EyeCareReminderPlugin.")
+            os_log("\(self.t)✅ Loaded EyeCarePosterPlugin.")
+            os_log("\(self.t)✅ Loaded StretchReminderPlugin.")
+            os_log("\(self.t)✅ Loaded StretchPosterPlugin.")
+            os_log("\(self.t)✅ Loaded HydrationReminderPlugin.")
+            os_log("\(self.t)✅ Loaded HydrationPosterPlugin.")
             os_log("\(self.t)✅ Loaded PurchasePlugin.")
         }
     }

@@ -1,0 +1,127 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Customize reminder intervals and other parameters" : {
+      "comment" : "Feature description",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义提醒间隔和其他参数"
+          }
+        }
+      }
+    },
+    "Flexible Configuration" : {
+      "comment" : "Feature title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "灵活配置"
+          }
+        }
+      }
+    },
+    "Help reduce the risks of long-time sitting" : {
+      "comment" : "Feature description",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "帮助降低久坐带来的健康风险"
+          }
+        }
+      }
+    },
+    "Key Features" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主要功能"
+          }
+        }
+      }
+    },
+    "Move Your Body" : {
+      "comment" : "Feature title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活动筋骨"
+          }
+        }
+      }
+    },
+    "Move your body, stay healthy" : {
+      "comment" : "Poster subtitle",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活动身体，保持健康"
+          }
+        }
+      }
+    },
+    "Provide stretch related poster views" : {
+      "comment" : "Description of what the Stretch Poster plugin does"
+    },
+    "Remind you to stand up every hour" : {
+      "comment" : "Feature description",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每小时提醒您站起来活动"
+          }
+        }
+      }
+    },
+    "Scheduled Reminder" : {
+      "comment" : "Feature title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定时提醒"
+          }
+        }
+      }
+    },
+    "Stretch" : {
+      "comment" : "Poster title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "伸展"
+          }
+        }
+      }
+    },
+    "Stretch Poster" : {
+      "comment" : "Name of the stretch poster plugin"
+    },
+    "Stretch Reminder" : {
+      "comment" : "Poster feature title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "伸展提醒"
+          }
+        }
+      }
+    },
+    "Time for a Break!" : {
+      "comment" : "Demo title"
+    },
+    "You've been working for 60 minutes" : {
+      "comment" : "Demo description"
+    }
+  },
+  "version" : "1.0"
+}
