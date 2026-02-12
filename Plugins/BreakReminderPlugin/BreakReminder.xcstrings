@@ -338,6 +338,159 @@
           }
         }
       }
+    },
+    "Work healthy, take breaks regularly": {
+      "comment": "Poster subtitle",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "健康工作，定时休息"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "健康工作，定時休息"
+          }
+        }
+      }
+    },
+    "You've been working for 45 minutes": {
+      "comment": "Demo break reminder description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已经工作了 45 分钟"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已經工作了 45 分鐘"
+          }
+        }
+      }
+    },
+    "Health Reminder": {
+      "comment": "Poster feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "健康提醒"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "健康提醒"
+          }
+        }
+      }
+    },
+    "Scheduled Reminder": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定时提醒"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定時提醒"
+          }
+        }
+      }
+    },
+    "Set work duration, automatically remind to rest when time is up": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置工作时长，到时间自动提醒休息"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設置工作時長，到時間自動提醒休息"
+          }
+        }
+      }
+    },
+    "Multiple Reminder Ways": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "多种提醒方式"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "多種提醒方式"
+          }
+        }
+      }
+    },
+    "Support notifications, popups and other reminder ways": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持通知、弹窗等多种提醒方式"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支援通知、彈窗等多種提醒方式"
+          }
+        }
+      }
+    },
+    "Flexible Configuration": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "灵活配置"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "靈活配置"
+          }
+        }
+      }
+    },
+    "Customize reminder intervals, duration and other parameters": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义提醒间隔、时长等参数"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定義提醒間隔、時長等參數"
+          }
+        }
+      }
     }
   },
   "version": "1.1"

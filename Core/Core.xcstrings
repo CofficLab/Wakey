@@ -32,6 +32,125 @@
           }
         }
       }
+    },
+    "Quit": {
+      "comment": "Menu item to quit the application",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出"
+          }
+        }
+      }
+    },
+    "Logo Schemes": {
+      "comment": "Title for logo schemes list",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Logo 方案"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Logo 方案"
+          }
+        }
+      }
+    },
+    "Select Logo": {
+      "comment": "Title when no logo is selected",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择 Logo"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇 Logo"
+          }
+        }
+      }
+    },
+    "Select a logo scheme from the left list to view": {
+      "comment": "Description when no logo is selected",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从左侧列表选择一个 Logo 方案查看"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "從左側列表選擇一個 Logo 方案查看"
+          }
+        }
+      }
+    },
+    "Main Variants": {
+      "comment": "Section title for main logo variants",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主要变体"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主要變體"
+          }
+        }
+      }
+    },
+    "Status Bar Variants": {
+      "comment": "Section title for status bar logo variants",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "状态栏变体"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "狀態欄變體"
+          }
+        }
+      }
+    },
+    "General Variant - Size Preview": {
+      "comment": "Title for size preview section",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "General 变体 - 尺寸预览"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "General 變體 - 尺寸預覽"
+          }
+        }
+      }
     }
   },
   "version": "1.1"

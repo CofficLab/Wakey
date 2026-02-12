@@ -37,16 +37,16 @@ struct LogoLayout: View {
                 }
                 .padding(.vertical, 4)
             }
-            .navigationTitle("Logo 方案")
+            .navigationTitle(String(localized: "Logo Schemes", table: "Core", comment: "Title for logo schemes list"))
             .navigationSplitViewColumnWidth(min: 200, ideal: 250)
         } detail: {
             if let config = selectedConfig {
                 LogoDetailPreview(config: config)
             } else {
                 ContentUnavailableView(
-                    "选择 Logo",
+                    String(localized: "Select Logo", table: "Core", comment: "Title when no logo is selected"),
                     systemImage: "paintbrush.pointed",
-                    description: Text("从左侧列表选择一个 Logo 方案查看")
+                    description: Text(String(localized: "Select a logo scheme from the left list to view", table: "Core", comment: "Description when no logo is selected"))
                 )
             }
         }
@@ -76,20 +76,20 @@ struct LogoDetailPreview: View {
 
                 // 变体预览网格
                 VStack(spacing: 32) {
-                    variantSection(title: "主要变体", variants: [
+                    variantSection(title: String(localized: "Main Variants", table: "Core", comment: "Section title for main logo variants"), variants: [
                         (.appIcon, "App Icon", 120),
                         (.about, "About", 120),
                         (.general, "General", 120)
                     ])
 
-                    variantSection(title: "状态栏变体", variants: [
+                    variantSection(title: String(localized: "Status Bar Variants", table: "Core", comment: "Section title for status bar logo variants"), variants: [
                         (.statusBar(isActive: true), "Status Bar (Active)", 40),
                         (.statusBar(isActive: false), "Status Bar (Inactive)", 40)
                     ])
 
                     // 不同尺寸预览
                     VStack(spacing: 24) {
-                        Text("General 变体 - 尺寸预览")
+                        Text(String(localized: "General Variant - Size Preview", table: "Core", comment: "Title for size preview section"))
                             .font(.headline)
 
                         HStack(spacing: 32) {

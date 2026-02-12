@@ -4,52 +4,62 @@ import SwiftUI
 // MARK: - Poster Title Styles
 
 extension View {
-    /// 将文本样式化为 Mac 版海报标题样式
+    /// 将文本样式化为 Mac 版海报标题样式（响应式）
     ///
-    /// 使用超大号圆体字（200pt），加粗显示，带有底部间距和轻微阴影效果。
-    /// 适用于 App Store 截图中的 Mac 版海报主标题。
+    /// 根据可用空间动态计算字体大小，确保在不同尺寸的海报中都能良好显示。
     ///
-    /// - Returns: 应用了标题样式的视图
-    func asPosterTitle() -> some View {
-        self.bold()
-            .font(.system(size: 200, design: .rounded))
-            .padding(.bottom, 40)
+    /// - Parameter geo: GeometryProxy 提供的可用空间信息
+    /// - Returns: 应用了响应式标题样式的视图
+    func asPosterTitle(in geo: GeometryProxy) -> some View {
+        let fontSize = min(geo.size.width, geo.size.height) * 0.1
+        let padding = fontSize * 0.2
+
+        return self.bold()
+            .font(.system(size: fontSize, design: .rounded))
+            .padding(.bottom, padding)
             .shadowSm()
     }
 
-    /// 将文本样式化为 Mac 版海报副标题样式
+    /// 将文本样式化为 Mac 版海报副标题样式（响应式）
     ///
-    /// 使用中等大小圆体字（100pt），次要颜色显示，带有轻微阴影效果。
-    /// 适用于 App Store 截图中的 Mac 版海报副标题或描述文字。
+    /// 根据可用空间动态计算字体大小，确保在不同尺寸的海报中都能良好显示。
     ///
-    /// - Returns: 应用了副标题样式的视图
-    func asPosterSubTitle() -> some View {
-        self.font(.system(size: 100, design: .rounded))
+    /// - Parameter geo: GeometryProxy 提供的可用空间信息
+    /// - Returns: 应用了响应式副标题样式的视图
+    func asPosterSubTitle(in geo: GeometryProxy) -> some View {
+        let fontSize = min(geo.size.width, geo.size.height) * 0.08
+
+        return self.font(.system(size: fontSize, design: .rounded))
             .foregroundStyle(.secondary)
             .shadowSm()
     }
 
-    /// 将文本样式化为 iPhone 版海报标题样式
+    /// 将文本样式化为 iPhone 版海报标题样式（响应式）
     ///
-    /// 使用大号圆体字（150pt），加粗显示，带有底部间距和轻微阴影效果。
-    /// 适用于 App Store 截图中的 iPhone 版海报主标题。
+    /// 根据可用空间动态计算字体大小，确保在不同尺寸的海报中都能良好显示。
     ///
-    /// - Returns: 应用了标题样式的视图
-    func asPosterTitleForIPhone() -> some View {
-        self.bold()
-            .font(.system(size: 160, design: .rounded))
-            .padding(.bottom, 40)
+    /// - Parameter geo: GeometryProxy 提供的可用空间信息
+    /// - Returns: 应用了响应式标题样式的视图
+    func asPosterTitleForIPhone(in geo: GeometryProxy) -> some View {
+        let fontSize = min(geo.size.width, geo.size.height) * 0.18
+        let padding = fontSize * 0.25
+
+        return self.bold()
+            .font(.system(size: fontSize, design: .rounded))
+            .padding(.bottom, padding)
             .shadowSm()
     }
 
-    /// 将文本样式化为 iPhone 版海报副标题样式
+    /// 将文本样式化为 iPhone 版海报副标题样式（响应式）
     ///
-    /// 使用中号圆体字（80pt），次要颜色显示，带有轻微阴影效果。
-    /// 适用于 App Store 截图中的 iPhone 版海报副标题或描述文字。
+    /// 根据可用空间动态计算字体大小，确保在不同尺寸的海报中都能良好显示。
     ///
-    /// - Returns: 应用了副标题样式的视图
-    func asPosterSubTitleForIPhone() -> some View {
-        self.font(.system(size: 100, design: .rounded))
+    /// - Parameter geo: GeometryProxy 提供的可用空间信息
+    /// - Returns: 应用了响应式副标题样式的视图
+    func asPosterSubTitleForIPhone(in geo: GeometryProxy) -> some View {
+        let fontSize = min(geo.size.width, geo.size.height) * 0.1
+
+        return self.font(.system(size: fontSize, design: .rounded))
             .foregroundStyle(.secondary)
             .shadowSm()
     }

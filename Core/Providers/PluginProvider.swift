@@ -35,20 +35,26 @@ final class PluginProvider: ObservableObject, SuperLog {
     private func registerPlugins() {
         let logo = LogoPlugin.shared
         let caffeinate = CaffeinatePlugin.shared
+        let caffeinatePoster = CaffeinatePosterPlugin.shared
         let breakReminder = BreakReminderPlugin.shared
+        let breakReminderPoster = BreakReminderPosterPlugin.shared
         let purchase = PurchasePlugin.shared
-        self.plugins = [logo, caffeinate, breakReminder, purchase]
+        self.plugins = [logo, caffeinate, caffeinatePoster, breakReminder, breakReminderPoster, purchase]
         self.isLoaded = true
 
         logo.onRegister()
         caffeinate.onRegister()
+        caffeinatePoster.onRegister()
         breakReminder.onRegister()
+        breakReminderPoster.onRegister()
         purchase.onRegister()
 
         if Self.verbose {
             os_log("\(self.t)✅ Loaded LogoPlugin.")
             os_log("\(self.t)✅ Loaded CaffeinatePlugin.")
+            os_log("\(self.t)✅ Loaded CaffeinatePosterPlugin.")
             os_log("\(self.t)✅ Loaded BreakReminderPlugin.")
+            os_log("\(self.t)✅ Loaded BreakReminderPosterPlugin.")
             os_log("\(self.t)✅ Loaded PurchasePlugin.")
         }
     }

@@ -87,7 +87,7 @@ struct StatusBar: View {
         VStack(spacing: 0) {
             // 退出应用
             MenuItemRow(
-                title: "Quit",
+                title: String(localized: "Quit", table: "Core", comment: "Menu item to quit the application"),
                 color: .red,
                 action: {
                     NSApp.terminate(nil)
@@ -105,8 +105,8 @@ struct StatusBar: View {
 
 /// 菜单项行
 struct MenuItemRow: View {
-    /// 标题（支持国际化）
-    let title: LocalizedStringKey
+    /// 标题
+    let title: String
     /// 颜色
     var color: Color = .primary
     /// 点击动作
@@ -118,7 +118,7 @@ struct MenuItemRow: View {
     var body: some View {
         Button(action: action) {
             HStack(spacing: 12) {
-                Text(title, tableName: "Core")
+                Text(title)
                     .font(.system(size: 13))
                     .foregroundColor(isHovering ? .white : color)
                     .padding(.horizontal)

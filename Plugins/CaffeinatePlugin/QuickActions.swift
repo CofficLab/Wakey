@@ -8,7 +8,7 @@ struct CaffeinateQuickActions: View {
     var body: some View {
         VStack(spacing: 0) {
             QuickActionMenuItem(
-                title: "Keep Awake & Display On",
+                title: String(localized: "Keep Awake & Display On", table: "Caffeinate", comment: "Option to keep both system and display awake"),
                 icon: "sun.max.fill",
                 color: .orange,
                 isSelected: demoModeActivated ? true : (manager.activeAction == .systemAndDisplay),
@@ -23,7 +23,7 @@ struct CaffeinateQuickActions: View {
                 .padding(.leading, 36)
 
             QuickActionMenuItem(
-                title: "Keep Awake & Allow Display Sleep",
+                title: String(localized: "Keep Awake & Allow Display Sleep", table: "Caffeinate", comment: "Option to keep system awake but allow display to sleep"),
                 icon: "moon.fill",
                 color: .blue,
                 isSelected: demoModeActivated ? false : (manager.activeAction == .systemOnly),
@@ -38,7 +38,7 @@ struct CaffeinateQuickActions: View {
                 .padding(.leading, 36)
 
             QuickActionMenuItem(
-                title: "Keep Awake & Turn Off Display Now",
+                title: String(localized: "Keep Awake & Turn Off Display Now", table: "Caffeinate", comment: "Option to keep system awake and turn off display immediately"),
                 icon: "power",
                 color: .purple,
                 showCheckmark: false, // Instant action, no checkmark
@@ -84,7 +84,7 @@ struct CaffeinateQuickActions: View {
 // MARK: - Quick Action Menu Item
 
 private struct QuickActionMenuItem: View {
-    let title: LocalizedStringKey
+    let title: String
     let icon: String
     let color: Color
     var isSelected: Bool = false
@@ -109,7 +109,7 @@ private struct QuickActionMenuItem: View {
                     .foregroundColor(isHovering ? .white : color)
                     .frame(width: 18)
 
-                Text(title, tableName: "Caffeinate")
+                Text(LocalizedStringKey(title), tableName: "Caffeinate")
                     .font(.system(size: 11))
                     .foregroundColor(isHovering ? .white : .secondary)
 
