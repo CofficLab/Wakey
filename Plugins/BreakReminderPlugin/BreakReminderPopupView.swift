@@ -59,31 +59,6 @@ struct BreakReminderPopupView: View {
 
             // Control buttons
             BreakReminderControls()
-
-            Divider()
-                .padding(.horizontal, 12)
-
-            // Statistics hint
-            Button(action: {
-                // TODO: Show statistics view
-            }) {
-                HStack {
-                    Image(systemName: "chart.bar")
-                        .font(.system(size: 9))
-
-                    Text("View Statistics", tableName: "BreakReminder")
-                        .font(.system(size: 10))
-
-                    Spacer()
-
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 8))
-                }
-                .foregroundColor(.secondary)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-            }
-            .buttonStyle(.plain)
         }
         .padding(.bottom, 8)
     }
