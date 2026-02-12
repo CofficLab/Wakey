@@ -13,7 +13,7 @@ actor CaffeinatePlugin: SuperPlugin, SuperLog {
     nonisolated static let emoji = "☕️"
 
     /// Whether to enable this plugin
-    nonisolated(unsafe) static let enable = true
+    static let enable = true
 
     /// Whether to enable detailed log output
     nonisolated static let verbose = true
@@ -45,7 +45,7 @@ actor CaffeinatePlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    nonisolated(unsafe) static let shared = CaffeinatePlugin()
+    static let shared = CaffeinatePlugin()
 
     // MARK: - UI Contributions
 
@@ -53,45 +53,6 @@ actor CaffeinatePlugin: SuperPlugin, SuperLog {
     /// - Returns: 要添加到状态栏弹出的视图，如果不需要则返回 nil
     @MainActor func addStatusBarPopupView() -> AnyView? {
         AnyView(CaffeinatePopupView())
-    }
-
-    /// 提供海报视图配置
-    /// - Returns: 海报视图配置数组
-    @MainActor static func providePosterViews() -> [PosterViewConfiguration] {
-        [
-            PosterViewConfiguration(
-                id: "caffeinate.intro",
-                title: "Wakey 介绍",
-                subtitle: "简单纯粹的防休眠工具",
-                order: 1
-            ) {
-                CaffeinatePosterIntro()
-            },
-            PosterViewConfiguration(
-                id: "caffeinate.features",
-                title: "极简设计",
-                subtitle: "核心功能介绍",
-                order: 2
-            ) {
-                CaffeinatePosterFeatures()
-            },
-            PosterViewConfiguration(
-                id: "caffeinate.statusbar",
-                title: "状态栏控制",
-                subtitle: "快捷菜单",
-                order: 3
-            ) {
-                CaffeinatePosterStatusBar()
-            },
-            PosterViewConfiguration(
-                id: "caffeinate.modes",
-                title: "多模式支持",
-                subtitle: "灵活的防休眠选项",
-                order: 4
-            ) {
-                CaffeinatePosterModes()
-            },
-        ]
     }
 }
 

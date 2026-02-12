@@ -41,7 +41,6 @@ struct BreakReminderPosterFeatures: View {
                     .frame(width: geo.size.width * 0.15)
                     .frame(height: geo.size.height * 0.4)
                     .frame(width: geo.size.width * 0.5)
-                    .scaleEffect(4)
             }
         }
         .inPosterContainer()

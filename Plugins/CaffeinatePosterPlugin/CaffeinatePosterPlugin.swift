@@ -11,7 +11,7 @@ actor CaffeinatePosterPlugin: SuperPlugin, SuperLog {
 
     nonisolated static let emoji = "☕️"
 
-    nonisolated(unsafe) static let enable = true
+    static let enable = true
 
     nonisolated static let verbose = true
 
@@ -33,7 +33,7 @@ actor CaffeinatePosterPlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    nonisolated(unsafe) static let shared = CaffeinatePosterPlugin()
+    static let shared = CaffeinatePosterPlugin()
 
     // MARK: - UI Contributions
 

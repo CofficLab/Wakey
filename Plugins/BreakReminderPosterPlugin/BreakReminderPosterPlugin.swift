@@ -11,7 +11,7 @@ actor BreakReminderPosterPlugin: SuperPlugin, SuperLog {
 
     nonisolated static let emoji = "💚"
 
-    nonisolated(unsafe) static let enable = true
+    static let enable = true
 
     nonisolated static let verbose = true
 
@@ -33,11 +33,9 @@ actor BreakReminderPosterPlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    nonisolated(unsafe) static let shared = BreakReminderPosterPlugin()
+    static let shared = BreakReminderPosterPlugin()
 
     // MARK: - UI Contributions
-
-    @MainActor func addStatusBarPopupView() -> AnyView? { nil }
 
     /// 提供休息提醒相关的海报视图
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] {
@@ -60,9 +58,6 @@ actor BreakReminderPosterPlugin: SuperPlugin, SuperLog {
             },
         ]
     }
-
-    /// 提供 Logo（无）
-    @MainActor static func provideLogos() -> [any SuperLogo] { [] }
 }
 
 // MARK: - Preview

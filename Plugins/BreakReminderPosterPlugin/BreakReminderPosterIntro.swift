@@ -37,6 +37,7 @@ struct BreakReminderPosterIntro: View {
                     .scaleEffect(2)
                 }
                 .frame(width: geo.size.width * 0.5)
+                .inIMacScreen()
             }
         }
         .inPosterContainer()

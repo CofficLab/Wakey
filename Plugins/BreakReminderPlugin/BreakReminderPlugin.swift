@@ -53,28 +53,6 @@ actor BreakReminderPlugin: SuperPlugin, SuperLog {
     @MainActor func addStatusBarPopupView() -> AnyView? {
         AnyView(BreakReminderPopupView())
     }
-
-    /// Provide poster view configurations
-    @MainActor static func providePosterViews() -> [PosterViewConfiguration] {
-        [
-            PosterViewConfiguration(
-                id: "breakreminder.intro",
-                title: "休息提醒",
-                subtitle: "健康工作，定时休息",
-                order: 10
-            ) {
-                BreakReminderPosterIntro()
-            },
-            PosterViewConfiguration(
-                id: "breakreminder.features",
-                title: "健康提醒",
-                subtitle: "功能特性",
-                order: 11
-            ) {
-                BreakReminderPosterFeatures()
-            },
-        ]
-    }
 }
 
 // MARK: - Preview
