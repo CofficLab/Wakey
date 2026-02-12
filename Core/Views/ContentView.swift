@@ -3,14 +3,9 @@ import SwiftUI
 
 /// 主内容视图
 struct ContentView: View {
-    nonisolated static let emoji = "📱"
-    nonisolated static let verbose = false
-
-    @EnvironmentObject var app: AppProvider
-    @EnvironmentObject var pluginProvider: PluginProvider
-
     var body: some View {
         StatusBar()
+            .background(.background)
     }
 }
 
@@ -19,5 +14,6 @@ struct ContentView: View {
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .withDebugBar()
+        .frame(width: 400)
+        .frame(height: 600)
 }

@@ -30,8 +30,6 @@ struct StatusBar: View {
             // 第三部分：菜单项
             menuItemsSection
         }
-        .frame(width: 300)
-        .background(Color(nsColor: .windowBackgroundColor))
     }
 
     // MARK: - App Info Section
@@ -53,7 +51,7 @@ struct StatusBar: View {
                         .font(.system(size: 15, weight: .semibold))
 
                     Text("v\(appVersion)", tableName: "Core")
-                        .font(.system(size: 10) )
+                        .font(.system(size: 10))
                         .foregroundColor(.secondary)
                 }
 
@@ -141,13 +139,16 @@ struct MenuItemRow: View {
 
 // MARK: - Preview
 
-#Preview("StatusBar Popup") {
+#Preview("StatusBar") {
     StatusBar()
         .inRootView()
+        .frame(height: 600)
+        .frame(width: 300)
 }
 
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .withDebugBar()
+        .frame(height: 600)
+        .frame(width: 300)
 }

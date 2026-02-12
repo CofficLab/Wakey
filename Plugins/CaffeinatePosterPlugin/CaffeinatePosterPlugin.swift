@@ -76,9 +76,6 @@ actor CaffeinatePosterPlugin: SuperPlugin, SuperLog {
             },
         ]
     }
-
-    /// 提供 Logo（无）
-    @MainActor static func provideLogos() -> [any SuperLogo] { [] }
 }
 
 // MARK: - Preview

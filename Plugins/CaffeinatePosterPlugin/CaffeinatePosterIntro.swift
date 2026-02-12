@@ -16,42 +16,15 @@ struct CaffeinatePosterIntro: View {
                 .frame(width: geo.size.width * 0.5)
                 .inMagicVStackCenter()
 
-                ZStack {
-                    ContentLayout()
-                        .inRootView()
-                        .inDemoMode()
-                        .background(.background).frame(width: geo.size.width * 0.16)
-                        .frame(height: geo.size.height * 0.4)
-                        .roundedLarge()
-                        .rotation3DEffect(
-                            .degrees(-8),
-                            axis: (x: 0, y: 0, z: 1),
-                            anchor: .bottomLeading,
-                            perspective: 1.0
-                        )
-                        .offset(x: -70, y: -20)
-                        .shadowSm()
-                        .scaleEffect(2)
-
-                    ContentLayout()
-                        .inRootView()
-                        .inDemoMode()
-                        .inDemoModeActivated()
-                        .background(.background)
-                        .frame(width: geo.size.width * 0.16)
-                        .frame(height: geo.size.height * 0.4)
-                        .roundedLarge()
-                        .shadow3xl()
-                        .rotation3DEffect(
-                            .degrees(8),
-                            axis: (x: 0, y: 0, z: 1),
-                            anchor: .bottomLeading,
-                            perspective: 1.0
-                        )
-                        .offset(x: 10, y: -20)
-                        .scaleEffect(2)
-                }
-                .frame(width: geo.size.width * 0.5)
+                ContentLayout()
+                    .inRootView()
+                    .inDemoMode()
+                    .roundedLarge()
+                    .shadowSm()
+                    .scaleEffect(2)
+                    .frame(width: geo.size.width * 0.15)
+                    .frame(height: geo.size.height * 0.4)
+                    .frame(width: geo.size.width * 0.5)
             }
         }
         .inPosterContainer()

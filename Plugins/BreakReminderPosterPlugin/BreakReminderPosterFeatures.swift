@@ -36,11 +36,12 @@ struct BreakReminderPosterFeatures: View {
                 ContentLayout()
                     .inRootView()
                     .inDemoMode()
+                    .shadow2xl()
                     .roundedLarge()
-                    .shadowSm()
                     .frame(width: geo.size.width * 0.15)
-                    .frame(height: geo.size.height * 0.4)
+                    .frame(height: geo.size.height * 0.8)
                     .frame(width: geo.size.width * 0.5)
+                    .scaleEffect(2)
             }
         }
         .inPosterContainer()

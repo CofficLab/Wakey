@@ -33,13 +33,14 @@ struct CaffeinatePosterModes: View {
                 .frame(width: geo.size.width * 0.5)
                 .inMagicVStackCenter()
 
-                ContentView()
+                ContentLayout()
                     .inRootView()
                     .inDemoMode()
-                    .frame(width: geo.size.width * 0.15)
-                    .frame(height: geo.size.height * 0.4)
                     .roundedLarge()
                     .shadowSm()
+                    .scaleEffect(2)
+                    .frame(width: geo.size.width * 0.15)
+                    .frame(height: geo.size.height * 0.4)
                     .frame(width: geo.size.width * 0.5)
             }
         }
