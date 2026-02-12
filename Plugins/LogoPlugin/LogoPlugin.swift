@@ -35,7 +35,7 @@ actor LogoPlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    nonisolated(unsafe) static let shared = LogoPlugin()
+    static let shared = LogoPlugin()
 
     // MARK: - UI Contributions
 
@@ -45,88 +45,38 @@ actor LogoPlugin: SuperPlugin, SuperLog {
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] { [] }
 
     /// 提供 Logo 配置
-    @MainActor static func provideLogos() -> [LogoConfiguration] {
+    @MainActor static func provideLogos() -> [any SuperLogo] {
+        allLogos
+        .sorted { $0.order < $1.order }
+    }
+
+    /// 所有可用的 Logo 组件
+    @MainActor private static var allLogos: [any SuperLogo] {
         [
-            LogoConfiguration(
-                id: "logo.lightbulb",
-                title: "智能光源",
-                description: "灯泡 + 科技感，象征点亮灵感",
-                order: 1
-            ) { isMonochrome, _ in
-                LogoLightBulb(isMonochrome: isMonochrome)
-            },
-            LogoConfiguration(
-                id: "logo.owl",
-                title: "夜猫子",
-                description: "猫头鹰眼睛，象征夜间工作、保持清醒",
-                order: 2
-            ) { isMonochrome, _ in
-                LogoOwl(isMonochrome: isMonochrome)
-            },
-            LogoConfiguration(
-                id: "logo.coffee",
-                title: "咖啡杯",
-                description: "热气腾腾的咖啡杯，象征提神",
-                order: 3
-            ) { isMonochrome, _ in
-                LogoCoffee(isMonochrome: isMonochrome)
-            },
-            LogoConfiguration(
-                id: "logo.sun",
-                title: "永恒太阳",
-                description: "不落的太阳，象征持续清醒",
-                order: 4
-            ) { isMonochrome, _ in
-                LogoSun(isMonochrome: isMonochrome)
-            },
-            LogoConfiguration(
-                id: "logo.bolt",
-                title: "能量闪电",
-                description: "能量环 + 闪电，象征充满活力",
-                order: 5
-            ) { isMonochrome, _ in
-                LogoBolt(isMonochrome: isMonochrome)
-            },
-            LogoConfiguration(
-                id: "logo.battery",
-                title: "充电电池",
-                description: "充电中的电池，象征持续供电",
-                order: 6
-            ) { isMonochrome, _ in
-                LogoBattery(isMonochrome: isMonochrome)
-            },
-            LogoConfiguration(
-                id: "logo.moon",
-                title: "月亮守护",
-                description: "月亮 + 星星，象征夜间工作",
-                order: 7
-            ) { isMonochrome, _ in
-                LogoMoon(isMonochrome: isMonochrome)
-            },
-            LogoConfiguration(
-                id: "logo.nosleep",
-                title: "禁止睡眠",
-                description: "Zzz 被划掉，象征保持清醒",
-                order: 8
-            ) { isMonochrome, _ in
-                LogoNoSleep(isMonochrome: isMonochrome)
-            },
-            LogoConfiguration(
-                id: "logo.radar",
-                title: "雷达扫描",
-                description: "雷达监控，象征持续活跃",
-                order: 9
-            ) { isMonochrome, _ in
-                LogoRadar(isMonochrome: isMonochrome)
-            },
-            LogoConfiguration(
-                id: "logo.pulse",
-                title: "心跳脉冲",
-                description: "心电图脉冲，象征保持活跃",
-                order: 10
-            ) { isMonochrome, _ in
-                LogoPulse(isMonochrome: isMonochrome)
-            },
+            LogoLightBulb(),
+            LogoOwl(),
+            LogoCoffee(),
+            LogoSun(),
+            LogoBolt(),
+            LogoBattery(),
+            LogoMoon(),
+            LogoNoSleep(),
+            LogoRadar(),
+            LogoPulse(),
         ]
     }
+}
+
+// MARK: - Preview
+
+#Preview("Logo Layout") {
+    LogoLayout()
+        .inRootView()
+        .withDebugBar()
+}
+
+#Preview("LogoView - Snapshot") {
+    LogoView(variant: .appIcon)
+        .inMagicContainer(.init(width: 1024, height: 1024), scale: 0.5)
+        .inRootView()
 }

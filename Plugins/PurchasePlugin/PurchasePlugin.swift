@@ -56,5 +56,5 @@ actor PurchasePlugin: SuperPlugin, SuperLog {
     }
 
     /// 提供购买相关的 Logo（可选）
-    @MainActor static func provideLogos() -> [LogoConfiguration] { [] }
+    @MainActor static func provideLogos() -> [any SuperLogo] { [] }
 }

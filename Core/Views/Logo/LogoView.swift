@@ -6,9 +6,9 @@ import SwiftUI
 // MARK: - Logo View
 
 struct LogoView: View {
-    public enum Variant {
+    public enum Variant: Equatable, Hashable {
         case appIcon // For Dock, App Icon preview, Large displays
-        case statusBar // For Menu Bar (Status Bar) - small, high contrast
+        case statusBar(isActive: Bool) // For Menu Bar - small, high contrast
         case about // For About window
         case general // Default general purpose
     }
@@ -19,60 +19,56 @@ struct LogoView: View {
     var selectedLogoId: String? = nil
 
     var variant: Variant = .general
-    var isActive: Bool = false // For statusBar variant only
 
     /// 当前选中的 Logo 配置
-    private var currentLogoConfig: LogoConfiguration? {
+    private var currentLogoConfig: (any SuperLogo)? {
         if let id = selectedLogoId {
             return pluginProvider.getLogoConfigurations().first { $0.id == id }
         }
+
         return pluginProvider.getDefaultLogoConfiguration()
-    }
-
-    /// 是否使用单色模式
-    private var useMonochrome: Bool {
-        variant == .statusBar && !isActive
-    }
-
-    /// 是否禁用动画
-    private var disableAnimation: Bool {
-        variant == .statusBar
     }
 
     var body: some View {
         if let config = currentLogoConfig {
-            config.content(useMonochrome, disableAnimation)
-                .modifier(LogoVariantModifier(variant: variant))
+            config.makeView(for: variant)
         } else {
             // Fallback: 默认闪电图标
-            Image(systemName: "bolt.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .foregroundColor(useMonochrome ? .primary : .cyan)
-                .modifier(LogoVariantModifier(variant: variant))
+            variant.makeFallbackView()
         }
     }
 }
 
-// MARK: - Logo Variant Modifier
+// MARK: - Variant Fallback View
 
-struct LogoVariantModifier: ViewModifier {
-    let variant: LogoView.Variant
-
-    func body(content: Content) -> some View {
-        switch variant {
+extension LogoView.Variant {
+    /// 为每个变体创建一个简单的后备视图
+    @ViewBuilder
+    func makeFallbackView() -> some View {
+        switch self {
         case .appIcon:
-            content
+            Image(systemName: "bolt.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(.cyan)
                 .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
-                .background(.black)
-        case .statusBar:
-            content
-                .scaleEffect(1)
+                .background(Color.black)
+        case .statusBar(let isActive):
+            Image(systemName: "bolt.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(isActive ? .cyan : .primary)
         case .about:
-            content
+            Image(systemName: "bolt.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(.cyan)
                 .shadow(radius: 5)
         case .general:
-            content
+            Image(systemName: "bolt.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(.cyan)
         }
     }
 }
@@ -116,16 +112,16 @@ class InteractiveHostingView<Content: View>: NSHostingView<Content> {
                 }
             }
 
-            // Status Bar - Inactive
+            // Status Bar - Inactive & Active
             HStack(spacing: 30) {
                 VStack {
-                    LogoView(variant: .statusBar, isActive: false)
+                    LogoView(variant: .statusBar(isActive: false))
                         .frame(width: 40, height: 40)
                     Text("Status Bar (Inactive)", tableName: "Core").font(.caption)
                 }
 
                 VStack {
-                    LogoView(variant: .statusBar, isActive: true)
+                    LogoView(variant: .statusBar(isActive: true))
                         .frame(width: 40, height: 40)
                         .background(Color.black)
                     Text("Status Bar (Active)", tableName: "Core").font(.caption)

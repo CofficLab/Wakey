@@ -12,7 +12,7 @@ protocol SuperPlugin: Actor {
 
     @MainActor func addStatusBarPopupView() -> AnyView?
     @MainActor static func providePosterViews() -> [PosterViewConfiguration]
-    @MainActor static func provideLogos() -> [LogoConfiguration]
+    @MainActor static func provideLogos() -> [any SuperLogo]
 
     nonisolated func onRegister()
     nonisolated func onEnable()
@@ -37,7 +37,7 @@ extension SuperPlugin {
 
     @MainActor func addStatusBarPopupView() -> AnyView? { nil }
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] { [] }
-    @MainActor static func provideLogos() -> [LogoConfiguration] { [] }
+    @MainActor static func provideLogos() -> [any SuperLogo] { [] }
 
     nonisolated func onRegister() {}
     nonisolated func onEnable() {}

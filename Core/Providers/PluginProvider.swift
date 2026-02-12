@@ -77,16 +77,16 @@ final class PluginProvider: ObservableObject, SuperLog {
     }
 
     /// 获取所有插件提供的 Logo 配置
-    /// - Returns: LogoConfiguration 数组，按 order 排序
-    func getLogoConfigurations() -> [LogoConfiguration] {
+    /// - Returns: SuperLogo 数组，按 order 排序
+    func getLogoConfigurations() -> [any SuperLogo] {
         plugins
             .flatMap { type(of: $0).provideLogos() }
             .sorted { $0.order < $1.order }
     }
 
     /// 获取默认 Logo 配置（第一个）
-    /// - Returns: LogoConfiguration 或 nil
-    func getDefaultLogoConfiguration() -> LogoConfiguration? {
+    /// - Returns: SuperLogo 或 nil
+    func getDefaultLogoConfiguration() -> (any SuperLogo)? {
         getLogoConfigurations().first
     }
 

@@ -7,8 +7,7 @@ struct StatusBarIconView: View {
 
     var body: some View {
         LogoView(
-            variant: .statusBar,
-            isActive: viewModel.isActive
+            variant: .statusBar(isActive: viewModel.isActive)
         )
         .infinite()
         .frame(width: 24, height: 24)

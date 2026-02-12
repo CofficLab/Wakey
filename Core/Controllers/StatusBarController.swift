@@ -185,7 +185,7 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
         // 如果弹窗不存在，创建它
         if popover == nil {
             popover = NSPopover()
-            popover?.contentSize = NSSize(width: 280, height: 400)
+            popover?.contentSize = NSSize(width: 300, height: 400)
             popover?.behavior = .transient
             popover?.animates = true
             popover?.delegate = self

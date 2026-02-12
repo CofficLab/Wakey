@@ -30,7 +30,7 @@ struct StatusBar: View {
             // 第三部分：菜单项
             menuItemsSection
         }
-        .frame(width: 250)
+        .frame(width: 300)
         .background(Color(nsColor: .windowBackgroundColor))
     }
 

@@ -7,21 +7,21 @@ struct LogoLayout: View {
 
     @State private var selectedId: String?
 
-    private var logoConfigurations: [LogoConfiguration] {
+    private var logoConfigurations: [any SuperLogo] {
         pluginProvider.getLogoConfigurations()
     }
 
-    private var selectedConfig: LogoConfiguration? {
+    private var selectedConfig: (any SuperLogo)? {
         guard let id = selectedId else { return nil }
         return logoConfigurations.first { $0.id == id }
     }
 
     var body: some View {
         NavigationSplitView {
-            List(logoConfigurations, selection: $selectedId) { config in
+            List(logoConfigurations, id: \.id, selection: $selectedId) { config in
                 HStack(spacing: 12) {
                     // Logo 缩略图
-                    config.content(false, true)
+                    config.makeView(for: .general)
                         .frame(width: 32, height: 32)
 
                     VStack(alignment: .leading, spacing: 2) {
@@ -56,14 +56,12 @@ struct LogoLayout: View {
 // MARK: - Logo Detail Preview
 
 struct LogoDetailPreview: View {
-    let config: LogoConfiguration
-
-    @State private var isMonochrome = false
+    let config: any SuperLogo
 
     var body: some View {
         ScrollView {
             VStack(spacing: 40) {
-                // 主预览
+                // 标题和描述
                 VStack(spacing: 16) {
                     Text(config.title)
                         .font(.title)
@@ -74,38 +72,33 @@ struct LogoDetailPreview: View {
                             .font(.body)
                             .foregroundStyle(.secondary)
                     }
-
-                    config.content(isMonochrome, true)
-                        .frame(width: 256, height: 256)
-                        .background(isMonochrome ? Color.white : Color.clear)
-                        .cornerRadius(32)
-                        .shadow(radius: isMonochrome ? 0 : 10)
                 }
 
-                // 控制选项
-                VStack(spacing: 16) {
-                    Toggle("单色模式", isOn: $isMonochrome)
-                        .toggleStyle(.checkbox)
+                // 变体预览网格
+                VStack(spacing: 32) {
+                    variantSection(title: "主要变体", variants: [
+                        (.appIcon, "App Icon", 120),
+                        (.about, "About", 120),
+                        (.general, "General", 120)
+                    ])
 
-                    Text("适用于状态栏等需要黑白显示的场景")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-                .padding()
-                .background(.regularMaterial)
-                .cornerRadius(12)
+                    variantSection(title: "状态栏变体", variants: [
+                        (.statusBar(isActive: true), "Status Bar (Active)", 40),
+                        (.statusBar(isActive: false), "Status Bar (Inactive)", 40)
+                    ])
 
-                // 不同尺寸预览
-                VStack(spacing: 24) {
-                    Text("尺寸预览")
-                        .font(.headline)
+                    // 不同尺寸预览
+                    VStack(spacing: 24) {
+                        Text("General 变体 - 尺寸预览")
+                            .font(.headline)
 
-                    HStack(spacing: 32) {
-                        logoSizePreview(size: 16, label: "16pt")
-                        logoSizePreview(size: 24, label: "24pt")
-                        logoSizePreview(size: 32, label: "32pt")
-                        logoSizePreview(size: 64, label: "64pt")
-                        logoSizePreview(size: 128, label: "128pt")
+                        HStack(spacing: 32) {
+                            sizePreview(size: 16, label: "16pt")
+                            sizePreview(size: 24, label: "24pt")
+                            sizePreview(size: 32, label: "32pt")
+                            sizePreview(size: 64, label: "64pt")
+                            sizePreview(size: 128, label: "128pt")
+                        }
                     }
                 }
             }
@@ -113,9 +106,36 @@ struct LogoDetailPreview: View {
         }
     }
 
-    private func logoSizePreview(size: CGFloat, label: String) -> some View {
+    private func variantSection(title: String, variants: [(variant: LogoView.Variant, label: String, size: CGFloat)]) -> some View {
+        VStack(spacing: 16) {
+            Text(title)
+                .font(.headline)
+
+            HStack(spacing: 24) {
+                ForEach(variants, id: \.label) { item in
+                    VStack(spacing: 8) {
+                        config.makeView(for: item.variant)
+                            .frame(width: item.size, height: item.size)
+                            .background(
+                                (item.variant == .statusBar(isActive: true)) ? Color.black : Color.clear
+                            )
+                            .cornerRadius(12)
+
+                        Text(item.label)
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+        }
+        .padding()
+        .background(.regularMaterial)
+        .cornerRadius(12)
+    }
+
+    private func sizePreview(size: CGFloat, label: String) -> some View {
         VStack(spacing: 8) {
-            config.content(isMonochrome, true)
+            config.makeView(for: .general)
                 .frame(width: size, height: size)
 
             Text(label)
