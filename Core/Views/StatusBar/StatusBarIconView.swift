@@ -10,7 +10,7 @@ struct StatusBarIconView: View {
             variant: .statusBar(isActive: viewModel.isActive)
         )
         .infinite()
-        .frame(width: 24, height: 24)
+        .frame(width: 20, height: 20)
         .inRootView()
     }
 }
