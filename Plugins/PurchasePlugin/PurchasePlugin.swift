@@ -46,12 +46,19 @@ actor PurchasePlugin: SuperPlugin, SuperLog {
         [
             PosterViewConfiguration(
                 id: "purchase.pro",
-                title: "Pro 功能",
-                subtitle: "解锁高级功能",
+                title: String(localized: "Pro Features", table: "Purchase"),
+                subtitle: String(localized: "Unlock premium features", table: "Purchase"),
                 order: 100
             ) {
                 PurchasePosterPro()
             },
         ]
     }
+}
+
+// MARK: - Preview
+
+#Preview("Purchase Poster - Pro") {
+    PurchasePosterPro()
+        .inMagicContainer(.macBook13, scale: 0.4)
 }

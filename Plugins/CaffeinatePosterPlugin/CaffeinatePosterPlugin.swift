@@ -37,8 +37,6 @@ actor CaffeinatePosterPlugin: SuperPlugin, SuperLog {
 
     // MARK: - UI Contributions
 
-    @MainActor func addStatusBarPopupView() -> AnyView? { nil }
-
     /// 提供防休眠相关的海报视图
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] {
         [
@@ -75,5 +73,6 @@ actor CaffeinatePosterPlugin: SuperPlugin, SuperLog {
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .withDebugBar()
+        .frame(height: 600)
+        .frame(width: 300)
 }

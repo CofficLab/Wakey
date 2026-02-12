@@ -55,19 +55,19 @@ extension PurchaseViewDemo {
             // 标题区域
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Wakey Pro")
+                    Text(String(localized: "Wakey Pro", table: "Purchase"))
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
 
-                    Text("解锁全部高级功能")
+                    Text(String(localized: "Unlock all premium features", table: "Purchase"))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
 
                 Spacer()
 
-                Text("ID: WAKEY001")
+                Text(String(localized: "ID: WAKEY001", table: "Purchase"))
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
@@ -76,17 +76,17 @@ extension PurchaseViewDemo {
             // 订阅选项
             VStack(spacing: 16) {
                 subscriptionOption(
-                    title: "Wakey Pro 终身版",
+                    title: String(localized: "Wakey Pro Lifetime", table: "Purchase"),
                     productId: "com.coffic.wakey.lifetime",
-                    offer: "一次购买，永久使用",
+                    offer: String(localized: "One-time purchase, use forever", table: "Purchase"),
                     price: "¥18.00"
                 )
 
                 subscriptionOption(
-                    title: "Wakey Pro 年度订阅",
+                    title: String(localized: "Wakey Pro Annual", table: "Purchase"),
                     productId: "com.coffic.wakey.annual",
-                    offer: "享受所有更新",
-                    price: "¥6.00/年"
+                    offer: String(localized: "Enjoy all updates", table: "Purchase"),
+                    price: "¥6.00/year"
                 )
             }
         }
@@ -134,19 +134,19 @@ extension PurchaseViewDemo {
 extension PurchaseViewDemo {
     private var restoreSection: some View {
         VStack(spacing: 16) {
-            Text("恢复购买")
+            Text(String(localized: "Restore Purchase", table: "Purchase"))
                 .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
 
-            Text("如果您之前在其他设备上购买过订阅,可以通过点击下方的\"恢复购买\"按钮来恢复您的订阅。请确保您使用的是购买时所用的Apple ID 账号。")
+            Text(String(localized: "If you have previously purchased a subscription on another device, you can restore your subscription by clicking the \"Restore Purchase\" button below. Please make sure you are using the same Apple ID used for the purchase.", table: "Purchase"))
                 .font(.body)
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.leading)
                 .lineLimit(nil)
 
             Button(action: {}) {
-                Text("恢复购买")
+                Text(String(localized: "Restore Purchase", table: "Purchase"))
                     .font(.headline)
                     .fontWeight(.medium)
                     .foregroundColor(.primary)
@@ -170,11 +170,11 @@ extension PurchaseViewDemo {
 extension PurchaseViewDemo {
     private var legalSection: some View {
         HStack(spacing: 20) {
-            Text("隐私政策")
+            Text(String(localized: "Privacy Policy", table: "Purchase"))
                 .font(.body)
                 .foregroundColor(.primary)
 
-            Text("许可协议")
+            Text(String(localized: "Terms of Use", table: "Purchase"))
                 .font(.body)
                 .foregroundColor(.primary)
         }
