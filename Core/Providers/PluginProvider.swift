@@ -31,13 +31,16 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// 注册插件
     private func registerPlugins() {
         let caffeinate = CaffeinatePlugin.shared
-        self.plugins = [caffeinate]
+        let breakReminder = BreakReminderPlugin.shared
+        self.plugins = [caffeinate, breakReminder]
         self.isLoaded = true
 
         caffeinate.onRegister()
+        breakReminder.onRegister()
 
         if Self.verbose {
             os_log("\(self.t)✅ Loaded CaffeinatePlugin.")
+            os_log("\(self.t)✅ Loaded BreakReminderPlugin.")
         }
     }
 

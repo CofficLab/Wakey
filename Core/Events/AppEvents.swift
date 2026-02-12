@@ -22,6 +22,10 @@ extension Notification.Name {
     /// 请求更新状态栏网速显示的通知
     /// userInfo: ["uploadSpeed": Double, "downloadSpeed": Double, "source": String]
     static let requestStatusBarSpeedUpdate = Notification.Name("requestStatusBarSpeedUpdate")
+
+    /// 请求更新休息提醒状态的通知
+    /// userInfo: ["isActive": Bool, "type": String?]
+    static let requestBreakReminderStatusUpdate = Notification.Name("requestBreakReminderStatusUpdate")
 }
 
 // MARK: - NotificationCenter Extension
@@ -73,6 +77,22 @@ extension NotificationCenter {
             name: .requestStatusBarSpeedUpdate,
             object: nil,
             userInfo: ["uploadSpeed": uploadSpeed, "downloadSpeed": downloadSpeed, "source": source]
+        )
+    }
+
+    /// 发送休息提醒状态更新请求
+    /// - Parameters:
+    ///   - isActive: 是否激活
+    ///   - type: 提醒类型标识符
+    static func postRequestBreakReminderStatusUpdate(isActive: Bool, type: String?) {
+        var userInfo: [String: Any] = ["isActive": isActive]
+        if let type = type {
+            userInfo["type"] = type
+        }
+        NotificationCenter.default.post(
+            name: .requestBreakReminderStatusUpdate,
+            object: nil,
+            userInfo: userInfo
         )
     }
 }
@@ -127,6 +147,20 @@ extension View {
                 return
             }
             action(upload, download)
+        }
+    }
+
+    /// 监听休息提醒状态更新的事件
+    /// - Parameter action: 事件处理闭包，参数为 (isActive: Bool, type: String?)
+    /// - Returns: 修改后的视图
+    func onBreakReminderStatusUpdate(perform action: @escaping (_ isActive: Bool, _ type: String?) -> Void) -> some View {
+        self.onReceive(NotificationCenter.default.publisher(for: .requestBreakReminderStatusUpdate)) { notification in
+            guard let userInfo = notification.userInfo,
+                  let isActive = userInfo["isActive"] as? Bool else {
+                return
+            }
+            let type = userInfo["type"] as? String
+            action(isActive, type)
         }
     }
 }
