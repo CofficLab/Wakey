@@ -34,15 +34,17 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// 注册插件
     private func registerPlugins() {
         let logo = LogoPlugin.shared
+        let wakeyIntro = WakeyIntroPlugin.shared
         let caffeinate = CaffeinatePlugin.shared
         let caffeinatePoster = CaffeinatePosterPlugin.shared
         let breakReminder = BreakReminderPlugin.shared
         let breakReminderPoster = BreakReminderPosterPlugin.shared
         let purchase = PurchasePlugin.shared
-        self.plugins = [logo, caffeinate, caffeinatePoster, breakReminder, breakReminderPoster, purchase]
+        self.plugins = [logo, wakeyIntro, caffeinate, caffeinatePoster, breakReminder, breakReminderPoster, purchase]
         self.isLoaded = true
 
         logo.onRegister()
+        wakeyIntro.onRegister()
         caffeinate.onRegister()
         caffeinatePoster.onRegister()
         breakReminder.onRegister()
@@ -51,6 +53,7 @@ final class PluginProvider: ObservableObject, SuperLog {
 
         if Self.verbose {
             os_log("\(self.t)✅ Loaded LogoPlugin.")
+            os_log("\(self.t)✅ Loaded WakeyIntroPlugin.")
             os_log("\(self.t)✅ Loaded CaffeinatePlugin.")
             os_log("\(self.t)✅ Loaded CaffeinatePosterPlugin.")
             os_log("\(self.t)✅ Loaded BreakReminderPlugin.")

@@ -1,0 +1,54 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "Wakey Introduction": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wakey 简介"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wakey 簡介"
+          }
+        }
+      }
+    },
+    "Provide overall introduction to Wakey app": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提供 Wakey 应用的整体介绍"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提供 Wakey 應用的整體介紹"
+          }
+        }
+      }
+    },
+    "Simple and pure anti-sleep tool": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "简单纯粹的防休眠工具"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "簡單純粹的防休眠工具"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.1"
+}

@@ -1,8 +1,8 @@
 import MagicKit
 import SwiftUI
 
-/// Caffeinate Poster View 1: Introduction
-struct CaffeinatePosterIntro: View {
+/// Wakey 整体介绍海报
+struct WakeyIntroPoster: View {
     var body: some View {
         GeometryReader { geo in
             HStack {
@@ -10,7 +10,7 @@ struct CaffeinatePosterIntro: View {
                     Text("Wakey")
                         .asPosterTitle(in: geo)
 
-                    Text(String(localized: "Simple and pure anti-sleep tool", table: "Caffeinate", comment: "Slogan of the anti-sleep plugin"))
+                    Text(String(localized: "Simple and pure anti-sleep tool", table: "WakeyIntro", comment: "Slogan of Wakey app"))
                         .asPosterSubTitle(in: geo)
                 }
                 .frame(width: geo.size.width * 0.5)
@@ -33,7 +33,7 @@ struct CaffeinatePosterIntro: View {
 
 // MARK: - Preview
 
-#Preview("Caffeinate Poster - Intro") {
-    CaffeinatePosterIntro()
+#Preview("Wakey Intro Poster") {
+    WakeyIntroPoster()
         .inMagicContainer(.macBook13, scale: 0.4)
 }

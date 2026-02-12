@@ -43,14 +43,6 @@ actor CaffeinatePosterPlugin: SuperPlugin, SuperLog {
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] {
         [
             PosterViewConfiguration(
-                id: "caffeinate.intro",
-                title: String(localized: "Wakey Introduction", table: "Caffeinate"),
-                subtitle: String(localized: "Simple and pure anti-sleep tool", table: "Caffeinate"),
-                order: 1
-            ) {
-                CaffeinatePosterIntro()
-            },
-            PosterViewConfiguration(
                 id: "caffeinate.features",
                 title: String(localized: "Minimalist Design", table: "Caffeinate"),
                 subtitle: String(localized: "Key Features", table: "Caffeinate"),
