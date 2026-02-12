@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// 海报布局视图，聚合展示所有插件提供的海报视图
-/// 使用列表+详情的双栏布局
+/// 使用顶部按钮+底部详情的上下布局
 struct PosterLayout: View {
     @EnvironmentObject var pluginProvider: PluginProvider
 
@@ -17,31 +17,42 @@ struct PosterLayout: View {
     }
 
     var body: some View {
-        NavigationSplitView {
-            List(posterConfigurations, selection: $selectedId) { config in
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(config.title)
-                        .font(.headline)
-                    if let subtitle = config.subtitle {
-                        Text(subtitle)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+        VStack(spacing: 0) {
+            // 顶部按钮区域
+            HStack(spacing: 8) {
+                ForEach(posterConfigurations) { config in
+                    Button(config.title) {
+                        selectedId = config.id
                     }
+                    .buttonStyle(.bordered)
+                    .tint(selectedId == config.id ? .accentColor : .secondary)
                 }
-                .padding(.vertical, 4)
             }
-            .navigationTitle("海报")
-            .navigationSplitViewColumnWidth(min: 200, ideal: 250)
-        } detail: {
-            if let config = selectedConfig {
-                config.content()
-                    .inMagicContainer(.macBook13, scale: 0.3)
-            } else {
-                ContentUnavailableView(
-                    "选择海报",
-                    systemImage: "photo.on.rectangle",
-                    description: Text("从左侧列表选择一个海报查看")
-                )
+            .padding()
+
+            Divider()
+
+            // 内容展示区域：展示选中海报的详情
+            ZStack {
+                if let config = selectedConfig {
+                    config.content()
+                        .inMagicContainer(.macBook13, scale: 0.3)
+                        .id(config.id)
+                        .transition(.opacity.combined(with: .scale(scale: 0.98)))
+                } else {
+                    ContentUnavailableView(
+                        "选择海报",
+                        systemImage: "photo.on.rectangle",
+                        description: Text("从上方列表选择一个海报查看")
+                    )
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .animation(.spring(duration: 0.3), value: selectedId)
+        }
+        .onAppear {
+            if selectedId == nil, let firstId = posterConfigurations.first?.id {
+                selectedId = firstId
             }
         }
     }
