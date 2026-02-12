@@ -1,54 +1,57 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "Wakey Introduction": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wakey 简介"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Provide overall introduction to Wakey app" : {
+      "comment" : "Description of what the Wakey Intro plugin does",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提供 Wakey 应用的整体介绍"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wakey 簡介"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提供 Wakey 應用的整體介紹"
           }
         }
       }
     },
-    "Provide overall introduction to Wakey app": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "提供 Wakey 应用的整体介绍"
+    "Wakey Introduction" : {
+      "comment" : "Name of the Wakey introduction plugin",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wakey 简介"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "提供 Wakey 應用的整體介紹"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wakey 簡介"
           }
         }
       }
     },
-    "Your work companion": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你的工作伴侣"
+    "Your work companion" : {
+      "comment" : "Slogan of Wakey app",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的工作伴侣"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你的工作伴侶"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的工作伴侶"
           }
         }
       }
     }
   },
-  "version": "1.1"
+  "version" : "1.1"
 }

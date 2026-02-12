@@ -1,102 +1,108 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "Caffeinate Poster": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "防休眠海报"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Caffeinate Poster" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "防休眠海报"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "防休眠海報"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "防休眠海報"
           }
         }
       }
     },
-    "Provide anti-sleep related poster views": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "提供防休眠相关的海报视图"
+    "Flexible Options" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "灵活选项"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "提供防休眠相關的海報視圖"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "靈活選項"
           }
         }
       }
     },
-    "Wakey Introduction": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wakey 简介"
+    "Key Features" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "核心功能"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wakey 簡介"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "核心功能"
           }
         }
       }
     },
-    "Key Features": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "核心功能"
+    "Provide anti-sleep related poster views" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提供防休眠相关的海报视图"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "核心功能"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提供防休眠相關的海報視圖"
           }
         }
       }
     },
-    "Quick Menu": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "快速菜单"
+    "Quick Menu" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速菜单"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "快速菜單"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速菜單"
           }
         }
       }
     },
-    "Flexible Options": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "灵活选项"
+    "Wakey Introduction" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wakey 简介"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "靈活選項"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wakey 簡介"
           }
         }
       }
     }
   },
-  "version": "1.1"
+  "version" : "1.1"
 }

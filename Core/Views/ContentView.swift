@@ -14,6 +14,5 @@ struct ContentView: View {
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .frame(width: 400)
-        .frame(height: 600)
+        .frame(width: StatusBarController.defaultPopoverWidth)
 }

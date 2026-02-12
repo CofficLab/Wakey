@@ -9,8 +9,8 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
     nonisolated static let emoji = "📊"
     static let verbose = true
 
-    /// 状态栏弹窗的默认尺寸
-    static let defaultPopoverSize = NSSize(width: 300, height: 400)
+    /// 状态栏弹窗的默认宽度
+    static let defaultPopoverWidth: CGFloat = 300
 
     // MARK: - Properties
 
@@ -188,15 +188,23 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
         // 如果弹窗不存在，创建它
         if popover == nil {
             popover = NSPopover()
-            popover?.contentSize = Self.defaultPopoverSize
             popover?.behavior = .transient
             popover?.animates = true
             popover?.delegate = self
 
             let popupView = createPopupView()
-            popover?.contentViewController = NSHostingController(
+            let hostingController = NSHostingController(
                 rootView: popupView.inRootView()
             )
+            popover?.contentViewController = hostingController
+        }
+
+        // 动态调整弹窗高度以适应内容
+        if let contentView = popover?.contentViewController?.view {
+            let fittingSize = contentView.fittingSize
+            // 限制最大高度，避免填满屏幕，同时保证宽度固定
+            let targetHeight = min(fittingSize.height, 800) 
+            popover?.contentSize = NSSize(width: Self.defaultPopoverWidth, height: targetHeight)
         }
 
         // 显示弹窗
@@ -281,15 +289,7 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
 
 // MARK: - Preview
 
-#Preview("StatusBar") {
-    StatusBarIconView(viewModel: StatusBarIconViewModel())
-        .frame(width: 20, height: 20)
-}
-
-// MARK: - Preview
-
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .withDebugBar()
 }

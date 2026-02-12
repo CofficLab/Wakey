@@ -39,6 +39,16 @@ class BreakReminderManager: NSObject, SuperLog {
     /// Today's break count
     private(set) var todayBreakCount: Int = 0
 
+    /// Notification permission status
+    enum PermissionStatus {
+        case notDetermined
+        case authorized
+        case denied
+    }
+
+    /// Current notification permission status
+    private(set) var permissionStatus: PermissionStatus = .notDetermined
+
     /// Notification permission granted
     private(set) var notificationPermissionGranted: Bool = false
 
@@ -49,10 +59,46 @@ class BreakReminderManager: NSObject, SuperLog {
         if Self.verbose {
             os_log("\(self.t)BreakReminderManager initialized")
         }
-        requestNotificationPermission()
+        checkNotificationPermission()
     }
 
     // MARK: - Public Methods
+
+    /// Check and request notification permission
+    func checkNotificationPermission() {
+        Task {
+            let center = UNUserNotificationCenter.current()
+            let settings = await center.notificationSettings()
+            
+            let status = settings.authorizationStatus
+            
+            await MainActor.run {
+                switch status {
+                case .notDetermined:
+                    self.permissionStatus = .notDetermined
+                    self.requestNotificationPermission()
+                case .authorized, .provisional, .ephemeral:
+                    self.permissionStatus = .authorized
+                    self.notificationPermissionGranted = true
+                case .denied:
+                    self.permissionStatus = .denied
+                    self.notificationPermissionGranted = false
+                    if Self.verbose {
+                        os_log("\(self.t)Notification permission denied. User needs to enable it in System Settings.")
+                    }
+                @unknown default:
+                    self.permissionStatus = .notDetermined
+                }
+            }
+        }
+    }
+
+    /// Open System Settings for Notifications
+    func openNotificationSettings() {
+        if let url = URL(string: "x-apple.systempreferences:com.apple.preference.notifications") {
+            NSWorkspace.shared.open(url)
+        }
+    }
 
     /// Start break reminder
     /// - Parameter type: Break type
@@ -279,6 +325,7 @@ class BreakReminderManager: NSObject, SuperLog {
         center.requestAuthorization(options: [.alert, .sound]) { [weak self] granted, error in
             Task { @MainActor in
                 self?.notificationPermissionGranted = granted
+                self?.permissionStatus = granted ? .authorized : .denied
                 if let error = error {
                     os_log(.error, "\(self?.t ?? "")Notification permission error: \(error.localizedDescription)")
                 }
@@ -422,7 +469,7 @@ extension BreakReminderManager {
 
 // MARK: - UNUserNotificationCenterDelegate
 
-extension BreakReminderManager: @preconcurrency UNUserNotificationCenterDelegate {
+extension BreakReminderManager: UNUserNotificationCenterDelegate {
     nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         // Show notification even when app is in foreground
         completionHandler([.banner, .sound])
@@ -447,5 +494,4 @@ extension BreakReminderManager: @preconcurrency UNUserNotificationCenterDelegate
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .withDebugBar()
 }

@@ -30,6 +30,8 @@ struct StatusBar: View {
             // 第三部分：菜单项
             menuItemsSection
         }
+        .frame(width: 300)
+        .fixedSize(horizontal: false, vertical: true)
     }
 
     // MARK: - App Info Section
@@ -142,13 +144,11 @@ struct MenuItemRow: View {
 #Preview("StatusBar") {
     StatusBar()
         .inRootView()
-        .frame(height: 600)
-        .frame(width: StatusBarController.defaultPopoverSize.width)
+        .frame(width: StatusBarController.defaultPopoverWidth)
 }
 
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .frame(height: 600)
-        .frame(width: StatusBarController.defaultPopoverSize.width)
+        .frame(width: StatusBarController.defaultPopoverWidth)
 }

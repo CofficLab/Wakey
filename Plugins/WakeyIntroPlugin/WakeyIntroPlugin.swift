@@ -58,5 +58,4 @@ actor WakeyIntroPlugin: SuperPlugin, SuperLog {
     ContentLayout()
         .inRootView()
         .frame(height: 600)
-        .frame(width: StatusBarController.defaultPopoverSize.width)
 }
