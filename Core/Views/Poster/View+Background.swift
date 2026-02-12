@@ -12,7 +12,7 @@ extension View {
                         Circle()
                             .fill(
                                 LinearGradient(
-                                    colors: [.green.opacity(0.1), .mint.opacity(0.06)],
+                                    colors: [.orange.opacity(0.12), .yellow.opacity(0.08)],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )
@@ -24,7 +24,7 @@ extension View {
                         Circle()
                             .fill(
                                 LinearGradient(
-                                    colors: [.teal.opacity(0.08), .green.opacity(0.05)],
+                                    colors: [.yellow.opacity(0.1), .orange.opacity(0.06)],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )
@@ -34,34 +34,34 @@ extension View {
 
                         // 左下角小圆形装饰
                         Circle()
-                            .fill(Color.mint.opacity(0.08))
+                            .fill(Color.yellow.opacity(0.1))
                             .frame(width: geo.size.width * 0.2, height: geo.size.width * 0.2)
                             .position(x: geo.size.width * 0.2, y: geo.size.height * 0.8)
 
                         // 右上角小圆形装饰
                         Circle()
-                            .fill(Color.green.opacity(0.06))
+                            .fill(Color.orange.opacity(0.08))
                             .frame(width: geo.size.width * 0.15, height: geo.size.width * 0.15)
                             .position(x: geo.size.width * 0.85, y: geo.size.height * 0.15)
 
                         // 中央淡的杯子装饰
                         Image(systemName: "cup.and.saucer.fill")
                             .font(.system(size: geo.size.width * 0.18))
-                            .foregroundColor(.green.opacity(0.06))
+                            .foregroundColor(.orange.opacity(0.08))
                             .position(x: geo.size.width * 0.5, y: geo.size.height * 0.45)
                             .rotationEffect(.degrees(-5))
 
                         // 左侧淡的闪电装饰
                         Image(systemName: "bolt.fill")
                             .font(.system(size: geo.size.width * 0.12))
-                            .foregroundColor(.yellow.opacity(0.04))
+                            .foregroundColor(.yellow.opacity(0.08))
                             .position(x: geo.size.width * 0.25, y: geo.size.height * 0.65)
                             .rotationEffect(.degrees(-15))
 
                         // 右侧淡的太阳装饰
                         Image(systemName: "sun.max.fill")
                             .font(.system(size: geo.size.width * 0.1))
-                            .foregroundColor(.orange.opacity(0.04))
+                            .foregroundColor(.orange.opacity(0.06))
                             .position(x: geo.size.width * 0.75, y: geo.size.height * 0.3)
                             .rotationEffect(.degrees(10))
                     }
@@ -71,9 +71,9 @@ extension View {
         .background(
             LinearGradient(
                 colors: [
-                    Color.green.opacity(0.4),
-                    Color.teal.opacity(0.3),
-                    Color.mint.opacity(0.2),
+                    Color.orange.opacity(0.35),
+                    Color.yellow.opacity(0.25),
+                    Color.orange.opacity(0.15),
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
