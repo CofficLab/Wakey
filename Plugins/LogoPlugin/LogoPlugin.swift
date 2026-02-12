@@ -87,6 +87,46 @@ actor LogoPlugin: SuperPlugin, SuperLog {
             ) { isMonochrome, _ in
                 LogoBolt(isMonochrome: isMonochrome)
             },
+            LogoConfiguration(
+                id: "logo.battery",
+                title: "充电电池",
+                description: "充电中的电池，象征持续供电",
+                order: 6
+            ) { isMonochrome, _ in
+                LogoBattery(isMonochrome: isMonochrome)
+            },
+            LogoConfiguration(
+                id: "logo.moon",
+                title: "月亮守护",
+                description: "月亮 + 星星，象征夜间工作",
+                order: 7
+            ) { isMonochrome, _ in
+                LogoMoon(isMonochrome: isMonochrome)
+            },
+            LogoConfiguration(
+                id: "logo.nosleep",
+                title: "禁止睡眠",
+                description: "Zzz 被划掉，象征保持清醒",
+                order: 8
+            ) { isMonochrome, _ in
+                LogoNoSleep(isMonochrome: isMonochrome)
+            },
+            LogoConfiguration(
+                id: "logo.radar",
+                title: "雷达扫描",
+                description: "雷达监控，象征持续活跃",
+                order: 9
+            ) { isMonochrome, _ in
+                LogoRadar(isMonochrome: isMonochrome)
+            },
+            LogoConfiguration(
+                id: "logo.pulse",
+                title: "心跳脉冲",
+                description: "心电图脉冲，象征保持活跃",
+                order: 10
+            ) { isMonochrome, _ in
+                LogoPulse(isMonochrome: isMonochrome)
+            },
         ]
     }
 }

@@ -49,3 +49,11 @@ struct LogoConfiguration: Identifiable {
         }
     }
 }
+
+// MARK: - Preview
+
+#Preview("Logo Layout") {
+    LogoLayout()
+        .inRootView()
+        .withDebugBar()
+}

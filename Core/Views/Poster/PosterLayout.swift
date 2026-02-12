@@ -35,6 +35,7 @@ struct PosterLayout: View {
         } detail: {
             if let config = selectedConfig {
                 config.content()
+                    .inMagicContainer(.macBook13, scale: 0.3)
             } else {
                 ContentUnavailableView(
                     "选择海报",

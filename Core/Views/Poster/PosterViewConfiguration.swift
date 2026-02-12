@@ -29,3 +29,11 @@ struct PosterViewConfiguration: Identifiable {
         self.content = { AnyView(content()) }
     }
 }
+
+// MARK: - Preview
+
+#Preview("Poster Layout") {
+    PosterLayout()
+        .inRootView()
+        .withDebugBar()
+}
