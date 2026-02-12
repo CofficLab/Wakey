@@ -14,17 +14,10 @@ struct CoreApp: App, SuperLog {
     /// macOS 应用代理，处理应用级别的生命周期事件
     @NSApplicationDelegateAdaptor private var appDelegate: MacAgent
 
-    /// 应用提供者，管理应用状态和数据
-    @StateObject private var appProvider = AppProvider()
-
-    /// 插件提供者，管理插件生命周期
-    @StateObject private var pluginProvider = PluginProvider()
-
     var body: some Scene {
         Settings {
             EmptyView()
         }
-        .modelContainer(AppConfig.getContainer())
     }
 }
 

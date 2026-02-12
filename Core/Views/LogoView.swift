@@ -13,22 +13,44 @@ struct LogoView: View {
         case general // Default general purpose
     }
 
-    /// 当前选中的 Logo 方案
-    @ViewBuilder
-    private var currentLogo: some View {
-        let useMonochrome = variant == .statusBar && !isActive
-        let disableAnimation = variant == .statusBar
+    @EnvironmentObject var pluginProvider: PluginProvider
 
-        // 在这里切换 Logo1, Logo2, Logo3, Logo4, Logo5
-        Logo5(isMonochrome: useMonochrome, disableAnimation: disableAnimation)
-    }
+    /// 选中的 Logo ID（如果为 nil 则使用第一个）
+    var selectedLogoId: String? = nil
 
     var variant: Variant = .general
     var isActive: Bool = false // For statusBar variant only
 
+    /// 当前选中的 Logo 配置
+    private var currentLogoConfig: LogoConfiguration? {
+        if let id = selectedLogoId {
+            return pluginProvider.getLogoConfigurations().first { $0.id == id }
+        }
+        return pluginProvider.getDefaultLogoConfiguration()
+    }
+
+    /// 是否使用单色模式
+    private var useMonochrome: Bool {
+        variant == .statusBar && !isActive
+    }
+
+    /// 是否禁用动画
+    private var disableAnimation: Bool {
+        variant == .statusBar
+    }
+
     var body: some View {
-        currentLogo
-            .modifier(LogoVariantModifier(variant: variant))
+        if let config = currentLogoConfig {
+            config.content(useMonochrome, disableAnimation)
+                .modifier(LogoVariantModifier(variant: variant))
+        } else {
+            // Fallback: 默认闪电图标
+            Image(systemName: "bolt.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(useMonochrome ? .primary : .cyan)
+                .modifier(LogoVariantModifier(variant: variant))
+        }
     }
 }
 
@@ -69,6 +91,7 @@ struct StatusBarIconView: View {
         )
         .infinite()
         .frame(width: 24, height: 24)
+        .inRootView()
     }
 }
 
@@ -128,9 +151,11 @@ class InteractiveHostingView<Content: View>: NSHostingView<Content> {
         .padding()
     }
     .frame(height: 600)
+    .inRootView()
 }
 
 #Preview("LogoView - Snapshot") {
     LogoView(variant: .appIcon)
         .inMagicContainer(.init(width: 1024, height: 1024), scale: 0.5)
+        .inRootView()
 }

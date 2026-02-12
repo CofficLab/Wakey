@@ -76,9 +76,9 @@ class MacAgent: NSObject, NSApplicationDelegate, SuperLog {
     /// 设置应用相关配置
     private func setupApplication() {
         // 初始化应用提供者
-        appProvider = AppProvider()
+        appProvider = AppProvider.shared
         // 初始化插件提供者
-        pluginProvider = PluginProvider(autoDiscover: true)
+        pluginProvider = PluginProvider.shared
     }
 
     /// 设置各个控制器

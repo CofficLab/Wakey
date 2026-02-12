@@ -34,5 +34,3 @@ struct AppStoreFeatureItem: View {
         .shadowMd()
     }
 }
-
-// MARK: - Preview

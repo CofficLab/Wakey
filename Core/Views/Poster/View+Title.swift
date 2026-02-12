@@ -28,7 +28,7 @@ extension View {
             .foregroundStyle(.secondary)
             .shadowSm()
     }
-    
+
     /// 将文本样式化为 iPhone 版海报标题样式
     ///
     /// 使用大号圆体字（150pt），加粗显示，带有底部间距和轻微阴影效果。
@@ -53,11 +53,4 @@ extension View {
             .foregroundStyle(.secondary)
             .shadowSm()
     }
-}
-
-// MARK: - Preview
-
-#Preview("Mac1") {
-    Mac1()
-        .inMagicContainer(.macBook13, scale: 0.5)
 }

@@ -76,10 +76,3 @@ extension View {
         .colorScheme(.dark)
     }
 }
-
-// MARK: - Preview
-
-#Preview("App Store Hero") {
-    Mac1()
-        .inMagicContainer(.macBook13, scale: 0.4)
-}

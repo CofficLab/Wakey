@@ -1,10 +1,9 @@
 import MagicKit
 import SwiftUI
 
-/**
- * App Store - 购买页面，用于创建订阅时的审核
- */
-struct Mac5: View {
+// MARK: - Purchase Poster View: Pro Features
+
+struct PurchasePosterPro: View {
     var body: some View {
         PurchaseViewDemo()
             .background(
@@ -180,12 +179,4 @@ extension PurchaseViewDemo {
                 .foregroundColor(.primary)
         }
     }
-}
-
-// MARK: - Preview
-
-#Preview("Mac5") {
-    Mac5()
-        .inMagicContainer(.macBook13, scale: 0.5)
-        .colorScheme(.light)
 }
