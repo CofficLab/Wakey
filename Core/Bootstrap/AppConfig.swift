@@ -67,5 +67,5 @@ enum AppConfig {
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .withDebugBar()
+        .frame(width: StatusBarController.defaultPopoverSize.width)
 }

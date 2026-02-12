@@ -9,6 +9,9 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
     nonisolated static let emoji = "📊"
     static let verbose = true
 
+    /// 状态栏弹窗的默认尺寸
+    static let defaultPopoverSize = NSSize(width: 300, height: 400)
+
     // MARK: - Properties
 
     /// 系统状态栏项（菜单栏中的图标）
@@ -185,7 +188,7 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
         // 如果弹窗不存在，创建它
         if popover == nil {
             popover = NSPopover()
-            popover?.contentSize = NSSize(width: 300, height: 400)
+            popover?.contentSize = Self.defaultPopoverSize
             popover?.behavior = .transient
             popover?.animates = true
             popover?.delegate = self

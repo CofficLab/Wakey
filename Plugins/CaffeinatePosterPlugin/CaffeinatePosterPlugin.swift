@@ -74,5 +74,5 @@ actor CaffeinatePosterPlugin: SuperPlugin, SuperLog {
     ContentLayout()
         .inRootView()
         .frame(height: 600)
-        .frame(width: 300)
+        .frame(width: StatusBarController.defaultPopoverSize.width)
 }

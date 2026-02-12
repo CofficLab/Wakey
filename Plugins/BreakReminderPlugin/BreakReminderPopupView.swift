@@ -24,10 +24,19 @@ struct BreakReminderPopupView: View {
             .padding(.bottom, 4)
 
             // Status info
-            BreakReminderStatusInfo()
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Status", tableName: "BreakReminder")
+                    .font(.system(size: 9))
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal, 12)
+                    .padding(.top, 4)
+
+                BreakReminderStatusInfo()
+            }
 
             Divider()
                 .padding(.horizontal, 12)
+                .padding(.vertical, 4)
 
             // Break type selector
             VStack(alignment: .leading, spacing: 4) {
@@ -42,6 +51,7 @@ struct BreakReminderPopupView: View {
 
             Divider()
                 .padding(.horizontal, 12)
+                .padding(.vertical, 4)
 
             // Interval picker
             VStack(alignment: .leading, spacing: 4) {
@@ -56,22 +66,60 @@ struct BreakReminderPopupView: View {
 
             Divider()
                 .padding(.horizontal, 12)
+                .padding(.vertical, 4)
 
             // Control buttons
-            BreakReminderControls()
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Actions", tableName: "BreakReminder")
+                    .font(.system(size: 9))
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal, 12)
+                    .padding(.top, 4)
+
+                BreakReminderControls()
+            }
         }
         .padding(.bottom, 8)
+        .background(
+            ZStack {
+                // Subtle health gradient
+                LinearGradient(
+                    colors: [
+                        Color.green.opacity(0.05),
+                        Color.blue.opacity(0.03),
+                        Color.clear
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+
+                // Decorative watermark icons
+                ZStack {
+                    Image(systemName: "heart.fill")
+                        .font(.system(size: 80))
+                        .foregroundColor(.green.opacity(0.04))
+                        .rotationEffect(.degrees(-15))
+                        .offset(x: 100, y: 40)
+
+                    Image(systemName: "leaf.fill")
+                        .font(.system(size: 60))
+                        .foregroundColor(.green.opacity(0.03))
+                        .rotationEffect(.degrees(15))
+                        .offset(x: -110, y: 50)
+                }
+            }
+        )
+        .clipped()
     }
 }
 
 #Preview("Break Reminder Status Bar Popup") {
     BreakReminderPopupView()
-        .frame(width: 280)
-        .padding()
+        .frame(width: StatusBarController.defaultPopoverSize.width)
 }
 
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .withDebugBar()
+        .frame(width: StatusBarController.defaultPopoverSize.width)
 }
