@@ -85,6 +85,13 @@ struct StatusBar: View {
 
     private var menuItemsSection: some View {
         VStack(spacing: 0) {
+            // 设置
+            SettingsMenuItemRow(
+                title: String(localized: "Settings...", table: "Core", comment: "Menu item to open settings")
+            )
+            
+            Divider()
+            
             // 退出应用
             MenuItemRow(
                 title: String(localized: "Quit", table: "Core", comment: "Menu item to quit the application"),
@@ -100,6 +107,51 @@ struct StatusBar: View {
 
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+    }
+}
+
+/// 设置菜单项行
+struct SettingsMenuItemRow: View {
+    /// 标题
+    let title: String
+    
+    /// 是否处于悬停状态
+    @State private var isHovering = false
+
+    var body: some View {
+        if #available(macOS 14.0, *) {
+            SettingsLink {
+                HStack(spacing: 12) {
+                    Text(title)
+                        .font(.system(size: 13))
+                        .foregroundColor(isHovering ? .white : .primary)
+                        .padding(.horizontal)
+
+                    Spacer()
+                }
+                .padding(.vertical, 10)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .background(
+                Rectangle()
+                    .fill(isHovering ? Color(nsColor: .selectedContentBackgroundColor) : Color.clear)
+            )
+            .onHover { hovering in
+                isHovering = hovering
+            }
+        } else {
+            MenuItemRow(
+                title: title,
+                action: {
+                    if #available(macOS 13, *) {
+                        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+                    } else {
+                        NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
+                    }
+                }
+            )
+        }
     }
 }
 

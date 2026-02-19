@@ -16,7 +16,7 @@ struct CoreApp: App, SuperLog {
 
     var body: some Scene {
         Settings {
-            EmptyView()
+            SettingsView()
         }
     }
 }

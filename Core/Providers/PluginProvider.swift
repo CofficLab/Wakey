@@ -21,6 +21,9 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// 插件是否已加载完成
     @Published private(set) var isLoaded: Bool = false
 
+    /// 插件设置存储
+    private let settingsStore = PluginSettingsStore.shared
+
     /// 用于存储 Combine 订阅
     private var cancellables = Set<AnyCancellable>()
 
@@ -29,6 +32,13 @@ final class PluginProvider: ObservableObject, SuperLog {
     init(autoDiscover: Bool = true) {
         // Manually register CaffeinatePlugin only
         registerPlugins()
+        
+        // 订阅设置变化，当设置改变时触发 UI 更新
+        settingsStore.$settings
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
+            }
+            .store(in: &cancellables)
     }
 
     /// 注册插件
@@ -95,14 +105,23 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// - Parameter plugin: 要检查的插件对象
     /// - Returns: 是否启用
     func isPluginEnabled(_ plugin: any SuperPlugin) -> Bool {
-        // Always enable CaffeinatePlugin
-        return true
+        let pluginType = type(of: plugin)
+        
+        // 如果不允许用户切换，则始终启用
+        if !pluginType.isConfigurable {
+            return true
+        }
+        
+        // 检查用户配置
+        let pluginId = plugin.instanceLabel
+        return settingsStore.isPluginEnabled(pluginId)
     }
 
     /// 获取所有插件提供的状态栏弹窗视图
     /// - Returns: AnyView 数组
     func getStatusBarPopupViews() -> [AnyView] {
         plugins
+            .filter { isPluginEnabled($0) }
             .compactMap { $0.addStatusBarPopupView() }
     }
 
@@ -110,6 +129,7 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// - Returns: PosterViewConfiguration 数组，按 order 排序
     func getPosterConfigurations() -> [PosterViewConfiguration] {
         plugins
+            .filter { isPluginEnabled($0) }
             .flatMap { type(of: $0).providePosterViews() }
             .sorted { $0.order < $1.order }
     }
@@ -118,6 +138,7 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// - Returns: SuperLogo 数组，按 order 排序
     func getLogoConfigurations() -> [any SuperLogo] {
         plugins
+            .filter { isPluginEnabled($0) }
             .flatMap { type(of: $0).provideLogos() }
             .sorted { $0.order < $1.order }
     }

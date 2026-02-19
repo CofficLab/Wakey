@@ -1,296 +1,298 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "%lld hr": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 小时"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lld hr" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 小时"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 小時"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 小時"
           }
         }
       }
     },
-    "%lld min": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 分钟"
+    "%lld min" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分钟"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 分鐘"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分鐘"
           }
         }
       }
     },
-    "Break reminder is off": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "活动提醒已关闭"
+    "Break reminder is off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活动提醒已关闭"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "活動提醒已關閉"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活動提醒已關閉"
           }
         }
       }
     },
-    "Interval": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "提醒间隔"
+    "Interval" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒间隔"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "提醒間隔"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒間隔"
           }
         }
       }
     },
-    "Next break: %lld mins": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下次休息：%lld 分钟"
+    "Next break: %lld mins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下次休息：%lld 分钟"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下次休息：%lld 分鐘"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下次休息：%lld 分鐘"
           }
         }
       }
     },
-    "Next break: 1 min": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下次休息：1分钟"
+    "Next break: 1 min" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下次休息：1分钟"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下次休息：1分鐘"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下次休息：1分鐘"
           }
         }
       }
     },
-    "Next break: less than 1 min": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下次休息：不到1分钟"
+    "Next break: less than 1 min" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下次休息：不到1分钟"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下次休息：不到1分鐘"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下次休息：不到1分鐘"
           }
         }
       }
     },
-    "Notifications Disabled": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "通知已禁用"
+    "Notifications Disabled" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知已禁用"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "通知已禁用"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知已禁用"
           }
         }
       }
     },
-    "Open Settings": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "打开设置"
+    "Open Settings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开设置"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "開啟設定"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟設定"
           }
         }
       }
     },
-    "Please enable notifications in System Settings to receive break reminders.": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请在系统设置中启用通知，以便接收休息提醒。"
+    "Please enable notifications in System Settings to receive break reminders." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请在系统设置中启用通知，以便接收休息提醒。"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "請在系統設定中啟用通知，以便接收休息提醒。"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請在系統設定中啟用通知，以便接收休息提醒。"
           }
         }
       }
     },
-    "Remind you to move your body every hour": {
-      "comment": "Description of what the Stretch Reminder plugin does",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每小时提醒你活动身体"
+    "Remind you to move your body every hour" : {
+      "comment" : "Description of what the Stretch Reminder plugin does",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每小时提醒你活动身体"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每小時提醒你活動身體"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每小時提醒你活動身體"
           }
         }
       }
     },
-    "Status": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "状态"
+    "Start_Button" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "狀態"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始"
           }
         }
       }
     },
-    "Stretch": {
-      "comment": "Name of the stretch reminder plugin",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "活动"
+    "Status" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "状态"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "活動"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "狀態"
           }
         }
       }
     },
-    "Time for a Break!": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "该休息了！"
+    "Stop_Button" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "該休息了！"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止"
           }
         }
       }
     },
-    "Time to stand up and stretch your body.": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "站起来活动一下身体吧。"
+    "Stretch" : {
+      "comment" : "Name of the stretch reminder plugin",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活动"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "站起來活動一下身體吧。"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活動"
           }
         }
       }
     },
-    "Today: %lld breaks": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "今日：%lld 次休息"
+    "Time for a Break!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该休息了！"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "今日：%lld 次休息"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該休息了！"
           }
         }
       }
     },
-    "Start_Button": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "开始"
+    "Time to stand up and stretch your body." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "站起来活动一下身体吧。"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "開始"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "站起來活動一下身體吧。"
           }
         }
       }
     },
-    "Stop_Button": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止"
+    "Today: %lld breaks" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日：%lld 次休息"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日：%lld 次休息"
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }

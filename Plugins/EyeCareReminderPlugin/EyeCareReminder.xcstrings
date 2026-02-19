@@ -1,296 +1,298 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "%lld hr": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 小时"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lld hr" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 小时"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 小時"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 小時"
           }
         }
       }
     },
-    "%lld min": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 分钟"
+    "%lld min" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分钟"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 分鐘"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分鐘"
           }
         }
       }
     },
-    "Break reminder is off": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "护眼提醒已关闭"
+    "Break reminder is off" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "护眼提醒已关闭"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "護眼提醒已關閉"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "護眼提醒已關閉"
           }
         }
       }
     },
-    "Eye Care": {
-      "comment": "Name of the eye care reminder plugin",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "护眼"
+    "Eye Care" : {
+      "comment" : "Name of the eye care reminder plugin",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "护眼"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "護眼"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "護眼"
           }
         }
       }
     },
-    "Interval": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "提醒间隔"
+    "Interval" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒间隔"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "提醒間隔"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒間隔"
           }
         }
       }
     },
-    "Look away from the screen for 20 seconds to rest your eyes.": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "远离屏幕20秒，让眼睛休息一下。"
+    "Look away from the screen for 20 seconds to rest your eyes." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "远离屏幕20秒，让眼睛休息一下。"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "遠離螢幕20秒，讓眼睛休息一下。"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "遠離螢幕20秒，讓眼睛休息一下。"
           }
         }
       }
     },
-    "Next break: %lld mins": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下次休息：%lld 分钟"
+    "Next break: %lld mins" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下次休息：%lld 分钟"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下次休息：%lld 分鐘"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下次休息：%lld 分鐘"
           }
         }
       }
     },
-    "Next break: 1 min": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下次休息：1分钟"
+    "Next break: 1 min" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下次休息：1分钟"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下次休息：1分鐘"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下次休息：1分鐘"
           }
         }
       }
     },
-    "Next break: less than 1 min": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下次休息：不到1分钟"
+    "Next break: less than 1 min" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下次休息：不到1分钟"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下次休息：不到1分鐘"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下次休息：不到1分鐘"
           }
         }
       }
     },
-    "Notifications Disabled": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "通知已禁用"
+    "Notifications Disabled" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知已禁用"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "通知已禁用"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知已禁用"
           }
         }
       }
     },
-    "Open Settings": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "打开设置"
+    "Open Settings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开设置"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "開啟設定"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟設定"
           }
         }
       }
     },
-    "Please enable notifications in System Settings to receive break reminders.": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请在系统设置中启用通知，以便接收休息提醒。"
+    "Please enable notifications in System Settings to receive break reminders." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请在系统设置中启用通知，以便接收休息提醒。"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "請在系統設定中啟用通知，以便接收休息提醒。"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請在系統設定中啟用通知，以便接收休息提醒。"
           }
         }
       }
     },
-    "Remind you to rest your eyes every 20 minutes": {
-      "comment": "Description of what the Eye Care Reminder plugin does",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每20分钟提醒你休息眼睛"
+    "Remind you to rest your eyes every 20 minutes" : {
+      "comment" : "Description of what the Eye Care Reminder plugin does",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每20分钟提醒你休息眼睛"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每20分鐘提醒你休息眼睛"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每20分鐘提醒你休息眼睛"
           }
         }
       }
     },
-    "Status": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "状态"
+    "Start_Button" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "狀態"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始"
           }
         }
       }
     },
-    "Time for a Break!": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "该休息了！"
+    "Status" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "状态"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "該休息了！"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "狀態"
           }
         }
       }
     },
-    "Today: %lld breaks": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "今日：%lld 次休息"
+    "Stop_Button" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "今日：%lld 次休息"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止"
           }
         }
       }
     },
-    "Start_Button": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "开始"
+    "Time for a Break!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该休息了！"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "開始"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該休息了！"
           }
         }
       }
     },
-    "Stop_Button": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止"
+    "Today: %lld breaks" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日：%lld 次休息"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止"
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日：%lld 次休息"
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }
