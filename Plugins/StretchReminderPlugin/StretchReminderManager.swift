@@ -49,32 +49,13 @@ class StretchReminderManager: NSObject, SuperLog {
     }
 
     func checkNotificationPermission() {
-        Task {
-            let center = UNUserNotificationCenter.current()
-            let settings = await center.notificationSettings()
-            let status = settings.authorizationStatus
-            await MainActor.run {
-                switch status {
-                case .notDetermined:
-                    self.permissionStatus = .notDetermined
-                    self.requestNotificationPermission()
-                case .authorized, .provisional, .ephemeral:
-                    self.permissionStatus = .authorized
-                    self.notificationPermissionGranted = true
-                case .denied:
-                    self.permissionStatus = .denied
-                    self.notificationPermissionGranted = false
-                @unknown default:
-                    self.permissionStatus = .notDetermined
-                }
-            }
-        }
+        // No longer need system notification permission
+        self.permissionStatus = .authorized
+        self.notificationPermissionGranted = true
     }
 
     func openNotificationSettings() {
-        if let url = URL(string: "x-apple.systempreferences:com.apple.preference.notifications") {
-            NSWorkspace.shared.open(url)
-        }
+        // No longer need to open system settings
     }
 
     func start() {
@@ -92,7 +73,7 @@ class StretchReminderManager: NSObject, SuperLog {
         isActive = false
         nextBreakTime = nil
         startTime = nil
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        // UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         NotificationCenter.postRequestBreakReminderStatusUpdate(isActive: false, type: nil)
     }
 
@@ -143,32 +124,18 @@ class StretchReminderManager: NSObject, SuperLog {
     }
 
     private func scheduleNotification(in interval: TimeInterval) {
-        guard notificationPermissionGranted else { return }
-        let content = UNMutableNotificationContent()
-        content.title = String(localized: "Time for a Break!", table: "StretchReminder")
-        content.body = String(localized: "Time to stand up and stretch your body.", table: "StretchReminder")
-        content.sound = .default
-        content.categoryIdentifier = "STRETCH_REMINDER"
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request)
+        // No system notification needed
     }
 
     private func requestNotificationPermission() {
-        let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.alert, .sound]) { [weak self] granted, _ in
-            Task { @MainActor in
-                self?.notificationPermissionGranted = granted
-                self?.permissionStatus = granted ? .authorized : .denied
-            }
-        }
-        center.delegate = self
+        // No longer need to request permission
+        self.notificationPermissionGranted = true
+        self.permissionStatus = .authorized
     }
 
     func cleanup() {
         timer?.invalidate()
         timer = nil
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
 }
 
@@ -207,21 +174,21 @@ extension StretchReminderManager {
     ]
 }
 
-extension StretchReminderManager: UNUserNotificationCenterDelegate {
-    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .sound])
-    }
-
-    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let actionIdentifier = response.actionIdentifier
-        Task { @MainActor in
-            if actionIdentifier == UNNotificationDefaultActionIdentifier {
-                self.snooze(minutes: 5)
-            }
-        }
-        completionHandler()
-    }
-}
+// extension StretchReminderManager: UNUserNotificationCenterDelegate {
+//    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        completionHandler([.banner, .sound])
+//    }
+//
+//    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+//        let actionIdentifier = response.actionIdentifier
+//        Task { @MainActor in
+//            if actionIdentifier == UNNotificationDefaultActionIdentifier {
+//                self.snooze(minutes: 5)
+//            }
+//        }
+//        completionHandler()
+//    }
+// }
 
 // MARK: - Preview
 

@@ -75,35 +75,14 @@ class EyeCareReminderManager: NSObject, SuperLog {
 
     /// Check and request notification permission
     func checkNotificationPermission() {
-        Task {
-            let center = UNUserNotificationCenter.current()
-            let settings = await center.notificationSettings()
-
-            let status = settings.authorizationStatus
-
-            await MainActor.run {
-                switch status {
-                case .notDetermined:
-                    self.permissionStatus = .notDetermined
-                    self.requestNotificationPermission()
-                case .authorized, .provisional, .ephemeral:
-                    self.permissionStatus = .authorized
-                    self.notificationPermissionGranted = true
-                case .denied:
-                    self.permissionStatus = .denied
-                    self.notificationPermissionGranted = false
-                @unknown default:
-                    self.permissionStatus = .notDetermined
-                }
-            }
-        }
+        // No longer need system notification permission
+        self.permissionStatus = .authorized
+        self.notificationPermissionGranted = true
     }
 
     /// Open System Settings for Notifications
     func openNotificationSettings() {
-        if let url = URL(string: "x-apple.systempreferences:com.apple.preference.notifications") {
-            NSWorkspace.shared.open(url)
-        }
+        // No longer need to open system settings
     }
 
     /// Start break reminder
@@ -137,7 +116,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
         startTime = nil
 
         // Remove pending notifications
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        // UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
 
         // Notify system
         NotificationCenter.postRequestBreakReminderStatusUpdate(isActive: false, type: nil)
@@ -221,41 +200,20 @@ class EyeCareReminderManager: NSObject, SuperLog {
     /// Schedule system notification
     /// - Parameter interval: Interval in seconds
     private func scheduleNotification(in interval: TimeInterval) {
-        guard notificationPermissionGranted else { return }
-
-        let content = UNMutableNotificationContent()
-        content.title = String(localized: "Time for a Break!", table: "EyeCareReminder")
-        content.body = String(localized: "Look away from the screen for 20 seconds to rest your eyes.", table: "EyeCareReminder")
-        content.sound = .default
-        content.categoryIdentifier = "EYE_CARE_REMINDER"
-
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                os_log(.error, "Failed to schedule notification: \(error.localizedDescription)")
-            }
-        }
+        // No system notification needed
     }
 
     /// Request notification permission
     private func requestNotificationPermission() {
-        let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.alert, .sound]) { [weak self] granted, _ in
-            Task { @MainActor in
-                self?.notificationPermissionGranted = granted
-                self?.permissionStatus = granted ? .authorized : .denied
-            }
-        }
-        center.delegate = self
+        // No longer need to request permission
+        self.notificationPermissionGranted = true
+        self.permissionStatus = .authorized
     }
 
     /// Cleanup resources
     func cleanup() {
         timer?.invalidate()
         timer = nil
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
 }
 
@@ -299,21 +257,21 @@ extension EyeCareReminderManager {
 
 // MARK: - UNUserNotificationCenterDelegate
 
-extension EyeCareReminderManager: UNUserNotificationCenterDelegate {
-    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .sound])
-    }
-
-    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let actionIdentifier = response.actionIdentifier
-        Task { @MainActor in
-            if actionIdentifier == UNNotificationDefaultActionIdentifier {
-                self.snooze(minutes: 5)
-            }
-        }
-        completionHandler()
-    }
-}
+// extension EyeCareReminderManager: UNUserNotificationCenterDelegate {
+//    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        completionHandler([.banner, .sound])
+//    }
+//
+//    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+//        let actionIdentifier = response.actionIdentifier
+//        Task { @MainActor in
+//            if actionIdentifier == UNNotificationDefaultActionIdentifier {
+//                self.snooze(minutes: 5)
+//            }
+//        }
+//        completionHandler()
+//    }
+// }
 
 // MARK: - Preview
 

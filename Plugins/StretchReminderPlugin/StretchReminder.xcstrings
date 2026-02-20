@@ -246,6 +246,7 @@
       }
     },
     "Time for a Break!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
