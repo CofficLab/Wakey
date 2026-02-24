@@ -6,7 +6,11 @@ struct SettingsView: View {
         TabView {
             PluginSettingsView()
                 .tabItem {
-                    Label("Plugins", systemImage: "puzzlepiece")
+                    Label {
+                        Text("Plugins", tableName: "Core")
+                    } icon: {
+                        Image(systemName: "puzzlepiece")
+                    }
                 }
                 .tag("plugins")
         }
