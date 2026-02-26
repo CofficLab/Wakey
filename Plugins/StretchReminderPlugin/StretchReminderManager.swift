@@ -210,8 +210,8 @@ extension StretchReminderManager {
 
         var displayName: String {
             switch self {
-            case let .minutes(m): return "\(m) min"
-            case let .hours(h): return "\(h) hr"
+            case let .minutes(m): return String(localized: "\(m) min", table: "StretchReminder", comment: "Label for duration in minutes")
+            case let .hours(h): return String(localized: "\(h) hr", table: "StretchReminder", comment: "Label for duration in hours")
             }
         }
 

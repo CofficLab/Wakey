@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "%lld hr" : {
+      "comment" : "Label for duration in hours",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18,6 +19,7 @@
       }
     },
     "%lld min" : {
+      "comment" : "Label for duration in minutes",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
