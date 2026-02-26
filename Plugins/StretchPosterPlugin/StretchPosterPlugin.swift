@@ -35,3 +35,15 @@ actor StretchPosterPlugin: SuperPlugin, SuperLog {
         ]
     }
 }
+
+// MARK: - Preview
+
+#Preview("Stretch Poster - Intro") {
+    StretchPosterIntro()
+        .inMagicContainer(.macBook13, scale: 0.4)
+}
+
+#Preview("Stretch Poster - Features") {
+    StretchPosterFeatures()
+        .inMagicContainer(.macBook13, scale: 0.4)
+}

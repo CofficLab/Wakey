@@ -25,3 +25,10 @@ struct StretchPosterIntro: View {
         .inPosterContainer()
     }
 }
+
+// MARK: - Preview
+
+#Preview("Stretch Poster - Intro") {
+    StretchPosterIntro()
+        .inMagicContainer(.macBook13, scale: 0.4)
+}

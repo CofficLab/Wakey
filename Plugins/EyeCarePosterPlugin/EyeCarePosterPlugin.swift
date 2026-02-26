@@ -58,3 +58,15 @@ actor EyeCarePosterPlugin: SuperPlugin, SuperLog {
         ]
     }
 }
+
+// MARK: - Preview
+
+#Preview("Eye Care Poster - Intro") {
+    EyeCarePosterIntro()
+        .inMagicContainer(.macBook13, scale: 0.4)
+}
+
+#Preview("Eye Care Poster - Features") {
+    EyeCarePosterFeatures()
+        .inMagicContainer(.macBook13, scale: 0.4)
+}

@@ -35,3 +35,15 @@ actor HydrationPosterPlugin: SuperPlugin, SuperLog {
         ]
     }
 }
+
+// MARK: - Preview
+
+#Preview("Hydration Poster - Intro") {
+    HydrationPosterIntro()
+        .inMagicContainer(.macBook13, scale: 0.4)
+}
+
+#Preview("Hydration Poster - Features") {
+    HydrationPosterFeatures()
+        .inMagicContainer(.macBook13, scale: 0.4)
+}

@@ -39,6 +39,7 @@ struct CaffeinatePosterFeatures: View {
                 .inMagicVStackCenter()
 
                 ContentLayout()
+                    .onlyPlugins([CaffeinatePlugin.id])
                     .inRootView()
                     .inDemoMode()
                     .roundedLarge()

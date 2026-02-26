@@ -42,3 +42,10 @@ struct EyeCarePosterIntro: View {
         .inPosterContainer()
     }
 }
+
+// MARK: - Preview
+
+#Preview("Eye Care Poster - Intro") {
+    EyeCarePosterIntro()
+        .inMagicContainer(.macBook13, scale: 0.4)
+}

@@ -34,6 +34,7 @@ struct CaffeinatePosterModes: View {
                 .inMagicVStackCenter()
 
                 ContentLayout()
+                    .onlyPlugins([CaffeinatePlugin.id])
                     .inRootView()
                     .inDemoMode()
                     .roundedLarge()
@@ -52,5 +53,5 @@ struct CaffeinatePosterModes: View {
 
 #Preview("Caffeinate Poster - Modes") {
     CaffeinatePosterModes()
-        .inMagicContainer(.macBook13, scale: 0.4)
+        .inMagicContainer(.macBook13, scale: 0.2)
 }

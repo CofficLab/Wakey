@@ -25,3 +25,10 @@ struct HydrationPosterIntro: View {
         .inPosterContainer()
     }
 }
+
+// MARK: - Preview
+
+#Preview("Hydration Poster - Intro") {
+    HydrationPosterIntro()
+        .inMagicContainer(.macBook13, scale: 0.4)
+}

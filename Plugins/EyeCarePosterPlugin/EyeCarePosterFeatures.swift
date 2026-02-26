@@ -34,6 +34,7 @@ struct EyeCarePosterFeatures: View {
                 .inMagicVStackCenter()
 
                 ContentLayout()
+                    .onlyPlugins([EyeCareReminderPlugin.id])
                     .inRootView()
                     .inDemoMode()
                     .shadow2xl()
@@ -46,4 +47,11 @@ struct EyeCarePosterFeatures: View {
         }
         .inPosterContainer()
     }
+}
+
+// MARK: - Preview
+
+#Preview("Eye Care Poster - Features") {
+    EyeCarePosterFeatures()
+        .inMagicContainer(.macBook13, scale: 0.4)
 }

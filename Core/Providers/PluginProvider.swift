@@ -21,6 +21,9 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// 插件是否已加载完成
     @Published private(set) var isLoaded: Bool = false
 
+    /// 允许的插件 ID 列表，为 nil 时表示允许所有插件
+    private var allowedPluginIds: [String]?
+
     /// 插件设置存储
     private let settingsStore = PluginSettingsStore.shared
 
@@ -148,16 +151,37 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// - Parameter plugin: 要检查的插件对象
     /// - Returns: 是否启用
     func isPluginEnabled(_ plugin: any SuperPlugin) -> Bool {
+        // 首先检查是否在允许的插件列表中
+        if let allowedIds = allowedPluginIds {
+            let pluginId = type(of: plugin).id
+            if !allowedIds.contains(pluginId) {
+                return false
+            }
+        }
+
         let pluginType = type(of: plugin)
-        
+
         // 如果不允许用户切换，则始终启用
         if !pluginType.isConfigurable {
             return true
         }
-        
+
         // 检查用户配置
         let pluginId = plugin.instanceLabel
         return settingsStore.isPluginEnabled(pluginId)
+    }
+
+    /// 设置允许的插件 ID 列表
+    /// - Parameter pluginIds: 允许的插件 ID 列表
+    func setAllowedPlugins(_ pluginIds: [String]) {
+        self.allowedPluginIds = pluginIds
+        objectWillChange.send()
+    }
+
+    /// 清除允许的插件限制，启用所有插件
+    func clearAllowedPlugins() {
+        self.allowedPluginIds = nil
+        objectWillChange.send()
     }
 
     /// 获取所有插件提供的状态栏弹窗视图

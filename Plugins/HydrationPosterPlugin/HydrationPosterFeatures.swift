@@ -27,9 +27,25 @@ struct HydrationPosterFeatures: View {
                     .frame(width: geo.size.width * 0.4).py4()
                 }
                 .frame(width: geo.size.width * 0.5).inMagicVStackCenter()
-                ContentLayout().inRootView().inDemoMode().shadow2xl().roundedLarge().frame(width: geo.size.width * 0.15).frame(height: geo.size.height * 0.8).frame(width: geo.size.width * 0.5).scaleEffect(2)
+                ContentLayout()
+                    .onlyPlugins([HydrationReminderPlugin.id])
+                    .inRootView()
+                    .inDemoMode()
+                    .shadow2xl()
+                    .roundedLarge()
+                    .frame(width: geo.size.width * 0.15)
+                    .frame(height: geo.size.height * 0.8)
+                    .frame(width: geo.size.width * 0.5)
+                    .scaleEffect(2)
             }
         }
         .inPosterContainer()
     }
+}
+
+// MARK: - Preview
+
+#Preview("Hydration Poster - Features") {
+    HydrationPosterFeatures()
+        .inMagicContainer(.macBook13, scale: 0.4)
 }

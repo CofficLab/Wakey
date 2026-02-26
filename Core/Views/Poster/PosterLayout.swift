@@ -36,7 +36,7 @@ struct PosterLayout: View {
             ZStack {
                 if let config = selectedConfig {
                     config.content()
-                        .inMagicContainer(.macBook13, scale: 0.3)
+                        .inMagicContainer(.macBook13, scale: 0.2)
                         .id(config.id)
                         .transition(.opacity.combined(with: .scale(scale: 0.98)))
                 } else {
