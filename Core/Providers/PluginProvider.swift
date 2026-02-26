@@ -43,7 +43,19 @@ final class PluginProvider: ObservableObject, SuperLog {
 
     /// 注册插件
     private func registerPlugins() {
-        let logo = LogoPlugin.shared
+        let logoBolt = LogoBoltPlugin.shared
+        let logoLightBulb = LogoLightBulbPlugin.shared
+        let logoOwl = LogoOwlPlugin.shared
+        let logoCoffee = LogoCoffeePlugin.shared
+        let logoSun = LogoSunPlugin.shared
+        let logoBattery = LogoBatteryPlugin.shared
+        let logoMoon = LogoMoonPlugin.shared
+        let logoNoSleep = LogoNoSleepPlugin.shared
+        let logoRadar = LogoRadarPlugin.shared
+        let logoPulse = LogoPulsePlugin.shared
+        
+        let logoPreview = LogoPreviewPlugin.shared
+        
         let wakeyIntro = WakeyIntroPlugin.shared
         let caffeinate = CaffeinatePlugin.shared
         let caffeinatePoster = CaffeinatePosterPlugin.shared
@@ -58,7 +70,17 @@ final class PluginProvider: ObservableObject, SuperLog {
         let purchase = PurchasePlugin.shared
         
         self.plugins = [
-            logo,
+            logoBolt,
+            logoLightBulb,
+            logoOwl,
+            logoCoffee,
+            logoSun,
+            logoBattery,
+            logoMoon,
+            logoNoSleep,
+            logoRadar,
+            logoPulse,
+            logoPreview,
             wakeyIntro,
             caffeinate,
             caffeinatePoster,
@@ -72,7 +94,18 @@ final class PluginProvider: ObservableObject, SuperLog {
         ]
         self.isLoaded = true
 
-        logo.onRegister()
+        logoBolt.onRegister()
+        logoLightBulb.onRegister()
+        logoOwl.onRegister()
+        logoCoffee.onRegister()
+        logoSun.onRegister()
+        logoBattery.onRegister()
+        logoMoon.onRegister()
+        logoNoSleep.onRegister()
+        logoRadar.onRegister()
+        logoPulse.onRegister()
+        logoPreview.onRegister()
+        
         wakeyIntro.onRegister()
         caffeinate.onRegister()
         caffeinatePoster.onRegister()
@@ -87,7 +120,17 @@ final class PluginProvider: ObservableObject, SuperLog {
         purchase.onRegister()
 
         if Self.verbose {
-            os_log("\(self.t)✅ Loaded LogoPlugin.")
+            os_log("\(self.t)✅ Loaded LogoBoltPlugin.")
+            os_log("\(self.t)✅ Loaded LogoLightBulbPlugin.")
+            os_log("\(self.t)✅ Loaded LogoOwlPlugin.")
+            os_log("\(self.t)✅ Loaded LogoCoffeePlugin.")
+            os_log("\(self.t)✅ Loaded LogoSunPlugin.")
+            os_log("\(self.t)✅ Loaded LogoBatteryPlugin.")
+            os_log("\(self.t)✅ Loaded LogoMoonPlugin.")
+            os_log("\(self.t)✅ Loaded LogoNoSleepPlugin.")
+            os_log("\(self.t)✅ Loaded LogoRadarPlugin.")
+            os_log("\(self.t)✅ Loaded LogoPulsePlugin.")
+            os_log("\(self.t)✅ Loaded LogoPreviewPlugin.")
             os_log("\(self.t)✅ Loaded WakeyIntroPlugin.")
             os_log("\(self.t)✅ Loaded CaffeinatePlugin.")
             os_log("\(self.t)✅ Loaded CaffeinatePosterPlugin.")
