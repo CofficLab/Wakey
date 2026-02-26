@@ -114,7 +114,7 @@ struct StatusBar: View {
 struct SettingsMenuItemRow: View {
     /// 标题
     let title: String
-    
+
     /// 是否处于悬停状态
     @State private var isHovering = false
 
@@ -149,6 +149,8 @@ struct SettingsMenuItemRow: View {
                     } else {
                         NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
                     }
+                    // 激活应用并置顶窗口
+                    NSApp.activate(ignoringOtherApps: true)
                 }
             )
         }

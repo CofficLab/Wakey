@@ -210,6 +210,13 @@ class StatusBarController: NSObject, SuperLog, NSPopoverDelegate {
         // 显示弹窗
         popover?.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
 
+        // 激活 popover 窗口使其获得焦点
+        if let popoverWindow = popover?.contentViewController?.view.window {
+            popoverWindow.makeKey()
+            // 确保应用激活
+            NSApp.activate(ignoringOtherApps: true)
+        }
+
         // 添加全局事件监听器，检测点击外部区域
         addGlobalEventMonitor()
 

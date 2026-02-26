@@ -31,6 +31,10 @@ struct SettingsView: View {
         }
         .frame(width: 500, height: 500)
         .padding()
+        .onAppear {
+            // 激活窗口以确保它获得焦点
+            NSApp.activate(ignoringOtherApps: true)
+        }
     }
 }
 
