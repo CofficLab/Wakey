@@ -7,34 +7,12 @@ struct HydrationSettingsView: View {
     var body: some View {
         Form {
             Section {
-                Toggle(isOn: Binding(
-                    get: { manager.isActive },
-                    set: { newValue in
-                        if newValue {
-                            manager.start()
-                        } else {
-                            manager.stop()
-                        }
-                    }
-                )) {
-                    Text("Enable Hydration Reminder", tableName: "HydrationReminder")
-                }
-            } header: {
-                Text("Status", tableName: "HydrationReminder")
-            }
-            
-            Section {
                 // Interval List
                 ForEach(manager.availableIntervals) { option in
                     HStack {
                         Text(option.displayName)
 
                         Spacer()
-
-                        if manager.selectedInterval == option.timeInterval {
-                            Image(systemName: "checkmark")
-                                .foregroundColor(.accentColor)
-                        }
 
                         // Delete button for custom intervals
                         if !HydrationReminderManager.commonIntervals.contains(option) {
@@ -48,12 +26,8 @@ struct HydrationSettingsView: View {
                             .help(Text("Delete", tableName: "HydrationReminder"))
                         }
                     }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        manager.updateInterval(option.timeInterval)
-                    }
                 }
-                
+
                 // Add Custom Interval
                 HStack {
                     Text("Add Custom (minutes):", tableName: "HydrationReminder")
@@ -63,7 +37,7 @@ struct HydrationSettingsView: View {
                         .onSubmit {
                             addCustomInterval()
                         }
-                    
+
                     Button {
                         addCustomInterval()
                     } label: {
@@ -71,10 +45,18 @@ struct HydrationSettingsView: View {
                     }
                     .disabled(customMinutes <= 0)
                 }
+
+                // Reset Intervals Button
+                Button {
+                    manager.resetIntervals()
+                } label: {
+                    Text("Reset to Default Intervals", tableName: "HydrationReminder")
+                }
+                .controlSize(.large)
             } header: {
                 Text("Reminder Intervals", tableName: "HydrationReminder")
             } footer: {
-                Text("Select an interval to activate it. Click the delete button to remove custom intervals.", tableName: "HydrationReminder")
+                Text("Manage your custom reminder intervals. Click the delete button to remove custom intervals.", tableName: "HydrationReminder")
             }
         }
         .formStyle(.grouped)
@@ -100,5 +82,5 @@ struct HydrationSettingsView: View {
 
 #Preview {
     HydrationSettingsView()
-        .frame(width: 400, height: 300)
+        .frame(width: 400, height: 500)
 }

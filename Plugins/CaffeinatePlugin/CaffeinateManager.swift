@@ -272,8 +272,14 @@ class CaffeinateManager: SuperLog {
     func removeDuration(_ option: DurationOption) {
         // Don't remove default durations
         guard !Self.commonDurations.contains(option) else { return }
-        
+
         availableDurations.removeAll { $0 == option }
+        saveCustomDurations()
+    }
+
+    /// Reset durations to default
+    func resetDurations() {
+        availableDurations = Self.commonDurations
         saveCustomDurations()
     }
     

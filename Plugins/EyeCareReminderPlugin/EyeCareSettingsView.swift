@@ -7,34 +7,12 @@ struct EyeCareSettingsView: View {
     var body: some View {
         Form {
             Section {
-                Toggle(isOn: Binding(
-                    get: { manager.isActive },
-                    set: { newValue in
-                        if newValue {
-                            manager.start()
-                        } else {
-                            manager.stop()
-                        }
-                    }
-                )) {
-                    Text("Enable Eye Care Reminder", tableName: "EyeCareReminder")
-                }
-            } header: {
-                Text("Status", tableName: "EyeCareReminder")
-            }
-            
-            Section {
                 // Interval List
                 ForEach(manager.availableIntervals) { option in
                     HStack {
                         Text(option.displayName)
 
                         Spacer()
-
-                        if manager.selectedInterval == option.timeInterval {
-                            Image(systemName: "checkmark")
-                                .foregroundColor(.accentColor)
-                        }
 
                         // Delete button for custom intervals
                         if !EyeCareReminderManager.commonIntervals.contains(option) {
@@ -48,12 +26,8 @@ struct EyeCareSettingsView: View {
                             .help(Text("Delete", tableName: "EyeCareReminder"))
                         }
                     }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        manager.updateInterval(option.timeInterval)
-                    }
                 }
-                
+
                 // Add Custom Interval
                 HStack {
                     Text("Add Custom (minutes):", tableName: "EyeCareReminder")
@@ -63,7 +37,7 @@ struct EyeCareSettingsView: View {
                         .onSubmit {
                             addCustomInterval()
                         }
-                    
+
                     Button {
                         addCustomInterval()
                     } label: {
@@ -71,10 +45,18 @@ struct EyeCareSettingsView: View {
                     }
                     .disabled(customMinutes <= 0)
                 }
+
+                // Reset Intervals Button
+                Button {
+                    manager.resetIntervals()
+                } label: {
+                    Text("Reset to Default Intervals", tableName: "EyeCareReminder")
+                }
+                .controlSize(.large)
             } header: {
                 Text("Reminder Intervals", tableName: "EyeCareReminder")
             } footer: {
-                Text("Select an interval to activate it. Click the delete button to remove custom intervals.", tableName: "EyeCareReminder")
+                Text("Manage your custom reminder intervals. Click the delete button to remove custom intervals.", tableName: "EyeCareReminder")
             }
         }
         .formStyle(.grouped)

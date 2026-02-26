@@ -151,7 +151,25 @@
         }
       }
     },
+    "Click a duration to activate anti-sleep mode. Click the delete button to remove custom durations.": {
+      "extractionState": "stale",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击时长以激活防休眠模式。点击删除按钮可删除自定义时长。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點擊時長以激活防休眠模式。點擊刪除按鈕可刪除自定義時長。"
+          }
+        }
+      }
+    },
     "Click a duration to activate anti-sleep mode. Right-click custom durations to delete them.": {
+      "extractionState": "stale",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
@@ -452,6 +470,22 @@
         }
       }
     },
+    "Manage your custom anti-sleep durations. Click the delete button to remove custom durations.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "管理您的自定义防睡眠时长。点击删除按钮可删除自定义时长。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "管理您的自訂防睡眠時長。點擊刪除按鈕可刪除自定義時長。"
+          }
+        }
+      }
+    },
     "Minimalist Design": {
       "comment": "Title for features poster",
       "localizations": {
@@ -601,6 +635,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "通過狀態欄菜單快速切換不同的防休眠模式"
+          }
+        }
+      }
+    },
+    "Reset to Default Durations": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复默认时长"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢復預設時長"
           }
         }
       }

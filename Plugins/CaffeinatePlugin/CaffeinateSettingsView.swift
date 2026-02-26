@@ -14,39 +14,16 @@ struct CaffeinateSettingsView: View {
 
                         Spacer()
 
-                        if manager.selectedDuration == option.timeInterval && manager.isActive {
-                            Image(systemName: "checkmark")
-                                .foregroundColor(.accentColor)
-                        }
-                    }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        // If active, restart with new duration
-                        // If not active, just set selectedDuration (but manager doesn't persist selection when inactive same way as others,
-                        // it usually takes duration as param to activate.
-                        // Here we can activate with new duration if user clicks it?
-                        // Or just highlight it?
-                        // Let's make it activate/update current activation for better UX
-                        if manager.isActive {
-                            if manager.selectedDuration == option.timeInterval {
-                                // Already active with this duration, toggle off?
-                                manager.deactivate()
-                            } else {
-                                // Switch to new duration
-                                manager.deactivate()
-                                manager.activate(duration: option.timeInterval)
-                            }
-                        } else {
-                            manager.activate(duration: option.timeInterval)
-                        }
-                    }
-                    .contextMenu {
+                        // Delete button for custom durations
                         if !CaffeinateManager.commonDurations.contains(option) {
-                            Button(role: .destructive) {
+                            Button {
                                 manager.removeDuration(option)
                             } label: {
-                                Text("Delete", tableName: "Caffeinate")
+                                Image(systemName: "minus.circle.fill")
+                                    .foregroundColor(.red)
                             }
+                            .buttonStyle(.plain)
+                            .help(Text("Delete", tableName: "Caffeinate"))
                         }
                     }
                 }
@@ -68,10 +45,18 @@ struct CaffeinateSettingsView: View {
                     }
                     .disabled(customMinutes <= 0)
                 }
+
+                // Reset Durations Button
+                Button {
+                    manager.resetDurations()
+                } label: {
+                    Text("Reset to Default Durations", tableName: "Caffeinate")
+                }
+                .controlSize(.large)
             } header: {
                 Text("Anti-Sleep Durations", tableName: "Caffeinate")
             } footer: {
-                Text("Click a duration to activate anti-sleep mode. Right-click custom durations to delete them.", tableName: "Caffeinate")
+                Text("Manage your custom anti-sleep durations. Click the delete button to remove custom durations.", tableName: "Caffeinate")
             }
         }
         .formStyle(.grouped)
@@ -85,6 +70,11 @@ struct CaffeinateSettingsView: View {
         manager.addCustomDuration(minutes: customMinutes)
         customMinutes = 45 // Reset to default suggestion
     }
+}
+
+#Preview("Settings") {
+    SettingsView()
+        .withDebugBar()
 }
 
 #Preview {

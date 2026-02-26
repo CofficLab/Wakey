@@ -161,14 +161,21 @@ class EyeCareReminderManager: NSObject, SuperLog {
     func removeInterval(_ option: IntervalOption) {
         // Don't remove default intervals
         guard !Self.commonIntervals.contains(option) else { return }
-        
+
         availableIntervals.removeAll { $0 == option }
         saveCustomIntervals()
-        
+
         // If currently selected interval was removed, revert to default
         if selectedInterval == option.timeInterval {
             updateInterval(Self.commonIntervals[0].timeInterval)
         }
+    }
+
+    /// Reset intervals to default
+    func resetIntervals() {
+        availableIntervals = Self.commonIntervals
+        saveCustomIntervals()
+        updateInterval(Self.commonIntervals[0].timeInterval)
     }
 
     /// Update break interval

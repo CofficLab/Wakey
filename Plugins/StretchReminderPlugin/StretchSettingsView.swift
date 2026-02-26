@@ -7,34 +7,12 @@ struct StretchSettingsView: View {
     var body: some View {
         Form {
             Section {
-                Toggle(isOn: Binding(
-                    get: { manager.isActive },
-                    set: { newValue in
-                        if newValue {
-                            manager.start()
-                        } else {
-                            manager.stop()
-                        }
-                    }
-                )) {
-                    Text("Enable Stretch Reminder", tableName: "StretchReminder")
-                }
-            } header: {
-                Text("Status", tableName: "StretchReminder")
-            }
-            
-            Section {
                 // Interval List
                 ForEach(manager.availableIntervals) { option in
                     HStack {
                         Text(option.displayName)
 
                         Spacer()
-
-                        if manager.selectedInterval == option.timeInterval {
-                            Image(systemName: "checkmark")
-                                .foregroundColor(.accentColor)
-                        }
 
                         // Delete button for custom intervals
                         if !StretchReminderManager.commonIntervals.contains(option) {
@@ -48,12 +26,8 @@ struct StretchSettingsView: View {
                             .help(Text("Delete", tableName: "StretchReminder"))
                         }
                     }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        manager.updateInterval(option.timeInterval)
-                    }
                 }
-                
+
                 // Add Custom Interval
                 HStack {
                     Text("Add Custom (minutes):", tableName: "StretchReminder")
@@ -63,7 +37,7 @@ struct StretchSettingsView: View {
                         .onSubmit {
                             addCustomInterval()
                         }
-                    
+
                     Button {
                         addCustomInterval()
                     } label: {
@@ -71,10 +45,18 @@ struct StretchSettingsView: View {
                     }
                     .disabled(customMinutes <= 0)
                 }
+
+                // Reset Intervals Button
+                Button {
+                    manager.resetIntervals()
+                } label: {
+                    Text("Reset to Default Intervals", tableName: "StretchReminder")
+                }
+                .controlSize(.large)
             } header: {
                 Text("Reminder Intervals", tableName: "StretchReminder")
             } footer: {
-                Text("Select an interval to activate it. Click the delete button to remove custom intervals.", tableName: "StretchReminder")
+                Text("Manage your custom reminder intervals. Click the delete button to remove custom intervals.", tableName: "StretchReminder")
             }
         }
         .formStyle(.grouped)
