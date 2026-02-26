@@ -4,40 +4,40 @@ import SwiftUI
 struct CaffeinateDurationPicker: View {
     @State private var manager = CaffeinateManager.shared
     
-    private let quickDurations: [(title: LocalizedStringKey, value: TimeInterval)] = [
-        ("Indefinite", 0),
-        ("10_mins_Short", 600),
-        ("1_hr_Short", 3600),
-        ("2_hrs_Short", 7200),
-        ("5_hrs_Short", 18000),
-    ]
-    
     /// 持续时间选择器的视图主体
     var body: some View {
-        HStack(spacing: 4) {
-            ForEach(quickDurations, id: \.value.self) { option in
-                PopupDurationButton(
-                    title: option.title,
-                    isSelected: manager.selectedDuration == option.value,
-                    action: {
-                        manager.selectedDuration = option.value
-                        
-                        // 如果防休眠正在运行，则重启计时器
-                        if manager.isActive, let action = manager.activeAction {
-                            switch action {
-                            case .systemAndDisplay:
-                                manager.activate(mode: .systemAndDisplay, duration: manager.selectedDuration)
-                            case .systemOnly:
-                                manager.activate(mode: .systemOnly, duration: manager.selectedDuration)
-                            case .turnOffDisplay:
-                                manager.activateAndTurnOffDisplay(duration: manager.selectedDuration)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 4) {
+                ForEach(manager.availableDurations, id: \.self) { option in
+                    PopupDurationButton(
+                        title: option.displayName,
+                        isSelected: manager.selectedDuration == option.timeInterval,
+                        action: {
+                            // Update selected duration
+                            manager.selectedDuration = option.timeInterval
+                            
+                            // If anti-sleep is running, restart timer with new duration
+                            if manager.isActive, let action = manager.activeAction {
+                                // Deactivate first to reset timer
+                                manager.deactivate()
+                                
+                                // Reactivate with new duration
+                                switch action {
+                                case .systemAndDisplay:
+                                    manager.activate(mode: .systemAndDisplay, duration: manager.selectedDuration)
+                                case .systemOnly:
+                                    manager.activate(mode: .systemOnly, duration: manager.selectedDuration)
+                                case .turnOffDisplay:
+                                    manager.activateAndTurnOffDisplay(duration: manager.selectedDuration)
+                                }
                             }
                         }
-                    }
-                )
+                    )
+                }
             }
+            .padding(.vertical, 4)
+            .padding(.horizontal, 4)
         }
-        .padding(.vertical, 4)
     }
 }
 
@@ -45,14 +45,14 @@ struct CaffeinateDurationPicker: View {
 
 /// 持续时间选择按钮
 private struct PopupDurationButton: View {
-    let title: LocalizedStringKey
+    let title: String
     let isSelected: Bool
     let action: () -> Void
 
     /// 按钮的视图主体
     var body: some View {
         Button(action: action) {
-            Text(title, tableName: "Caffeinate")
+            Text(title)
                 .font(.system(size: 10))
                 .foregroundColor(isSelected ? .white : .secondary)
                 .padding(.horizontal, 8)

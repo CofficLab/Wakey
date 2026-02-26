@@ -54,6 +54,12 @@ actor CaffeinatePlugin: SuperPlugin, SuperLog {
     @MainActor func addStatusBarPopupView() -> AnyView? {
         AnyView(CaffeinatePopupView())
     }
+
+    /// 添加设置视图
+    /// - Returns: 插件的设置视图
+    @MainActor func addSettingsView() -> AnyView? {
+        AnyView(CaffeinateSettingsView())
+    }
 }
 
 // MARK: - Preview

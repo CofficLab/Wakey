@@ -42,6 +42,13 @@ class CaffeinateManager: SuperLog {
 
     /// Timer (for timed mode)
     private var timer: Timer?
+    
+    // MARK: - Custom Intervals Support
+    
+    private let customDurationsKey = "CaffeinateCustomDurations"
+    
+    /// Available durations (including defaults and custom ones)
+    private(set) var availableDurations: [DurationOption] = []
 
     // MARK: - Initialization
 
@@ -49,6 +56,7 @@ class CaffeinateManager: SuperLog {
         if Self.verbose {
             os_log("\(self.t)CaffeinateManager initialized")
         }
+        loadAvailableDurations()
     }
 
     // MARK: - Public Methods
@@ -216,6 +224,74 @@ class CaffeinateManager: SuperLog {
             os_log("\(self.t)Timer scheduled for \(duration)s")
         }
     }
+    
+    // MARK: - Custom Intervals Support
+    
+    /// Load available durations
+    func loadAvailableDurations() {
+        var durations = Self.commonDurations
+        
+        // Load custom durations from UserDefaults
+        if let customMinutes = UserDefaults.standard.array(forKey: customDurationsKey) as? [Int] {
+            let customOptions = customMinutes.map { DurationOption.minutes($0) }
+            for option in customOptions {
+                if !durations.contains(option) {
+                    durations.append(option)
+                }
+            }
+        }
+        
+        // Sort: indefinite first (0), then by duration
+        durations.sort {
+            if $0.timeInterval == 0 { return true }
+            if $1.timeInterval == 0 { return false }
+            return $0.timeInterval < $1.timeInterval
+        }
+        
+        self.availableDurations = durations
+    }
+    
+    /// Add a custom duration
+    /// - Parameter minutes: Duration in minutes
+    func addCustomDuration(minutes: Int) {
+        let option = DurationOption.minutes(minutes)
+        if !availableDurations.contains(option) {
+            availableDurations.append(option)
+            // Re-sort
+            availableDurations.sort {
+                if $0.timeInterval == 0 { return true }
+                if $1.timeInterval == 0 { return false }
+                return $0.timeInterval < $1.timeInterval
+            }
+            saveCustomDurations()
+        }
+    }
+    
+    /// Remove a duration option
+    /// - Parameter option: The option to remove
+    func removeDuration(_ option: DurationOption) {
+        // Don't remove default durations
+        guard !Self.commonDurations.contains(option) else { return }
+        
+        availableDurations.removeAll { $0 == option }
+        saveCustomDurations()
+    }
+    
+    private func saveCustomDurations() {
+        // Extract custom durations (those not in commonDurations)
+        let customOptions = availableDurations.filter { !Self.commonDurations.contains($0) }
+        
+        // Convert to minutes for storage
+        let customMinutes = customOptions.map { option -> Int in
+            switch option {
+            case .minutes(let m): return m
+            case .hours(let h): return h * 60
+            case .indefinite: return 0 // Should not happen for custom
+            }
+        }
+        
+        UserDefaults.standard.set(customMinutes, forKey: customDurationsKey)
+    }
 
     // MARK: - Cleanup
 
@@ -307,5 +383,4 @@ extension CaffeinateManager {
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .withDebugBar()
 }

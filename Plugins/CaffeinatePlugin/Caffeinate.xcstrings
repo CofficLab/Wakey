@@ -51,6 +51,38 @@
         }
       }
     },
+    "Add Custom (minutes):": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加自定义(分钟):"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加自訂(分鐘):"
+          }
+        }
+      }
+    },
+    "Anti-Sleep Durations": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "防睡眠时长"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "防睡眠時長"
+          }
+        }
+      }
+    },
     "Anti-sleep mode enabled via Wakey": {
       "comment": "Reason shown in system power assertions when anti-sleep is active",
       "localizations": {
@@ -119,6 +151,22 @@
         }
       }
     },
+    "Click a duration to activate anti-sleep mode. Right-click custom durations to delete them.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击时长以激活防睡眠模式。右键单击自定义时长以删除它们。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點擊時長以激活防睡眠模式。右鍵單擊自定義時長以刪除它們。"
+          }
+        }
+      }
+    },
     "Click to prevent system from entering sleep mode": {
       "comment": "Feature description",
       "localizations": {
@@ -132,6 +180,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "點擊即可阻止系統進入睡眠模式"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除"
           }
         }
       }
