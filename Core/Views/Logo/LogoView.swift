@@ -53,7 +53,7 @@ extension LogoView.Variant {
                 .foregroundColor(.cyan)
                 .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
                 .background(Color.black)
-        case .statusBar(let isActive):
+        case let .statusBar(isActive):
             Image(systemName: "bolt.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -72,8 +72,6 @@ extension LogoView.Variant {
         }
     }
 }
-
-
 
 // MARK: - Interactive Hosting View
 
@@ -136,6 +134,6 @@ class InteractiveHostingView<Content: View>: NSHostingView<Content> {
 
 #Preview("LogoView - Snapshot") {
     LogoView(variant: .appIcon)
-        .inMagicContainer(.init(width: 1024, height: 1024), scale: 0.5)
         .inRootView()
+        .inMagicContainer(.init(width: 1024, height: 1024), scale: 0.5)
 }
