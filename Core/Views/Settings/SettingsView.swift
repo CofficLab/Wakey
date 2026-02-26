@@ -29,7 +29,7 @@ struct SettingsView: View {
                     .tag(item.id)
             }
         }
-        .frame(width: 500, height: 400)
+        .frame(width: 500, height: 500)
         .padding()
     }
 }

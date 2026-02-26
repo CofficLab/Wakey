@@ -33,6 +33,22 @@
         }
       }
     },
+    "Add Custom (minutes):": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加自定义(分钟):"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加自訂(分鐘):"
+          }
+        }
+      }
+    },
     "Break reminder is off": {
       "localizations": {
         "zh-Hans": {
@@ -49,18 +65,18 @@
         }
       }
     },
-    "Custom (minutes):": {
+    "Delete": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "自定义（分钟）："
+            "value": "删除"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "自訂（分鐘）："
+            "value": "刪除"
           }
         }
       }
@@ -93,22 +109,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "提醒間隔"
-          }
-        }
-      }
-    },
-    "Interval Settings": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "间隔设置"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "間隔設置"
           }
         }
       }
@@ -226,7 +226,7 @@
         }
       }
     },
-    "Reminder Interval": {
+    "Reminder Intervals": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
@@ -242,34 +242,18 @@
         }
       }
     },
-    "Set": {
+    "Select an interval to activate it. Right-click custom intervals to delete them.": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "设置"
+            "value": "选择一个间隔以激活它。右键单击自定义间隔以删除它们。"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "設置"
-          }
-        }
-      }
-    },
-    "Stand up and stretch regularly to stay healthy.": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "定期站起来伸展身体，保持健康。"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "定期站起來伸展身體，保持健康。"
+            "value": "選擇一個間隔以激活它。右鍵單擊自定義間隔以刪除它們。"
           }
         }
       }
