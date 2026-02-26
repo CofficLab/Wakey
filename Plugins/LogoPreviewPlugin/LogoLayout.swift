@@ -1,4 +1,5 @@
 import SwiftUI
+import MagicKit
 
 /// Logo 布局视图，聚合展示所有插件提供的 Logo
 /// 使用列表+详情的双栏布局
