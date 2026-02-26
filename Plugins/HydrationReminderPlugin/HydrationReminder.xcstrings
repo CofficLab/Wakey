@@ -1,299 +1,344 @@
 {
-  "sourceLanguage" : "en",
-  "strings" : {
-    "%lld hr" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 小时"
+  "sourceLanguage": "en",
+  "strings": {
+    "%lld hr": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 小时"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 小時"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 小時"
           }
         }
       }
     },
-    "%lld min" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 分钟"
+    "%lld min": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分钟"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 分鐘"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分鐘"
           }
         }
       }
     },
-    "Break reminder is off" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "补水提醒已关闭"
+    "Break reminder is off": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "补水提醒已关闭"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "補水提醒已關閉"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "補水提醒已關閉"
           }
         }
       }
     },
-    "Don't forget to drink some water!" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "别忘了喝点水！"
+    "Custom (minutes):": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义（分钟）："
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "別忘記喝點水！"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自訂（分鐘）："
           }
         }
       }
     },
-    "Hydration" : {
-      "comment" : "Name of the hydration reminder plugin",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "补水"
+    "Customize how often you want to be reminded to drink water.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义喝水提醒的频率。"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "補水"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自訂喝水提醒的頻率。"
           }
         }
       }
     },
-    "Interval" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "提醒间隔"
+    "Don't forget to drink some water!": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "别忘了喝点水！"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "提醒間隔"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "別忘記喝點水！"
           }
         }
       }
     },
-    "Next break: %lld mins" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下次休息：%lld 分钟"
+    "Enable Hydration Reminder": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用补水提醒"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下次休息：%lld 分鐘"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "啟用補水提醒"
           }
         }
       }
     },
-    "Next break: 1 min" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下次休息：1分钟"
+    "Hydration": {
+      "comment": "Name of the hydration reminder plugin",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "补水"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下次休息：1分鐘"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "補水"
           }
         }
       }
     },
-    "Next break: less than 1 min" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下次休息：不到1分钟"
+    "Interval": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提醒间隔"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下次休息：不到1分鐘"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提醒間隔"
           }
         }
       }
     },
-    "Notifications Disabled" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通知已禁用"
+    "Interval Settings": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "间隔设置"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通知已禁用"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "間隔設置"
           }
         }
       }
     },
-    "Open Settings" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "打开设置"
+    "Next break: %lld mins": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下次休息：%lld 分钟"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "開啟設定"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下次休息：%lld 分鐘"
           }
         }
       }
     },
-    "Please enable notifications in System Settings to receive break reminders." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请在系统设置中启用通知，以便接收休息提醒。"
+    "Next break: 1 min": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下次休息：1分钟"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "請在系統設定中啟用通知，以便接收休息提醒。"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下次休息：1分鐘"
           }
         }
       }
     },
-    "Remind you to stay hydrated every 2 hours" : {
-      "comment" : "Description of what the Hydration Reminder plugin does",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每2小时提醒你补水"
+    "Next break: less than 1 min": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下次休息：不到1分钟"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每2小時提醒你補水"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下次休息：不到1分鐘"
           }
         }
       }
     },
-    "Start_Button" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "开始"
+    "Notifications Disabled": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通知已禁用"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "開始"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通知已禁用"
           }
         }
       }
     },
-    "Status" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "状态"
+    "Open Settings": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开设置"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "狀態"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟設定"
           }
         }
       }
     },
-    "Stop_Button" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "停止"
+    "Please enable notifications in System Settings to receive break reminders.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请在系统设置中启用通知，以便接收休息提醒。"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "停止"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請在系統設定中啟用通知，以便接收休息提醒。"
           }
         }
       }
     },
-    "Time for a Break!" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "该休息了！"
+    "Remind you to stay hydrated every 2 hours": {
+      "comment": "Description of what the Hydration Reminder plugin does",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每2小时提醒你补水"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "該休息了！"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每2小時提醒你補水"
           }
         }
       }
     },
-    "Today: %lld breaks" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今日：%lld 次休息"
+    "Reminder Interval": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提醒间隔"
           }
         },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今日：%lld 次休息"
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提醒間隔"
+          }
+        }
+      }
+    },
+    "Set": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設置"
+          }
+        }
+      }
+    },
+    "Status": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "状态"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "狀態"
+          }
+        }
+      }
+    },
+    "Today: %lld breaks": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今日：%lld 次休息"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今日：%lld 次休息"
           }
         }
       }
     }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

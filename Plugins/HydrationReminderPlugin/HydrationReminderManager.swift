@@ -15,9 +15,11 @@ class HydrationReminderManager: NSObject, SuperLog {
     static let shared = HydrationReminderManager()
     
     private let userDefaultsKey = "HydrationReminderInterval"
+    private let customIntervalsKey = "HydrationCustomIntervals"
 
     private(set) var isActive: Bool = false
     private(set) var selectedInterval: TimeInterval = 2 * 60 * 60 // Default 2 hours
+    private(set) var availableIntervals: [IntervalOption] = []
     private(set) var nextBreakTime: Date?
     private(set) var startTime: Date?
     private var timer: Timer?
@@ -35,6 +37,9 @@ class HydrationReminderManager: NSObject, SuperLog {
 
     private override init() {
         super.init()
+        
+        // Load custom intervals
+        loadAvailableIntervals()
         
         // Load persisted interval
         let savedInterval = UserDefaults.standard.double(forKey: userDefaultsKey)
@@ -81,6 +86,31 @@ class HydrationReminderManager: NSObject, SuperLog {
         guard isActive else { return }
         let interval = TimeInterval(minutes * 60)
         scheduleBreak(in: interval)
+    }
+
+    func addCustomInterval(minutes: Int) {
+        let option = IntervalOption.minutes(minutes)
+        if !availableIntervals.contains(option) {
+            availableIntervals.append(option)
+            availableIntervals.sort { $0.timeInterval < $1.timeInterval }
+            saveCustomIntervals()
+            
+            // Auto select the newly added interval
+            updateInterval(option.timeInterval)
+        }
+    }
+    
+    func removeInterval(_ option: IntervalOption) {
+        // Don't remove default intervals
+        guard !Self.commonIntervals.contains(option) else { return }
+        
+        availableIntervals.removeAll { $0 == option }
+        saveCustomIntervals()
+        
+        // If currently selected interval was removed, revert to default
+        if selectedInterval == option.timeInterval {
+            updateInterval(Self.commonIntervals[2].timeInterval) // Default to 1 hour
+        }
     }
 
     func updateInterval(_ interval: TimeInterval) {
@@ -136,6 +166,34 @@ class HydrationReminderManager: NSObject, SuperLog {
     func cleanup() {
         timer?.invalidate()
         timer = nil
+    }
+
+    private func loadAvailableIntervals() {
+        var intervals = Self.commonIntervals
+        
+        // Load custom intervals from UserDefaults
+        if let customMinutes = UserDefaults.standard.array(forKey: customIntervalsKey) as? [Int] {
+            let customOptions = customMinutes.map { IntervalOption.minutes($0) }
+            for option in customOptions {
+                if !intervals.contains(option) {
+                    intervals.append(option)
+                }
+            }
+        }
+        
+        intervals.sort { $0.timeInterval < $1.timeInterval }
+        self.availableIntervals = intervals
+    }
+    
+    private func saveCustomIntervals() {
+        let customOptions = availableIntervals.filter { !Self.commonIntervals.contains($0) }
+        let customMinutes = customOptions.map { option -> Int in
+            switch option {
+            case .minutes(let m): return m
+            case .hours(let h): return h * 60
+            }
+        }
+        UserDefaults.standard.set(customMinutes, forKey: customIntervalsKey)
     }
 }
 

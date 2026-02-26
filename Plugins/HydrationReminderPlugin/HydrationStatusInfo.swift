@@ -13,22 +13,22 @@ struct HydrationReminderStatusInfo: View {
                     if timeUntil > 0 {
                         HStack {
                             Image(systemName: "clock").font(.system(size: 9)).foregroundColor(.secondary)
-                        let minutes = Int(timeUntil) / 60
-                        Group {
-                            if minutes < 1 {
-                                Text("Next break: less than 1 min", tableName: "HydrationReminder")
-                            } else if minutes == 1 {
-                                Text("Next break: 1 min", tableName: "HydrationReminder")
-                            } else {
-                                Text("Next break: \(minutes) mins", tableName: "HydrationReminder")
+                            let minutes = Int(timeUntil) / 60
+                            Group {
+                                if minutes < 1 {
+                                    Text("Next break: less than 1 min", tableName: "HydrationReminder")
+                                } else if minutes == 1 {
+                                    Text("Next break: 1 min", tableName: "HydrationReminder")
+                                } else {
+                                    Text("Next break: \(minutes) mins", tableName: "HydrationReminder")
+                                }
                             }
+                            .font(.system(size: 10))
+                            .foregroundColor(.secondary)
+                            Spacer()
                         }
-                        .font(.system(size: 10))
-                        .foregroundColor(.secondary)
-                        Spacer()
                     }
                 }
-            }
                 HStack {
                     Image(systemName: "checkmark.circle.fill").font(.system(size: 9)).foregroundColor(.green)
                     Text("Today: \(manager.todayBreakCount) breaks", tableName: "HydrationReminder").font(.system(size: 10)).foregroundColor(.secondary)

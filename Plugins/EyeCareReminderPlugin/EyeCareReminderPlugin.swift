@@ -42,6 +42,10 @@ actor EyeCareReminderPlugin: SuperPlugin, SuperLog {
     @MainActor func addStatusBarPopupView() -> AnyView? {
         AnyView(EyeCareReminderPopupView())
     }
+
+    @MainActor func addSettingsView() -> AnyView? {
+        AnyView(EyeCareSettingsView())
+    }
 }
 
 // MARK: - Preview

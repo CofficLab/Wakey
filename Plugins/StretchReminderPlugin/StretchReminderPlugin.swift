@@ -22,4 +22,8 @@ actor StretchReminderPlugin: SuperPlugin, SuperLog {
     @MainActor func addStatusBarPopupView() -> AnyView? {
         AnyView(StretchReminderPopupView())
     }
+
+    @MainActor func addSettingsView() -> AnyView? {
+        AnyView(StretchSettingsView())
+    }
 }

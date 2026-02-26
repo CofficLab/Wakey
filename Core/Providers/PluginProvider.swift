@@ -149,6 +149,18 @@ final class PluginProvider: ObservableObject, SuperLog {
         getLogoConfigurations().first
     }
 
+    /// 获取所有已启用插件的设置视图
+    /// - Returns: 包含插件信息和视图的元组数组
+    func getPluginSettingsViews() -> [(id: String, displayName: String, iconName: String, view: AnyView)] {
+        plugins
+            .filter { isPluginEnabled($0) }
+            .compactMap { plugin in
+                guard let view = plugin.addSettingsView() else { return nil }
+                let type = type(of: plugin)
+                return (type.id, type.displayName, type.iconName, view)
+            }
+    }
+
     /// 重新加载插件（占位方法）
     func reloadPlugins() {}
 }

@@ -22,4 +22,8 @@ actor HydrationReminderPlugin: SuperPlugin, SuperLog {
     @MainActor func addStatusBarPopupView() -> AnyView? {
         AnyView(HydrationReminderPopupView())
     }
+
+    @MainActor func addSettingsView() -> AnyView? {
+        AnyView(HydrationSettingsView())
+    }
 }

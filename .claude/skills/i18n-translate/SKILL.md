@@ -98,26 +98,6 @@ python3 scripts/batch_process.py validate --dir /path/to/project
 - **UI 文本**: 简洁明了，符合 macOS/iOS 应用习惯
 - **简繁转换**: `add_translation.py` 包含常见词汇的简繁转换映射
 
-## 使用示例
-
-```
-用户: 检查项目所有 xcstrings 文件缺少的翻译
-→ 运行 batch_process.py list 查看所有文件
-→ 运行 batch_process.py check 检查所有文件
-
-用户: 为 Core.xcstrings 中的 "Copy" 添加翻译
-→ 运行 add_translation.py Core/Core.xcstrings "Copy" "拷贝" "拷貝"
-
-用户: 清理所有 xcstrings 文件中过期的翻译条目
-→ 运行 batch_process.py clean
-
-用户: 验证所有翻译文件的格式和完成度
-→ 运行 batch_process.py validate
-
-用户: 处理特定目录下的翻译文件
-→ 运行 batch_process.py check --dir ./Modules
-```
-
 ## 注意事项
 
 - 所有操作会直接修改指定的 `.xcstrings` 文件

@@ -19,12 +19,16 @@ class EyeCareReminderManager: NSObject, SuperLog {
     // MARK: - Properties
     
     private let userDefaultsKey = "EyeCareReminderInterval"
+    private let customIntervalsKey = "EyeCareCustomIntervals"
 
     /// Whether break reminder is currently active
     private(set) var isActive: Bool = false
 
     /// Selected break interval in seconds
     private(set) var selectedInterval: TimeInterval = 60 * 60 // Default 60 minutes
+    
+    /// Available intervals (including defaults and custom ones)
+    private(set) var availableIntervals: [IntervalOption] = []
 
     /// Next break time
     private(set) var nextBreakTime: Date?
@@ -56,8 +60,11 @@ class EyeCareReminderManager: NSObject, SuperLog {
 
     // MARK: - Initialization
 
-  private override init() {
+    private override init() {
         super.init()
+        
+        // Load custom intervals
+        loadAvailableIntervals()
         
         // Load persisted interval
         let savedInterval = UserDefaults.standard.double(forKey: userDefaultsKey)
@@ -133,6 +140,35 @@ class EyeCareReminderManager: NSObject, SuperLog {
 
         let interval = TimeInterval(minutes * 60)
         scheduleBreak(in: interval)
+    }
+
+    /// Add a custom interval
+    /// - Parameter minutes: Duration in minutes
+    func addCustomInterval(minutes: Int) {
+        let option = IntervalOption.minutes(minutes)
+        if !availableIntervals.contains(option) {
+            availableIntervals.append(option)
+            availableIntervals.sort { $0.timeInterval < $1.timeInterval }
+            saveCustomIntervals()
+            
+            // Auto select the newly added interval
+            updateInterval(option.timeInterval)
+        }
+    }
+    
+    /// Remove an interval
+    /// - Parameter option: The option to remove
+    func removeInterval(_ option: IntervalOption) {
+        // Don't remove default intervals
+        guard !Self.commonIntervals.contains(option) else { return }
+        
+        availableIntervals.removeAll { $0 == option }
+        saveCustomIntervals()
+        
+        // If currently selected interval was removed, revert to default
+        if selectedInterval == option.timeInterval {
+            updateInterval(Self.commonIntervals[0].timeInterval)
+        }
     }
 
     /// Update break interval
@@ -214,6 +250,44 @@ class EyeCareReminderManager: NSObject, SuperLog {
     func cleanup() {
         timer?.invalidate()
         timer = nil
+    }
+
+    // MARK: - Persistence
+    
+    private func loadAvailableIntervals() {
+        // Start with default intervals
+        var intervals = Self.commonIntervals
+        
+        // Load custom intervals from UserDefaults
+        if let customMinutesArray = UserDefaults.standard.array(forKey: customIntervalsKey) as? [Int] {
+            let customOptions = customMinutesArray.map { IntervalOption.minutes($0) }
+            // Add custom options if not already present
+            for option in customOptions {
+                if !intervals.contains(option) {
+                    intervals.append(option)
+                }
+            }
+        }
+        
+        // Sort by duration
+        intervals.sort { $0.timeInterval < $1.timeInterval }
+        
+        self.availableIntervals = intervals
+    }
+    
+    private func saveCustomIntervals() {
+        // Extract custom intervals (those not in commonIntervals)
+        let customOptions = availableIntervals.filter { !Self.commonIntervals.contains($0) }
+        
+        // Convert to minutes for storage
+        let customMinutesArray = customOptions.map { option -> Int in
+            switch option {
+            case .minutes(let m): return m
+            case .hours(let h): return h * 60
+            }
+        }
+        
+        UserDefaults.standard.set(customMinutesArray, forKey: customIntervalsKey)
     }
 }
 
