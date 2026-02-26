@@ -28,26 +28,29 @@ struct EyeCareSettingsView: View {
                 ForEach(manager.availableIntervals) { option in
                     HStack {
                         Text(option.displayName)
-                        
+
                         Spacer()
-                        
+
                         if manager.selectedInterval == option.timeInterval {
                             Image(systemName: "checkmark")
                                 .foregroundColor(.accentColor)
+                        }
+
+                        // Delete button for custom intervals
+                        if !EyeCareReminderManager.commonIntervals.contains(option) {
+                            Button {
+                                manager.removeInterval(option)
+                            } label: {
+                                Image(systemName: "minus.circle.fill")
+                                    .foregroundColor(.red)
+                            }
+                            .buttonStyle(.plain)
+                            .help(Text("Delete", tableName: "EyeCareReminder"))
                         }
                     }
                     .contentShape(Rectangle())
                     .onTapGesture {
                         manager.updateInterval(option.timeInterval)
-                    }
-                    .contextMenu {
-                        if !EyeCareReminderManager.commonIntervals.contains(option) {
-                            Button(role: .destructive) {
-                                manager.removeInterval(option)
-                            } label: {
-                                Text("Delete", tableName: "EyeCareReminder")
-                            }
-                        }
                     }
                 }
                 
@@ -71,7 +74,7 @@ struct EyeCareSettingsView: View {
             } header: {
                 Text("Reminder Intervals", tableName: "EyeCareReminder")
             } footer: {
-                Text("Select an interval to activate it. Right-click custom intervals to delete them.", tableName: "EyeCareReminder")
+                Text("Select an interval to activate it. Click the delete button to remove custom intervals.", tableName: "EyeCareReminder")
             }
         }
         .formStyle(.grouped)

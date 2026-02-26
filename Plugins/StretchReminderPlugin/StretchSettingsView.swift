@@ -28,26 +28,29 @@ struct StretchSettingsView: View {
                 ForEach(manager.availableIntervals) { option in
                     HStack {
                         Text(option.displayName)
-                        
+
                         Spacer()
-                        
+
                         if manager.selectedInterval == option.timeInterval {
                             Image(systemName: "checkmark")
                                 .foregroundColor(.accentColor)
+                        }
+
+                        // Delete button for custom intervals
+                        if !StretchReminderManager.commonIntervals.contains(option) {
+                            Button {
+                                manager.removeInterval(option)
+                            } label: {
+                                Image(systemName: "minus.circle.fill")
+                                    .foregroundColor(.red)
+                            }
+                            .buttonStyle(.plain)
+                            .help(Text("Delete", tableName: "StretchReminder"))
                         }
                     }
                     .contentShape(Rectangle())
                     .onTapGesture {
                         manager.updateInterval(option.timeInterval)
-                    }
-                    .contextMenu {
-                        if !StretchReminderManager.commonIntervals.contains(option) {
-                            Button(role: .destructive) {
-                                manager.removeInterval(option)
-                            } label: {
-                                Text("Delete", tableName: "StretchReminder")
-                            }
-                        }
                     }
                 }
                 
@@ -71,7 +74,7 @@ struct StretchSettingsView: View {
             } header: {
                 Text("Reminder Intervals", tableName: "StretchReminder")
             } footer: {
-                Text("Select an interval to activate it. Right-click custom intervals to delete them.", tableName: "StretchReminder")
+                Text("Select an interval to activate it. Click the delete button to remove custom intervals.", tableName: "StretchReminder")
             }
         }
         .formStyle(.grouped)

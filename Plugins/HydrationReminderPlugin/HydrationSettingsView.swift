@@ -28,26 +28,29 @@ struct HydrationSettingsView: View {
                 ForEach(manager.availableIntervals) { option in
                     HStack {
                         Text(option.displayName)
-                        
+
                         Spacer()
-                        
+
                         if manager.selectedInterval == option.timeInterval {
                             Image(systemName: "checkmark")
                                 .foregroundColor(.accentColor)
+                        }
+
+                        // Delete button for custom intervals
+                        if !HydrationReminderManager.commonIntervals.contains(option) {
+                            Button {
+                                manager.removeInterval(option)
+                            } label: {
+                                Image(systemName: "minus.circle.fill")
+                                    .foregroundColor(.red)
+                            }
+                            .buttonStyle(.plain)
+                            .help(Text("Delete", tableName: "HydrationReminder"))
                         }
                     }
                     .contentShape(Rectangle())
                     .onTapGesture {
                         manager.updateInterval(option.timeInterval)
-                    }
-                    .contextMenu {
-                        if !HydrationReminderManager.commonIntervals.contains(option) {
-                            Button(role: .destructive) {
-                                manager.removeInterval(option)
-                            } label: {
-                                Text("Delete", tableName: "HydrationReminder")
-                            }
-                        }
                     }
                 }
                 
@@ -71,7 +74,7 @@ struct HydrationSettingsView: View {
             } header: {
                 Text("Reminder Intervals", tableName: "HydrationReminder")
             } footer: {
-                Text("Select an interval to activate it. Right-click custom intervals to delete them.", tableName: "HydrationReminder")
+                Text("Select an interval to activate it. Click the delete button to remove custom intervals.", tableName: "HydrationReminder")
             }
         }
         .formStyle(.grouped)
