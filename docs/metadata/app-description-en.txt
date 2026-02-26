@@ -1,0 +1,22 @@
+Wakey - Focused Pomodoro Timer for Deep Work
+
+A minimalist Pomodoro and focus timer for creators, developers, and knowledge workers. Designed for distraction-free sessions on macOS.
+
+Wakey helps you structure your day into focused sprints and intentional breaks. No feeds, no social features—just a calm, reliable timer that gets out of your way.
+
+Key Features
+• Pomodoro-style focus sessions with short and long breaks
+• Subtle, non-intrusive notifications at session end
+• Simple, clean interface that feels native on macOS
+• Lightweight design with minimal resource usage
+
+Why Choose Wakey?
+
+Many productivity apps try to do everything—task management, calendars, habit tracking—and end up overwhelming you. Wakey focuses on one thing only: helping you stay in deep work with a clear, visible timer and a simple flow.
+
+Perfect For
+• Developers and designers who need long, uninterrupted focus time
+• Students preparing for exams or working on projects
+• Writers, researchers, and creators
+• Anyone who prefers a quiet, non-gamified productivity tool
+
