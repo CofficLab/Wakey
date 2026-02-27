@@ -40,5 +40,4 @@ extension CoreApp {
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .withDebugBar()
 }

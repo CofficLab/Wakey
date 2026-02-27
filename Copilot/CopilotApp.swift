@@ -4,11 +4,11 @@ import SwiftUI
 struct CopilotApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CopilotContentView()
         }
     }
 }
 
 #Preview("Copilot - Main") {
-    ContentView()
+    CopilotContentView()
 }
