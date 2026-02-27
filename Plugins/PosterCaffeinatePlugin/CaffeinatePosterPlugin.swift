@@ -40,28 +40,12 @@ actor CaffeinatePosterPlugin: SuperPlugin, SuperLog {
         [
             PosterViewConfiguration(
                 id: "caffeinate.features",
-                title: String(localized: "Minimalist Design", table: "Caffeinate"),
+                title: String(localized: "Anti-sleep", table: "Caffeinate"),
                 subtitle: String(localized: "Key Features", table: "Caffeinate"),
                 order: 2
             ) {
                 CaffeinatePosterFeatures()
-            },
-            PosterViewConfiguration(
-                id: "caffeinate.statusbar",
-                title: String(localized: "Status Bar Control", table: "Caffeinate"),
-                subtitle: String(localized: "Quick Menu", table: "Caffeinate"),
-                order: 3
-            ) {
-                CaffeinatePosterStatusBar()
-            },
-            PosterViewConfiguration(
-                id: "caffeinate.modes",
-                title: String(localized: "Multi-mode Support", table: "Caffeinate"),
-                subtitle: String(localized: "Flexible Options", table: "Caffeinate"),
-                order: 4
-            ) {
-                CaffeinatePosterModes()
-            },
+            }
         ]
     }
 }

@@ -336,24 +336,6 @@ extension EyeCareReminderManager {
     ]
 }
 
-// MARK: - UNUserNotificationCenterDelegate
-
-// extension EyeCareReminderManager: UNUserNotificationCenterDelegate {
-//    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-//        completionHandler([.banner, .sound])
-//    }
-//
-//    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-//        let actionIdentifier = response.actionIdentifier
-//        Task { @MainActor in
-//            if actionIdentifier == UNNotificationDefaultActionIdentifier {
-//                self.snooze(minutes: 5)
-//            }
-//        }
-//        completionHandler()
-//    }
-// }
-
 // MARK: - Preview
 
 #Preview("App") {

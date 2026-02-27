@@ -1,0 +1,23 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "Anti-sleep": {
+      "comment": "Poster feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "防休眠"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "防休眠"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.1"
+}

@@ -7,7 +7,7 @@ struct CaffeinatePosterFeatures: View {
         GeometryReader { geo in
             HStack {
                 Group {
-                    Text(String(localized: "Minimalist Design", table: "Caffeinate", comment: "Title for features poster"))
+                    Text(String(localized: "Anti-sleep", table: "CaffeinatePoster", comment: "Poster feature title"))
                         .asPosterTitle(in: geo)
 
                     VStack(spacing: 16) {
@@ -29,12 +29,6 @@ struct CaffeinatePosterFeatures: View {
                             description: String(localized: "Set a specific duration, system restores sleep after time ends", table: "Caffeinate", comment: "Feature description"),
                             baseSize: geo.size.width * 0.5
                         )
-                        AppStoreFeatureItem(
-                            icon: "bolt.fill",
-                            title: String(localized: "Ultra Lightweight", table: "Caffeinate", comment: "Feature title"),
-                            description: String(localized: "Low resource usage, runs silently without interruption", table: "Caffeinate", comment: "Feature description"),
-                            baseSize: geo.size.width * 0.5
-                        )
                     }
                     .py4()
                 }
@@ -42,8 +36,8 @@ struct CaffeinatePosterFeatures: View {
                 .inMagicVStackCenter()
 
                 ContentLayout()
-                    .inRootView()
                     .inDemoMode()
+                    .inRootView(onlyPlugins: [CaffeinatePlugin.id])
                     .roundedLarge()
                     .shadow3xl()
                     .scaleEffect(geo.size.width / 800)

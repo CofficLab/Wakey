@@ -42,6 +42,7 @@ struct SettingsView: View {
 
 #Preview("Settings") {
     SettingsView()
+        .inRootView()
         .withDebugBar()
 }
 

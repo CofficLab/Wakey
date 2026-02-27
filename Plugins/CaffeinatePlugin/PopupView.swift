@@ -89,7 +89,7 @@ struct CaffeinatePopupView: View {
 
 #Preview("Caffeinate Popup - Demo Activated") {
     CaffeinatePopupView()
-        .inDemoModeActivated()
+        .inDemoMode()
         .frame(width: StatusBarController.defaultPopoverWidth)
 }
 

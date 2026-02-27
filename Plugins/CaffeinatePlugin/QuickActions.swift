@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Anti-sleep quick actions component
 struct CaffeinateQuickActions: View {
-    @Environment(\.demoModeActivated) private var demoModeActivated
+    @Environment(\.demoMode) private var demoMode
     @State private var manager = CaffeinateManager.shared
 
     var body: some View {
@@ -11,9 +11,9 @@ struct CaffeinateQuickActions: View {
                 title: String(localized: "Keep Awake & Display On", table: "Caffeinate", comment: "Option to keep both system and display awake"),
                 icon: "sun.max.fill",
                 color: .orange,
-                isSelected: demoModeActivated ? true : (manager.activeAction == .systemAndDisplay),
+                isSelected: demoMode ? true : (manager.activeAction == .systemAndDisplay),
                 action: {
-                    if !demoModeActivated {
+                    if !demoMode {
                         toggleAction(.systemAndDisplay)
                     }
                 }
@@ -26,9 +26,9 @@ struct CaffeinateQuickActions: View {
                 title: String(localized: "Keep Awake & Allow Display Sleep", table: "Caffeinate", comment: "Option to keep system awake but allow display to sleep"),
                 icon: "moon.fill",
                 color: .blue,
-                isSelected: demoModeActivated ? false : (manager.activeAction == .systemOnly),
+                isSelected: demoMode ? false : (manager.activeAction == .systemOnly),
                 action: {
-                    if !demoModeActivated {
+                    if !demoMode {
                         toggleAction(.systemOnly)
                     }
                 }
@@ -43,7 +43,7 @@ struct CaffeinateQuickActions: View {
                 color: .purple,
                 showCheckmark: false, // Instant action, no checkmark
                 action: {
-                    if !demoModeActivated {
+                    if !demoMode {
                         // Turn off display immediately and switch to "systemOnly" mode
                         manager.activateAndTurnOffDisplay(duration: manager.selectedDuration)
                     }
@@ -109,7 +109,7 @@ private struct QuickActionMenuItem: View {
                     .foregroundColor(isHovering ? .white : color)
                     .frame(width: 18)
 
-                Text(LocalizedStringKey(title), tableName: "Caffeinate")
+                Text(title)
                     .font(.system(size: 11))
                     .foregroundColor(isHovering ? .white : .secondary)
 
@@ -145,7 +145,7 @@ private struct QuickActionMenuItem: View {
 
 #Preview("DemoMode-Activated") {
     CaffeinateQuickActions()
-        .inDemoModeActivated()
+        .inDemoMode()
         .frame(width: 250)
         .padding()
 }

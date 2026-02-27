@@ -35,23 +35,6 @@
         }
       }
     },
-    "Eye Care": {
-      "comment": "Poster title",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "护眼"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "護眼"
-          }
-        }
-      }
-    },
     "Eye Care Poster": {
       "comment": "Name of the eye care poster plugin",
       "localizations": {
@@ -136,23 +119,6 @@
         }
       }
     },
-    "Protect your eyes, take breaks regularly": {
-      "comment": "Poster subtitle",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "保护眼睛，定期休息"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "保護眼睛，定期休息"
-          }
-        }
-      }
-    },
     "Provide eye care related poster views": {
       "comment": "Description of what the Eye Care Poster plugin does",
       "localizations": {
@@ -200,40 +166,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "科學方法"
-          }
-        }
-      }
-    },
-    "Time for a Break!": {
-      "comment": "Demo title",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "该休息了！"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "該休息了！"
-          }
-        }
-      }
-    },
-    "You've been working for 20 minutes": {
-      "comment": "Demo description",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你已经工作了 20 分钟"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你已經工作了 20 分鐘"
           }
         }
       }

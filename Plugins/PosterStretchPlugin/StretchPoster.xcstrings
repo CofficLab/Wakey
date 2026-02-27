@@ -35,70 +35,19 @@
         }
       }
     },
-    "Hydration": {
-      "comment": "Poster title",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "补水"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "補水"
-          }
-        }
-      }
-    },
-    "Hydration Poster": {
-      "comment": "Name of the hydration poster plugin",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "补水提醒海报"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "補水提醒海報"
-          }
-        }
-      }
-    },
-    "Hydration Reminder": {
-      "comment": "Poster feature title",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "补水提醒"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "補水提醒"
-          }
-        }
-      }
-    },
-    "Keep your body and mind in top condition": {
+    "Help reduce the risks of long-time sitting": {
       "comment": "Feature description",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "保持身心最佳状态"
+            "value": "帮助减少久坐的风险"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "保持身心最佳狀態"
+            "value": "幫助減少久坐的風險"
           }
         }
       }
@@ -119,36 +68,53 @@
         }
       }
     },
-    "Provide hydration related poster views": {
-      "comment": "Description of what the Hydration Poster plugin does",
+    "Move Your Body": {
+      "comment": "Feature title",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "提供补水相关的海报视图"
+            "value": "活动身体"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "提供補水相關的海報視圖"
+            "value": "活動身體"
           }
         }
       }
     },
-    "Remind you to drink water regularly": {
+    "Provide stretch related poster views": {
+      "comment": "Description of what the Stretch Poster plugin does",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提供活动相关的海报视图"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提供活動相關的海報視圖"
+          }
+        }
+      }
+    },
+    "Remind you to stand up every hour": {
       "comment": "Feature description",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "定时提醒你喝水"
+            "value": "每小时提醒你站起来活动"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "定時提醒你喝水"
+            "value": "每小時提醒你站起來活動"
           }
         }
       }
@@ -170,70 +136,36 @@
         }
       }
     },
-    "Stay Hydrated": {
-      "comment": "Feature title",
+    "Stretch Poster": {
+      "comment": "Name of the stretch poster plugin",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "保持水分"
+            "value": "活动提醒海报"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "保持水分"
+            "value": "活動提醒海報"
           }
         }
       }
     },
-    "Stay hydrated, stay focused": {
-      "comment": "Poster subtitle",
+    "Stretch Reminder": {
+      "comment": "Poster feature title",
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "保持水分，保持专注"
+            "value": "活动提醒"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "保持水分，保持專注"
-          }
-        }
-      }
-    },
-    "Time for a Break!": {
-      "comment": "Demo title",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "该休息了！"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "該休息了！"
-          }
-        }
-      }
-    },
-    "You've been working for 2 hours": {
-      "comment": "Demo description",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你已经工作了 2 小时"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你已經工作了 2 小時"
+            "value": "活動提醒"
           }
         }
       }
