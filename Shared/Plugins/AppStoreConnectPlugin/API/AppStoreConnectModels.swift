@@ -73,6 +73,11 @@ struct RelationshipData: Decodable {
 struct AppStoreVersionData: Decodable {
     let id: String
     let attributes: AppStoreVersionAttributes
+    let relationships: AppStoreVersionRelationships?
+}
+
+struct AppStoreVersionRelationships: Decodable {
+    let appStoreReviewDetail: AppStoreVersionsLink?
 }
 
 struct AppStoreVersionAttributes: Decodable {

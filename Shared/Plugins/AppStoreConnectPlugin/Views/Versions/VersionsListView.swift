@@ -32,13 +32,13 @@ struct VersionsListView: View {
                 if let selected = selectedVersion {
                     VersionCard(
                         version: selected,
-                        reviewDetail: reviewDetails.values.first
+                        reviewDetail: reviewDetails[selected.id]
                     )
                     .padding()
                 } else if let first = versions.first {
                     VersionCard(
                         version: first,
-                        reviewDetail: reviewDetails.values.first
+                        reviewDetail: reviewDetails[first.id]
                     )
                     .padding()
                 } else {

@@ -393,7 +393,39 @@ class AppStoreConnectService: ObservableObject {
 
             // 转换为业务模型
             versions = versionsResponse.data.map { item in
-                AppStoreVersion(
+                // 从 relationships 中获取审核详情 ID
+                var reviewDetail: AppStoreReviewDetail? = nil
+                if let relationships = item.relationships,
+                   let reviewLink = relationships.appStoreReviewDetail,
+                   let reviewId = reviewLink.data?.id {
+                    // 在 included 中查找对应的审核详情
+                    if let included = versionsResponse.included {
+                        for resource in included {
+                            if case .appStoreReviewDetail(let reviewData) = resource,
+                               reviewData.id == reviewId {
+                                reviewDetail = AppStoreReviewDetail(
+                                    contactFirstName: reviewData.attributes.contactFirstName,
+                                    contactLastName: reviewData.attributes.contactLastName,
+                                    contactPhone: reviewData.attributes.contactPhone,
+                                    contactEmail: reviewData.attributes.contactEmail,
+                                    demoAccountRequired: reviewData.attributes.demoAccountRequired,
+                                    demoAccountName: reviewData.attributes.demoAccountName,
+                                    demoAccountPassword: reviewData.attributes.demoAccountPassword,
+                                    notes: reviewData.attributes.notes
+                                )
+                                print("  版本 \(item.attributes.versionString) 关联审核详情: \(reviewId)")
+                                break
+                            }
+                        }
+                    }
+                }
+
+                // 将审核详情存储到字典中
+                if let reviewDetail = reviewDetail {
+                    versionReviewDetails[item.id] = reviewDetail
+                }
+
+                return AppStoreVersion(
                     id: item.id,
                     platform: item.attributes.platform,
                     versionString: item.attributes.versionString,
