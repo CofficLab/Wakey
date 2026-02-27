@@ -409,7 +409,10 @@ class AppStoreConnectService: ObservableObject {
                     name: app.attributes?.name ?? "未知",
                     bundleId: app.attributes?.bundleId ?? "",
                     sku: app.attributes?.sku ?? "",
-                    appStoreStates: app.attributes?.appStoreStates ?? []
+                    appStoreStates: app.attributes?.appStoreStates ?? [],
+                    primaryLocale: app.attributes?.primaryLocale,
+                    isOrEverWasMadeForKids: app.attributes?.isOrEverWasMadeForKids,
+                    subscriptionStatusUrl: app.attributes?.subscriptionStatusUrl
                 )
             }
 

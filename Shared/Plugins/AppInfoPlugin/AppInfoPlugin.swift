@@ -79,12 +79,12 @@ struct AppInfoNavigationView: View {
 
             Divider()
 
-            InfoRow(label: "应用名称", value: "Wakey")
-            InfoRow(label: "Bundle ID", value: "com.cofficlab.Wakey")
-            InfoRow(label: "版本", value: getAppVersion())
-            InfoRow(label: "构建版本", value: getBuildVersion())
-            InfoRow(label: "最低系统版本", value: "macOS 14.0")
-            InfoRow(label: "架构", value: "Universal")
+            InfoRow(label: "应用名称", value: "Wakey", systemImage: "app")
+            InfoRow(label: "Bundle ID", value: "com.cofficlab.Wakey", systemImage: "doc.text")
+            InfoRow(label: "版本", value: getAppVersion(), systemImage: "number")
+            InfoRow(label: "构建版本", value: getBuildVersion(), systemImage: "hammer")
+            InfoRow(label: "最低系统版本", value: "macOS 14.0", systemImage: "cpu")
+            InfoRow(label: "架构", value: "Universal", systemImage: "scale.3d")
         }
         .padding()
         .frame(maxWidth: 500, alignment: .leading)
@@ -99,18 +99,21 @@ struct AppInfoNavigationView: View {
     }
 }
 
-private struct InfoRow: View {
+private struct AppInfoRow: View {
     let label: String
     let value: String
+    let systemImage: String
 
     var body: some View {
         HStack {
+            Image(systemName: systemImage)
+                .foregroundColor(.accentColor)
+                .frame(width: 20)
             Text(label)
                 .foregroundColor(.secondary)
-                .frame(width: 120, alignment: .leading)
+            Spacer()
             Text(value)
                 .foregroundColor(.primary)
-            Spacer()
         }
     }
 }
