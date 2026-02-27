@@ -56,9 +56,9 @@ struct AppCard: View {
 
             // 应用信息
             VStack(alignment: .leading, spacing: 4) {
-                AppInfoRow(label: "Bundle ID", value: app.bundleId)
-                AppInfoRow(label: "SKU", value: app.sku)
-                AppInfoRow(label: "App ID", value: app.id)
+                AppStoreInfoRow(label: "Bundle ID", value: app.bundleId)
+                AppStoreInfoRow(label: "SKU", value: app.sku)
+                AppStoreInfoRow(label: "App ID", value: app.id)
             }
             .font(.caption)
         }
@@ -70,7 +70,7 @@ struct AppCard: View {
 
 // MARK: - 信息行
 
-struct AppInfoRow: View {
+struct AppStoreInfoRow: View {
     let label: String
     let value: String
 
