@@ -328,14 +328,26 @@ class AppStoreConnectService: ObservableObject {
             let versionsResponse = try await FetchAppVersionsAPI.execute(request: versionsRequest, jwt: jwt)
             print("  成功！返回 \(versionsResponse.data.count) 个版本")
 
+            // 调试：打印每个版本的 relationships
+            for (index, version) in versionsResponse.data.enumerated() {
+                print("  版本 \(index): \(version.attributes.versionString) - ID: \(version.id)")
+                // 打印 relationships（如果有）
+                if let json = try? JSONSerialization.data(withJSONObject: version, options: .prettyPrinted),
+                   let jsonString = String(data: json, encoding: .utf8) {
+                    print("  版本数据: \(jsonString)")
+                }
+            }
+
             // 清空之前的审核详情
             versionReviewDetails = [:]
 
-            // 从 included 中提取应用信息和审核详情
+            // 调试：打印 included 数组信息
             if let included = versionsResponse.included {
-                for resource in included {
+                print("  Included 资源数量: \(included.count)")
+                for (index, resource) in included.enumerated() {
                     switch resource {
                     case .app(let appData):
+                        print("  [\(index)] App 资源 - ID: \(appData.id)")
                         currentApp = AppInfo(
                             id: appData.id,
                             name: appData.attributes?.name ?? "未知",
@@ -353,7 +365,7 @@ class AppStoreConnectService: ObservableObject {
                         }
 
                     case .appStoreReviewDetail(let reviewData):
-                        // 从 relationships 中获取关联的版本 ID
+                        print("  [\(index)] ReviewDetail 资源 - ID: \(reviewData.id)")
                         let reviewDetail = AppStoreReviewDetail(
                             contactFirstName: reviewData.attributes.contactFirstName,
                             contactLastName: reviewData.attributes.contactLastName,
@@ -365,15 +377,18 @@ class AppStoreConnectService: ObservableObject {
                             notes: reviewData.attributes.notes
                         )
 
-                        // 尝试从 API 响应中找到关联的版本 ID
-                        // 如果没有明确关联，将此审核详情用于所有版本
                         versionReviewDetails[reviewData.id] = reviewDetail
                         print("  审核详情已加载 (ID: \(reviewData.id))")
+                        if let email = reviewDetail.attributes.contactEmail {
+                            print("  审核邮箱: \(email)")
+                        }
 
                     case .unknown:
-                        break
+                        print("  [\(index)] 未知资源类型")
                     }
                 }
+            } else {
+                print("  没有 included 资源")
             }
 
             // 转换为业务模型

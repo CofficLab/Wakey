@@ -129,7 +129,18 @@ struct FetchAppVersionsAPI {
         }
 
         do {
-            return try AppStoreConnectAPI.decoder.decode(Response.self, from: data)
+            let response = try AppStoreConnectAPI.decoder.decode(Response.self, from: data)
+
+            // 调试：打印原始响应
+            if let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
+               let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted),
+               let jsonString = String(data: jsonData, encoding: .utf8) {
+                print("\n=== API 响应 (JSON) ===")
+                print(jsonString)
+                print("========================\n")
+            }
+
+            return response
         } catch {
             throw AppStoreConnectError.networkError(error)
         }
