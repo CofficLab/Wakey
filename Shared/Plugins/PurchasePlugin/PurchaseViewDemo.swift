@@ -1,57 +1,6 @@
+import Foundation
 import MagicKit
 import SwiftUI
-
-// MARK: - Purchase Navigation View
-
-struct PurchaseNavigationView: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("购买海报")
-                .font(.title)
-                .fontWeight(.bold)
-
-            Divider()
-
-            Text("Wakey Pro 会员功能")
-                .font(.title2)
-                .foregroundColor(.secondary)
-
-            posterPreview
-        }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-    }
-
-    private var posterPreview: some View {
-        PurchasePosterPro()
-            .frame(maxWidth: 600)
-            .background(.ultraThinMaterial)
-            .cornerRadius(12)
-            .shadow(radius: 4)
-    }
-}
-
-// MARK: - Purchase Poster View: Pro Features
-
-struct PurchasePosterPro: View {
-    var body: some View {
-        PurchaseViewDemo()
-            .background(
-                LinearGradient(
-                    colors: [
-                        Color.indigo.opacity(0.3),
-                        Color.purple.opacity(0.2),
-                        Color.pink.opacity(0.15),
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            )
-            .frame(height: 500)
-            .frame(width: 500)
-            .inDesktop()
-    }
-}
 
 // MARK: - PurchaseViewDemo
 
@@ -73,7 +22,8 @@ struct PurchaseViewDemo: View {
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 32)
-        .background(Color(red: 0.98, green: 0.98, blue: 0.98))
+        .background(.blue.opacity(0.5))
+        .roundedLarge()
     }
 }
 
@@ -121,7 +71,7 @@ extension PurchaseViewDemo {
             }
         }
         .padding(20)
-        .background(Color(red: 0.95, green: 0.96, blue: 0.98))
+        .background(.background)
         .cornerRadius(12)
     }
 
@@ -180,16 +130,7 @@ extension PurchaseViewDemo {
                     .font(.headline)
                     .fontWeight(.medium)
                     .foregroundColor(.primary)
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 12)
-                    .background(Color.white)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                    )
-                    .cornerRadius(8)
             }
-            .buttonStyle(PlainButtonStyle())
         }
         .padding(.horizontal, 20)
     }
@@ -216,6 +157,7 @@ extension PurchaseViewDemo {
 #Preview("Purchase Plugin") {
     PurchaseNavigationView()
         .inRootView()
+        .withDebugBar()
 }
 
 #Preview("Purchase Poster - Pro") {

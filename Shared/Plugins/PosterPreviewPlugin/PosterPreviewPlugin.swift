@@ -91,7 +91,18 @@ struct PosterPreviewNavigationView: View {
                     .foregroundColor(.secondary)
 
                 Spacer()
+            }
 
+            if posterConfigurations.isEmpty {
+                emptyStateView
+            } else {
+                posterGridView
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .toolbar {
+            ToolbarItemGroup(placement: .primaryAction) {
                 Button(action: captureAppStoreScreenshots) {
                     HStack {
                         if isGenerating {
@@ -103,20 +114,11 @@ struct PosterPreviewNavigationView: View {
 
                         Text("生成 App Store 截图")
                     }
-                    .padding(.vertical, 4)
                 }
                 .buttonStyle(.bordered)
                 .disabled(isGenerating || posterConfigurations.isEmpty)
             }
-
-            if posterConfigurations.isEmpty {
-                emptyStateView
-            } else {
-                posterGridView
-            }
         }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 
     private var emptyStateView: some View {
