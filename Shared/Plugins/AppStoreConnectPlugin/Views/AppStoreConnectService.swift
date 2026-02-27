@@ -28,7 +28,6 @@ class AppStoreConnectService: ObservableObject {
     @Published var errorMessage: String?
     @Published var versions: [AppStoreVersion] = []
     @Published var versionReviewDetails: [String: AppStoreReviewDetail] = [:]
-    @Published var versionLocalizations: [String: AppStoreVersionLocalization] = [:]
     @Published var currentApp: AppInfo?
 
     // 应用列表相关
@@ -283,31 +282,10 @@ class AppStoreConnectService: ObservableObject {
 
             // 生成 JWT
             let jwt = try generateJWT()
-            print("\nJWT 详情:")
-            print("  完整 JWT: \(jwt)")
-            print("  JWT 长度: \(jwt.count) 字符")
-
-            // 解析 JWT 显示 payload
-            if let payloadData = decodeJWTPayload(jwt),
-               let payload = try? JSONSerialization.jsonObject(with: payloadData, options: []) as? [String: Any] {
-                print("\nJWT Payload:")
-                if let json = try? JSONSerialization.data(withJSONObject: payload, options: [.prettyPrinted]),
-                   let pretty = String(data: json, encoding: .utf8) {
-                    print(pretty)
-                }
-
-                // 检查过期时间
-                if let exp = payload["exp"] as? Int {
-                    let expDate = Date(timeIntervalSince1970: TimeInterval(exp))
-                    print("JWT 过期时间: \(ISO8601DateFormatter().string(from: expDate))")
-                    print("距离过期: \(Int(expDate.timeIntervalSinceNow)) 秒")
-                }
-            }
 
             // 第一步：通过 Bundle ID 获取应用 ID
             let appsRequest = FetchAppsAPI.Request(bundleId: bundleId)
             print("\n第一步请求: 获取应用 ID")
-            print("  URL: \(appsRequest.url?.absoluteString ?? "无效")")
 
             let appsResponse = try await FetchAppsAPI.execute(request: appsRequest, jwt: jwt)
             print("  成功！返回 \(appsResponse.data.count) 个应用")
@@ -321,155 +299,31 @@ class AppStoreConnectService: ObservableObject {
             print("  应用 ID: \(app.id)")
             print("  应用名称: \(app.attributes?.name ?? "未知")")
 
-            // 第二步：使用应用 ID 获取版本信息
+            // 第二步：使用应用 ID 获取版本列表（不包含详情）
             let versionsRequest = FetchAppVersionsAPI.Request(appId: app.id)
-            print("\n第二步请求: 获取版本信息")
+            print("\n第二步请求: 获取版本列表")
             print("  URL: \(versionsRequest.url?.absoluteString ?? "无效")")
 
             let versionsResponse = try await FetchAppVersionsAPI.execute(request: versionsRequest, jwt: jwt)
             print("  成功！返回 \(versionsResponse.data.count) 个版本")
 
-            // 调试：打印每个版本的 relationships
-            for (index, version) in versionsResponse.data.enumerated() {
-                print("  版本 \(index): \(version.attributes.versionString) - ID: \(version.id)")
-                // 检查 relationships
-                if let relationships = version.relationships {
-                    print("    有 relationships 字段")
-                    if let reviewDetailLink = relationships.appStoreReviewDetail {
-                        print("    有 appStoreReviewDetail 关联")
-                        if let reviewData = reviewDetailLink.data {
-                            print("    审核详情 ID: \(reviewData.id)")
-                        } else {
-                            print("    审核详情 data 为 null")
-                        }
-                    } else {
-                        print("    没有 appStoreReviewDetail 关联")
-                    }
-                } else {
-                    print("    没有 relationships 字段（API 未返回）")
-                }
+            // 更新应用信息
+            if let appData = app.attributes {
+                currentApp = AppInfo(
+                    id: app.id,
+                    name: appData.name ?? "未知",
+                    bundleId: appData.bundleId ?? "",
+                    sku: appData.sku ?? "",
+                    appStoreStates: appData.appStoreStates ?? [],
+                    primaryLocale: appData.primaryLocale,
+                    isOrEverWasMadeForKids: appData.isOrEverWasMadeForKids,
+                    subscriptionStatusUrl: appData.subscriptionStatusUrl
+                )
             }
 
-            // 清空之前的审核详情和本地化
-            versionReviewDetails = [:]
-            versionLocalizations = [:]
-
-            // 调试：打印 included 数组信息
-            if let included = versionsResponse.included {
-                print("  Included 资源数量: \(included.count)")
-                for (index, resource) in included.enumerated() {
-                    switch resource {
-                    case .app(let appData):
-                        print("  [\(index)] App 资源 - ID: \(appData.id)")
-                        currentApp = AppInfo(
-                            id: appData.id,
-                            name: appData.attributes?.name ?? "未知",
-                            bundleId: appData.attributes?.bundleId ?? "",
-                            sku: appData.attributes?.sku ?? "",
-                            appStoreStates: appData.attributes?.appStoreStates ?? [],
-                            primaryLocale: appData.attributes?.primaryLocale,
-                            isOrEverWasMadeForKids: appData.attributes?.isOrEverWasMadeForKids,
-                            subscriptionStatusUrl: appData.attributes?.subscriptionStatusUrl
-                        )
-                        print("  应用名称: \(currentApp?.name ?? "")")
-                        print("  Bundle ID: \(currentApp?.bundleId ?? "")")
-                        if let locale = currentApp?.primaryLocale {
-                            print("  主要语言: \(locale)")
-                        }
-
-                    case .appStoreReviewDetail(let reviewData):
-                        print("  [\(index)] ReviewDetail 资源 - ID: \(reviewData.id)")
-                        let reviewDetail = AppStoreReviewDetail(
-                            contactFirstName: reviewData.attributes.contactFirstName,
-                            contactLastName: reviewData.attributes.contactLastName,
-                            contactPhone: reviewData.attributes.contactPhone,
-                            contactEmail: reviewData.attributes.contactEmail,
-                            demoAccountRequired: reviewData.attributes.demoAccountRequired,
-                            demoAccountName: reviewData.attributes.demoAccountName,
-                            demoAccountPassword: reviewData.attributes.demoAccountPassword,
-                            notes: reviewData.attributes.notes
-                        )
-
-                        versionReviewDetails[reviewData.id] = reviewDetail
-                        print("  审核详情已加载 (ID: \(reviewData.id))")
-                        if let email = reviewDetail.contactEmail {
-                            print("  审核邮箱: \(email)")
-                        }
-
-                    case .appStoreVersionLocalization(let localizationData):
-                        print("  [\(index)] Localization 资源 - ID: \(localizationData.id), locale: \(localizationData.attributes.locale ?? "nil")")
-                        let localization = AppStoreVersionLocalization(
-                            id: localizationData.id,
-                            locale: localizationData.attributes.locale,
-                            description: localizationData.attributes.description,
-                            whatsNew: localizationData.attributes.whatsNew,
-                            promotionalText: localizationData.attributes.promotionalText,
-                            keywords: localizationData.attributes.keywords,
-                            marketingUrl: localizationData.attributes.marketingUrl,
-                            supportUrl: localizationData.attributes.supportUrl
-                        )
-                        versionLocalizations[localizationData.id] = localization
-                        if let desc = localization.description, !desc.isEmpty {
-                            print("  描述: \(desc.prefix(50))...")
-                        }
-
-                    case .unknown:
-                        print("  [\(index)] 未知资源类型")
-                    }
-                }
-            } else {
-                print("  没有 included 资源")
-            }
-
-            // 转换为业务模型
+            // 转换为业务模型（不包含详细信息）
             versions = versionsResponse.data.map { item in
-                // 从 relationships 中获取审核详情 ID
-                var reviewDetail: AppStoreReviewDetail? = nil
-                if let relationships = item.relationships,
-                   let reviewLink = relationships.appStoreReviewDetail,
-                   let reviewData = reviewLink.data {
-                    let reviewId = reviewData.id
-                    // 在 included 中查找对应的审核详情
-                    if let included = versionsResponse.included {
-                        for resource in included {
-                            if case .appStoreReviewDetail(let reviewData) = resource,
-                               reviewData.id == reviewId {
-                                reviewDetail = AppStoreReviewDetail(
-                                    contactFirstName: reviewData.attributes.contactFirstName,
-                                    contactLastName: reviewData.attributes.contactLastName,
-                                    contactPhone: reviewData.attributes.contactPhone,
-                                    contactEmail: reviewData.attributes.contactEmail,
-                                    demoAccountRequired: reviewData.attributes.demoAccountRequired,
-                                    demoAccountName: reviewData.attributes.demoAccountName,
-                                    demoAccountPassword: reviewData.attributes.demoAccountPassword,
-                                    notes: reviewData.attributes.notes
-                                )
-                                print("  版本 \(item.attributes.versionString) 关联审核详情: \(reviewId)")
-                                break
-                            }
-                        }
-                    }
-                }
-
-                // 将审核详情存储到字典中
-                if let reviewDetail = reviewDetail {
-                    versionReviewDetails[item.id] = reviewDetail
-                }
-
-                // 从 relationships 中获取本地化 ID（取第一个）
-                var localization: AppStoreVersionLocalization? = nil
-                if let relationships = item.relationships,
-                   let localizationsLink = relationships.appStoreVersionLocalizations,
-                   let localizationsArray = localizationsLink.data,
-                   let firstLocalizationId = localizationsArray.first?.id {
-                    // 在字典中查找对应的本地化
-                    if let loc = versionLocalizations[firstLocalizationId] {
-                        localization = loc
-                        print("  版本 \(item.attributes.versionString) 关联本地化: \(firstLocalizationId) (\(loc.locale ?? "nil"))")
-                    }
-                }
-
-                return AppStoreVersion(
+                AppStoreVersion(
                     id: item.id,
                     platform: item.attributes.platform,
                     versionString: item.attributes.versionString,
@@ -480,11 +334,12 @@ class AppStoreConnectService: ObservableObject {
                     downloadable: item.attributes.downloadable,
                     copyright: item.attributes.copyright,
                     usesIdfa: item.attributes.usesIdfa,
-                    localization: localization
+                    localization: nil  // 详情按需加载
                 )
             }
 
             print("\n=== API 请求成功完成 ===")
+            print("提示：版本详情将在选中版本时按需加载")
 
         } catch {
             let errorDesc = (error as? AppStoreConnectError)?.localizedDescription ?? error.localizedDescription
@@ -497,6 +352,97 @@ class AppStoreConnectService: ObservableObject {
         }
 
         isLoading = false
+    }
+
+    /// 获取单个版本的详细信息
+    func fetchVersionDetail(versionId: String) async {
+        guard isConfigured else {
+            errorMessage = "请先配置 API 密钥"
+            return
+        }
+
+        do {
+            print("=== 获取版本详情开始 ===")
+            print("  版本 ID: \(versionId)")
+
+            let jwt = try generateJWT()
+            let request = FetchVersionDetailAPI.Request(versionId: versionId)
+            print("  URL: \(request.url?.absoluteString ?? "无效")")
+
+            let response = try await FetchVersionDetailAPI.execute(request: request, jwt: jwt)
+            print("  成功！")
+
+            // 处理 included 资源
+            var reviewDetail: AppStoreReviewDetail? = nil
+            var localization: AppStoreVersionLocalization? = nil
+
+            if let included = response.included {
+                for resource in included {
+                    switch resource {
+                    case .appStoreReviewDetail(let reviewData):
+                        print("  [详情] 审核详情 - ID: \(reviewData.id)")
+                        reviewDetail = AppStoreReviewDetail(
+                            contactFirstName: reviewData.attributes.contactFirstName,
+                            contactLastName: reviewData.attributes.contactLastName,
+                            contactPhone: reviewData.attributes.contactPhone,
+                            contactEmail: reviewData.attributes.contactEmail,
+                            demoAccountRequired: reviewData.attributes.demoAccountRequired,
+                            demoAccountName: reviewData.attributes.demoAccountName,
+                            demoAccountPassword: reviewData.attributes.demoAccountPassword,
+                            notes: reviewData.attributes.notes
+                        )
+
+                    case .appStoreVersionLocalization(let localizationData):
+                        print("  [详情] 本地化 - ID: \(localizationData.id), locale: \(localizationData.attributes.locale ?? "nil")")
+                        localization = AppStoreVersionLocalization(
+                            id: localizationData.id,
+                            locale: localizationData.attributes.locale,
+                            description: localizationData.attributes.description,
+                            whatsNew: localizationData.attributes.whatsNew,
+                            promotionalText: localizationData.attributes.promotionalText,
+                            keywords: localizationData.attributes.keywords,
+                            marketingUrl: localizationData.attributes.marketingUrl,
+                            supportUrl: localizationData.attributes.supportUrl
+                        )
+
+                    default:
+                        break
+                    }
+                }
+            }
+
+            // 更新版本数据
+            if let index = versions.firstIndex(where: { $0.id == versionId }) {
+                let version = versions[index]
+                let updatedVersion = AppStoreVersion(
+                    id: version.id,
+                    platform: version.platform,
+                    versionString: version.versionString,
+                    appStoreState: version.appStoreState,
+                    appVersionState: version.appVersionState,
+                    createdDate: version.createdDate,
+                    releaseType: version.releaseType,
+                    downloadable: version.downloadable,
+                    copyright: version.copyright,
+                    usesIdfa: version.usesIdfa,
+                    localization: localization
+                )
+                versions[index] = updatedVersion
+
+                // 存储审核详情
+                if let reviewDetail = reviewDetail {
+                    versionReviewDetails[versionId] = reviewDetail
+                }
+
+                print("=== 版本详情获取成功 ===")
+            }
+
+        } catch {
+            let errorDesc = (error as? AppStoreConnectError)?.localizedDescription ?? error.localizedDescription
+            print("=== 版本详情获取失败 ===")
+            print("错误描述: \(errorDesc)")
+            errorMessage = errorDesc
+        }
     }
 
     /// 获取所有应用列表

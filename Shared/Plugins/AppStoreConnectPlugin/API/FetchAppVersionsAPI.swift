@@ -45,9 +45,8 @@ struct FetchAppVersionsAPI {
         var url: URL? {
             var components = URLComponents(string: "\(AppStoreConnectAPI.baseURL)/apps/\(appId)/appStoreVersions")
             components?.queryItems = [
-                URLQueryItem(name: "limit", value: String(limit)),
-                // 包含版本本地化（描述、更新说明等）
-                URLQueryItem(name: "include", value: "app,appStoreReviewDetail,appStoreVersionLocalizations")
+                URLQueryItem(name: "limit", value: String(limit))
+                // 不包含详细信息，按需加载
             ]
             return components?.url
         }

@@ -4,14 +4,10 @@ import SwiftUI
 
 struct AppStoreConnectConfigurationView: View {
     @StateObject private var service = AppStoreConnectService.shared
-    @State private var isConfigExpanded = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            ConfigurationSection(
-                service: service,
-                isConfigExpanded: $isConfigExpanded
-            )
+            ConfigurationSection(service: service)
         }
         .padding()
         .frame(minWidth: 100, alignment: .leading)

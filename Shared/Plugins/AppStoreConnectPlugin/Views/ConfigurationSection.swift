@@ -2,25 +2,12 @@ import SwiftUI
 
 struct ConfigurationSection: View {
     @ObservedObject var service: AppStoreConnectService
-    @Binding var isConfigExpanded: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                Text("API 配置")
-                    .font(.headline)
-                    .fontWeight(.semibold)
-
-                Spacer()
-
-                if service.isConfigured {
-                    Button(action: { isConfigExpanded.toggle() }) {
-                        Image(systemName: isConfigExpanded ? "chevron.up" : "chevron.down")
-                            .foregroundColor(.secondary)
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
+            Text("API 配置")
+                .font(.headline)
+                .fontWeight(.semibold)
 
             VStack(alignment: .leading, spacing: 12) {
                 // API 密钥
@@ -30,34 +17,34 @@ struct ConfigurationSection: View {
                         .foregroundColor(.secondary)
                     TextField("-----BEGIN PRIVATE KEY-----...", text: $service.apiKey, axis: .vertical)
                         .textFieldStyle(.roundedBorder)
-                        .lineLimit(isConfigExpanded ? 3...6 : 1...2)
+                        .lineLimit(3...6)
                 }
 
-                // 展开时显示的其他字段
-                if isConfigExpanded || !service.isConfigured {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Issuer ID")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        TextField("例如: 7d9d36c6-a5a7-4...", text: $service.issuerId)
-                            .textFieldStyle(.roundedBorder)
-                    }
+                // Issuer ID
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Issuer ID")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    TextField("例如: 7d9d36c6-a5a7-4...", text: $service.issuerId)
+                        .textFieldStyle(.roundedBorder)
+                }
 
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Key ID")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        TextField("例如: XADFV6Q9DM", text: $service.keyId)
-                            .textFieldStyle(.roundedBorder)
-                    }
+                // Key ID
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Key ID")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    TextField("例如: XADFV6Q9DM", text: $service.keyId)
+                        .textFieldStyle(.roundedBorder)
+                }
 
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Bundle ID")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        TextField("例如: com.coffic.wakey", text: $service.bundleId)
-                            .textFieldStyle(.roundedBorder)
-                    }
+                // Bundle ID
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Bundle ID")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    TextField("例如: com.coffic.wakey", text: $service.bundleId)
+                        .textFieldStyle(.roundedBorder)
                 }
 
                 // 底部按钮和状态
@@ -75,12 +62,8 @@ struct ConfigurationSection: View {
                         }
                     }
 
-                    Button(isConfigExpanded ? "收起配置" : "获取版本信息") {
-                        if isConfigExpanded {
-                            isConfigExpanded = false
-                        } else {
-                            Task { await service.fetchVersions() }
-                        }
+                    Button("获取版本信息") {
+                        Task { await service.fetchVersions() }
                     }
                     .buttonStyle(.borderedProminent)
                 }

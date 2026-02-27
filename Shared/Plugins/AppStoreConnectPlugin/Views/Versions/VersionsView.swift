@@ -26,7 +26,10 @@ struct AppStoreConnectVersionsView: View {
                     } else {
                         VersionsListView(
                             versions: service.versions,
-                            reviewDetails: service.versionReviewDetails
+                            reviewDetails: service.versionReviewDetails,
+                            onVersionSelect: { version in
+                                await service.fetchVersionDetail(versionId: version.id)
+                            }
                         )
                     }
                 }

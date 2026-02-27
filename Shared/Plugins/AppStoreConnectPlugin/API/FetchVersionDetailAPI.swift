@@ -8,18 +8,17 @@ struct FetchVersionDetailAPI {
 
         var url: URL? {
             var components = URLComponents(string: "\(AppStoreConnectAPI.baseURL)/appStoreVersions/\(versionId)")
+            // 包含审核详情和本地化信息
             components?.queryItems = [
-                URLQueryItem(
-                    name: "fields[appStoreVersions]",
-                    value: "platform,versionString,appStoreState,createdDate,releaseType,uploadedDate,usesNonExemptEncryption,downloadable"
-                )
+                URLQueryItem(name: "include", value: "app,appStoreReviewDetail,appStoreVersionLocalizations")
             ]
             return components?.url
         }
     }
 
     struct Response: Decodable {
-        let data: AppStoreVersionDetailData
+        let data: AppStoreVersionData
+        let included: [FetchAppVersionsAPI.IncludedResource]?
         let links: ResponseLinks?
     }
 
@@ -56,22 +55,4 @@ struct FetchVersionDetailAPI {
             throw AppStoreConnectError.networkError(error)
         }
     }
-}
-
-/// 版本详细信息数据
-struct AppStoreVersionDetailData: Decodable {
-    let id: String
-    let attributes: AppStoreVersionDetailAttributes
-}
-
-/// 版本详细信息属性
-struct AppStoreVersionDetailAttributes: Decodable {
-    let platform: String
-    let versionString: String
-    let appStoreState: String
-    let createdDate: String
-    let releaseType: String?
-    let uploadedDate: String?
-    let usesNonExemptEncryption: Bool?
-    let downloadable: Bool?
 }
