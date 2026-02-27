@@ -9,9 +9,6 @@ import SwiftUI
 /// 插件提供者，负责管理所有可用插件的生命周期和状态
 @MainActor
 final class PluginProvider: ObservableObject, SuperLog {
-    /// 单例实例
-    static let shared = PluginProvider()
-
     /// 日志标识符
     nonisolated static let emoji = "🔌"
     /// 是否启用详细日志输出
@@ -22,8 +19,8 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// 插件是否已加载完成
     @Published private(set) var isLoaded: Bool = false
 
-    /// 允许的插件 ID 列表，为 nil 时表示允许所有插件
-    private var allowedPluginIds: [String]?
+    /// 允许的插件 ID 列表（通过初始化参数传入）
+    private let allowedPluginIds: [String]?
 
     /// 插件设置存储
     private let settingsStore = PluginSettingsStore.shared
@@ -32,8 +29,12 @@ final class PluginProvider: ObservableObject, SuperLog {
     private var cancellables = Set<AnyCancellable>()
 
     /// 初始化插件提供者
-    /// - Parameter autoDiscover: 是否自动发现插件
-    init(autoDiscover: Bool = true) {
+    /// - Parameters:
+    ///   - allowedPluginIds: 允许的插件 ID 列表，为 nil 时表示允许所有插件
+    ///   - autoDiscover: 是否自动发现插件
+    init(allowedPluginIds: [String]? = nil, autoDiscover: Bool = true) {
+        self.allowedPluginIds = allowedPluginIds
+
         // 订阅设置变化，当设置改变时触发 UI 更新
         settingsStore.$settings
             .sink { [weak self] _ in
@@ -184,19 +185,6 @@ final class PluginProvider: ObservableObject, SuperLog {
         // 检查用户配置
         let pluginId = plugin.instanceLabel
         return settingsStore.isPluginEnabled(pluginId)
-    }
-
-    /// 设置允许的插件 ID 列表
-    /// - Parameter pluginIds: 允许的插件 ID 列表
-    func setAllowedPlugins(_ pluginIds: [String]) {
-        self.allowedPluginIds = pluginIds
-        objectWillChange.send()
-    }
-
-    /// 清除允许的插件限制，启用所有插件
-    func clearAllowedPlugins() {
-        self.allowedPluginIds = nil
-        objectWillChange.send()
     }
 
     /// 获取所有插件提供的状态栏弹窗视图

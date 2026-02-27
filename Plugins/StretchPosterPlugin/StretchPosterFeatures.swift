@@ -35,8 +35,7 @@ struct StretchPosterFeatures: View {
                 .inMagicVStackCenter()
 
                 ContentLayout()
-                    .onlyPlugins([StretchReminderPlugin.id])
-                    .inRootView()
+                    .inRootView(onlyPlugins: [StretchReminderPlugin.id])
                     .inDemoMode()
                     .shadow2xl()
                     .roundedLarge()

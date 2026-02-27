@@ -24,8 +24,7 @@ struct CaffeinatePosterStatusBar: View {
                 .inMagicVStackCenter()
 
                 ContentLayout()
-                    .onlyPlugins([CaffeinatePlugin.id])
-                    .inRootView()
+                    .inRootView(onlyPlugins: [CaffeinatePlugin.id])
                     .inDemoMode()
                     .roundedLarge()
                     .shadow3xl()

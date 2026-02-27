@@ -35,8 +35,7 @@ struct HydrationPosterFeatures: View {
                 .inMagicVStackCenter()
 
                 ContentLayout()
-                    .onlyPlugins([HydrationReminderPlugin.id])
-                    .inRootView()
+                    .inRootView(onlyPlugins: [HydrationReminderPlugin.id])
                     .inDemoMode()
                     .shadow2xl()
                     .roundedLarge()

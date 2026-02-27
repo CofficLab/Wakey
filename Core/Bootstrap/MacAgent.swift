@@ -14,9 +14,6 @@ class MacAgent: NSObject, NSApplicationDelegate, SuperLog {
     /// 状态栏控制器，管理菜单栏图标和弹窗
     private var statusBarController: StatusBarController?
 
-    /// 插件提供者，管理所有加载的插件
-    private var pluginProvider: PluginProvider?
-
     /// 应用提供者，提供核心业务逻辑
     private var appProvider: AppProvider?
 
@@ -77,8 +74,6 @@ class MacAgent: NSObject, NSApplicationDelegate, SuperLog {
     private func setupApplication() {
         // 初始化应用提供者
         appProvider = AppProvider.shared
-        // 初始化插件提供者
-        pluginProvider = PluginProvider.shared
     }
 
     /// 设置各个控制器

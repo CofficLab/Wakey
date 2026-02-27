@@ -50,5 +50,4 @@ extension View {
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .withDebugBar()
 }

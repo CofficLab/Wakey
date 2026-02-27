@@ -14,7 +14,7 @@ struct PluginSettingsView: View {
     @StateObject private var settingsStore = PluginSettingsStore.shared
 
     /// 插件提供者
-    @StateObject private var pluginProvider = PluginProvider.shared
+    @EnvironmentObject private var pluginProvider: PluginProvider
 
     /// 插件启用状态
     @State private var pluginStates: [String: Bool] = [:]
@@ -120,5 +120,6 @@ struct PluginToggleRow: View {
 
 #Preview("Plugin Settings") {
     PluginSettingsView()
+        .inRootView()
         .frame(width: 500, height: 400)
 }

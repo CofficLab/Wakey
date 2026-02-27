@@ -35,8 +35,7 @@ struct EyeCarePosterFeatures: View {
                 .inMagicVStackCenter()
 
                 ContentLayout()
-                    .onlyPlugins([EyeCareReminderPlugin.id])
-                    .inRootView()
+                    .inRootView(onlyPlugins: [EyeCareReminderPlugin.id])
                     .inDemoMode()
                     .shadow2xl()
                     .roundedLarge()

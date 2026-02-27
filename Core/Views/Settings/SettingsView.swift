@@ -2,7 +2,7 @@ import SwiftUI
 
 /// 主设置视图
 struct SettingsView: View {
-    @StateObject private var pluginProvider = PluginProvider.shared
+    @EnvironmentObject private var pluginProvider: PluginProvider
 
     var body: some View {
         TabView {
