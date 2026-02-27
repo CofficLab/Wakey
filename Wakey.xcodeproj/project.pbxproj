@@ -18,6 +18,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F52F05392F519D1700E97674 /* Exceptions for "Hero" folder in "Copilot" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Shared/DebugBar.swift,
+			);
+			target = F585CCF12F51987D00D41B4F /* Copilot */;
+		};
 		F585CCFE2F51990300D41B4F /* Exceptions for "Copilot" folder in "Wakey" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -37,6 +44,9 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F52F04452F519B9200E97674 /* Hero */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F52F05392F519D1700E97674 /* Exceptions for "Hero" folder in "Copilot" target */,
+			);
 			path = Hero;
 			sourceTree = "<group>";
 		};
