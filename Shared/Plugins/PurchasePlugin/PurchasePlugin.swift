@@ -39,17 +39,34 @@ actor PurchasePlugin: SuperPlugin, SuperLog {
 
     @MainActor func addStatusBarPopupView() -> AnyView? { nil }
 
-    /// 提供购买相关的海报视图
-    @MainActor static func providePosterViews() -> [PosterViewConfiguration] {
-        [
-            PosterViewConfiguration(
-                id: "purchase.pro",
-                title: String(localized: "Pro Features", table: "Purchase"),
-                subtitle: String(localized: "Unlock premium features", table: "Purchase"),
-                order: 100
-            ) {
-                PurchasePosterPro()
-            },
-        ]
+    @MainActor func addSettingsView() -> AnyView? { nil }
+
+    /// 提供 Copilot 导航视图
+    @MainActor func addCopilotNavigationView() -> AnyView? {
+        AnyView(PurchaseNavigationView())
+    }
+
+    @MainActor static func providePosterViews() -> [PosterViewConfiguration] { [] }
+
+    @MainActor static func provideLogos() -> [any SuperLogo] { [] }
+
+    // MARK: - Lifecycle
+
+    nonisolated func onRegister() {
+        if Self.verbose {
+            os_log("\(Self.t)✅ PurchasePlugin registered")
+        }
+    }
+
+    nonisolated func onEnable() {
+        if Self.verbose {
+            os_log("\(Self.t)🔌 PurchasePlugin enabled")
+        }
+    }
+
+    nonisolated func onDisable() {
+        if Self.verbose {
+            os_log("\(Self.t)❌ PurchasePlugin disabled")
+        }
     }
 }

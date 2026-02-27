@@ -1,6 +1,36 @@
 import MagicKit
 import SwiftUI
 
+// MARK: - Purchase Navigation View
+
+struct PurchaseNavigationView: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("购买海报")
+                .font(.title)
+                .fontWeight(.bold)
+
+            Divider()
+
+            Text("Wakey Pro 会员功能")
+                .font(.title2)
+                .foregroundColor(.secondary)
+
+            posterPreview
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    }
+
+    private var posterPreview: some View {
+        PurchasePosterPro()
+            .frame(maxWidth: 600)
+            .background(.ultraThinMaterial)
+            .cornerRadius(12)
+            .shadow(radius: 4)
+    }
+}
+
 // MARK: - Purchase Poster View: Pro Features
 
 struct PurchasePosterPro: View {
@@ -182,6 +212,11 @@ extension PurchaseViewDemo {
 }
 
 // MARK: - Preview
+
+#Preview("Purchase Plugin") {
+    PurchaseNavigationView()
+        .inRootView()
+}
 
 #Preview("Purchase Poster - Pro") {
     PurchasePosterPro()
