@@ -231,6 +231,19 @@ final class PluginProvider: ObservableObject, SuperLog {
             }
     }
 
+    /// 获取所有插件提供的 Copilot 导航视图
+    /// - Returns: 包含插件信息和视图的元组数组
+    func getCopilotNavigationViews() -> [(id: String, displayName: String, iconName: String, view: AnyView)] {
+        plugins
+            .filter { isPluginEnabled($0) }
+            .compactMap { plugin in
+                guard let view = plugin.addCopilotNavigationView() else { return nil }
+                let type = type(of: plugin)
+                return (type.id, type.displayName, type.iconName, view)
+            }
+            .sorted { $0.displayName < $1.displayName }
+    }
+
     /// 重新加载插件（占位方法）
     func reloadPlugins() {}
 }

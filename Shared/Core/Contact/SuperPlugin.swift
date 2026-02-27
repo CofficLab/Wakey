@@ -12,6 +12,7 @@ protocol SuperPlugin: Actor {
 
     @MainActor func addStatusBarPopupView() -> AnyView?
     @MainActor func addSettingsView() -> AnyView?
+    @MainActor func addCopilotNavigationView() -> AnyView?
     @MainActor static func providePosterViews() -> [PosterViewConfiguration]
     @MainActor static func provideLogos() -> [any SuperLogo]
 
@@ -38,6 +39,7 @@ extension SuperPlugin {
 
     @MainActor func addStatusBarPopupView() -> AnyView? { nil }
     @MainActor func addSettingsView() -> AnyView? { nil }
+    @MainActor func addCopilotNavigationView() -> AnyView? { nil }
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] { [] }
     @MainActor static func provideLogos() -> [any SuperLogo] { [] }
 
