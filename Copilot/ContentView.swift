@@ -1,7 +1,6 @@
 import SwiftUI
 
-/// Copilot 开发视图 - 主入口
-struct CopilotView: View {
+struct ContentView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
@@ -37,7 +36,5 @@ private struct SectionView<Content: View>: View {
 }
 
 #Preview("Copilot - Main") {
-    CopilotView()
-        .inRootView()
-        .withDebugBar()
+    ContentView()
 }

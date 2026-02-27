@@ -39,5 +39,4 @@ private struct InfoRow: View {
 
 #Preview("Copilot - App Info") {
     CopilotAppInfoView()
-        .inRootView()
 }

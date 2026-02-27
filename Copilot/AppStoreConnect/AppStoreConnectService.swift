@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 import CryptoKit
+internal import Combine
 
 /// App Store Connect 服务
 @MainActor

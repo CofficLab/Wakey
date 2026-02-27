@@ -132,6 +132,4 @@ struct CopilotAppStoreConnectView: View {
 
 #Preview("Copilot - App Store Connect") {
     CopilotAppStoreConnectView()
-        .inRootView()
-        .withDebugBar()
 }
