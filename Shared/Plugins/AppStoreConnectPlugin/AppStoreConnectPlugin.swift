@@ -40,7 +40,7 @@ actor AppStoreConnectPlugin: SuperPlugin, SuperLog {
 
     /// 提供 Copilot 导航视图
     @MainActor func addCopilotNavigationView() -> AnyView? {
-        AnyView(AppStoreConnectNavigationView())
+        AnyView(CopilotAppStoreConnectView())
     }
 
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] { [] }
