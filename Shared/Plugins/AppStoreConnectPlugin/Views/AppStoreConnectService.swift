@@ -27,6 +27,7 @@ class AppStoreConnectService: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var versions: [AppStoreVersion] = []
+    @Published var currentApp: AppInfo?
 
     // 应用列表相关
     @Published var apps: [AppInfo] = []
@@ -325,6 +326,30 @@ class AppStoreConnectService: ObservableObject {
 
             let versionsResponse = try await FetchAppVersionsAPI.execute(request: versionsRequest, jwt: jwt)
             print("  成功！返回 \(versionsResponse.data.count) 个版本")
+
+            // 从 included 中提取应用信息
+            if let included = versionsResponse.included {
+                for resource in included {
+                    if case .app(let appData) = resource {
+                        currentApp = AppInfo(
+                            id: appData.id,
+                            name: appData.attributes?.name ?? "未知",
+                            bundleId: appData.attributes?.bundleId ?? "",
+                            sku: appData.attributes?.sku ?? "",
+                            appStoreStates: appData.attributes?.appStoreStates ?? [],
+                            primaryLocale: appData.attributes?.primaryLocale,
+                            isOrEverWasMadeForKids: appData.attributes?.isOrEverWasMadeForKids,
+                            subscriptionStatusUrl: appData.attributes?.subscriptionStatusUrl
+                        )
+                        print("  应用名称: \(currentApp?.name ?? "")")
+                        print("  Bundle ID: \(currentApp?.bundleId ?? "")")
+                        if let locale = currentApp?.primaryLocale {
+                            print("  主要语言: \(locale)")
+                        }
+                        break
+                    }
+                }
+            }
 
             // 转换为业务模型
             versions = versionsResponse.data.map { item in

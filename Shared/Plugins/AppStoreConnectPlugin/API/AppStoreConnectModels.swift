@@ -39,6 +39,9 @@ struct AppAttributes: Decodable {
     let name: String?
     let sku: String?
     let appStoreStates: [String]?
+    let primaryLocale: String?
+    let isOrEverWasMadeForKids: Bool?
+    let subscriptionStatusUrl: String?
 }
 
 struct AppRelationships: Decodable {
@@ -90,6 +93,9 @@ struct AppInfo {
     let bundleId: String
     let sku: String
     let appStoreStates: [String]
+    let primaryLocale: String?
+    let isOrEverWasMadeForKids: Bool?
+    let subscriptionStatusUrl: String?
 }
 
 struct AppStoreVersion {

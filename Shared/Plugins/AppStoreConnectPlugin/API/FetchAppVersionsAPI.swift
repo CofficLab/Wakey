@@ -13,7 +13,14 @@ import Foundation
 /// - createdDate: 创建日期
 /// - releaseType: 发布类型 (MANUAL, AUTO, AFTER_APPROVAL)
 /// - downloadable: 是否可下载
-/// - usesNonExemptEncryption: 是否使用加密
+///
+/// 应用字段 (fields[apps]):
+/// - name: 应用名称
+/// - bundleId: Bundle ID
+/// - sku: SKU
+/// - primaryLocale: 主要语言环境
+/// - isOrEverWasMadeForKids: 是否为儿童应用
+/// - subscriptionStatusUrl: 订阅状态 URL
 struct FetchAppVersionsAPI {
     struct Request {
         let appId: String
@@ -23,7 +30,9 @@ struct FetchAppVersionsAPI {
             var components = URLComponents(string: "\(AppStoreConnectAPI.baseURL)/apps/\(appId)/appStoreVersions")
             components?.queryItems = [
                 URLQueryItem(name: "limit", value: String(limit)),
-                URLQueryItem(name: "fields[appStoreVersions]", value: "platform,versionString,appStoreState,createdDate,releaseType,downloadable")
+                URLQueryItem(name: "fields[appStoreVersions]", value: "platform,versionString,appStoreState,createdDate,releaseType,downloadable"),
+                URLQueryItem(name: "fields[apps]", value: "name,bundleId,sku,primaryLocale,isOrEverWasMadeForKids"),
+                URLQueryItem(name: "include", value: "app")
             ]
             return components?.url
         }
@@ -31,8 +40,24 @@ struct FetchAppVersionsAPI {
 
     struct Response: Decodable {
         let data: [AppStoreVersionData]
+        let included: [IncludedResource]?
         let links: ResponseLinks?
         let meta: ResponseMeta?
+    }
+
+    /// 包含的资源类型
+    enum IncludedResource: Decodable {
+        case app(AppData)
+        case unknown
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            if let appData = try? container.decode(AppData.self) {
+                self = .app(appData)
+            } else {
+                self = .unknown
+            }
+        }
     }
 
     /// 执行 API 请求
