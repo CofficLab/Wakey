@@ -34,7 +34,6 @@ struct CopilotContentView: View {
                     }
                 }
             }
-            .withDebugBar()
             .onAppear {
                 // 默认选中第一个插件
                 if selectedPluginId == nil, let firstItem = navigationItems.first {

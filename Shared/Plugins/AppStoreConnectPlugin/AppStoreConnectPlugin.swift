@@ -20,7 +20,7 @@ actor AppStoreConnectPlugin: SuperPlugin, SuperLog {
 
     nonisolated(unsafe) static var description: String = "提供 App Store Connect API 集成，支持版本信息和应用列表查看"
 
-    nonisolated(unsafe) static var iconName: String = "app.store"
+    nonisolated(unsafe) static var iconName: String = .iconAppStore
 
     nonisolated(unsafe) static var isConfigurable: Bool = false
 

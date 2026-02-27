@@ -55,7 +55,7 @@ struct ConfigurationSection: View {
                         Text("Bundle ID")
                             .font(.caption)
                             .foregroundColor(.secondary)
-                        TextField("例如: com.cofficlab.Wakey", text: $service.bundleId)
+                        TextField("例如: com.coffic.wakey", text: $service.bundleId)
                             .textFieldStyle(.roundedBorder)
                     }
                 }
