@@ -26,36 +26,15 @@ struct VersionCard: View {
             }
 
             // 日期信息
-            VStack(alignment: .leading, spacing: 4) {
-                Label("创建: \(version.createdDate)", systemImage: "calendar.badge.plus")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-
-                if let uploadedDate = version.uploadedDate {
-                    Label("上传: \(uploadedDate)", systemImage: "cloud.upload")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-            }
+            Label("创建: \(version.createdDate)", systemImage: "calendar.badge.plus")
+                .font(.caption)
+                .foregroundColor(.secondary)
 
             // 发布类型
             if !version.releaseType.isEmpty {
                 HStack {
                     Image(systemName: "paperplane")
                     Text("发布: \(VersionFormatters.formatReleaseType(version.releaseType))")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-            }
-
-            // 额外信息（如果有）
-            if let downloadable = version.downloadable, let encryption = version.usesNonExemptEncryption {
-                HStack(spacing: 12) {
-                    Label(downloadable ? "可下载" : "不可下载", systemImage: downloadable ? "checkmark.circle" : "xmark.circle")
-                        .font(.caption)
-                        .foregroundColor(downloadable ? .green : .red)
-
-                    Label(encryption ? "使用加密" : "无加密", systemImage: encryption ? "lock.open" : "lock.closed")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }

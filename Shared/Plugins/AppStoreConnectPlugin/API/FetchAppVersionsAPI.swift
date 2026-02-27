@@ -11,7 +11,7 @@ struct FetchAppVersionsAPI {
             var components = URLComponents(string: "\(AppStoreConnectAPI.baseURL)/apps/\(appId)/appStoreVersions")
             components?.queryItems = [
                 URLQueryItem(name: "limit", value: String(limit)),
-                URLQueryItem(name: "fields[appStoreVersions]", value: "platform,versionString,appStoreState,createdDate,releaseType,uploadedDate,usesNonExemptEncryption,downloadable")
+                URLQueryItem(name: "fields[appStoreVersions]", value: "platform,versionString,appStoreState,createdDate,releaseType")
             ]
             return components?.url
         }

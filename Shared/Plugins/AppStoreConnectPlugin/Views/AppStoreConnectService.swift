@@ -334,10 +334,7 @@ class AppStoreConnectService: ObservableObject {
                     versionString: item.attributes.versionString,
                     appStoreState: item.attributes.appStoreState,
                     createdDate: VersionFormatters.formatDate(item.attributes.createdDate),
-                    uploadedDate: item.attributes.uploadedDate.map { VersionFormatters.formatDate($0) },
-                    releaseType: item.attributes.releaseType ?? "MANUAL",
-                    usesNonExemptEncryption: item.attributes.usesNonExemptEncryption,
-                    downloadable: item.attributes.downloadable
+                    releaseType: item.attributes.releaseType ?? "MANUAL"
                 )
             }
 
