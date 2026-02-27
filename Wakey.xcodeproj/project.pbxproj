@@ -23,20 +23,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Core/Core.xcstrings,
-			);
-			target = F585CCF12F51987D00D41B4F /* Copilot */;
-		};
-		F585CCFE2F51990300D41B4F /* Exceptions for "Copilot" folder in "Wakey" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				openapi.oas.json,
-			);
-			target = F54F8C7D2F1A3B6500AABB2A /* Wakey */;
-		};
-		F585CCFF2F51990300D41B4F /* Exceptions for "Copilot" folder in "Copilot" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				openapi.oas.json,
+				Plugins/AppStoreConnectPlugin/openapi.oas.json,
 			);
 			target = F585CCF12F51987D00D41B4F /* Copilot */;
 		};
@@ -58,10 +45,6 @@
 		};
 		F585CCF32F51987D00D41B4F /* Copilot */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				F585CCFE2F51990300D41B4F /* Exceptions for "Copilot" folder in "Wakey" target */,
-				F585CCFF2F51990300D41B4F /* Exceptions for "Copilot" folder in "Copilot" target */,
-			);
 			path = Copilot;
 			sourceTree = "<group>";
 		};

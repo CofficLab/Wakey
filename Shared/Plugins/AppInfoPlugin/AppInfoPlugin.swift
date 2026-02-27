@@ -45,7 +45,7 @@ actor AppInfoPlugin: SuperPlugin, SuperLog {
 
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] { [] }
 
-    @MainActor static func provideLogos() -> [any SuperLogo] { []
+    @MainActor static func provideLogos() -> [any SuperLogo] { [] }
 
     // MARK: - Lifecycle
 

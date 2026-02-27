@@ -7,11 +7,12 @@ struct CopilotApp: App {
     var body: some Scene {
         WindowGroup {
             CopilotContentView()
-                .environmentObject(pluginProvider)
+                .inRootView()
         }
     }
 }
 
 #Preview("Copilot - Main") {
     CopilotContentView()
+        .inRootView()
 }
