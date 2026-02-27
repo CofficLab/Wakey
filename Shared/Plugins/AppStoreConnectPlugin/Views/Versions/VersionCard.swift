@@ -2,6 +2,7 @@ import SwiftUI
 
 struct VersionCard: View {
     let version: AppStoreVersion
+    let reviewDetail: AppStoreReviewDetail?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -79,6 +80,12 @@ struct VersionCard: View {
                 }
             }
 
+            // 审核详情
+            if let review = reviewDetail {
+                Divider()
+                reviewInfoSection(review)
+            }
+
             // 版本 ID
             Text("ID: \(version.id)")
                 .font(.caption2)
@@ -107,6 +114,56 @@ struct VersionCard: View {
         case "REJECTED": return "被拒绝"
         case "WAITING_FOR_REVIEW": return "等待审核"
         default: return state
+        }
+    }
+
+    @ViewBuilder
+    private func reviewInfoSection(_ review: AppStoreReviewDetail) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("审核信息")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundColor(.secondary)
+
+            if let firstName = review.contactFirstName, let lastName = review.contactLastName {
+                HStack(spacing: 4) {
+                    Image(systemName: "person.circle")
+                        .font(.caption2)
+                    Text("\(firstName) \(lastName)")
+                        .font(.caption2)
+                }
+            }
+
+            if let email = review.contactEmail {
+                HStack(spacing: 4) {
+                    Image(systemName: "envelope")
+                        .font(.caption2)
+                    Text(email)
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+            }
+
+            if let phone = review.contactPhone {
+                HStack(spacing: 4) {
+                    Image(systemName: "phone")
+                        .font(.caption2)
+                    Text(phone)
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+            }
+
+            if let demoRequired = review.demoAccountRequired, demoRequired {
+                HStack(spacing: 4) {
+                    Image(systemName: "key.fill")
+                        .font(.caption2)
+                        .foregroundColor(.orange)
+                    Text("需要演示账号")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+            }
         }
     }
 }

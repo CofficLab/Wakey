@@ -11,11 +11,6 @@ struct AppStoreConnectVersionsView: View {
                     AppInfoCard(app: app)
                 }
 
-                // 审核详情卡片
-                if let review = service.reviewDetail {
-                    ReviewDetailCard(reviewDetail: review)
-                }
-
                 // 版本列表
                 Group {
                     if let error = service.errorMessage {
@@ -29,7 +24,10 @@ struct AppStoreConnectVersionsView: View {
                     } else if service.versions.isEmpty {
                         LoadingView()
                     } else {
-                        VersionsListView(versions: service.versions)
+                        VersionsListView(
+                            versions: service.versions,
+                            reviewDetails: service.versionReviewDetails
+                        )
                     }
                 }
             }

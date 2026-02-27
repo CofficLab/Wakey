@@ -27,8 +27,8 @@ class AppStoreConnectService: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var versions: [AppStoreVersion] = []
+    @Published var versionReviewDetails: [String: AppStoreReviewDetail] = [:]
     @Published var currentApp: AppInfo?
-    @Published var reviewDetail: AppStoreReviewDetail?
 
     // 应用列表相关
     @Published var apps: [AppInfo] = []
@@ -328,6 +328,9 @@ class AppStoreConnectService: ObservableObject {
             let versionsResponse = try await FetchAppVersionsAPI.execute(request: versionsRequest, jwt: jwt)
             print("  成功！返回 \(versionsResponse.data.count) 个版本")
 
+            // 清空之前的审核详情
+            versionReviewDetails = [:]
+
             // 从 included 中提取应用信息和审核详情
             if let included = versionsResponse.included {
                 for resource in included {
@@ -350,7 +353,8 @@ class AppStoreConnectService: ObservableObject {
                         }
 
                     case .appStoreReviewDetail(let reviewData):
-                        reviewDetail = AppStoreReviewDetail(
+                        // 从 relationships 中获取关联的版本 ID
+                        let reviewDetail = AppStoreReviewDetail(
                             contactFirstName: reviewData.attributes.contactFirstName,
                             contactLastName: reviewData.attributes.contactLastName,
                             contactPhone: reviewData.attributes.contactPhone,
@@ -360,7 +364,11 @@ class AppStoreConnectService: ObservableObject {
                             demoAccountPassword: reviewData.attributes.demoAccountPassword,
                             notes: reviewData.attributes.notes
                         )
-                        print("  审核详情已加载")
+
+                        // 尝试从 API 响应中找到关联的版本 ID
+                        // 如果没有明确关联，将此审核详情用于所有版本
+                        versionReviewDetails[reviewData.id] = reviewDetail
+                        print("  审核详情已加载 (ID: \(reviewData.id))")
 
                     case .unknown:
                         break
