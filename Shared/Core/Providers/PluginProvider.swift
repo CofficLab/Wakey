@@ -22,6 +22,9 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// 允许的插件 ID 列表（通过初始化参数传入）
     private let allowedPluginIds: [String]?
 
+    /// 模块前缀，用于识别插件类（例如 "Wakey." 或 "Copilot."）
+    private let modulePrefix: String
+
     /// 插件设置存储
     private let settingsStore = PluginSettingsStore.shared
 
@@ -31,9 +34,11 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// 初始化插件提供者
     /// - Parameters:
     ///   - allowedPluginIds: 允许的插件 ID 列表，为 nil 时表示允许所有插件
+    ///   - modulePrefix: 模块前缀，默认为 "Wakey."
     ///   - autoDiscover: 是否自动发现插件
-    init(allowedPluginIds: [String]? = nil, autoDiscover: Bool = true) {
+    init(allowedPluginIds: [String]? = nil, modulePrefix: String = "Wakey.", autoDiscover: Bool = true) {
         self.allowedPluginIds = allowedPluginIds
+        self.modulePrefix = modulePrefix
 
         // 订阅设置变化，当设置改变时触发 UI 更新
         settingsStore.$settings
@@ -68,8 +73,8 @@ final class PluginProvider: ObservableObject, SuperLog {
             let cls: AnyClass = classes[i]
             let className = NSStringFromClass(cls)
 
-            // 筛选条件：必须是 Wakey 命名空间下以 "Plugin" 结尾的类
-            guard className.hasPrefix("Wakey."), className.hasSuffix("Plugin") else {
+            // 筛选条件：必须在指定模块命名空间下且以 "Plugin" 结尾的类
+            guard className.hasPrefix(modulePrefix), className.hasSuffix("Plugin") else {
                 continue
             }
 
@@ -149,9 +154,6 @@ final class PluginProvider: ObservableObject, SuperLog {
         let initSelector = NSSelectorFromString("init")
         guard let initMethod = class_getInstanceMethod(cls, initSelector) else {
             // 如果没有 init 方法，直接返回分配的实例
-            if Self.verbose {
-                os_log("\(Self.t)⚠️ Plugin \(className) does not have 'init' method, using allocated instance")
-            }
             return instance as? (any SuperPlugin)
         }
 

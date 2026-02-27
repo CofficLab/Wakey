@@ -2,12 +2,13 @@ import SwiftUI
 
 @main
 struct CopilotApp: App {
-    @StateObject private var pluginProvider = PluginProvider()
+    @StateObject private var pluginProvider = PluginProvider(modulePrefix: "Copilot.")
 
     var body: some Scene {
         WindowGroup {
             CopilotContentView()
-                .inRootView()
+                .environmentObject(pluginProvider)
+//                .inRootView()
         }
     }
 }
