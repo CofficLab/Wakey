@@ -36,8 +36,8 @@ struct CaffeinatePosterFeatures: View {
                 .inMagicVStackCenter()
 
                 ContentLayout()
-                    .inRootView(onlyPlugins: [CaffeinatePlugin.id])
                     .inDemoMode()
+                    .inRootView(onlyPlugins: [CaffeinatePlugin.id])
                     .roundedLarge()
                     .shadow3xl()
                     .scaleEffect(geo.size.width / 800)
