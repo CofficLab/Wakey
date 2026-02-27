@@ -8,62 +8,81 @@ extension View {
                 .padding(.horizontal, geo.size.width * 0.05)
                 .background {
                     ZStack {
-                        // 左上角大圆形装饰
+                        // 左上角 - 蓝色圆形（水滴/补水）
                         Circle()
                             .fill(
                                 LinearGradient(
-                                    colors: [.orange.opacity(0.12), .yellow.opacity(0.08)],
+                                    colors: [.blue.opacity(0.1), .cyan.opacity(0.06)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: geo.size.width * 0.35, height: geo.size.width * 0.35)
+                            .position(x: geo.size.width * 0.15, y: geo.size.height * 0.2)
+
+                        // 右上角 - 绿色圆形（护眼）
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [.green.opacity(0.1), .mint.opacity(0.06)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: geo.size.width * 0.3, height: geo.size.width * 0.3)
+                            .position(x: geo.size.width * 0.85, y: geo.size.height * 0.15)
+
+                        // 右下角 - 紫色圆形（运动）
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [.purple.opacity(0.1), .pink.opacity(0.06)],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )
                             )
                             .frame(width: geo.size.width * 0.4, height: geo.size.width * 0.4)
-                            .position(x: geo.size.width * 0.15, y: geo.size.height * 0.2)
+                            .position(x: geo.size.width * 0.8, y: geo.size.height * 0.75)
 
-                        // 右下角大圆形装饰
+                        // 左下角 - 橙色圆形（防休眠）
                         Circle()
                             .fill(
                                 LinearGradient(
-                                    colors: [.yellow.opacity(0.1), .orange.opacity(0.06)],
+                                    colors: [.orange.opacity(0.1), .yellow.opacity(0.06)],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )
                             )
-                            .frame(width: geo.size.width * 0.5, height: geo.size.width * 0.5)
-                            .position(x: geo.size.width * 0.8, y: geo.size.height * 0.75)
-
-                        // 左下角小圆形装饰
-                        Circle()
-                            .fill(Color.yellow.opacity(0.1))
-                            .frame(width: geo.size.width * 0.2, height: geo.size.width * 0.2)
+                            .frame(width: geo.size.width * 0.25, height: geo.size.width * 0.25)
                             .position(x: geo.size.width * 0.2, y: geo.size.height * 0.8)
 
-                        // 右上角小圆形装饰
-                        Circle()
-                            .fill(Color.orange.opacity(0.08))
-                            .frame(width: geo.size.width * 0.15, height: geo.size.width * 0.15)
-                            .position(x: geo.size.width * 0.85, y: geo.size.height * 0.15)
+                        // 中央 - 水滴图标
+                        Image(systemName: "drop.fill")
+                            .font(.system(size: geo.size.width * 0.15))
+                            .foregroundColor(.blue.opacity(0.06))
+                            .position(x: geo.size.width * 0.3, y: geo.size.height * 0.35)
+                            .rotationEffect(.degrees(-10))
 
-                        // 中央淡的杯子装饰
-                        Image(systemName: "cup.and.saucer.fill")
-                            .font(.system(size: geo.size.width * 0.18))
-                            .foregroundColor(.orange.opacity(0.08))
-                            .position(x: geo.size.width * 0.5, y: geo.size.height * 0.45)
-                            .rotationEffect(.degrees(-5))
-
-                        // 左侧淡的闪电装饰
-                        Image(systemName: "bolt.fill")
+                        // 中央 - 眼睛图标
+                        Image(systemName: "eye.fill")
                             .font(.system(size: geo.size.width * 0.12))
-                            .foregroundColor(.yellow.opacity(0.08))
-                            .position(x: geo.size.width * 0.25, y: geo.size.height * 0.65)
-                            .rotationEffect(.degrees(-15))
+                            .foregroundColor(.green.opacity(0.06))
+                            .position(x: geo.size.width * 0.7, y: geo.size.height * 0.3)
+                            .rotationEffect(.degrees(8))
 
-                        // 右侧淡的太阳装饰
-                        Image(systemName: "sun.max.fill")
+                        // 中央 - 运动图标
+                        Image(systemName: "figure.stand")
+                            .font(.system(size: geo.size.width * 0.14))
+                            .foregroundColor(.purple.opacity(0.05))
+                            .position(x: geo.size.width * 0.65, y: geo.size.height * 0.65)
+                            .rotationEffect(.degrees(5))
+
+                        // 中央 - 闪电图标
+                        Image(systemName: "bolt.fill")
                             .font(.system(size: geo.size.width * 0.1))
                             .foregroundColor(.orange.opacity(0.06))
-                            .position(x: geo.size.width * 0.75, y: geo.size.height * 0.3)
-                            .rotationEffect(.degrees(10))
+                            .position(x: geo.size.width * 0.35, y: geo.size.height * 0.7)
+                            .rotationEffect(.degrees(-12))
                     }
                 }
                 .clipped()
@@ -71,9 +90,9 @@ extension View {
         .background(
             LinearGradient(
                 colors: [
-                    Color.orange.opacity(0.35),
-                    Color.yellow.opacity(0.25),
-                    Color.orange.opacity(0.15),
+                    Color.blue.opacity(0.15),
+                    Color.green.opacity(0.12),
+                    Color.purple.opacity(0.15),
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing

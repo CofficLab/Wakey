@@ -19,12 +19,6 @@ actor StretchPosterPlugin: SuperPlugin, SuperLog {
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] {
         [
             PosterViewConfiguration(
-                id: "stretch.intro",
-                title: String(localized: "Stretch", table: "StretchPoster"),
-                subtitle: String(localized: "Move your body, stay healthy", table: "StretchPoster"),
-                order: 1
-            ) { StretchPosterIntro() },
-            PosterViewConfiguration(
                 id: "stretch.features",
                 title: String(localized: "Stretch Reminder", table: "StretchPoster"),
                 subtitle: String(localized: "Key Features", table: "StretchPoster"),
@@ -36,12 +30,13 @@ actor StretchPosterPlugin: SuperPlugin, SuperLog {
 
 // MARK: - Preview
 
-#Preview("Stretch Poster - Intro") {
-    StretchPosterIntro()
-        .inMagicContainer(.macBook13, scale: 0.4)
-}
-
 #Preview("Stretch Poster - Features") {
     StretchPosterFeatures()
         .inMagicContainer(.macBook13, scale: 0.4)
+}
+
+#Preview("Poster Layout") {
+    PosterLayout()
+        .inRootView()
+        .withDebugBar()
 }

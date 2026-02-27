@@ -38,14 +38,6 @@ actor EyeCarePosterPlugin: SuperPlugin, SuperLog {
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] {
         [
             PosterViewConfiguration(
-                id: "eyecare.intro",
-                title: String(localized: "Eye Care", table: "EyeCarePoster"),
-                subtitle: String(localized: "Protect your eyes, take breaks regularly", table: "EyeCarePoster"),
-                order: 1
-            ) {
-                EyeCarePosterIntro()
-            },
-            PosterViewConfiguration(
                 id: "eyecare.features",
                 title: String(localized: "Eye Care Reminder", table: "EyeCarePoster"),
                 subtitle: String(localized: "Key Features", table: "EyeCarePoster"),
@@ -59,12 +51,13 @@ actor EyeCarePosterPlugin: SuperPlugin, SuperLog {
 
 // MARK: - Preview
 
-#Preview("Eye Care Poster - Intro") {
-    EyeCarePosterIntro()
-        .inMagicContainer(.macBook13, scale: 0.4)
-}
-
 #Preview("Eye Care Poster - Features") {
     EyeCarePosterFeatures()
         .inMagicContainer(.macBook13, scale: 0.4)
+}
+
+#Preview("Poster Layout") {
+    PosterLayout()
+        .inRootView()
+        .withDebugBar()
 }

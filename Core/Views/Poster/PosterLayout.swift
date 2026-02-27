@@ -35,11 +35,9 @@ struct PosterItemView: View {
 struct PosterLayout: View {
     @EnvironmentObject var pluginProvider: PluginProvider
     @State private var isGenerating = false
-    @State private var cachedConfigurations: [PosterViewConfiguration] = []
 
     private var posterConfigurations: [PosterViewConfiguration] {
-        // 优先使用缓存，避免滚动时重复计算导致状态不一致
-        cachedConfigurations.isEmpty ? pluginProvider.getPosterConfigurations() : cachedConfigurations
+        pluginProvider.getPosterConfigurations()
     }
 
     var body: some View {
@@ -54,7 +52,7 @@ struct PosterLayout: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(.ultraThinMaterial)
-                } else if cachedConfigurations.isEmpty {
+                } else if posterConfigurations.isEmpty {
                     VStack(spacing: 16) {
                         Image(systemName: "photo.on.rectangle.angled")
                             .font(.system(size: 60))
@@ -68,7 +66,7 @@ struct PosterLayout: View {
                 } else {
                     ScrollView(.vertical, showsIndicators: false) {
                         LazyVStack(spacing: 20) {
-                            ForEach(Array(cachedConfigurations.enumerated()), id: \.element.id) { index, config in
+                            ForEach(Array(posterConfigurations.enumerated()), id: \.element.id) { index, config in
                                 PosterItemView(index: index, config: config, posterWidth: geo.size.width - 80, posterHeight: (geo.size.width - 80) * 10 / 16)
                             }
                         }
@@ -94,13 +92,7 @@ struct PosterLayout: View {
                         .padding(.vertical, 4)
                     }
                     .buttonStyle(.bordered)
-                    .disabled(isGenerating || cachedConfigurations.isEmpty)
-                }
-            }
-            .onAppear {
-                // 视图出现时初始化缓存，避免滚动时重新计算
-                if cachedConfigurations.isEmpty {
-                    cachedConfigurations = pluginProvider.getPosterConfigurations()
+                    .disabled(isGenerating || posterConfigurations.isEmpty)
                 }
             }
         }

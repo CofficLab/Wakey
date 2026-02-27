@@ -19,12 +19,6 @@ actor HydrationPosterPlugin: SuperPlugin, SuperLog {
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] {
         [
             PosterViewConfiguration(
-                id: "hydration.intro",
-                title: String(localized: "Hydration", table: "HydrationPoster"),
-                subtitle: String(localized: "Stay hydrated, stay focused", table: "HydrationPoster"),
-                order: 1
-            ) { HydrationPosterIntro() },
-            PosterViewConfiguration(
                 id: "hydration.features",
                 title: String(localized: "Hydration Reminder", table: "HydrationPoster"),
                 subtitle: String(localized: "Key Features", table: "HydrationPoster"),
@@ -36,12 +30,13 @@ actor HydrationPosterPlugin: SuperPlugin, SuperLog {
 
 // MARK: - Preview
 
-#Preview("Hydration Poster - Intro") {
-    HydrationPosterIntro()
-        .inMagicContainer(.macBook13, scale: 0.4)
-}
-
 #Preview("Hydration Poster - Features") {
     HydrationPosterFeatures()
         .inMagicContainer(.macBook13, scale: 0.4)
+}
+
+#Preview("Poster Layout") {
+    PosterLayout()
+        .inRootView()
+        .withDebugBar()
 }

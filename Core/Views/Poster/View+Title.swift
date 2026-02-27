@@ -64,3 +64,11 @@ extension View {
             .shadowSm()
     }
 }
+
+// MARK: - Preview
+
+#Preview("Poster Layout") {
+    PosterLayout()
+        .inRootView()
+        .withDebugBar()
+}
