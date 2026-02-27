@@ -8,10 +8,16 @@ struct AppStoreConnectConfigurationView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                Spacer()
-
-                if service.isConfigured {
+            ConfigurationSection(
+                service: service,
+                isConfigExpanded: $isConfigExpanded
+            )
+        }
+        .padding()
+        .frame(minWidth: 100, alignment: .leading)
+        .toolbar {
+            if service.isConfigured {
+                ToolbarItem(placement: .primaryAction) {
                     Button(action: {
                         Task {
                             await service.fetchVersions()
@@ -22,61 +28,6 @@ struct AppStoreConnectConfigurationView: View {
                     }
                     .disabled(service.isLoading || service.isLoadingApps)
                 }
-            }
-
-            Divider()
-
-            ConfigurationSection(
-                service: service,
-                isConfigExpanded: $isConfigExpanded
-            )
-        }
-        .padding()
-        .frame(minWidth: 100, alignment: .leading)
-    }
-}
-
-// MARK: - Versions View
-
-struct AppStoreConnectVersionsView: View {
-    @StateObject private var service = AppStoreConnectService.shared
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                Spacer()
-
-                Button(action: {
-                    Task { await service.fetchVersions() }
-                }) {
-                    Label("刷新", systemImage: "arrow.clockwise")
-                }
-                .disabled(service.isLoading)
-            }
-
-            Divider()
-
-            Group {
-                if let error = service.errorMessage {
-                    ErrorView(error: error) {
-                        Task { await service.fetchVersions() }
-                    }
-                } else if service.versions.isEmpty && !service.isLoading {
-                    EmptyVersionsView {
-                        Task { await service.fetchVersions() }
-                    }
-                } else if service.versions.isEmpty {
-                    LoadingView()
-                } else {
-                    VersionsListView(versions: service.versions)
-                }
-            }
-        }
-        .padding()
-        .frame(minWidth: 100, alignment: .leading)
-        .task {
-            if service.isConfigured && service.versions.isEmpty && !service.isLoading {
-                await service.fetchVersions()
             }
         }
     }
@@ -89,19 +40,6 @@ struct AppStoreConnectAppsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                Spacer()
-
-                Button(action: {
-                    Task { await service.fetchAllApps() }
-                }) {
-                    Label("刷新", systemImage: "arrow.clockwise")
-                }
-                .disabled(service.isLoadingApps)
-            }
-
-            Divider()
-
             Group {
                 if service.isLoadingApps {
                     LoadingView()
@@ -125,6 +63,16 @@ struct AppStoreConnectAppsView: View {
                 await service.fetchAllApps()
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button(action: {
+                    Task { await service.fetchAllApps() }
+                }) {
+                    Label("刷新", systemImage: "arrow.clockwise")
+                }
+                .disabled(service.isLoadingApps)
+            }
+        }
     }
 }
 
@@ -140,11 +88,7 @@ struct AppStoreConnectAppsView: View {
         .withDebugBar()
 }
 
-#Preview("App Store Connect - Versions") {
-    AppStoreConnectVersionsView()
-        .inRootView()
-        .withDebugBar()
-}
+
 
 #Preview("App Store Connect - Apps") {
     AppStoreConnectAppsView()
