@@ -67,12 +67,14 @@ struct StatusBar: View {
 
     private var pluginViewsSection: some View {
         VStack(spacing: 0) {
-            ForEach(pluginPopupViews.indices, id: \.self) { index in
-                pluginPopupViews[index]
+            // 将视图数组缓存到局部变量，避免多次访问计算属性
+            let views = pluginPopupViews
+            ForEach(views.indices, id: \.self) { index in
+                views[index]
                     .frame(maxWidth: .infinity)
                     .fixedSize(horizontal: false, vertical: true)
 
-                if index < pluginPopupViews.count - 1 {
+                if index < views.count - 1 {
                     Divider()
                         .padding(.horizontal, 0)
                 }

@@ -10,7 +10,8 @@
 		0B0073C22F2F1ABF001B3789 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0B0073C12F2F1ABF001B3789 /* MagicKit */; };
 		0BD3E1D52F36F8830004D426 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BD3E1D42F36F8830004D426 /* Info.plist */; };
 		F53C3ED12F1A3CB000929321 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F53C3ECB2F1A3CB000929321 /* Assets.xcassets */; };
-		F5826C862F35731C0079B285 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = F5826C852F35731C0079B285 /* MagicKit */; };
+		F5B5A73E2F511DB400F1239E /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = F5B5A73D2F511DB400F1239E /* MagicKit */; };
+		F5B80C552F513C0100BCB284 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = F5B80C542F513C0100BCB284 /* MagicKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,8 +39,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5826C862F35731C0079B285 /* MagicKit in Frameworks */,
+				F5B80C552F513C0100BCB284 /* MagicKit in Frameworks */,
 				0B0073C22F2F1ABF001B3789 /* MagicKit in Frameworks */,
+				F5B5A73E2F511DB400F1239E /* MagicKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,7 +82,8 @@
 			name = Wakey;
 			packageProductDependencies = (
 				0B0073C12F2F1ABF001B3789 /* MagicKit */,
-				F5826C852F35731C0079B285 /* MagicKit */,
+				F5B5A73D2F511DB400F1239E /* MagicKit */,
+				F5B80C542F513C0100BCB284 /* MagicKit */,
 			);
 			productName = "SwiftUI-Template";
 			productReference = F53C49142F1A42EC00929321 /* Wakey.app */;
@@ -113,7 +116,7 @@
 			mainGroup = F54F8C752F1A3B6500AABB2A;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				F5826C842F35731C0079B285 /* XCRemoteSwiftPackageReference "MagicKit" */,
+				F5B80C532F513C0100BCB284 /* XCRemoteSwiftPackageReference "MagicKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F54F8C752F1A3B6500AABB2A;
@@ -390,12 +393,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		F5826C842F35731C0079B285 /* XCRemoteSwiftPackageReference "MagicKit" */ = {
+		F5B80C532F513C0100BCB284 /* XCRemoteSwiftPackageReference "MagicKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/CofficLab/MagicKit";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.5.22;
+				minimumVersion = 1.5.23;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -405,9 +408,13 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = MagicKit;
 		};
-		F5826C852F35731C0079B285 /* MagicKit */ = {
+		F5B5A73D2F511DB400F1239E /* MagicKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F5826C842F35731C0079B285 /* XCRemoteSwiftPackageReference "MagicKit" */;
+			productName = MagicKit;
+		};
+		F5B80C542F513C0100BCB284 /* MagicKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F5B80C532F513C0100BCB284 /* XCRemoteSwiftPackageReference "MagicKit" */;
 			productName = MagicKit;
 		};
 /* End XCSwiftPackageProductDependency section */
