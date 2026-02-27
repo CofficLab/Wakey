@@ -6,11 +6,6 @@ struct AppStoreConnectVersionsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                // 应用信息卡片
-                if let app = service.currentApp {
-                    AppInfoCard(app: app)
-                }
-
                 // 版本列表
                 Group {
                     if let error = service.errorMessage {

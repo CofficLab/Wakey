@@ -53,6 +53,14 @@ actor AppStoreConnectPlugin: SuperPlugin, SuperLog {
             children: nil
         )
 
+        let appInfoItem = CopilotNavigationItem(
+            id: "\(Self.id).appInfo",
+            displayName: "应用信息",
+            iconName: "info.circle",
+            view: AnyView(AppInfoView()),
+            children: nil
+        )
+
         let versionsItem = CopilotNavigationItem(
             id: "\(Self.id).versions",
             displayName: "版本信息",
@@ -69,14 +77,14 @@ actor AppStoreConnectPlugin: SuperPlugin, SuperLog {
             children: nil
         )
 
-        // 父级导航项，包含三个子项
+        // 父级导航项，包含四个子项
         return [
             CopilotNavigationItem(
                 id: Self.id,
                 displayName: Self.displayName,
                 iconName: Self.iconName,
                 view: AnyView(AppStoreConnectConfigurationView()), // 默认显示配置视图
-                children: [configurationItem, versionsItem, appsItem]
+                children: [configurationItem, appInfoItem, versionsItem, appsItem]
             ),
         ]
     }
