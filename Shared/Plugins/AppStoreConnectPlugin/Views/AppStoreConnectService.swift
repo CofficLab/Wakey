@@ -28,6 +28,7 @@ class AppStoreConnectService: ObservableObject {
     @Published var errorMessage: String?
     @Published var versions: [AppStoreVersion] = []
     @Published var currentApp: AppInfo?
+    @Published var reviewDetail: AppStoreReviewDetail?
 
     // 应用列表相关
     @Published var apps: [AppInfo] = []
@@ -327,10 +328,11 @@ class AppStoreConnectService: ObservableObject {
             let versionsResponse = try await FetchAppVersionsAPI.execute(request: versionsRequest, jwt: jwt)
             print("  成功！返回 \(versionsResponse.data.count) 个版本")
 
-            // 从 included 中提取应用信息
+            // 从 included 中提取应用信息和审核详情
             if let included = versionsResponse.included {
                 for resource in included {
-                    if case .app(let appData) = resource {
+                    switch resource {
+                    case .app(let appData):
                         currentApp = AppInfo(
                             id: appData.id,
                             name: appData.attributes?.name ?? "未知",
@@ -346,6 +348,21 @@ class AppStoreConnectService: ObservableObject {
                         if let locale = currentApp?.primaryLocale {
                             print("  主要语言: \(locale)")
                         }
+
+                    case .appStoreReviewDetail(let reviewData):
+                        reviewDetail = AppStoreReviewDetail(
+                            contactFirstName: reviewData.attributes.contactFirstName,
+                            contactLastName: reviewData.attributes.contactLastName,
+                            contactPhone: reviewData.attributes.contactPhone,
+                            contactEmail: reviewData.attributes.contactEmail,
+                            demoAccountRequired: reviewData.attributes.demoAccountRequired,
+                            demoAccountName: reviewData.attributes.demoAccountName,
+                            demoAccountPassword: reviewData.attributes.demoAccountPassword,
+                            notes: reviewData.attributes.notes
+                        )
+                        print("  审核详情已加载")
+
+                    case .unknown:
                         break
                     }
                 }
@@ -358,9 +375,12 @@ class AppStoreConnectService: ObservableObject {
                     platform: item.attributes.platform,
                     versionString: item.attributes.versionString,
                     appStoreState: item.attributes.appStoreState,
+                    appVersionState: item.attributes.appVersionState,
                     createdDate: VersionFormatters.formatDate(item.attributes.createdDate),
                     releaseType: item.attributes.releaseType ?? "MANUAL",
-                    downloadable: item.attributes.downloadable
+                    downloadable: item.attributes.downloadable,
+                    copyright: item.attributes.copyright,
+                    usesIdfa: item.attributes.usesIdfa
                 )
             }
 

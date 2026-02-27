@@ -79,9 +79,12 @@ struct AppStoreVersionAttributes: Decodable {
     let platform: String
     let versionString: String
     let appStoreState: String
+    let appVersionState: String?
     let createdDate: String
     let releaseType: String?
     let downloadable: Bool?
+    let copyright: String?
+    let usesIdfa: Bool?
 }
 
 // MARK: - 业务模型
@@ -103,7 +106,40 @@ struct AppStoreVersion {
     let platform: String
     let versionString: String
     let appStoreState: String
+    let appVersionState: String?
     let createdDate: String
     let releaseType: String
     let downloadable: Bool?
+    let copyright: String?
+    let usesIdfa: Bool?
+}
+
+// MARK: - 审核详情相关模型
+
+struct AppStoreReviewDetailData: Decodable {
+    let id: String
+    let attributes: AppStoreReviewDetailAttributes
+}
+
+struct AppStoreReviewDetailAttributes: Decodable {
+    let contactFirstName: String?
+    let contactLastName: String?
+    let contactPhone: String?
+    let contactEmail: String?
+    let demoAccountRequired: Bool?
+    let demoAccountName: String?
+    let demoAccountPassword: String?
+    let notes: String?
+}
+
+/// 审核详情（用于 UI 展示）
+struct AppStoreReviewDetail {
+    let contactFirstName: String?
+    let contactLastName: String?
+    let contactPhone: String?
+    let contactEmail: String?
+    let demoAccountRequired: Bool?
+    let demoAccountName: String?
+    let demoAccountPassword: String?
+    let notes: String?
 }
