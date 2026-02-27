@@ -19,6 +19,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F53364752F51A81C00020751 /* Exceptions for "Shared" folder in "Copilot" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Core/Core.xcstrings,
+			);
+			target = F585CCF12F51987D00D41B4F /* Copilot */;
+		};
 		F585CCFE2F51990300D41B4F /* Exceptions for "Copilot" folder in "Wakey" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -43,6 +50,9 @@
 		};
 		F52F053B2F519FD200E97674 /* Shared */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F53364752F51A81C00020751 /* Exceptions for "Shared" folder in "Copilot" target */,
+			);
 			path = Shared;
 			sourceTree = "<group>";
 		};
