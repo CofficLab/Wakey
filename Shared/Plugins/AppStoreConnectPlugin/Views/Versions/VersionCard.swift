@@ -64,7 +64,7 @@ struct VersionCard: View {
             // 版本 ID
             Text("ID: \(version.id)")
                 .font(.caption2)
-                .foregroundColor(.tertiary)
+                .foregroundColor(Color.secondary.opacity(0.6))
         }
         .padding(12)
         .background(.regularMaterial)
