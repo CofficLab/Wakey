@@ -27,9 +27,6 @@ struct PosterItemView: View {
             }
             config.content()
                 .frame(width: posterWidth, height: posterHeight)
-                .background(.regularMaterial)
-                .cornerRadius(12)
-                .shadow(radius: 10)
         }
     }
 }
