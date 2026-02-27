@@ -53,9 +53,3 @@ struct WakeyIntroPoster: View {
     WakeyIntroPoster()
         .inMagicContainer(.macBook13, scale: 0.4)
 }
-
-#Preview("Poster Layout") {
-    PosterLayout()
-        .inRootView()
-        .withDebugBar()
-}

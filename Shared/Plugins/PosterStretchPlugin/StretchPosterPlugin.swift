@@ -34,9 +34,3 @@ actor StretchPosterPlugin: SuperPlugin, SuperLog {
     StretchPosterFeatures()
         .inMagicContainer(.macBook13, scale: 0.4)
 }
-
-#Preview("Poster Layout") {
-    PosterLayout()
-        .inRootView()
-        .withDebugBar()
-}

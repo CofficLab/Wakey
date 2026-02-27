@@ -36,10 +36,3 @@ struct AppStoreFeatureItem: View {
     }
 }
 
-// MARK: - Preview
-
-#Preview("Poster Layout") {
-    PosterLayout()
-        .inRootView()
-        .withDebugBar()
-}
