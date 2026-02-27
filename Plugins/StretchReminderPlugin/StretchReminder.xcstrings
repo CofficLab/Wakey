@@ -83,23 +83,6 @@
         }
       }
     },
-    "Enable Stretch Reminder": {
-      "extractionState": "stale",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "启用伸展提醒"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "啟用伸展提醒"
-          }
-        }
-      }
-    },
     "Interval": {
       "localizations": {
         "zh-Hans": {
@@ -277,40 +260,6 @@
         }
       }
     },
-    "Select an interval to activate it. Right-click custom intervals to delete them.": {
-      "extractionState": "stale",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "选择一个间隔以激活它。右键单击自定义间隔以删除它们。"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選擇一個間隔以激活它。右鍵單擊自定義間隔以刪除它們。"
-          }
-        }
-      }
-    },
-    "Start_Button": {
-      "extractionState": "stale",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "开启"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "開啟"
-          }
-        }
-      }
-    },
     "Status": {
       "localizations": {
         "zh-Hans": {
@@ -323,23 +272,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "狀態"
-          }
-        }
-      }
-    },
-    "Stop_Button": {
-      "extractionState": "stale",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止"
           }
         }
       }

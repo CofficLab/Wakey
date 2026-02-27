@@ -7,7 +7,7 @@ struct CaffeinatePosterFeatures: View {
         GeometryReader { geo in
             HStack {
                 Group {
-                    Text(String(localized: "Anti-sleep", table: "Caffeinate", comment: "Poster feature title"))
+                    Text(String(localized: "Anti-sleep", table: "CaffeinatePoster", comment: "Poster feature title"))
                         .asPosterTitle(in: geo)
 
                     VStack(spacing: 16) {

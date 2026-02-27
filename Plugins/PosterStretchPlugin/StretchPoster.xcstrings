@@ -85,23 +85,6 @@
         }
       }
     },
-    "Move your body, stay healthy": {
-      "comment": "Poster subtitle",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "活动身体，保持健康"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "活動身體，保持健康"
-          }
-        }
-      }
-    },
     "Provide stretch related poster views": {
       "comment": "Description of what the Stretch Poster plugin does",
       "localizations": {
@@ -153,23 +136,6 @@
         }
       }
     },
-    "Stretch": {
-      "comment": "Poster title",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "活动"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "活動"
-          }
-        }
-      }
-    },
     "Stretch Poster": {
       "comment": "Name of the stretch poster plugin",
       "localizations": {
@@ -200,40 +166,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "活動提醒"
-          }
-        }
-      }
-    },
-    "Time for a Break!": {
-      "comment": "Demo title",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "该休息了！"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "該休息了！"
-          }
-        }
-      }
-    },
-    "You've been working for 60 minutes": {
-      "comment": "Demo description",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你已经工作了 60 分钟"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你已經工作了 60 分鐘"
           }
         }
       }

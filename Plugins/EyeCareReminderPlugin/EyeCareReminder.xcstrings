@@ -83,23 +83,6 @@
         }
       }
     },
-    "Enable Eye Care Reminder": {
-      "extractionState": "stale",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "启用护眼提醒"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "啟用護眼提醒"
-          }
-        }
-      }
-    },
     "Eye Care": {
       "comment": "Name of the eye care reminder plugin",
       "localizations": {
@@ -310,40 +293,6 @@
         }
       }
     },
-    "Select an interval to activate it. Right-click custom intervals to delete them.": {
-      "extractionState": "stale",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "选择一个间隔以激活它。右键点击自定义间隔可删除它们。"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選擇一個間隔以啟動它。右鍵點擊自訂間隔可刪除它們。"
-          }
-        }
-      }
-    },
-    "Start_Button": {
-      "extractionState": "stale",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "开启"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "開啟"
-          }
-        }
-      }
-    },
     "Status": {
       "localizations": {
         "zh-Hans": {
@@ -356,23 +305,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "狀態"
-          }
-        }
-      }
-    },
-    "Stop_Button": {
-      "extractionState": "stale",
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止"
           }
         }
       }
