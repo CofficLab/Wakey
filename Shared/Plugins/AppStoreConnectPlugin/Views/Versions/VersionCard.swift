@@ -4,37 +4,81 @@ struct VersionCard: View {
     let version: AppStoreVersion
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 10) {
             // 版本号和状态
             HStack {
                 Text("v\(version.versionString)")
-                    .font(.subheadline)
+                    .font(.headline)
                     .fontWeight(.semibold)
                 Spacer()
                 StateBadge(state: version.appStoreState)
             }
 
-            // 平台和日期
+            Divider()
+
+            // 平台信息
             HStack {
-                Text("平台: \(VersionFormatters.formatPlatform(version.platform))")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                Image(systemName: platformIcon)
+                    .foregroundColor(.accentColor)
+                Text(VersionFormatters.formatPlatform(version.platform))
+                    .font(.subheadline)
                 Spacer()
-                Text(version.createdDate)
+            }
+
+            // 日期信息
+            VStack(alignment: .leading, spacing: 4) {
+                Label("创建: \(version.createdDate)", systemImage: "calendar.badge.plus")
                     .font(.caption)
                     .foregroundColor(.secondary)
+
+                if let uploadedDate = version.uploadedDate {
+                    Label("上传: \(uploadedDate)", systemImage: "cloud.upload")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
 
             // 发布类型
             if !version.releaseType.isEmpty {
-                Text("发布类型: \(version.releaseType)")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                HStack {
+                    Image(systemName: "paperplane")
+                    Text("发布: \(VersionFormatters.formatReleaseType(version.releaseType))")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
+
+            // 额外信息（如果有）
+            if let downloadable = version.downloadable, let encryption = version.usesNonExemptEncryption {
+                HStack(spacing: 12) {
+                    Label(downloadable ? "可下载" : "不可下载", systemImage: downloadable ? "checkmark.circle" : "xmark.circle")
+                        .font(.caption)
+                        .foregroundColor(downloadable ? .green : .red)
+
+                    Label(encryption ? "使用加密" : "无加密", systemImage: encryption ? "lock.open" : "lock.closed")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+
+            // 版本 ID
+            Text("ID: \(version.id)")
+                .font(.caption2)
+                .foregroundColor(.tertiary)
         }
         .padding(12)
         .background(.regularMaterial)
         .cornerRadius(8)
+    }
+
+    private var platformIcon: String {
+        switch version.platform {
+        case "IOS": return "iphone"
+        case "MAC_OS": return "desktopcomputer"
+        case "TV_OS": return "appletv"
+        case "VISION_OS": return "visionpro"
+        default: return "app.badge"
+        }
     }
 }
 

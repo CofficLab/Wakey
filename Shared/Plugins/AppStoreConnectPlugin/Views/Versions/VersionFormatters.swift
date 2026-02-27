@@ -13,6 +13,16 @@ enum VersionFormatters {
         }
     }
 
+    /// 格式化发布类型
+    static func formatReleaseType(_ releaseType: String) -> String {
+        switch releaseType {
+        case "MANUAL": return "手动发布"
+        case "AUTO": return "自动发布"
+        case "AFTER_APPROVAL": return "审核后自动发布"
+        default: return releaseType
+        }
+    }
+
     /// 格式化日期
     static func formatDate(_ dateString: String) -> String {
         let inputFormatter = ISO8601DateFormatter()

@@ -329,11 +329,15 @@ class AppStoreConnectService: ObservableObject {
             // 转换为业务模型
             versions = versionsResponse.data.map { item in
                 AppStoreVersion(
+                    id: item.id,
                     platform: item.attributes.platform,
                     versionString: item.attributes.versionString,
                     appStoreState: item.attributes.appStoreState,
                     createdDate: VersionFormatters.formatDate(item.attributes.createdDate),
-                    releaseType: item.attributes.releaseType ?? "MANUAL"
+                    uploadedDate: item.attributes.uploadedDate.map { VersionFormatters.formatDate($0) },
+                    releaseType: item.attributes.releaseType ?? "MANUAL",
+                    usesNonExemptEncryption: item.attributes.usesNonExemptEncryption,
+                    downloadable: item.attributes.downloadable
                 )
             }
 

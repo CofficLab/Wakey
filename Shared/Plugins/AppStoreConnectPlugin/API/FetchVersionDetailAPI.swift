@@ -1,26 +1,26 @@
 import Foundation
 
-/// 获取应用版本信息 API
-/// 通过应用 ID 获取 App Store 版本信息
-struct FetchAppVersionsAPI {
+/// 获取单个版本详细信息 API
+/// https://developer.apple.com/documentation/appstoreconnectapi/get-v1-appstoreversions-_id_
+struct FetchVersionDetailAPI {
     struct Request {
-        let appId: String
-        let limit: Int = 20
+        let versionId: String
 
         var url: URL? {
-            var components = URLComponents(string: "\(AppStoreConnectAPI.baseURL)/apps/\(appId)/appStoreVersions")
+            var components = URLComponents(string: "\(AppStoreConnectAPI.baseURL)/appStoreVersions/\(versionId)")
             components?.queryItems = [
-                URLQueryItem(name: "limit", value: String(limit)),
-                URLQueryItem(name: "fields[appStoreVersions]", value: "platform,versionString,appStoreState,createdDate,releaseType,uploadedDate,usesNonExemptEncryption,downloadable")
+                URLQueryItem(
+                    name: "fields[appStoreVersions]",
+                    value: "platform,versionString,appStoreState,createdDate,releaseType,uploadedDate,usesNonExemptEncryption,downloadable"
+                )
             ]
             return components?.url
         }
     }
 
     struct Response: Decodable {
-        let data: [AppStoreVersionData]
+        let data: AppStoreVersionDetailData
         let links: ResponseLinks?
-        let meta: ResponseMeta?
     }
 
     /// 执行 API 请求
@@ -56,4 +56,22 @@ struct FetchAppVersionsAPI {
             throw AppStoreConnectError.networkError(error)
         }
     }
+}
+
+/// 版本详细信息数据
+struct AppStoreVersionDetailData: Decodable {
+    let id: String
+    let attributes: AppStoreVersionDetailAttributes
+}
+
+/// 版本详细信息属性
+struct AppStoreVersionDetailAttributes: Decodable {
+    let platform: String
+    let versionString: String
+    let appStoreState: String
+    let createdDate: String
+    let releaseType: String?
+    let uploadedDate: String?
+    let usesNonExemptEncryption: Bool?
+    let downloadable: Bool?
 }
