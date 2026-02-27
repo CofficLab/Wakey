@@ -14,17 +14,20 @@ struct CaffeinatePosterModes: View {
                         AppStoreFeatureItem(
                             icon: "laptopcomputer",
                             title: String(localized: "System Anti-sleep", table: "Caffeinate", comment: "Feature title"),
-                            description: String(localized: "Only prevent system sleep, allow display to sleep as scheduled", table: "Caffeinate", comment: "Feature description")
+                            description: String(localized: "Only prevent system sleep, allow display to sleep as scheduled", table: "Caffeinate", comment: "Feature description"),
+                            baseSize: geo.size.width * 0.5
                         )
                         AppStoreFeatureItem(
                             icon: "display",
                             title: String(localized: "Display Always On", table: "Caffeinate", comment: "Feature title"),
-                            description: String(localized: "Prevent both system and display from entering sleep mode", table: "Caffeinate", comment: "Feature description")
+                            description: String(localized: "Prevent both system and display from entering sleep mode", table: "Caffeinate", comment: "Feature description"),
+                            baseSize: geo.size.width * 0.5
                         )
                         AppStoreFeatureItem(
                             icon: "power.circle",
                             title: String(localized: "Force Display Off", table: "Caffeinate", comment: "Feature title"),
-                            description: String(localized: "Immediately force display off while preventing system sleep", table: "Caffeinate", comment: "Feature description")
+                            description: String(localized: "Immediately force display off while preventing system sleep", table: "Caffeinate", comment: "Feature description"),
+                            baseSize: geo.size.width * 0.5
                         )
                     }
                     .frame(width: geo.size.width * 0.4)
@@ -39,7 +42,7 @@ struct CaffeinatePosterModes: View {
                     .inDemoMode()
                     .roundedLarge()
                     .shadow3xl()
-                    .scaleEffect(2)
+                    .scaleEffect(geo.size.width / 800)
                     .frame(width: geo.size.width * 0.15)
                     .frame(height: geo.size.height * 0.4)
                     .frame(width: geo.size.width * 0.5)
@@ -53,5 +56,11 @@ struct CaffeinatePosterModes: View {
 
 #Preview("Caffeinate Poster - Modes") {
     CaffeinatePosterModes()
-        .inMagicContainer(.macBook13, scale: 0.2)
+        .inMagicContainer(.macBook13, scale: 0.4)
+}
+
+#Preview("Poster Layout") {
+    PosterLayout()
+        .inRootView()
+        .withDebugBar()
 }

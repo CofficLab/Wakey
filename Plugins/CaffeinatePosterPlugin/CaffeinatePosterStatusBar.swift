@@ -14,10 +14,10 @@ struct CaffeinatePosterStatusBar: View {
                         AppStoreFeatureItem(
                             icon: "menubar.arrow.up.rectangle",
                             title: String(localized: "Quick Menu", table: "Caffeinate", comment: "Feature title"),
-                            description: String(localized: "Quickly switch different anti-sleep modes via status bar menu", table: "Caffeinate", comment: "Feature description")
+                            description: String(localized: "Quickly switch different anti-sleep modes via status bar menu", table: "Caffeinate", comment: "Feature description"),
+                            baseSize: geo.size.width * 0.5
                         )
                     }
-                    .frame(width: geo.size.width * 0.4)
                     .py4()
                 }
                 .frame(width: geo.size.width * 0.5)
@@ -29,7 +29,7 @@ struct CaffeinatePosterStatusBar: View {
                     .inDemoMode()
                     .roundedLarge()
                     .shadow3xl()
-                    .scaleEffect(2)
+                    .scaleEffect(geo.size.width / 800)
                     .frame(width: geo.size.width * 0.15)
                     .frame(height: geo.size.height * 0.4)
                     .frame(width: geo.size.width * 0.5)
@@ -44,4 +44,10 @@ struct CaffeinatePosterStatusBar: View {
 #Preview("Caffeinate Poster - Status Bar") {
     CaffeinatePosterStatusBar()
         .inMagicContainer(.macBook13, scale: 0.4)
+}
+
+#Preview("Poster Layout") {
+    PosterLayout()
+        .inRootView()
+        .withDebugBar()
 }

@@ -74,3 +74,9 @@ actor CaffeinatePosterPlugin: SuperPlugin, SuperLog {
     ContentLayout()
         .inRootView()
 }
+
+#Preview("Poster Layout") {
+    PosterLayout()
+        .inRootView()
+        .withDebugBar()
+}

@@ -21,7 +21,7 @@ struct WakeyIntroPoster: View {
                     .inDemoMode()
                     .roundedLarge()
                     .shadow3xl()
-                    .scaleEffect(2)
+                    .scaleEffect(geo.size.width / 800)
                     .frame(width: geo.size.width * 0.15)
                     .frame(height: geo.size.height * 0.4)
                     .frame(width: geo.size.width * 0.5)
@@ -36,4 +36,10 @@ struct WakeyIntroPoster: View {
 #Preview("Wakey Intro Poster") {
     WakeyIntroPoster()
         .inMagicContainer(.macBook13, scale: 0.4)
+}
+
+#Preview("Poster Layout") {
+    PosterLayout()
+        .inRootView()
+        .withDebugBar()
 }

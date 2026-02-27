@@ -237,5 +237,4 @@ final class PluginProvider: ObservableObject, SuperLog {
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .withDebugBar()
 }

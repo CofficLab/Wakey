@@ -30,12 +30,14 @@ struct EyeCarePosterIntro: View {
                             .foregroundStyle(.secondary)
                     }
                     .padding(40)
-                    .background(.regularMaterial)
+                    .background(.ultraThickMaterial)
                     .roundedExtraLarge()
                     .shadow3xl()
-                    .scaleEffect(2)
+                    .scaleEffect(geo.size.width / 200)
                 }
-                .frame(width: geo.size.width * 0.5)
+                .padding(40)
+                .infinite()
+                .background(.background)
                 .inIMacScreen()
             }
         }
@@ -48,4 +50,10 @@ struct EyeCarePosterIntro: View {
 #Preview("Eye Care Poster - Intro") {
     EyeCarePosterIntro()
         .inMagicContainer(.macBook13, scale: 0.4)
+}
+
+#Preview("Poster Layout") {
+    PosterLayout()
+        .inRootView()
+        .withDebugBar()
 }

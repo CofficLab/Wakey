@@ -1,6 +1,39 @@
 import MagicKit
 import SwiftUI
 
+struct PosterItemView: View {
+    let index: Int
+    let config: PosterViewConfiguration
+    let posterWidth: CGFloat
+    let posterHeight: CGFloat
+
+    var body: some View {
+        VStack(spacing: 8) {
+            VStack(spacing: 4) {
+                Text("第 \(index + 1) 张")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Text(config.title)
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                if let subtitle = config.subtitle {
+                    Text(subtitle)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                Text("ID: \(config.id)")
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
+            }
+            config.content()
+                .frame(width: posterWidth, height: posterHeight)
+                .background(.regularMaterial)
+                .cornerRadius(12)
+                .shadow(radius: 10)
+        }
+    }
+}
+
 /// 海报布局视图，聚合展示所有插件提供的海报视图
 struct PosterLayout: View {
     @EnvironmentObject var pluginProvider: PluginProvider
@@ -8,14 +41,8 @@ struct PosterLayout: View {
     @State private var cachedConfigurations: [PosterViewConfiguration] = []
 
     private var posterConfigurations: [PosterViewConfiguration] {
-        if cachedConfigurations.isEmpty {
-            let configs = pluginProvider.getPosterConfigurations()
-            if !configs.isEmpty {
-                cachedConfigurations = configs
-            }
-            return configs
-        }
-        return cachedConfigurations
+        // 优先使用缓存，避免滚动时重复计算导致状态不一致
+        cachedConfigurations.isEmpty ? pluginProvider.getPosterConfigurations() : cachedConfigurations
     }
 
     var body: some View {
@@ -30,7 +57,7 @@ struct PosterLayout: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(.ultraThinMaterial)
-                } else if posterConfigurations.isEmpty {
+                } else if cachedConfigurations.isEmpty {
                     VStack(spacing: 16) {
                         Image(systemName: "photo.on.rectangle.angled")
                             .font(.system(size: 60))
@@ -43,23 +70,14 @@ struct PosterLayout: View {
                     .background(.ultraThinMaterial)
                 } else {
                     ScrollView(.vertical, showsIndicators: false) {
-                        VStack(spacing: 20) {
-                            ForEach(Array(posterConfigurations.enumerated()), id: \.element.id) { index, config in
-                                VStack(spacing: 8) {
-                                    Text("第 \(index + 1) 张")
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
-                                    config.content()
-                                        .frame(width: geo.size.width - 80, height: (geo.size.width - 80) * 10 / 16)
-                                        .background(.regularMaterial)
-                                        .cornerRadius(12)
-                                        .shadow(radius: 10)
-                                }
+                        LazyVStack(spacing: 20) {
+                            ForEach(Array(cachedConfigurations.enumerated()), id: \.element.id) { index, config in
+                                PosterItemView(index: index, config: config, posterWidth: geo.size.width - 80, posterHeight: (geo.size.width - 80) * 10 / 16)
                             }
-                            .padding(.vertical, 20)
                         }
-                        .padding(.horizontal, 40)
+                        .padding(.vertical, 20)
                     }
+                    .padding(.horizontal, 40)
                     .background(.ultraThinMaterial)
                 }
             }
@@ -79,7 +97,13 @@ struct PosterLayout: View {
                         .padding(.vertical, 4)
                     }
                     .buttonStyle(.bordered)
-                    .disabled(isGenerating || posterConfigurations.isEmpty)
+                    .disabled(isGenerating || cachedConfigurations.isEmpty)
+                }
+            }
+            .onAppear {
+                // 视图出现时初始化缓存，避免滚动时重新计算
+                if cachedConfigurations.isEmpty {
+                    cachedConfigurations = pluginProvider.getPosterConfigurations()
                 }
             }
         }
