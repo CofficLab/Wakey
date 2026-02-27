@@ -80,6 +80,120 @@ struct VersionCard: View {
                 }
             }
 
+            // 版本描述
+            if let localization = version.localization {
+                Divider()
+
+                // 描述
+                if let description = localization.description, !description.isEmpty {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("版本描述")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+
+                        Text(description)
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                            .lineLimit(5)
+                            .multilineTextAlignment(.leading)
+                    }
+                }
+
+                // 更新说明
+                if let whatsNew = localization.whatsNew, !whatsNew.isEmpty {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("更新说明")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+
+                        Text(whatsNew)
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                            .lineLimit(5)
+                            .multilineTextAlignment(.leading)
+                    }
+                }
+
+                // 推广文本
+                if let promotionalText = localization.promotionalText, !promotionalText.isEmpty {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("推广文本")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+
+                        Text(promotionalText)
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                            .lineLimit(3)
+                            .multilineTextAlignment(.leading)
+                    }
+                }
+
+                // 语言环境
+                if let locale = localization.locale {
+                    HStack(spacing: 4) {
+                        Image(systemName: "globe")
+                            .font(.caption2)
+                        Text("语言: \(locale)")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                    }
+                }
+
+                // 关键词
+                if let keywords = localization.keywords, !keywords.isEmpty {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("关键词")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+
+                        Text(keywords)
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                            .lineLimit(3)
+                            .multilineTextAlignment(.leading)
+                    }
+                }
+
+                // 营销网址
+                if let marketingUrl = localization.marketingUrl, !marketingUrl.isEmpty {
+                    HStack(spacing: 4) {
+                        Image(systemName: "link")
+                            .font(.caption2)
+                        if let url = URL(string: marketingUrl) {
+                            Link("营销网址", destination: url)
+                                .font(.caption2)
+                                .foregroundColor(.accentColor)
+                        } else {
+                            Text(marketingUrl)
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+
+                // 技术支持网址
+                if let supportUrl = localization.supportUrl, !supportUrl.isEmpty {
+                    HStack(spacing: 4) {
+                        Image(systemName: "lifepreserver")
+                            .font(.caption2)
+                        if let url = URL(string: supportUrl) {
+                            Link("技术支持", destination: url)
+                                .font(.caption2)
+                                .foregroundColor(.accentColor)
+                        } else {
+                            Text(supportUrl)
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+            }
+
             // 审核详情
             if let review = reviewDetail {
                 Divider()

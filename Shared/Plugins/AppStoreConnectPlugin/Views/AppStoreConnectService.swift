@@ -28,6 +28,7 @@ class AppStoreConnectService: ObservableObject {
     @Published var errorMessage: String?
     @Published var versions: [AppStoreVersion] = []
     @Published var versionReviewDetails: [String: AppStoreReviewDetail] = [:]
+    @Published var versionLocalizations: [String: AppStoreVersionLocalization] = [:]
     @Published var currentApp: AppInfo?
 
     // 应用列表相关
@@ -331,15 +332,27 @@ class AppStoreConnectService: ObservableObject {
             // 调试：打印每个版本的 relationships
             for (index, version) in versionsResponse.data.enumerated() {
                 print("  版本 \(index): \(version.attributes.versionString) - ID: \(version.id)")
-                // 打印 relationships（如果有）
-                if let json = try? JSONSerialization.data(withJSONObject: version, options: .prettyPrinted),
-                   let jsonString = String(data: json, encoding: .utf8) {
-                    print("  版本数据: \(jsonString)")
+                // 检查 relationships
+                if let relationships = version.relationships {
+                    print("    有 relationships 字段")
+                    if let reviewDetailLink = relationships.appStoreReviewDetail {
+                        print("    有 appStoreReviewDetail 关联")
+                        if let reviewData = reviewDetailLink.data {
+                            print("    审核详情 ID: \(reviewData.id)")
+                        } else {
+                            print("    审核详情 data 为 null")
+                        }
+                    } else {
+                        print("    没有 appStoreReviewDetail 关联")
+                    }
+                } else {
+                    print("    没有 relationships 字段（API 未返回）")
                 }
             }
 
-            // 清空之前的审核详情
+            // 清空之前的审核详情和本地化
             versionReviewDetails = [:]
+            versionLocalizations = [:]
 
             // 调试：打印 included 数组信息
             if let included = versionsResponse.included {
@@ -379,8 +392,25 @@ class AppStoreConnectService: ObservableObject {
 
                         versionReviewDetails[reviewData.id] = reviewDetail
                         print("  审核详情已加载 (ID: \(reviewData.id))")
-                        if let email = reviewDetail.attributes.contactEmail {
+                        if let email = reviewDetail.contactEmail {
                             print("  审核邮箱: \(email)")
+                        }
+
+                    case .appStoreVersionLocalization(let localizationData):
+                        print("  [\(index)] Localization 资源 - ID: \(localizationData.id), locale: \(localizationData.attributes.locale ?? "nil")")
+                        let localization = AppStoreVersionLocalization(
+                            id: localizationData.id,
+                            locale: localizationData.attributes.locale,
+                            description: localizationData.attributes.description,
+                            whatsNew: localizationData.attributes.whatsNew,
+                            promotionalText: localizationData.attributes.promotionalText,
+                            keywords: localizationData.attributes.keywords,
+                            marketingUrl: localizationData.attributes.marketingUrl,
+                            supportUrl: localizationData.attributes.supportUrl
+                        )
+                        versionLocalizations[localizationData.id] = localization
+                        if let desc = localization.description, !desc.isEmpty {
+                            print("  描述: \(desc.prefix(50))...")
                         }
 
                     case .unknown:
@@ -397,7 +427,8 @@ class AppStoreConnectService: ObservableObject {
                 var reviewDetail: AppStoreReviewDetail? = nil
                 if let relationships = item.relationships,
                    let reviewLink = relationships.appStoreReviewDetail,
-                   let reviewId = reviewLink.data?.id {
+                   let reviewData = reviewLink.data {
+                    let reviewId = reviewData.id
                     // 在 included 中查找对应的审核详情
                     if let included = versionsResponse.included {
                         for resource in included {
@@ -425,6 +456,19 @@ class AppStoreConnectService: ObservableObject {
                     versionReviewDetails[item.id] = reviewDetail
                 }
 
+                // 从 relationships 中获取本地化 ID（取第一个）
+                var localization: AppStoreVersionLocalization? = nil
+                if let relationships = item.relationships,
+                   let localizationsLink = relationships.appStoreVersionLocalizations,
+                   let localizationsArray = localizationsLink.data,
+                   let firstLocalizationId = localizationsArray.first?.id {
+                    // 在字典中查找对应的本地化
+                    if let loc = versionLocalizations[firstLocalizationId] {
+                        localization = loc
+                        print("  版本 \(item.attributes.versionString) 关联本地化: \(firstLocalizationId) (\(loc.locale ?? "nil"))")
+                    }
+                }
+
                 return AppStoreVersion(
                     id: item.id,
                     platform: item.attributes.platform,
@@ -435,7 +479,8 @@ class AppStoreConnectService: ObservableObject {
                     releaseType: item.attributes.releaseType ?? "MANUAL",
                     downloadable: item.attributes.downloadable,
                     copyright: item.attributes.copyright,
-                    usesIdfa: item.attributes.usesIdfa
+                    usesIdfa: item.attributes.usesIdfa,
+                    localization: localization
                 )
             }
 

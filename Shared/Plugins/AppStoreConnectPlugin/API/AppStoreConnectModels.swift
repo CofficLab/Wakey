@@ -53,6 +53,12 @@ struct AppStoreVersionsLink: Decodable {
     let data: [RelationshipData]?
 }
 
+/// 一对一关系链接（如 appStoreReviewDetail）
+struct SingleRelationshipLink: Decodable {
+    let links: LinkObjects?
+    let data: RelationshipData?
+}
+
 struct LinkObjects: Decodable {
     let selfLink: String?
     let related: String?
@@ -77,7 +83,8 @@ struct AppStoreVersionData: Decodable {
 }
 
 struct AppStoreVersionRelationships: Decodable {
-    let appStoreReviewDetail: AppStoreVersionsLink?
+    let appStoreReviewDetail: SingleRelationshipLink?
+    let appStoreVersionLocalizations: AppStoreVersionsLink?  // 一对多关系
 }
 
 struct AppStoreVersionAttributes: Decodable {
@@ -117,6 +124,7 @@ struct AppStoreVersion {
     let downloadable: Bool?
     let copyright: String?
     let usesIdfa: Bool?
+    let localization: AppStoreVersionLocalization?  // 主要本地化（通常取第一个）
 }
 
 // MARK: - 审核详情相关模型
@@ -148,3 +156,33 @@ struct AppStoreReviewDetail {
     let demoAccountPassword: String?
     let notes: String?
 }
+
+// MARK: - 版本本地化相关模型
+
+struct AppStoreVersionLocalizationData: Decodable {
+    let id: String
+    let attributes: AppStoreVersionLocalizationAttributes
+}
+
+struct AppStoreVersionLocalizationAttributes: Decodable {
+    let locale: String?
+    let description: String?
+    let whatsNew: String?
+    let promotionalText: String?
+    let keywords: String?
+    let marketingUrl: String?
+    let supportUrl: String?
+}
+
+/// 版本本地化（用于 UI 展示）
+struct AppStoreVersionLocalization {
+    let id: String
+    let locale: String?
+    let description: String?
+    let whatsNew: String?
+    let promotionalText: String?
+    let keywords: String?
+    let marketingUrl: String?
+    let supportUrl: String?
+}
+

@@ -46,10 +46,8 @@ struct FetchAppVersionsAPI {
             var components = URLComponents(string: "\(AppStoreConnectAPI.baseURL)/apps/\(appId)/appStoreVersions")
             components?.queryItems = [
                 URLQueryItem(name: "limit", value: String(limit)),
-                URLQueryItem(name: "fields[appStoreVersions]", value: "platform,versionString,appStoreState,appVersionState,copyright,releaseType,downloadable,createdDate,usesIdfa"),
-                URLQueryItem(name: "fields[apps]", value: "name,bundleId,sku,primaryLocale,isOrEverWasMadeForKids"),
-                URLQueryItem(name: "fields[appStoreReviewDetails]", value: "contactFirstName,contactLastName,contactPhone,contactEmail,demoAccountRequired,demoAccountName,demoAccountPassword,notes"),
-                URLQueryItem(name: "include", value: "app,appStoreReviewDetail")
+                // 包含版本本地化（描述、更新说明等）
+                URLQueryItem(name: "include", value: "app,appStoreReviewDetail,appStoreVersionLocalizations")
             ]
             return components?.url
         }
@@ -66,38 +64,31 @@ struct FetchAppVersionsAPI {
     enum IncludedResource: Decodable {
         case app(AppData)
         case appStoreReviewDetail(AppStoreReviewDetailData)
+        case appStoreVersionLocalization(AppStoreVersionLocalizationData)
         case unknown
 
         init(from decoder: Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let type = try? container.decode([String: String].self)
+            // 先读取 type 字段来判断资源类型
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let type = try container.decode(String.self, forKey: .type)
 
-            // 尝试根据类型字段判断
-            if let typeValue = type?["type"] {
-                switch typeValue {
-                case "apps":
-                    if let appData = try? container.decode(AppData.self) {
-                        self = .app(appData)
-                        return
-                    }
-                case "appStoreReviewDetails":
-                    if let reviewData = try? container.decode(AppStoreReviewDetailData.self) {
-                        self = .appStoreReviewDetail(reviewData)
-                        return
-                    }
-                default:
-                    break
-                }
-            }
-
-            // 回退方案：尝试直接解码
-            if let appData = try? container.decode(AppData.self) {
+            switch type {
+            case "apps":
+                let appData = try AppData(from: decoder)
                 self = .app(appData)
-            } else if let reviewData = try? container.decode(AppStoreReviewDetailData.self) {
+            case "appStoreReviewDetails":
+                let reviewData = try AppStoreReviewDetailData(from: decoder)
                 self = .appStoreReviewDetail(reviewData)
-            } else {
+            case "appStoreVersionLocalizations":
+                let localizationData = try AppStoreVersionLocalizationData(from: decoder)
+                self = .appStoreVersionLocalization(localizationData)
+            default:
                 self = .unknown
             }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type
         }
     }
 
