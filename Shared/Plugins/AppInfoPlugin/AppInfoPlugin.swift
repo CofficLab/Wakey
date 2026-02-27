@@ -79,12 +79,12 @@ struct AppInfoNavigationView: View {
 
             Divider()
 
-            InfoRow(label: "应用名称", value: "Wakey", systemImage: "app")
-            InfoRow(label: "Bundle ID", value: "com.cofficlab.Wakey", systemImage: "doc.text")
-            InfoRow(label: "版本", value: getAppVersion(), systemImage: "number")
-            InfoRow(label: "构建版本", value: getBuildVersion(), systemImage: "hammer")
-            InfoRow(label: "最低系统版本", value: "macOS 14.0", systemImage: "cpu")
-            InfoRow(label: "架构", value: "Universal", systemImage: "scale.3d")
+            AppInfoRow(label: "应用名称", value: "Wakey", systemImage: "app")
+            AppInfoRow(label: "Bundle ID", value: "com.cofficlab.Wakey", systemImage: "doc.text")
+            AppInfoRow(label: "版本", value: getAppVersion(), systemImage: "number")
+            AppInfoRow(label: "构建版本", value: getBuildVersion(), systemImage: "hammer")
+            AppInfoRow(label: "最低系统版本", value: "macOS 14.0", systemImage: "cpu")
+            AppInfoRow(label: "架构", value: "Universal", systemImage: "scale.3d")
         }
         .padding()
         .frame(maxWidth: 500, alignment: .leading)
