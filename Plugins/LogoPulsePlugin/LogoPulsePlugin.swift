@@ -35,8 +35,6 @@ actor LogoPulsePlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    static let shared = LogoPulsePlugin()
-
     // MARK: - UI Contributions
 
     @MainActor func addStatusBarPopupView() -> AnyView? { nil }

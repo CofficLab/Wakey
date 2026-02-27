@@ -35,8 +35,6 @@ actor LogoMoonPlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    static let shared = LogoMoonPlugin()
-
     // MARK: - UI Contributions
 
     @MainActor func addStatusBarPopupView() -> AnyView? { nil }

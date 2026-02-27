@@ -35,8 +35,6 @@ actor EyeCareReminderPlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    static let shared = EyeCareReminderPlugin()
-
     // MARK: - UI Contributions
 
     @MainActor func addStatusBarPopupView() -> AnyView? {

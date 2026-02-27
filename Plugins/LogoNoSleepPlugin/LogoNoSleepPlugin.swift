@@ -35,8 +35,6 @@ actor LogoNoSleepPlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    static let shared = LogoNoSleepPlugin()
-
     // MARK: - UI Contributions
 
     @MainActor func addStatusBarPopupView() -> AnyView? { nil }

@@ -17,7 +17,6 @@ actor HydrationReminderPlugin: SuperPlugin, SuperLog {
     nonisolated(unsafe) static var isConfigurable: Bool = true
     nonisolated(unsafe) static var order: Int { 10 }
     nonisolated var instanceLabel: String { Self.id }
-    nonisolated(unsafe) static let shared = HydrationReminderPlugin()
 
     @MainActor func addStatusBarPopupView() -> AnyView? {
         AnyView(HydrationReminderPopupView())

@@ -35,8 +35,6 @@ actor LogoLightBulbPlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    static let shared = LogoLightBulbPlugin()
-
     // MARK: - UI Contributions
 
     @MainActor func addStatusBarPopupView() -> AnyView? { nil }

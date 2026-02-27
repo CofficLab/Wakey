@@ -45,8 +45,6 @@ actor CaffeinatePlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    static let shared = CaffeinatePlugin()
-
     // MARK: - UI Contributions
 
     /// 添加状态栏弹出视图

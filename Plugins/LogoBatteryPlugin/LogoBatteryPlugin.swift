@@ -35,8 +35,6 @@ actor LogoBatteryPlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    static let shared = LogoBatteryPlugin()
-
     // MARK: - UI Contributions
 
     @MainActor func addStatusBarPopupView() -> AnyView? { nil }

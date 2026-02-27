@@ -17,7 +17,6 @@ actor StretchReminderPlugin: SuperPlugin, SuperLog {
     nonisolated(unsafe) static var isConfigurable: Bool = true
     nonisolated(unsafe) static var order: Int { 9 }
     nonisolated var instanceLabel: String { Self.id }
-    nonisolated(unsafe) static let shared = StretchReminderPlugin()
 
     @MainActor func addStatusBarPopupView() -> AnyView? {
         AnyView(StretchReminderPopupView())

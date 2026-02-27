@@ -33,8 +33,6 @@ actor CaffeinatePosterPlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    static let shared = CaffeinatePosterPlugin()
-
     // MARK: - UI Contributions
 
     /// 提供防休眠相关的海报视图

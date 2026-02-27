@@ -35,8 +35,6 @@ actor LogoCoffeePlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    static let shared = LogoCoffeePlugin()
-
     // MARK: - UI Contributions
 
     @MainActor func addStatusBarPopupView() -> AnyView? { nil }

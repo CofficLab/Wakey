@@ -35,8 +35,6 @@ actor LogoPreviewPlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    static let shared = LogoPreviewPlugin()
-
     // MARK: - UI Contributions
 
     @MainActor func addStatusBarPopupView() -> AnyView? { nil }

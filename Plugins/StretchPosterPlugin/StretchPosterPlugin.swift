@@ -16,8 +16,6 @@ actor StretchPosterPlugin: SuperPlugin, SuperLog {
     nonisolated(unsafe) static var isConfigurable: Bool = false
     nonisolated(unsafe) static var order: Int { 3 }
     nonisolated var instanceLabel: String { Self.id }
-    static let shared = StretchPosterPlugin()
-
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] {
         [
             PosterViewConfiguration(

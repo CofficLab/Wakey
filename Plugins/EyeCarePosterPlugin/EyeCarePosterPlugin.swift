@@ -33,8 +33,6 @@ actor EyeCarePosterPlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    static let shared = EyeCarePosterPlugin()
-
     // MARK: - UI Contributions
 
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] {

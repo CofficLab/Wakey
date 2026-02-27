@@ -2,6 +2,7 @@ import AppKit
 import Combine
 import Foundation
 import MagicKit
+import ObjectiveC
 import OSLog
 import SwiftUI
 
@@ -14,7 +15,7 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// 日志标识符
     nonisolated static let emoji = "🔌"
     /// 是否启用详细日志输出
-    nonisolated static let verbose = false
+    nonisolated static let verbose = true
 
     /// 当前加载的插件列表
     @Published private(set) var plugins: [any SuperPlugin] = []
@@ -31,120 +32,134 @@ final class PluginProvider: ObservableObject, SuperLog {
     private var cancellables = Set<AnyCancellable>()
 
     /// 初始化插件提供者
-    /// - Parameter autoDiscover: 是否自动发现插件（目前主要使用手动注册）
+    /// - Parameter autoDiscover: 是否自动发现插件
     init(autoDiscover: Bool = true) {
-        // Manually register CaffeinatePlugin only
-        registerPlugins()
-        
         // 订阅设置变化，当设置改变时触发 UI 更新
         settingsStore.$settings
             .sink { [weak self] _ in
                 self?.objectWillChange.send()
             }
             .store(in: &cancellables)
+
+        // 自动发现并注册插件
+        if autoDiscover {
+            autoDiscoverAndRegisterPlugins()
+        }
     }
 
-    /// 注册插件
-    private func registerPlugins() {
-        let logoBolt = LogoBoltPlugin.shared
-        let logoLightBulb = LogoLightBulbPlugin.shared
-        let logoOwl = LogoOwlPlugin.shared
-        let logoCoffee = LogoCoffeePlugin.shared
-        let logoSun = LogoSunPlugin.shared
-        let logoBattery = LogoBatteryPlugin.shared
-        let logoMoon = LogoMoonPlugin.shared
-        let logoNoSleep = LogoNoSleepPlugin.shared
-        let logoRadar = LogoRadarPlugin.shared
-        let logoPulse = LogoPulsePlugin.shared
-        
-        let logoPreview = LogoPreviewPlugin.shared
-        
-        let wakeyIntro = WakeyIntroPlugin.shared
-        let caffeinate = CaffeinatePlugin.shared
-        let caffeinatePoster = CaffeinatePosterPlugin.shared
-        
-        let eyeCare = EyeCareReminderPlugin.shared
-        let eyeCarePoster = EyeCarePosterPlugin.shared
-        let stretch = StretchReminderPlugin.shared
-        let stretchPoster = StretchPosterPlugin.shared
-        let hydration = HydrationReminderPlugin.shared
-        let hydrationPoster = HydrationPosterPlugin.shared
-        
-        let purchase = PurchasePlugin.shared
-        
-        self.plugins = [
-            logoBolt,
-            logoLightBulb,
-            logoOwl,
-            logoCoffee,
-            logoSun,
-            logoBattery,
-            logoMoon,
-            logoNoSleep,
-            logoRadar,
-            logoPulse,
-            logoPreview,
-            wakeyIntro,
-            caffeinate,
-            caffeinatePoster,
-            eyeCare,
-            eyeCarePoster,
-            stretch,
-            stretchPoster,
-            hydration,
-            hydrationPoster,
-            purchase
-        ]
-        self.isLoaded = true
+    /// 自动发现并注册插件
+    /// 使用 Objective-C Runtime 反射机制自动扫描所有符合 SuperPlugin 协议的类
+    private func autoDiscoverAndRegisterPlugins() {
+        var count: UInt32 = 0
+        guard let classList = objc_copyClassList(&count) else {
+            os_log("\(Self.t)⚠️ Failed to get class list")
+            return
+        }
+        defer { free(UnsafeMutableRawPointer(classList)) }
 
-        logoBolt.onRegister()
-        logoLightBulb.onRegister()
-        logoOwl.onRegister()
-        logoCoffee.onRegister()
-        logoSun.onRegister()
-        logoBattery.onRegister()
-        logoMoon.onRegister()
-        logoNoSleep.onRegister()
-        logoRadar.onRegister()
-        logoPulse.onRegister()
-        logoPreview.onRegister()
-        
-        wakeyIntro.onRegister()
-        caffeinate.onRegister()
-        caffeinatePoster.onRegister()
-        
-        eyeCare.onRegister()
-        eyeCarePoster.onRegister()
-        stretch.onRegister()
-        stretchPoster.onRegister()
-        hydration.onRegister()
-        hydrationPoster.onRegister()
-        
-        purchase.onRegister()
+        let classes = UnsafeBufferPointer(start: classList, count: Int(count))
+
+        // 用于存储发现的插件：(插件实例, 类名, order)
+        var discoveredPlugins: [(instance: any SuperPlugin, className: String, order: Int)] = []
+
+        // 遍历所有类，查找符合条件的插件
+        for i in 0 ..< classes.count {
+            let cls: AnyClass = classes[i]
+            let className = NSStringFromClass(cls)
+
+            // 筛选条件：必须是 Wakey 命名空间下以 "Plugin" 结尾的类
+            guard className.hasPrefix("Wakey."), className.hasSuffix("Plugin") else {
+                continue
+            }
+
+            // 创建插件实例（通过调用 shared() 方法）
+            guard let pluginInstance = createActorInstance(cls: cls, className: className) else {
+                if Self.verbose {
+                    os_log("\(Self.t)⚠️ Failed to create instance for \(className)")
+                }
+                continue
+            }
+
+            let pluginType = type(of: pluginInstance)
+
+            // 检查是否应该注册
+            guard pluginType.shouldRegister else {
+                if Self.verbose {
+                    os_log("\(Self.t)⏭️ Skipping plugin: \(className) (shouldRegister = false)")
+                }
+                continue
+            }
+
+            // 获取插件 order
+            let order = pluginType.order
+
+            discoveredPlugins.append((pluginInstance, className, order))
+
+            if Self.verbose {
+                os_log("\(Self.t)🔍 Discovered plugin: \(className) (order: \(order))")
+            }
+        }
+
+        // 按 order 排序后注册
+        discoveredPlugins.sort { $0.order < $1.order }
+
+        for (plugin, className, _) in discoveredPlugins {
+            plugins.append(plugin)
+            plugin.onRegister()
+
+            if Self.verbose {
+                os_log("\(Self.t)✅ Registered plugin: \(className)")
+            }
+        }
+
+        isLoaded = true
 
         if Self.verbose {
-            os_log("\(self.t)✅ Loaded LogoBoltPlugin.")
-            os_log("\(self.t)✅ Loaded LogoLightBulbPlugin.")
-            os_log("\(self.t)✅ Loaded LogoOwlPlugin.")
-            os_log("\(self.t)✅ Loaded LogoCoffeePlugin.")
-            os_log("\(self.t)✅ Loaded LogoSunPlugin.")
-            os_log("\(self.t)✅ Loaded LogoBatteryPlugin.")
-            os_log("\(self.t)✅ Loaded LogoMoonPlugin.")
-            os_log("\(self.t)✅ Loaded LogoNoSleepPlugin.")
-            os_log("\(self.t)✅ Loaded LogoRadarPlugin.")
-            os_log("\(self.t)✅ Loaded LogoPulsePlugin.")
-            os_log("\(self.t)✅ Loaded LogoPreviewPlugin.")
-            os_log("\(self.t)✅ Loaded WakeyIntroPlugin.")
-            os_log("\(self.t)✅ Loaded CaffeinatePlugin.")
-            os_log("\(self.t)✅ Loaded CaffeinatePosterPlugin.")
-            os_log("\(self.t)✅ Loaded EyeCareReminderPlugin.")
-            os_log("\(self.t)✅ Loaded EyeCarePosterPlugin.")
-            os_log("\(self.t)✅ Loaded StretchReminderPlugin.")
-            os_log("\(self.t)✅ Loaded StretchPosterPlugin.")
-            os_log("\(self.t)✅ Loaded HydrationReminderPlugin.")
-            os_log("\(self.t)✅ Loaded HydrationPosterPlugin.")
-            os_log("\(self.t)✅ Loaded PurchasePlugin.")
+            os_log("\(Self.t)🎉 Total plugins loaded: \(self.plugins.count)")
         }
+    }
+
+    /// 创建 Actor 实例（通过 alloc/init，参考 Cisum 的实现）
+    /// - Parameters:
+    ///   - cls: 类对象
+    ///   - className: 类名
+    /// - Returns: 插件实例或 nil
+    private func createActorInstance(cls: AnyClass, className: String) -> (any SuperPlugin)? {
+        // Step 1: 获取 alloc 方法
+        let allocSelector = NSSelectorFromString("alloc")
+        guard let allocMethod = class_getClassMethod(cls, allocSelector) else {
+            if Self.verbose {
+                os_log("\(Self.t)⚠️ Plugin \(className) does not have 'alloc' method")
+            }
+            return nil
+        }
+
+        // Step 2: 调用 alloc
+        typealias AllocMethod = @convention(c) (AnyClass, Selector) -> AnyObject?
+        let allocImpl = unsafeBitCast(method_getImplementation(allocMethod), to: AllocMethod.self)
+        guard let instance = allocImpl(cls, allocSelector) else {
+            if Self.verbose {
+                os_log("\(Self.t)⚠️ Failed to alloc \(className)")
+            }
+            return nil
+        }
+
+        // Step 3: 获取 init() 方法
+        let initSelector = NSSelectorFromString("init")
+        guard let initMethod = class_getInstanceMethod(cls, initSelector) else {
+            // 如果没有 init 方法，直接返回分配的实例
+            if Self.verbose {
+                os_log("\(Self.t)⚠️ Plugin \(className) does not have 'init' method, using allocated instance")
+            }
+            return instance as? (any SuperPlugin)
+        }
+
+        // Step 4: 调用 init
+        typealias InitMethod = @convention(c) (AnyObject, Selector) -> AnyObject?
+        let initImpl = unsafeBitCast(method_getImplementation(initMethod), to: InitMethod.self)
+        let initializedInstance = initImpl(instance, initSelector) ?? instance
+
+        return initializedInstance as? (any SuperPlugin)
     }
 
     /// 检查指定插件是否已启用

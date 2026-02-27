@@ -16,8 +16,6 @@ actor HydrationPosterPlugin: SuperPlugin, SuperLog {
     nonisolated(unsafe) static var isConfigurable: Bool = false
     nonisolated(unsafe) static var order: Int { 4 }
     nonisolated var instanceLabel: String { Self.id }
-    static let shared = HydrationPosterPlugin()
-
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] {
         [
             PosterViewConfiguration(

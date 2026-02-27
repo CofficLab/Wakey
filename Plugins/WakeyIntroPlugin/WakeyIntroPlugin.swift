@@ -33,8 +33,6 @@ actor WakeyIntroPlugin: SuperPlugin, SuperLog {
         Self.id
     }
 
-    static let shared = WakeyIntroPlugin()
-
     // MARK: - UI Contributions
 
     /// 提供应用整体介绍的海报视图
