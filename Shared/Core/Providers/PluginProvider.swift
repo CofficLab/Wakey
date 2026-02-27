@@ -242,7 +242,7 @@ final class PluginProvider: ObservableObject, SuperLog {
     }
 
     /// 获取所有插件提供的 Copilot 导航视图
-    /// - Returns: 包含插件信息和视图的元组数组
+    /// - Returns: 导航项数组
     func getCopilotNavigationViews() -> [(id: String, displayName: String, iconName: String, view: AnyView)] {
         plugins
             .filter { isPluginEnabled($0) }
@@ -250,6 +250,31 @@ final class PluginProvider: ObservableObject, SuperLog {
                 guard let view = plugin.addCopilotNavigationView() else { return nil }
                 let type = type(of: plugin)
                 return (type.id, type.displayName, type.iconName, view)
+            }
+            .sorted { $0.displayName < $1.displayName }
+    }
+
+    /// 获取所有插件提供的 Copilot 导航项（支持多级导航）
+    /// - Returns: CopilotNavigationItem 数组
+    func getCopilotNavigationItems() -> [CopilotNavigationItem] {
+        plugins
+            .filter { isPluginEnabled($0) }
+            .flatMap { plugin in
+                let items = plugin.addCopilotNavigationItems()
+                if !items.isEmpty {
+                    return items
+                } else {
+                    // 如果插件没有提供多级导航，尝试使用旧的单一视图方式
+                    guard let view = plugin.addCopilotNavigationView() else { return [] }
+                    let type = type(of: plugin)
+                    return [CopilotNavigationItem(
+                        id: type.id,
+                        displayName: type.displayName,
+                        iconName: type.iconName,
+                        view: view,
+                        children: nil
+                    )]
+                }
             }
             .sorted { $0.displayName < $1.displayName }
     }

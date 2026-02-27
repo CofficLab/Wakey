@@ -91,3 +91,9 @@ struct ConfigurationSection: View {
         .cornerRadius(12)
     }
 }
+
+#Preview("Copilot - Main") {
+    CopilotContentView()
+        .inRootView()
+        .withDebugBar()
+}

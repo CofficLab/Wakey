@@ -13,7 +13,7 @@ struct VersionsListView: View {
 }
 
 #Preview("Copilot - App Store Connect") {
-    CopilotAppStoreConnectView()
+    AppStoreConnectAppsView()
         .inRootView()
         .withDebugBar()
 }

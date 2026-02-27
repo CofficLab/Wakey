@@ -40,7 +40,45 @@ actor AppStoreConnectPlugin: SuperPlugin, SuperLog {
 
     /// 提供 Copilot 导航视图
     @MainActor func addCopilotNavigationView() -> AnyView? {
-        AnyView(CopilotAppStoreConnectView())
+        AnyView(AppStoreConnectConfigurationView())
+    }
+
+    /// 提供 Copilot 多级导航项
+    @MainActor func addCopilotNavigationItems() -> [CopilotNavigationItem] {
+        let configurationItem = CopilotNavigationItem(
+            id: "\(Self.id).configuration",
+            displayName: "配置",
+            iconName: "gearshape",
+            view: AnyView(AppStoreConnectConfigurationView()),
+            children: nil
+        )
+
+        let versionsItem = CopilotNavigationItem(
+            id: "\(Self.id).versions",
+            displayName: "版本信息",
+            iconName: "list.bullet.rectangle",
+            view: AnyView(AppStoreConnectVersionsView()),
+            children: nil
+        )
+
+        let appsItem = CopilotNavigationItem(
+            id: "\(Self.id).apps",
+            displayName: "所有应用",
+            iconName: "apps.iphone",
+            view: AnyView(AppStoreConnectAppsView()),
+            children: nil
+        )
+
+        // 父级导航项，包含三个子项
+        return [
+            CopilotNavigationItem(
+                id: Self.id,
+                displayName: Self.displayName,
+                iconName: Self.iconName,
+                view: AnyView(AppStoreConnectConfigurationView()), // 默认显示配置视图
+                children: [configurationItem, versionsItem, appsItem]
+            ),
+        ]
     }
 
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] { [] }
