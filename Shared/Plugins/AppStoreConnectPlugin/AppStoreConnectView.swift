@@ -3,31 +3,17 @@ import SwiftUI
 struct CopilotAppStoreConnectView: View {
     @StateObject private var service = AppStoreConnectService.shared
     @State private var isConfigExpanded = false
-    @State private var selectedTab: AppTab = .versions
-
-    enum AppTab {
-        case versions
-        case apps
-    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text("App Store Connect")
-                    .font(.title)
-                    .fontWeight(.bold)
-
                 Spacer()
 
                 if service.isConfigured {
                     Button(action: {
                         Task {
-                            switch selectedTab {
-                            case .versions:
-                                await service.fetchVersions()
-                            case .apps:
-                                await service.fetchAllApps()
-                            }
+                            await service.fetchVersions()
+                            await service.fetchAllApps()
                         }
                     }) {
                         Label("刷新", systemImage: "arrow.clockwise")
@@ -38,27 +24,20 @@ struct CopilotAppStoreConnectView: View {
 
             Divider()
 
-            // 配置区域
-            ConfigurationSection(
-                service: service,
-                isConfigExpanded: $isConfigExpanded
-            )
+            ScrollView(.vertical) {
+                VStack(alignment: .leading, spacing: 16) {
+                    // 配置区域
+                    ConfigurationSection(
+                        service: service,
+                        isConfigExpanded: $isConfigExpanded
+                    )
 
-            Divider()
+                    Divider()
 
-            // Tab 选择器
-            if service.isConfigured {
-                Picker("视图", selection: $selectedTab) {
-                    Text("版本信息").tag(AppTab.versions)
-                    Text("所有应用").tag(AppTab.apps)
+                    // 内容区域
+                    contentView
                 }
-                .pickerStyle(.segmented)
-
-                Divider()
             }
-
-            // 内容区域
-            contentView
         }
         .padding()
         .frame(minWidth: 500, alignment: .leading)
@@ -82,11 +61,20 @@ struct CopilotAppStoreConnectView: View {
         if !service.isConfigured {
             EmptyStateView()
         } else {
-            switch selectedTab {
-            case .versions:
-                versionsView
-            case .apps:
-                appsView
+            VStack(alignment: .leading, spacing: 24) {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("版本信息")
+                        .font(.headline)
+                    versionsView
+                }
+
+                Divider()
+
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("所有应用")
+                        .font(.headline)
+                    appsView
+                }
             }
         }
     }
@@ -132,4 +120,6 @@ struct CopilotAppStoreConnectView: View {
 
 #Preview("Copilot - App Store Connect") {
     CopilotAppStoreConnectView()
+        .inRootView()
+        .withDebugBar()
 }
