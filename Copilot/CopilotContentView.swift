@@ -1,28 +1,11 @@
 import SwiftUI
 
-/// 导航项数据模型，支持多级导航
-struct CopilotNavigationItem: Identifiable, Hashable {
-    let id: String
-    let displayName: String
-    let iconName: String
-    let view: AnyView
-    let children: [CopilotNavigationItem]?
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-
-    static func == (lhs: CopilotNavigationItem, rhs: CopilotNavigationItem) -> Bool {
-        lhs.id == rhs.id
-    }
-}
-
-struct CopilotContentView: View {
+public struct CopilotContentView: View {
     @EnvironmentObject var pluginProvider: PluginProvider
     @State private var selectedPluginId: String?
     @State private var expandedItems: Set<String> = []
 
-    var body: some View {
+    public var body: some View {
         if navigationItems.isEmpty {
             // 没有任何插件时的友好界面
             emptyStateView
