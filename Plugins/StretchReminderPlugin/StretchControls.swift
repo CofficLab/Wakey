@@ -2,10 +2,15 @@ import SwiftUI
 
 struct StretchReminderControls: View {
     @State private var manager = StretchReminderManager.shared
+
+    // 显式声明翻译key以防止Xcode构建时删除
+    private static let startButtonTitle = String(localized: "Start_Button", table: "StretchReminder")
+    private static let stopButtonTitle = String(localized: "Stop_Button", table: "StretchReminder")
+
     var body: some View {
         HStack(spacing: 8) {
             StretchControlButton(
-                title: String(localized: manager.isActive ? "Stop_Button" : "Start_Button", table: "StretchReminder"),
+                title: manager.isActive ? Self.stopButtonTitle : Self.startButtonTitle,
                 icon: manager.isActive ? "stop.fill" : "play.fill",
                 color: manager.isActive ? .red : .green,
                 action: {

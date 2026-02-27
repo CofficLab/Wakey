@@ -4,10 +4,14 @@ import SwiftUI
 struct EyeCareReminderControls: View {
     @State private var manager = EyeCareReminderManager.shared
 
+    // 显式声明翻译key以防止Xcode构建时删除
+    private static let startButtonTitle = String(localized: "Start_Button", table: "EyeCareReminder")
+    private static let stopButtonTitle = String(localized: "Stop_Button", table: "EyeCareReminder")
+
     var body: some View {
         HStack(spacing: 8) {
             EyeCareControlButton(
-                title: String(localized: manager.isActive ? "Stop_Button" : "Start_Button", table: "EyeCareReminder"),
+                title: manager.isActive ? Self.stopButtonTitle : Self.startButtonTitle,
                 icon: manager.isActive ? "stop.fill" : "play.fill",
                 color: manager.isActive ? .red : .green,
                 action: {
