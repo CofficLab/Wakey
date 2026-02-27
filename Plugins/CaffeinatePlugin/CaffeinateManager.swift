@@ -376,7 +376,6 @@ extension CaffeinateManager {
     /// Common duration options list
     static let commonDurations: [DurationOption] = [
         .indefinite,
-        .minutes(10),
         .minutes(30),
         .hours(1),
         .hours(2),

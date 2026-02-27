@@ -17,8 +17,8 @@ struct WakeyIntroPoster: View {
                 .inMagicVStackCenter()
 
                 ContentLayout()
-                    .inRootView()
                     .inDemoMode()
+                    .inRootView()
                     .roundedLarge()
                     .shadow3xl()
                     .scaleEffect(geo.size.width / 800)

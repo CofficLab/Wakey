@@ -2,41 +2,64 @@ import SwiftUI
 
 /// Anti-sleep duration picker component
 struct CaffeinateDurationPicker: View {
+    @Environment(\.demoMode) private var demoMode
     @State private var manager = CaffeinateManager.shared
-    
+
+    private var availableDurations: [CaffeinateManager.DurationOption] {
+        demoMode ? CaffeinateManager.commonDurations : manager.availableDurations
+    }
+
     /// 持续时间选择器的视图主体
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
+        if demoMode {
+            // 演示模式：不滚动，直接显示所有选项
             HStack(spacing: 4) {
-                ForEach(manager.availableDurations, id: \.self) { option in
+                ForEach(availableDurations, id: \.self) { option in
                     PopupDurationButton(
                         title: option.displayName,
-                        isSelected: manager.selectedDuration == option.timeInterval,
+                        isSelected: option.timeInterval == 3600, // 演示模式默认选中1小时
                         action: {
-                            // Update selected duration
-                            manager.selectedDuration = option.timeInterval
-                            
-                            // If anti-sleep is running, restart timer with new duration
-                            if manager.isActive, let action = manager.activeAction {
-                                // Deactivate first to reset timer
-                                manager.deactivate()
-                                
-                                // Reactivate with new duration
-                                switch action {
-                                case .systemAndDisplay:
-                                    manager.activate(mode: .systemAndDisplay, duration: manager.selectedDuration)
-                                case .systemOnly:
-                                    manager.activate(mode: .systemOnly, duration: manager.selectedDuration)
-                                case .turnOffDisplay:
-                                    manager.activateAndTurnOffDisplay(duration: manager.selectedDuration)
-                                }
-                            }
+                            // 演示模式下不响应点击
                         }
                     )
                 }
             }
             .padding(.vertical, 4)
             .padding(.horizontal, 4)
+        } else {
+            // 正常模式：可滚动
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 4) {
+                    ForEach(availableDurations, id: \.self) { option in
+                        PopupDurationButton(
+                            title: option.displayName,
+                            isSelected: manager.selectedDuration == option.timeInterval,
+                            action: {
+                                // Update selected duration
+                                manager.selectedDuration = option.timeInterval
+
+                                // If anti-sleep is running, restart timer with new duration
+                                if manager.isActive, let action = manager.activeAction {
+                                    // Deactivate first to reset timer
+                                    manager.deactivate()
+
+                                    // Reactivate with new duration
+                                    switch action {
+                                    case .systemAndDisplay:
+                                        manager.activate(mode: .systemAndDisplay, duration: manager.selectedDuration)
+                                    case .systemOnly:
+                                        manager.activate(mode: .systemOnly, duration: manager.selectedDuration)
+                                    case .turnOffDisplay:
+                                        manager.activateAndTurnOffDisplay(duration: manager.selectedDuration)
+                                    }
+                                }
+                            }
+                        )
+                    }
+                }
+                .padding(.vertical, 4)
+                .padding(.horizontal, 4)
+            }
         }
     }
 }
@@ -72,5 +95,10 @@ private struct PopupDurationButton: View {
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .withDebugBar()
+}
+
+#Preview("Demo Mode") {
+    CaffeinateDurationPicker()
+        .inDemoMode()
+        .padding()
 }
