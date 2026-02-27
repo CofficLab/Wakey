@@ -33,6 +33,5 @@ struct ContentLayout: View {
 #Preview("App") {
     ContentLayout()
         .inRootView()
-        .withDebugBar()
 }
 

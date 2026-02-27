@@ -91,9 +91,9 @@ struct StatusBar: View {
             SettingsMenuItemRow(
                 title: String(localized: "Settings...", table: "Core", comment: "Menu item to open settings")
             )
-            
+
             Divider()
-            
+
             // 退出应用
             MenuItemRow(
                 title: String(localized: "Quit", table: "Core", comment: "Menu item to quit the application"),
@@ -146,11 +146,7 @@ struct SettingsMenuItemRow: View {
             MenuItemRow(
                 title: title,
                 action: {
-                    if #available(macOS 13, *) {
-                        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-                    } else {
-                        NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
-                    }
+                    NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
                     // 激活应用并置顶窗口
                     NSApp.activate(ignoringOtherApps: true)
                 }
