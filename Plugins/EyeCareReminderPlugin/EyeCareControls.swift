@@ -7,7 +7,7 @@ struct EyeCareReminderControls: View {
     var body: some View {
         HStack(spacing: 8) {
             EyeCareControlButton(
-                title: manager.isActive ? "Stop_Button" : "Start_Button",
+                title: String(localized: manager.isActive ? "Stop_Button" : "Start_Button", table: "EyeCareReminder"),
                 icon: manager.isActive ? "stop.fill" : "play.fill",
                 color: manager.isActive ? .red : .green,
                 action: {
@@ -23,7 +23,7 @@ struct EyeCareReminderControls: View {
 }
 
 private struct EyeCareControlButton: View {
-    let title: LocalizedStringKey
+    let title: String
     let icon: String
     let color: Color
     let action: () -> Void
@@ -36,7 +36,7 @@ private struct EyeCareControlButton: View {
                 Image(systemName: icon)
                     .font(.system(size: 9))
 
-                Text(title, tableName: "EyeCareReminder")
+                Text(title)
                     .font(.system(size: 10))
             }
             .foregroundColor(isHovering ? .white : color)

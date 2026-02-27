@@ -5,7 +5,7 @@ struct StretchReminderControls: View {
     var body: some View {
         HStack(spacing: 8) {
             StretchControlButton(
-                title: manager.isActive ? "Stop_Button" : "Start_Button",
+                title: String(localized: manager.isActive ? "Stop_Button" : "Start_Button", table: "StretchReminder"),
                 icon: manager.isActive ? "stop.fill" : "play.fill",
                 color: manager.isActive ? .red : .green,
                 action: {
@@ -17,7 +17,7 @@ struct StretchReminderControls: View {
 }
 
 private struct StretchControlButton: View {
-    let title: LocalizedStringKey
+    let title: String
     let icon: String
     let color: Color
     let action: () -> Void
@@ -26,7 +26,7 @@ private struct StretchControlButton: View {
         Button(action: action) {
             HStack(spacing: 4) {
                 Image(systemName: icon).font(.system(size: 9))
-                Text(title, tableName: "StretchReminder").font(.system(size: 10))
+                Text(title).font(.system(size: 10))
             }
             .foregroundColor(isHovering ? .white : color)
             .padding(.horizontal, 10)

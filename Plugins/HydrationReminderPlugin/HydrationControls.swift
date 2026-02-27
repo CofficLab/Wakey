@@ -5,7 +5,7 @@ struct HydrationReminderControls: View {
     var body: some View {
         HStack(spacing: 8) {
             HydrationControlButton(
-                title: manager.isActive ? "Stop_Button" : "Start_Button",
+                title: String(localized: manager.isActive ? "Stop_Button" : "Start_Button", table: "HydrationReminder"),
                 icon: manager.isActive ? "stop.fill" : "play.fill",
                 color: manager.isActive ? .red : .green,
                 action: {
@@ -17,7 +17,7 @@ struct HydrationReminderControls: View {
 }
 
 private struct HydrationControlButton: View {
-    let title: LocalizedStringKey
+    let title: String
     let icon: String
     let color: Color
     let action: () -> Void
@@ -26,7 +26,7 @@ private struct HydrationControlButton: View {
         Button(action: action) {
             HStack(spacing: 4) {
                 Image(systemName: icon).font(.system(size: 9))
-                Text(title, tableName: "HydrationReminder").font(.system(size: 10))
+                Text(title).font(.system(size: 10))
             }
             .foregroundColor(isHovering ? .white : color)
             .padding(.horizontal, 10)

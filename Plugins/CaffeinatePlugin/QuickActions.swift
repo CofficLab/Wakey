@@ -109,7 +109,7 @@ private struct QuickActionMenuItem: View {
                     .foregroundColor(isHovering ? .white : color)
                     .frame(width: 18)
 
-                Text(LocalizedStringKey(title), tableName: "Caffeinate")
+                Text(title)
                     .font(.system(size: 11))
                     .foregroundColor(isHovering ? .white : .secondary)
 
