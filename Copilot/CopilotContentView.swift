@@ -41,22 +41,7 @@ struct CopilotContentView: View {
     }
 }
 
-private struct SectionView<Content: View>: View {
-    let title: String
-    let content: () -> Content
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text(title)
-                .font(.headline)
-                .fontWeight(.semibold)
-            content()
-        }
-        .padding()
-        .background(.regularMaterial)
-        .cornerRadius(12)
-    }
-}
+// MARK: - Preview
 
 #Preview("Copilot - Main") {
     CopilotContentView()
