@@ -14,6 +14,10 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// 是否启用详细日志输出
     nonisolated static let verbose = true
 
+    /// 允许的插件模块前缀列表
+    /// 用于扫描时筛选插件类，避免扫描系统框架中的 Plugin 类
+    nonisolated static let allowedModulePrefixes: [String] = ["Wakey.", "Copilot."]
+
     /// 当前加载的插件列表
     @Published private(set) var plugins: [any SuperPlugin] = []
     /// 插件是否已加载完成
@@ -21,9 +25,6 @@ final class PluginProvider: ObservableObject, SuperLog {
 
     /// 允许的插件 ID 列表（通过初始化参数传入）
     private let allowedPluginIds: [String]?
-
-    /// 模块前缀，用于识别插件类（例如 "Wakey." 或 "Copilot."）
-    private let modulePrefix: String
 
     /// 插件设置存储
     private let settingsStore = PluginSettingsStore.shared
@@ -34,11 +35,12 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// 初始化插件提供者
     /// - Parameters:
     ///   - allowedPluginIds: 允许的插件 ID 列表，为 nil 时表示允许所有插件
-    ///   - modulePrefix: 模块前缀，默认为 "Wakey."
     ///   - autoDiscover: 是否自动发现插件
-    init(allowedPluginIds: [String]? = nil, modulePrefix: String = "Wakey.", autoDiscover: Bool = true) {
+    init(
+        allowedPluginIds: [String]? = nil,
+        autoDiscover: Bool = true
+    ) {
         self.allowedPluginIds = allowedPluginIds
-        self.modulePrefix = modulePrefix
 
         // 订阅设置变化，当设置改变时触发 UI 更新
         settingsStore.$settings
@@ -73,8 +75,14 @@ final class PluginProvider: ObservableObject, SuperLog {
             let cls: AnyClass = classes[i]
             let className = NSStringFromClass(cls)
 
-            // 筛选条件：必须在指定模块命名空间下且以 "Plugin" 结尾的类
-            guard className.hasPrefix(modulePrefix), className.hasSuffix("Plugin") else {
+            // 筛选条件：以 "Plugin" 结尾且在允许的模块前缀下的类
+            guard className.hasSuffix("Plugin") else {
+                continue
+            }
+
+            // 检查是否在允许的模块前缀下
+            let hasAllowedPrefix = Self.allowedModulePrefixes.contains { className.hasPrefix($0) }
+            guard hasAllowedPrefix else {
                 continue
             }
 
@@ -125,7 +133,7 @@ final class PluginProvider: ObservableObject, SuperLog {
         }
     }
 
-    /// 创建 Actor 实例（通过 alloc/init，参考 Cisum 的实现）
+    /// 创建 Actor 实例
     /// - Parameters:
     ///   - cls: 类对象
     ///   - className: 类名
