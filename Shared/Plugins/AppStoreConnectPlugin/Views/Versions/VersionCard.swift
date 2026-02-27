@@ -40,6 +40,15 @@ struct VersionCard: View {
                 }
             }
 
+            // 可下载状态
+            if let downloadable = version.downloadable {
+                HStack {
+                    Label(downloadable ? "可下载" : "不可下载", systemImage: downloadable ? "checkmark.circle" : "xmark.circle")
+                        .font(.caption)
+                        .foregroundColor(downloadable ? .green : .red)
+                }
+            }
+
             // 版本 ID
             Text("ID: \(version.id)")
                 .font(.caption2)

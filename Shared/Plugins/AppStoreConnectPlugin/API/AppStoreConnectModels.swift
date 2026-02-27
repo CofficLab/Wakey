@@ -78,6 +78,7 @@ struct AppStoreVersionAttributes: Decodable {
     let appStoreState: String
     let createdDate: String
     let releaseType: String?
+    let downloadable: Bool?
 }
 
 // MARK: - 业务模型
@@ -98,4 +99,5 @@ struct AppStoreVersion {
     let appStoreState: String
     let createdDate: String
     let releaseType: String
+    let downloadable: Bool?
 }

@@ -1,7 +1,19 @@
 import Foundation
 
 /// 获取应用版本信息 API
+///
 /// 通过应用 ID 获取 App Store 版本信息
+///
+/// 文档: https://developer.apple.com/documentation/appstoreconnectapi/get-v1-apps-_id_-appstoreversions
+///
+/// 可用字段:
+/// - platform: 平台 (IOS, MAC_OS, TV_OS, VISION_OS)
+/// - versionString: 版本号字符串
+/// - appStoreState: App Store 状态
+/// - createdDate: 创建日期
+/// - releaseType: 发布类型 (MANUAL, AUTO, AFTER_APPROVAL)
+/// - downloadable: 是否可下载
+/// - usesNonExemptEncryption: 是否使用加密
 struct FetchAppVersionsAPI {
     struct Request {
         let appId: String
@@ -11,7 +23,7 @@ struct FetchAppVersionsAPI {
             var components = URLComponents(string: "\(AppStoreConnectAPI.baseURL)/apps/\(appId)/appStoreVersions")
             components?.queryItems = [
                 URLQueryItem(name: "limit", value: String(limit)),
-                URLQueryItem(name: "fields[appStoreVersions]", value: "platform,versionString,appStoreState,createdDate,releaseType")
+                URLQueryItem(name: "fields[appStoreVersions]", value: "platform,versionString,appStoreState,createdDate,releaseType,downloadable")
             ]
             return components?.url
         }
