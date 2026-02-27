@@ -22,20 +22,6 @@ struct CoreApp: App, SuperLog {
     }
 }
 
-// MARK: - Action
-
-extension CoreApp {
-    /// 获取应用信息
-    /// - Returns: 应用信息字典
-    static func getAppInfo() -> [String: Any] {
-        [
-            "name": Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "Unknown",
-            "version": Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.0",
-            "build": Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "1",
-        ]
-    }
-}
-
 // MARK: - Preview
 
 #Preview("App") {
