@@ -1,0 +1,175 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "Automatically remind you to rest your eyes": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动提醒你休息眼睛"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動提醒你休息眼睛"
+          }
+        }
+      }
+    },
+    "Customize reminder intervals and other parameters": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义提醒间隔等参数"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定義提醒間隔等參數"
+          }
+        }
+      }
+    },
+    "Eye Care Poster": {
+      "comment": "Name of the eye care poster plugin",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "护眼海报"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "護眼海報"
+          }
+        }
+      }
+    },
+    "Eye Care Reminder": {
+      "comment": "Poster feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "护眼提醒"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "護眼提醒"
+          }
+        }
+      }
+    },
+    "Flexible Configuration": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "灵活配置"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "靈活配置"
+          }
+        }
+      }
+    },
+    "Follow the 20-20-20 rule to protect your vision": {
+      "comment": "Feature description",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "遵循20-20-20法则保护视力"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "遵循20-20-20法則保護視力"
+          }
+        }
+      }
+    },
+    "Key Features": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "核心功能"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "核心功能"
+          }
+        }
+      }
+    },
+    "Provide eye care related poster views": {
+      "comment": "Description of what the Eye Care Poster plugin does",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提供护眼相关的海报视图"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提供護眼相關的海報視圖"
+          }
+        }
+      }
+    },
+    "Scheduled Reminder": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定时提醒"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定時提醒"
+          }
+        }
+      }
+    },
+    "Scientific Method": {
+      "comment": "Feature title",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "科学方法"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "科學方法"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

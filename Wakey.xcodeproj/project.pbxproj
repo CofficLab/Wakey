@@ -8,16 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0B0073C22F2F1ABF001B3789 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0B0073C12F2F1ABF001B3789 /* MagicKit */; };
-		0BD3E1D52F36F8830004D426 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BD3E1D42F36F8830004D426 /* Info.plist */; };
-		F53C3ED12F1A3CB000929321 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F53C3ECB2F1A3CB000929321 /* Assets.xcassets */; };
 		F5B5A73E2F511DB400F1239E /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = F5B5A73D2F511DB400F1239E /* MagicKit */; };
 		F5B80C552F513C0100BCB284 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = F5B80C542F513C0100BCB284 /* MagicKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0BD3E1D42F36F8830004D426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F53C3ECB2F1A3CB000929321 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F53C3ECD2F1A3CB000929321 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		F53C49142F1A42EC00929321 /* Wakey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wakey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F585CCF22F51987D00D41B4F /* Copilot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Copilot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -40,14 +35,9 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		0B559FC52F1A6A52005C6809 /* Plugins */ = {
+		F52F04452F519B9200E97674 /* Hero */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Plugins;
-			sourceTree = "<group>";
-		};
-		F54F8C802F1A3B6500AABB2A /* Core */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Core;
+			path = Hero;
 			sourceTree = "<group>";
 		};
 		F585CCF32F51987D00D41B4F /* Copilot */ = {
@@ -85,11 +75,7 @@
 		F54F8C752F1A3B6500AABB2A = {
 			isa = PBXGroup;
 			children = (
-				0BD3E1D42F36F8830004D426 /* Info.plist */,
-				F53C3ECD2F1A3CB000929321 /* App.entitlements */,
-				F53C3ECB2F1A3CB000929321 /* Assets.xcassets */,
-				F54F8C802F1A3B6500AABB2A /* Core */,
-				0B559FC52F1A6A52005C6809 /* Plugins */,
+				F52F04452F519B9200E97674 /* Hero */,
 				F53C49142F1A42EC00929321 /* Wakey.app */,
 				F585CCF22F51987D00D41B4F /* Copilot.app */,
 				F585CCF32F51987D00D41B4F /* Copilot */,
@@ -112,8 +98,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				0B559FC52F1A6A52005C6809 /* Plugins */,
-				F54F8C802F1A3B6500AABB2A /* Core */,
+				F52F04452F519B9200E97674 /* Hero */,
 			);
 			name = Wakey;
 			packageProductDependencies = (
@@ -195,8 +180,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BD3E1D52F36F8830004D426 /* Info.plist in Resources */,
-				F53C3ED12F1A3CB000929321 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,7 +341,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = App.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Hero/App.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -379,7 +362,7 @@
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = Hero/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Wakey;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -403,7 +386,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = App.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Hero/App.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -424,7 +407,7 @@
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = Hero/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Wakey;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
