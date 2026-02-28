@@ -16,12 +16,32 @@ struct EmptyStateView: View {
 // MARK: - 加载视图
 
 struct LoadingView: View {
+    var message: String = "加载中..."
+    
     var body: some View {
         VStack(spacing: 12) {
-            ProgressView("加载中...")
+            ProgressView(message)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 24)
+    }
+}
+
+// MARK: - 刷新视图
+
+struct RefreshingView: View {
+    var message: String = "刷新中..."
+    
+    var body: some View {
+        VStack(spacing: 12) {
+            ProgressView()
+                .scaleEffect(0.8)
+            Text(message)
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.ultraThinMaterial)
     }
 }
 
