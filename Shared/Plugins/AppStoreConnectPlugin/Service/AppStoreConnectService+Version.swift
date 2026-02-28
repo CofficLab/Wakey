@@ -14,21 +14,13 @@ extension AppStoreConnectService {
         errorMessage = nil
 
         do {
-            print("=== App Store Connect API 请求开始 ===")
-            print("配置状态:")
-            print("  Bundle ID: \(bundleId)")
-            print("  Issuer ID: \(issuerId)")
-            print("  API Key 长度: \(apiKey.count) 字符")
-
             // 生成 JWT
             let jwt = try generateJWT()
 
             // 第一步：通过 Bundle ID 获取应用 ID
             let appsRequest = FetchAppsAPI.Request(bundleId: bundleId)
-            print("\n第一步请求: 获取应用 ID")
 
             let appsResponse = try await FetchAppsAPI.execute(request: appsRequest, jwt: jwt)
-            print("  成功！返回 \(appsResponse.data.count) 个应用")
 
             guard let app = appsResponse.data.first else {
                 errorMessage = AppStoreConnectError.appNotFound(bundleId).localizedDescription
@@ -36,16 +28,9 @@ extension AppStoreConnectService {
                 return
             }
 
-            print("  应用 ID: \(app.id)")
-            print("  应用名称: \(app.attributes?.name ?? "未知")")
-
             // 第二步：使用应用 ID 获取版本列表（不包含详情）
             let versionsRequest = FetchAppVersionsAPI.Request(appId: app.id)
-            print("\n第二步请求: 获取版本列表")
-            print("  URL: \(versionsRequest.url?.absoluteString ?? "无效")")
-
             let versionsResponse = try await FetchAppVersionsAPI.execute(request: versionsRequest, jwt: jwt)
-            print("  成功！返回 \(versionsResponse.data.count) 个版本")
 
             // 更新应用信息
             if let appData = app.attributes {
@@ -77,17 +62,8 @@ extension AppStoreConnectService {
                     localization: nil // 详情按需加载
                 )
             }
-
-            print("\n=== API 请求成功完成 ===")
-            print("提示：版本详情将在选中版本时按需加载")
-
         } catch {
             let errorDesc = (error as? AppStoreConnectError)?.localizedDescription ?? error.localizedDescription
-            print("\n=== API 请求失败 ===")
-            print("错误类型: \(type(of: error))")
-            print("错误描述: \(errorDesc)")
-            print("完整错误: \(error)")
-
             self.errorMessage = errorDesc
         }
 
@@ -100,10 +76,6 @@ extension AppStoreConnectService {
             throw AppStoreConnectError.jwtGenerationFailed("请先配置 API 密钥")
         }
 
-        print("=== 修改版本号开始 ===")
-        print("  版本 ID: \(versionId)")
-        print("  新版本号: \(newVersionString)")
-
         let jwt = try generateJWT()
         let request = UpdateAppVersionAPI.Request(
             versionId: versionId,
@@ -115,7 +87,6 @@ extension AppStoreConnectService {
         )
 
         let response = try await UpdateAppVersionAPI.execute(request: request, jwt: jwt)
-        print("  成功！")
 
         // 更新本地版本数据
         if let index = versions.firstIndex(where: { $0.id == versionId }) {
@@ -134,7 +105,6 @@ extension AppStoreConnectService {
                 localization: version.localization
             )
             versions[index] = updatedVersion
-            print("=== 版本号修改成功 ===")
         }
     }
 
@@ -153,9 +123,6 @@ extension AppStoreConnectService {
             throw AppStoreConnectError.jwtGenerationFailed("请先配置 API 密钥")
         }
 
-        print("=== 修改版本本地化信息开始 ===")
-        print("  本地化 ID: \(localizationId)")
-
         let jwt = try generateJWT()
         let request = UpdateAppVersionLocalizationAPI.Request(
             localizationId: localizationId,
@@ -168,7 +135,6 @@ extension AppStoreConnectService {
         )
 
         let response = try await UpdateAppVersionLocalizationAPI.execute(request: request, jwt: jwt)
-        print("  成功！")
 
         // 更新本地版本数据
         if let index = versions.firstIndex(where: { $0.id == versionId }) {
@@ -198,7 +164,6 @@ extension AppStoreConnectService {
                 localization: updatedLocalization
             )
             versions[index] = updatedVersion
-            print("=== 版本本地化信息修改成功 ===")
         }
     }
 
@@ -210,15 +175,9 @@ extension AppStoreConnectService {
         }
 
         do {
-            print("=== 获取版本详情开始 ===")
-            print("  版本 ID: \(versionId)")
-
             let jwt = try generateJWT()
             let request = FetchVersionDetailAPI.Request(versionId: versionId)
-            print("  URL: \(request.url?.absoluteString ?? "无效")")
-
             let response = try await FetchVersionDetailAPI.execute(request: request, jwt: jwt)
-            print("  成功！")
 
             // 处理 included 资源
             var reviewDetail: AppStoreReviewDetail?
@@ -228,7 +187,6 @@ extension AppStoreConnectService {
                 for resource in included {
                     switch resource {
                     case let .appStoreReviewDetail(reviewData):
-                        print("  [详情] 审核详情 - ID: \(reviewData.id)")
                         reviewDetail = AppStoreReviewDetail(
                             contactFirstName: reviewData.attributes.contactFirstName,
                             contactLastName: reviewData.attributes.contactLastName,
@@ -241,7 +199,6 @@ extension AppStoreConnectService {
                         )
 
                     case let .appStoreVersionLocalization(localizationData):
-                        print("  [详情] 本地化 - ID: \(localizationData.id), locale: \(localizationData.attributes.locale ?? "nil")")
                         localization = AppStoreVersionLocalization(
                             id: localizationData.id,
                             locale: localizationData.attributes.locale,
@@ -281,14 +238,10 @@ extension AppStoreConnectService {
                 if let reviewDetail = reviewDetail {
                     versionReviewDetails[versionId] = reviewDetail
                 }
-
-                print("=== 版本详情获取成功 ===")
             }
 
         } catch {
             let errorDesc = (error as? AppStoreConnectError)?.localizedDescription ?? error.localizedDescription
-            print("=== 版本详情获取失败 ===")
-            print("错误描述: \(errorDesc)")
             errorMessage = errorDesc
         }
     }
