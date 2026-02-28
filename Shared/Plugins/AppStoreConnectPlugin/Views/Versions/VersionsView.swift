@@ -4,7 +4,6 @@ struct AppStoreConnectVersionsView: View {
     @StateObject private var service = AppStoreConnectService.shared
 
     @State private var selectedVersion: AppStoreVersion?
-    @State private var isLoadingDetail = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -18,46 +17,54 @@ struct AppStoreConnectVersionsView: View {
                     EmptyVersionsView {
                         Task { await service.fetchVersions() }
                     }
-                } else if service.versions.isEmpty {
-                    LoadingView()
+                } else if service.versions.isEmpty && service.isLoading {
+                    LoadingView(message: "正在获取版本列表...")
+                } else if service.isLoading && !service.versions.isEmpty {
+                    RefreshingView(message: "正在刷新版本列表...")
                 } else {
                     // 版本列表视图
                     VStack(spacing: 0) {
-                        // 上部分：横向滚动的版本列表
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            LazyHStack(spacing: 12) {
-                                ForEach(service.versions, id: \.versionString) { version in
-                                    VersionListItem(
-                                        version: version,
-                                        isSelected: selectedVersion?.id == version.id,
-                                        hasDetail: version.localization != nil || service.versionReviewDetails[version.id] != nil
-                                    )
-                                    .onTapGesture {
-                                        selectVersion(version)
+                        // 上部分：横向滚动的版本列表和刷新按钮
+                        HStack(spacing: 8) {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                LazyHStack(spacing: 12) {
+                                    ForEach(service.versions, id: \.versionString) { version in
+                                        VersionListItem(
+                                            version: version,
+                                            isSelected: selectedVersion?.id == version.id,
+                                            hasDetail: version.localization != nil || service.versionReviewDetails[version.id] != nil
+                                        )
+                                        .onTapGesture {
+                                            selectedVersion = version
+                                        }
                                     }
                                 }
+                                .frame(height: 40)
+                                .padding(.horizontal, 4)
                             }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 12)
+
+                            // 刷新按钮
+                            Button(action: {
+                                Task { await service.fetchVersions() }
+                            }) {
+                                Image(systemName: service.isLoading ? "arrow.clockwise" : "arrow.clockwise")
+                                    .foregroundColor(.secondary)
+                            }
+                            .buttonStyle(.plain)
+                            .help("刷新版本列表")
+                            .disabled(service.isLoading)
+                            .frame(height: 40)
+                            .padding(.trailing, 8)
                         }
 
-                        Divider()
+                        Divider().padding(.vertical, 16)
 
                         // 下部分：选中版本的详细信息
                         ScrollView {
-                            if isLoadingDetail {
-                                ProgressView("加载版本详情...")
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            } else if let selected = selectedVersion {
+                            if let selected = selectedVersion {
                                 VersionCard(version: selected)
-                                    .padding()
                             } else if let first = service.versions.first {
                                 VersionCard(version: first)
-                                    .padding()
-                            } else {
-                                Text("选择一个版本查看详情")
-                                    .foregroundColor(.secondary)
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                             }
                         }
                     }
@@ -72,32 +79,9 @@ struct AppStoreConnectVersionsView: View {
             }
         }
         .onAppear {
-            // 默认选中第一个版本并加载详情
+            // 默认选中第一个版本
             if selectedVersion == nil, let first = service.versions.first {
-                selectVersion(first)
-            }
-        }
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button(action: {
-                    Task { await service.fetchVersions() }
-                }) {
-                    Label("刷新", systemImage: "arrow.clockwise")
-                }
-                .disabled(service.isLoading)
-            }
-        }
-    }
-
-    private func selectVersion(_ version: AppStoreVersion) {
-        selectedVersion = version
-
-        // 如果该版本还没有详情，触发加载
-        if version.localization == nil && service.versionReviewDetails[version.id] == nil {
-            isLoadingDetail = true
-            Task {
-                await service.fetchVersionDetail(versionId: version.id)
-                isLoadingDetail = false
+                selectedVersion = first
             }
         }
     }

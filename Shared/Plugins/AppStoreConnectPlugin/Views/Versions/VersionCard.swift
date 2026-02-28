@@ -5,6 +5,7 @@ struct VersionCard: View {
 
     @StateObject private var service = AppStoreConnectService.shared
 
+    @State private var isLoadingDetail = false
     @State private var isEditing = false
     @State private var newVersionString = ""
     @State private var isSaving = false
@@ -22,10 +23,21 @@ struct VersionCard: View {
         service.versionReviewDetails[version.id]
     }
 
+    // 是否需要显示加载状态
+    private var shouldShowLoading: Bool {
+        isLoadingDetail && version.localization == nil
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
+            if shouldShowLoading {
+                ProgressView("加载版本详情...")
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding()
+            } else {
             // 版本号和状态
             HStack {
+                HStack {
                 if isEditing {
                     // 编辑模式
                     HStack(spacing: 8) {
@@ -84,6 +96,24 @@ struct VersionCard: View {
                         .font(.caption)
                         .foregroundColor(.red)
                 }
+                }
+
+                Spacer()
+
+                // 刷新按钮
+                Button(action: {
+                    Task {
+                        isLoadingDetail = true
+                        await service.fetchVersionDetail(versionId: version.id)
+                        isLoadingDetail = false
+                    }
+                }) {
+                    Image(systemName: isLoadingDetail ? "arrow.clockwise" : "arrow.clockwise")
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .help("刷新版本详情")
+                .disabled(isLoadingDetail)
             }
 
             Divider()
@@ -278,10 +308,19 @@ struct VersionCard: View {
                 .font(.caption2)
                 .foregroundColor(Color.secondary.opacity(0.6))
                 .textSelection(.enabled)
+            }
         }
         .padding(12)
         .background(.regularMaterial)
         .cornerRadius(8)
+        .task {
+            // 如果该版本还没有详情，触发加载
+            if version.localization == nil && service.versionReviewDetails[version.id] == nil {
+                isLoadingDetail = true
+                await service.fetchVersionDetail(versionId: version.id)
+                isLoadingDetail = false
+            }
+        }
     }
 
     private var platformIcon: String {
