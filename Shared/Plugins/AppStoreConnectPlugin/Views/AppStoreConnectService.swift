@@ -398,6 +398,70 @@ class AppStoreConnectService: ObservableObject {
         }
     }
 
+    /// 修改版本本地化信息
+    func updateVersionLocalization(
+        localizationId: String,
+        versionId: String,
+        marketingUrl: String? = nil,
+        supportUrl: String? = nil,
+        description: String? = nil,
+        keywords: String? = nil,
+        promotionalText: String? = nil,
+        whatsNew: String? = nil
+    ) async throws {
+        guard isConfigured else {
+            throw AppStoreConnectError.jwtGenerationFailed("请先配置 API 密钥")
+        }
+
+        print("=== 修改版本本地化信息开始 ===")
+        print("  本地化 ID: \(localizationId)")
+
+        let jwt = try generateJWT()
+        let request = UpdateAppVersionLocalizationAPI.Request(
+            localizationId: localizationId,
+            description: description,
+            keywords: keywords,
+            marketingUrl: marketingUrl,
+            promotionalText: promotionalText,
+            supportUrl: supportUrl,
+            whatsNew: whatsNew
+        )
+
+        let response = try await UpdateAppVersionLocalizationAPI.execute(request: request, jwt: jwt)
+        print("  成功！")
+
+        // 更新本地版本数据
+        if let index = versions.firstIndex(where: { $0.id == versionId }) {
+            let version = versions[index]
+            let updatedLocalization = AppStoreVersionLocalization(
+                id: localizationId,
+                locale: version.localization?.locale,
+                description: response.data.attributes.description ?? version.localization?.description,
+                whatsNew: response.data.attributes.whatsNew ?? version.localization?.whatsNew,
+                promotionalText: response.data.attributes.promotionalText ?? version.localization?.promotionalText,
+                keywords: response.data.attributes.keywords ?? version.localization?.keywords,
+                marketingUrl: response.data.attributes.marketingUrl ?? version.localization?.marketingUrl,
+                supportUrl: response.data.attributes.supportUrl ?? version.localization?.supportUrl
+            )
+
+            let updatedVersion = AppStoreVersion(
+                id: version.id,
+                platform: version.platform,
+                versionString: version.versionString,
+                appStoreState: version.appStoreState,
+                appVersionState: version.appVersionState,
+                createdDate: version.createdDate,
+                releaseType: version.releaseType,
+                downloadable: version.downloadable,
+                copyright: version.copyright,
+                usesIdfa: version.usesIdfa,
+                localization: updatedLocalization
+            )
+            versions[index] = updatedVersion
+            print("=== 版本本地化信息修改成功 ===")
+        }
+    }
+
     /// 获取单个版本的详细信息
     func fetchVersionDetail(versionId: String) async {
         guard isConfigured else {

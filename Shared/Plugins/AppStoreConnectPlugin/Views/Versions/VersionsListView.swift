@@ -5,6 +5,8 @@ struct VersionsListView: View {
     var reviewDetails: [String: AppStoreReviewDetail] = [:]
     var onVersionSelect: ((AppStoreVersion) async -> Void)?
     var onVersionUpdate: ((String, String) async throws -> Void)?
+    var onMarketingUrlUpdate: ((String, String, String) async throws -> Void)?
+    var onSupportUrlUpdate: ((String, String, String) async throws -> Void)?
 
     @State private var selectedVersion: AppStoreVersion?
     @State private var isLoadingDetail = false
@@ -42,6 +44,12 @@ struct VersionsListView: View {
                         reviewDetail: reviewDetails[selected.id],
                         onVersionUpdate: { newVersionString in
                             try await onVersionUpdate?(selected.id, newVersionString)
+                        },
+                        onMarketingUrlUpdate: { localizationId, versionId, url in
+                            try await onMarketingUrlUpdate?(localizationId, versionId, url)
+                        },
+                        onSupportUrlUpdate: { localizationId, versionId, url in
+                            try await onSupportUrlUpdate?(localizationId, versionId, url)
                         }
                     )
                     .padding()
@@ -51,6 +59,12 @@ struct VersionsListView: View {
                         reviewDetail: reviewDetails[first.id],
                         onVersionUpdate: { newVersionString in
                             try await onVersionUpdate?(first.id, newVersionString)
+                        },
+                        onMarketingUrlUpdate: { localizationId, versionId, url in
+                            try await onMarketingUrlUpdate?(localizationId, versionId, url)
+                        },
+                        onSupportUrlUpdate: { localizationId, versionId, url in
+                            try await onSupportUrlUpdate?(localizationId, versionId, url)
                         }
                     )
                     .padding()

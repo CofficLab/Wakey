@@ -4,16 +4,27 @@ struct VersionCard: View {
     let version: AppStoreVersion
     let reviewDetail: AppStoreReviewDetail?
     let onVersionUpdate: ((String) async throws -> Void)?
+    let onMarketingUrlUpdate: ((String, String, String) async throws -> Void)?
+    let onSupportUrlUpdate: ((String, String, String) async throws -> Void)?
 
     @State private var isEditing = false
     @State private var newVersionString = ""
     @State private var isSaving = false
     @State private var errorMessage: String?
 
-    init(version: AppStoreVersion, reviewDetail: AppStoreReviewDetail? = nil, onVersionUpdate: ((String) async throws -> Void)? = nil) {
+    // 网址编辑状态
+    @State private var editingMarketingUrl = false
+    @State private var editingSupportUrl = false
+    @State private var tempMarketingUrl = ""
+    @State private var tempSupportUrl = ""
+    @State private var isSavingUrl = false
+
+    init(version: AppStoreVersion, reviewDetail: AppStoreReviewDetail? = nil, onVersionUpdate: ((String) async throws -> Void)? = nil, onMarketingUrlUpdate: ((String, String, String) async throws -> Void)? = nil, onSupportUrlUpdate: ((String, String, String) async throws -> Void)? = nil) {
         self.version = version
         self.reviewDetail = reviewDetail
         self.onVersionUpdate = onVersionUpdate
+        self.onMarketingUrlUpdate = onMarketingUrlUpdate
+        self.onSupportUrlUpdate = onSupportUrlUpdate
     }
 
     var body: some View {
@@ -229,36 +240,32 @@ struct VersionCard: View {
 
                 // 营销网址
                 if let marketingUrl = localization.marketingUrl, !marketingUrl.isEmpty {
-                    HStack(spacing: 4) {
-                        Image(systemName: "link")
-                            .font(.caption2)
-                        if let url = URL(string: marketingUrl) {
-                            Link("营销网址", destination: url)
-                                .font(.caption2)
-                                .foregroundColor(.accentColor)
-                        } else {
-                            Text(marketingUrl)
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
+                    EditableUrlField(
+                        label: "营销网址",
+                        icon: "link",
+                        url: marketingUrl,
+                        isEditing: $editingMarketingUrl,
+                        tempUrl: $tempMarketingUrl,
+                        isSaving: $isSavingUrl,
+                        onSave: { newUrl in
+                            Task { await saveMarketingUrl(url: newUrl) }
                         }
-                    }
+                    )
                 }
 
                 // 技术支持网址
                 if let supportUrl = localization.supportUrl, !supportUrl.isEmpty {
-                    HStack(spacing: 4) {
-                        Image(systemName: "lifepreserver")
-                            .font(.caption2)
-                        if let url = URL(string: supportUrl) {
-                            Link("技术支持", destination: url)
-                                .font(.caption2)
-                                .foregroundColor(.accentColor)
-                        } else {
-                            Text(supportUrl)
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
+                    EditableUrlField(
+                        label: "技术支持",
+                        icon: "lifepreserver",
+                        url: supportUrl,
+                        isEditing: $editingSupportUrl,
+                        tempUrl: $tempSupportUrl,
+                        isSaving: $isSavingUrl,
+                        onSave: { newUrl in
+                            Task { await saveSupportUrl(url: newUrl) }
                         }
-                    }
+                    )
                 }
             }
 
@@ -385,6 +392,131 @@ struct VersionCard: View {
         }
 
         isSaving = false
+    }
+
+    // MARK: - 网址编辑
+
+    private func saveMarketingUrl(url: String) async {
+        guard let localizationId = version.localization?.id else {
+            return
+        }
+
+        isSavingUrl = true
+
+        do {
+            try await onMarketingUrlUpdate?(localizationId, version.id, url)
+            editingMarketingUrl = false
+        } catch {
+            print("保存营销网址失败: \(error.localizedDescription)")
+        }
+
+        isSavingUrl = false
+    }
+
+    private func saveSupportUrl(url: String) async {
+        guard let localizationId = version.localization?.id else {
+            return
+        }
+
+        isSavingUrl = true
+
+        do {
+            try await onSupportUrlUpdate?(localizationId, version.id, url)
+            editingSupportUrl = false
+        } catch {
+            print("保存技术支持网址失败: \(error.localizedDescription)")
+        }
+
+        isSavingUrl = false
+    }
+}
+
+// MARK: - Editable URL Field
+
+private struct EditableUrlField: View {
+    let label: String
+    let icon: String
+    let url: String
+    @Binding var isEditing: Bool
+    @Binding var tempUrl: String
+    @Binding var isSaving: Bool
+    let onSave: (String) -> Void
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Image(systemName: icon)
+                .font(.caption2)
+                .foregroundColor(.secondary)
+                .frame(width: 12)
+
+            Text(label)
+                .font(.caption2)
+                .foregroundColor(.secondary)
+
+            if isEditing {
+                // 编辑模式
+                TextField("网址", text: $tempUrl)
+                    .textFieldStyle(.roundedBorder)
+                    .font(.caption2)
+                    .onSubmit {
+                        onSave(tempUrl)
+                    }
+
+                if isSaving {
+                    ProgressView()
+                        .controlSize(.small)
+                } else {
+                    Button(action: {
+                        onSave(tempUrl)
+                    }) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                    }
+                    .buttonStyle(.plain)
+                    .help("保存")
+
+                    Button(action: {
+                        isEditing = false
+                        tempUrl = ""
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.red)
+                    }
+                    .buttonStyle(.plain)
+                    .help("取消")
+                }
+            } else {
+                // 查看模式 - 文本框显示
+                Text(url)
+                    .font(.caption2)
+                    .foregroundColor(.primary)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+
+                Spacer()
+
+                // 编辑按钮
+                Button(action: {
+                    tempUrl = url
+                    isEditing = true
+                }) {
+                    Image(systemName: "pencil.circle")
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .help("编辑")
+
+                // 打开链接按钮
+                if let linkUrl = URL(string: url) {
+                    Link(destination: linkUrl) {
+                        Image(systemName: "arrow.up.right.square")
+                            .foregroundColor(.accentColor)
+                    }
+                    .buttonStyle(.plain)
+                    .help("打开链接")
+                }
+            }
+        }
     }
 }
 

@@ -27,6 +27,20 @@ struct AppStoreConnectVersionsView: View {
                             },
                             onVersionUpdate: { versionId, newVersionString in
                                 try await service.updateVersion(versionId: versionId, newVersionString: newVersionString)
+                            },
+                            onMarketingUrlUpdate: { localizationId, versionId, url in
+                                try await service.updateVersionLocalization(
+                                    localizationId: localizationId,
+                                    versionId: versionId,
+                                    marketingUrl: url
+                                )
+                            },
+                            onSupportUrlUpdate: { localizationId, versionId, url in
+                                try await service.updateVersionLocalization(
+                                    localizationId: localizationId,
+                                    versionId: versionId,
+                                    supportUrl: url
+                                )
                             }
                         )
                     }
