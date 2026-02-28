@@ -2,7 +2,6 @@ import SwiftUI
 
 struct VersionCard: View {
     let version: AppStoreVersion
-    let reviewDetail: AppStoreReviewDetail?
 
     @StateObject private var service = AppStoreConnectService.shared
 
@@ -18,9 +17,9 @@ struct VersionCard: View {
     @State private var tempSupportUrl = ""
     @State private var isSavingUrl = false
 
-    init(version: AppStoreVersion, reviewDetail: AppStoreReviewDetail? = nil) {
-        self.version = version
-        self.reviewDetail = reviewDetail
+    // 从 Service 获取审核详情
+    private var reviewDetail: AppStoreReviewDetail? {
+        service.versionReviewDetails[version.id]
     }
 
     var body: some View {
