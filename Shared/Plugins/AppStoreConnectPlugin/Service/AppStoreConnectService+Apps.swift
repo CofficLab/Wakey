@@ -41,8 +41,11 @@ extension AppStoreConnectService {
             }
 
         } catch {
+            // 忽略取消错误，这是正常行为
+            if (error as? CancellationError) != nil {
+                return
+            }
             let errorDesc = (error as? AppStoreConnectError)?.localizedDescription ?? error.localizedDescription
-
             self.appsError = errorDesc
         }
 

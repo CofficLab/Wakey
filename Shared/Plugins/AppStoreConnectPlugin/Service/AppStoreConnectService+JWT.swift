@@ -80,18 +80,10 @@ extension AppStoreConnectService {
         let derSignature = signature.rawRepresentation
         let signatureData = convertDERToRaw(derSignature)
 
-        print("\n签名调试信息:")
-        print("  签名算法: ES256 (ECDSA with SHA-256)")
-        print("  DER 签名长度: \(derSignature.count) 字节")
-        print("  Raw 签名长度: \(signatureData.count) 字节")
-        print("  签名 (hex): \(signatureData.map { String(format: "%02hhx", $0) }.joined(separator: ""))")
-
         let signatureBase64 = signatureData.base64EncodedString()
             .replacingOccurrences(of: "+", with: "-")
             .replacingOccurrences(of: "/", with: "_")
             .replacingOccurrences(of: "=", with: "")
-
-        print("  签名 Base64: \(signatureBase64)")
 
         return "\(signingInput).\(signatureBase64)"
     }
