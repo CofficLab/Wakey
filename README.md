@@ -25,23 +25,6 @@ Wakey is designed to be your capable macOS status bar assistant, offering the fo
 - Xcode 15.0+
 - Swift 5.9+
 
-## 🚀 Build & Run
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Coffic/Wakey.git
-   cd Wakey
-   ```
-
-2. **Open in Xcode**
-   ```bash
-   open Wakey.xcodeproj
-   ```
-
-3. **Build and Run**
-   - Select the macOS target
-   - Build (⌘B) and run (⌘R)
-
 ## 📄 License
 
 This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
