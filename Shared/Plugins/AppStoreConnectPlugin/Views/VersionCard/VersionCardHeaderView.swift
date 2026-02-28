@@ -9,7 +9,7 @@ struct VersionCardHeaderView: View {
     @Binding var isLoadingDetail: Bool
     let onSave: () -> Void
     let onCancel: () -> Void
-    let onRefresh: () async -> Void
+    let onRefresh: () -> Void
 
     var body: some View {
         HStack {
@@ -82,11 +82,7 @@ struct VersionCardHeaderView: View {
 
     private var refreshButton: some View {
         Button(action: {
-            Task {
-                isLoadingDetail = true
-                await onRefresh()
-                isLoadingDetail = false
-            }
+            onRefresh()
         }) {
             Image(systemName: isLoadingDetail ? "arrow.clockwise" : "arrow.clockwise")
                 .foregroundColor(.secondary)

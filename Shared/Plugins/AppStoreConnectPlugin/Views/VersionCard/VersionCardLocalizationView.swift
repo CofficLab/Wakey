@@ -126,7 +126,11 @@ struct VersionCardLocalizationView: View {
             isEditing: $editingMarketingUrl,
             tempUrl: $tempMarketingUrl,
             isSaving: $isSavingUrl,
-            onSave: { onSaveMarketingUrl($0) }
+            onSave: { url in
+                Task {
+                    await onSaveMarketingUrl(url)
+                }
+            }
         )
     }
 
@@ -139,7 +143,11 @@ struct VersionCardLocalizationView: View {
             isEditing: $editingSupportUrl,
             tempUrl: $tempSupportUrl,
             isSaving: $isSavingUrl,
-            onSave: { onSaveSupportUrl($0) }
+            onSave: { url in
+                Task {
+                    await onSaveSupportUrl(url)
+                }
+            }
         )
     }
 }

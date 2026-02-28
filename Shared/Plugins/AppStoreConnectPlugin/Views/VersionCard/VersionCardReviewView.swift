@@ -22,7 +22,7 @@ struct VersionCardReviewView: View {
                 contactInfoRow(icon: "phone", text: phone)
             }
 
-            if let demoRequired = review.demoRequired, demoRequired {
+            if let demoRequired = review.demoAccountRequired, demoRequired {
                 HStack(spacing: 4) {
                     Image(systemName: "key.fill")
                         .font(.caption2)

@@ -39,7 +39,14 @@ struct VersionCard: View {
                     isLoadingDetail: $isLoadingDetail,
                     onSave: { Task { await saveVersion() } },
                     onCancel: cancelEditing,
-                    onRefresh: { Task { await refreshDetail() } }
+                    onRefresh: {
+                        guard !isLoadingDetail, !isSaving else { return }
+                        Task {
+                            isLoadingDetail = true
+                            await refreshDetail()
+                            isLoadingDetail = false
+                        }
+                    }
                 )
 
                 Divider()
@@ -55,8 +62,8 @@ struct VersionCard: View {
                         tempMarketingUrl: $tempMarketingUrl,
                         tempSupportUrl: $tempSupportUrl,
                         isSavingUrl: $isSavingUrl,
-                        onSaveMarketingUrl: { Task { await saveMarketingUrl(url: $0) } },
-                        onSaveSupportUrl: { Task { await saveSupportUrl(url: $0) } }
+                        onSaveMarketingUrl: { url in Task { await saveMarketingUrl(url: url) } },
+                        onSaveSupportUrl: { url in Task { await saveSupportUrl(url: url) } }
                     )
                 }
 

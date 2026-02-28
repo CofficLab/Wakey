@@ -37,4 +37,16 @@ enum VersionFormatters {
         }
         return dateString
     }
+    
+    /// 格式化版本状态
+    static func formatAppState(_ state: String) -> String {
+        switch state {
+        case "ACCEPTED": return "已接受"
+        case "IN_REVIEW": return "审核中"
+        case "PREPARED_FOR_SUBMISSION": return "准备提交"
+        case "REJECTED": return "被拒绝"
+        case "WAITING_FOR_REVIEW": return "等待审核"
+        default: return state
+        }
+    }
 }
