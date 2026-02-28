@@ -25,10 +25,9 @@ struct VersionsListView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 12)
                 .padding(.vertical, 12)
             }
-            .frame(height: 120)
 
             Divider()
 
@@ -104,6 +103,8 @@ struct VersionListItem: View {
             Text("v\(version.versionString)")
                 .font(.subheadline)
                 .fontWeight(isSelected ? .semibold : .regular)
+
+            Spacer(minLength: 0)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
@@ -115,6 +116,7 @@ struct VersionListItem: View {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(isSelected ? Color.accentColor : Color.secondary.opacity(0.3), lineWidth: 2)
         )
+        .contentShape(Rectangle())
     }
 
     private var platformIcon: String {
