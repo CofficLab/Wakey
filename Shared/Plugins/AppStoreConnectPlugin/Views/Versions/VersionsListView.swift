@@ -4,6 +4,7 @@ struct VersionsListView: View {
     let versions: [AppStoreVersion]
     var reviewDetails: [String: AppStoreReviewDetail] = [:]
     var onVersionSelect: ((AppStoreVersion) async -> Void)?
+    var onVersionUpdate: ((String, String) async throws -> Void)?
 
     @State private var selectedVersion: AppStoreVersion?
     @State private var isLoadingDetail = false
@@ -39,13 +40,19 @@ struct VersionsListView: View {
                 } else if let selected = selectedVersion {
                     VersionCard(
                         version: selected,
-                        reviewDetail: reviewDetails[selected.id]
+                        reviewDetail: reviewDetails[selected.id],
+                        onVersionUpdate: { newVersionString in
+                            try await onVersionUpdate?(selected.id, newVersionString)
+                        }
                     )
                     .padding()
                 } else if let first = versions.first {
                     VersionCard(
                         version: first,
-                        reviewDetail: reviewDetails[first.id]
+                        reviewDetail: reviewDetails[first.id],
+                        onVersionUpdate: { newVersionString in
+                            try await onVersionUpdate?(first.id, newVersionString)
+                        }
                     )
                     .padding()
                 } else {

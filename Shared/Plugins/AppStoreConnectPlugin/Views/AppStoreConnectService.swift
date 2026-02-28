@@ -354,6 +354,50 @@ class AppStoreConnectService: ObservableObject {
         isLoading = false
     }
 
+    /// 修改版本号
+    func updateVersion(versionId: String, newVersionString: String) async throws {
+        guard isConfigured else {
+            throw AppStoreConnectError.jwtGenerationFailed("请先配置 API 密钥")
+        }
+
+        print("=== 修改版本号开始 ===")
+        print("  版本 ID: \(versionId)")
+        print("  新版本号: \(newVersionString)")
+
+        let jwt = try generateJWT()
+        let request = UpdateAppVersionAPI.Request(
+            versionId: versionId,
+            versionString: newVersionString,
+            copyright: nil,
+            releaseType: nil,
+            earliestReleaseDate: nil,
+            downloadable: nil
+        )
+
+        let response = try await UpdateAppVersionAPI.execute(request: request, jwt: jwt)
+        print("  成功！")
+
+        // 更新本地版本数据
+        if let index = versions.firstIndex(where: { $0.id == versionId }) {
+            let version = versions[index]
+            let updatedVersion = AppStoreVersion(
+                id: version.id,
+                platform: version.platform,
+                versionString: newVersionString,
+                appStoreState: version.appStoreState,
+                appVersionState: version.appVersionState,
+                createdDate: version.createdDate,
+                releaseType: version.releaseType,
+                downloadable: version.downloadable,
+                copyright: version.copyright,
+                usesIdfa: version.usesIdfa,
+                localization: version.localization
+            )
+            versions[index] = updatedVersion
+            print("=== 版本号修改成功 ===")
+        }
+    }
+
     /// 获取单个版本的详细信息
     func fetchVersionDetail(versionId: String) async {
         guard isConfigured else {

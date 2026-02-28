@@ -24,6 +24,9 @@ struct AppStoreConnectVersionsView: View {
                             reviewDetails: service.versionReviewDetails,
                             onVersionSelect: { version in
                                 await service.fetchVersionDetail(versionId: version.id)
+                            },
+                            onVersionUpdate: { versionId, newVersionString in
+                                try await service.updateVersion(versionId: versionId, newVersionString: newVersionString)
                             }
                         )
                     }

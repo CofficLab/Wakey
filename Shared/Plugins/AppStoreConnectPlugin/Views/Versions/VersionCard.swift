@@ -3,16 +3,84 @@ import SwiftUI
 struct VersionCard: View {
     let version: AppStoreVersion
     let reviewDetail: AppStoreReviewDetail?
+    let onVersionUpdate: ((String) async throws -> Void)?
+
+    @State private var isEditing = false
+    @State private var newVersionString = ""
+    @State private var isSaving = false
+    @State private var errorMessage: String?
+
+    init(version: AppStoreVersion, reviewDetail: AppStoreReviewDetail? = nil, onVersionUpdate: ((String) async throws -> Void)? = nil) {
+        self.version = version
+        self.reviewDetail = reviewDetail
+        self.onVersionUpdate = onVersionUpdate
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             // 版本号和状态
             HStack {
-                Text("v\(version.versionString)")
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                Spacer()
-                StateBadge(state: version.appStoreState)
+                if isEditing {
+                    // 编辑模式
+                    HStack(spacing: 8) {
+                        Text("v")
+                            .foregroundColor(.secondary)
+                        TextField("版本号", text: $newVersionString)
+                            .textFieldStyle(.roundedBorder)
+                            .font(.headline)
+                            .frame(width: 120)
+                            .onSubmit {
+                                Task { await saveVersion() }
+                            }
+
+                        if isSaving {
+                            ProgressView()
+                                .controlSize(.small)
+                        } else {
+                            Button("保存") {
+                                Task { await saveVersion() }
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .controlSize(.small)
+
+                            Button("取消") {
+                                cancelEditing()
+                            }
+                            .buttonStyle(.bordered)
+                            .controlSize(.small)
+                        }
+                    }
+                } else {
+                    // 查看模式
+                    Button(action: {
+                        startEditing()
+                    }) {
+                        HStack(spacing: 6) {
+                            Text("v\(version.versionString)")
+                                .font(.headline)
+                                .fontWeight(.semibold)
+                            if onVersionUpdate != nil {
+                                Image(systemName: "pencil.circle")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(onVersionUpdate == nil)
+                    .help(onVersionUpdate != nil ? "点击编辑版本号" : "")
+
+                    Spacer()
+                    StateBadge(state: version.appStoreState)
+                }
+
+                // 错误提示
+                if let error = errorMessage {
+                    Text(error)
+                        .font(.caption)
+                        .foregroundColor(.red)
+                }
             }
 
             Divider()
@@ -279,6 +347,44 @@ struct VersionCard: View {
                 }
             }
         }
+    }
+
+    // MARK: - 编辑功能
+
+    private func startEditing() {
+        newVersionString = version.versionString
+        isEditing = true
+        errorMessage = nil
+    }
+
+    private func cancelEditing() {
+        isEditing = false
+        newVersionString = ""
+        errorMessage = nil
+    }
+
+    private func saveVersion() async {
+        guard !newVersionString.trimmingCharacters(in: .whitespaces).isEmpty else {
+            errorMessage = "版本号不能为空"
+            return
+        }
+
+        guard newVersionString != version.versionString else {
+            cancelEditing()
+            return
+        }
+
+        isSaving = true
+        errorMessage = nil
+
+        do {
+            try await onVersionUpdate?(newVersionString)
+            isEditing = false
+        } catch {
+            errorMessage = (error as? AppStoreConnectError)?.localizedDescription ?? error.localizedDescription
+        }
+
+        isSaving = false
     }
 }
 
