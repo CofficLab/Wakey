@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 // MARK: - 版本管理
 
@@ -239,10 +240,15 @@ extension AppStoreConnectService {
                     versionReviewDetails[versionId] = reviewDetail
                 }
             }
-
         } catch {
             let errorDesc = (error as? AppStoreConnectError)?.localizedDescription ?? error.localizedDescription
             errorMessage = errorDesc
         }
     }
+}
+
+#Preview("App Store Connect - Versions") {
+    AppStoreConnectVersionsView()
+        .inRootView()
+        .withDebugBar()
 }

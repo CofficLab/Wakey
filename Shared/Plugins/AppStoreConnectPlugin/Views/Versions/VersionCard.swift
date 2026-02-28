@@ -25,289 +25,289 @@ struct VersionCard: View {
 
     // 是否需要显示加载状态
     private var shouldShowLoading: Bool {
-        isLoadingDetail && version.localization == nil
+        isLoadingDetail
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             if shouldShowLoading {
-                ProgressView("加载版本详情...")
+                ProgressView("正在加载 v\(version.versionString) 详情...")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding()
             } else {
-            // 版本号和状态
-            HStack {
+                // 版本号和状态
                 HStack {
-                if isEditing {
-                    // 编辑模式
-                    HStack(spacing: 8) {
-                        Text("v")
-                            .foregroundColor(.secondary)
-                        TextField("版本号", text: $newVersionString)
-                            .textFieldStyle(.roundedBorder)
-                            .font(.headline)
-                            .frame(width: 120)
-                            .onSubmit {
-                                Task { await saveVersion() }
-                            }
+                    HStack {
+                        if isEditing {
+                            // 编辑模式
+                            HStack(spacing: 8) {
+                                Text("v")
+                                    .foregroundColor(.secondary)
+                                TextField("版本号", text: $newVersionString)
+                                    .textFieldStyle(.roundedBorder)
+                                    .font(.headline)
+                                    .frame(width: 120)
+                                    .onSubmit {
+                                        Task { await saveVersion() }
+                                    }
 
-                        if isSaving {
-                            ProgressView()
-                                .controlSize(.small)
+                                if isSaving {
+                                    ProgressView()
+                                        .controlSize(.small)
+                                } else {
+                                    Button("保存") {
+                                        Task { await saveVersion() }
+                                    }
+                                    .buttonStyle(.borderedProminent)
+                                    .controlSize(.small)
+
+                                    Button("取消") {
+                                        cancelEditing()
+                                    }
+                                    .buttonStyle(.bordered)
+                                    .controlSize(.small)
+                                }
+                            }
                         } else {
-                            Button("保存") {
-                                Task { await saveVersion() }
+                            // 查看模式
+                            Button(action: {
+                                startEditing()
+                            }) {
+                                HStack(spacing: 6) {
+                                    Text("v\(version.versionString)")
+                                        .font(.headline)
+                                        .fontWeight(.semibold)
+                                    Image(systemName: "pencil.circle")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                                .contentShape(Rectangle())
                             }
-                            .buttonStyle(.borderedProminent)
-                            .controlSize(.small)
+                            .buttonStyle(.plain)
+                            .help("点击编辑版本号")
 
-                            Button("取消") {
-                                cancelEditing()
-                            }
-                            .buttonStyle(.bordered)
-                            .controlSize(.small)
+                            Spacer()
+                            StateBadge(state: version.appStoreState)
                         }
-                    }
-                } else {
-                    // 查看模式
-                    Button(action: {
-                        startEditing()
-                    }) {
-                        HStack(spacing: 6) {
-                            Text("v\(version.versionString)")
-                                .font(.headline)
-                                .fontWeight(.semibold)
-                            Image(systemName: "pencil.circle")
+
+                        // 错误提示
+                        if let error = errorMessage {
+                            Text(error)
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(.red)
                         }
-                        .contentShape(Rectangle())
                     }
-                    .buttonStyle(.plain)
-                    .help("点击编辑版本号")
 
                     Spacer()
-                    StateBadge(state: version.appStoreState)
-                }
 
-                // 错误提示
-                if let error = errorMessage {
-                    Text(error)
-                        .font(.caption)
-                        .foregroundColor(.red)
-                }
-                }
-
-                Spacer()
-
-                // 刷新按钮
-                Button(action: {
-                    Task {
-                        isLoadingDetail = true
-                        await service.fetchVersionDetail(versionId: version.id)
-                        isLoadingDetail = false
+                    // 刷新按钮
+                    Button(action: {
+                        Task {
+                            isLoadingDetail = true
+                            await service.fetchVersionDetail(versionId: version.id)
+                            isLoadingDetail = false
+                        }
+                    }) {
+                        Image(systemName: isLoadingDetail ? "arrow.clockwise" : "arrow.clockwise")
+                            .foregroundColor(.secondary)
                     }
-                }) {
-                    Image(systemName: isLoadingDetail ? "arrow.clockwise" : "arrow.clockwise")
-                        .foregroundColor(.secondary)
+                    .buttonStyle(.plain)
+                    .help("刷新版本详情")
+                    .disabled(isLoadingDetail)
                 }
-                .buttonStyle(.plain)
-                .help("刷新版本详情")
-                .disabled(isLoadingDetail)
-            }
 
-            Divider()
-
-            // 平台信息
-            HStack {
-                Image(systemName: platformIcon)
-                    .foregroundColor(.accentColor)
-                Text(VersionFormatters.formatPlatform(version.platform))
-                    .font(.subheadline)
-                Spacer()
-            }
-
-            // 日期信息
-            Label("创建: \(version.createdDate)", systemImage: "calendar.badge.plus")
-                .font(.caption)
-                .foregroundColor(.secondary)
-
-            // 发布类型
-            if !version.releaseType.isEmpty {
-                HStack {
-                    Image(systemName: "paperplane")
-                    Text("发布: \(VersionFormatters.formatReleaseType(version.releaseType))")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-            }
-
-            // 版权信息
-            if let copyright = version.copyright {
-                HStack {
-                    Image(systemName: "c.circle")
-                    Text(copyright)
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                        .textSelection(.enabled)
-                }
-            }
-
-            // IDFA 使用
-            if let usesIdfa = version.usesIdfa {
-                HStack {
-                    Image(systemName: usesIdfa ? "person.badge.key" : "person.badge")
-                    Text(usesIdfa ? "使用 IDFA" : "不使用 IDFA")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-            }
-
-            // 可下载状态
-            if let downloadable = version.downloadable {
-                HStack {
-                    Label(downloadable ? "可下载" : "不可下载", systemImage: downloadable ? "checkmark.circle" : "xmark.circle")
-                        .font(.caption)
-                        .foregroundColor(downloadable ? .green : .red)
-                }
-            }
-
-            // 版本状态
-            if let appVersionState = version.appVersionState {
-                HStack {
-                    Image(systemName: "info.circle")
-                    Text("状态: \(formatAppState(appVersionState))")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .textSelection(.enabled)
-                }
-            }
-
-            // 版本描述
-            if let localization = version.localization {
                 Divider()
 
-                // 描述
-                if let description = localization.description, !description.isEmpty {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("版本描述")
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.secondary)
+                // 平台信息
+                HStack {
+                    Image(systemName: platformIcon)
+                        .foregroundColor(.accentColor)
+                    Text(VersionFormatters.formatPlatform(version.platform))
+                        .font(.subheadline)
+                    Spacer()
+                }
 
-                        Text(description)
+                // 日期信息
+                Label("创建: \(version.createdDate)", systemImage: "calendar.badge.plus")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+
+                // 发布类型
+                if !version.releaseType.isEmpty {
+                    HStack {
+                        Image(systemName: "paperplane")
+                        Text("发布: \(VersionFormatters.formatReleaseType(version.releaseType))")
                             .font(.caption)
-                            .foregroundColor(.primary)
-                            .lineLimit(5)
-                            .multilineTextAlignment(.leading)
-                            .textSelection(.enabled)
+                            .foregroundColor(.secondary)
                     }
                 }
 
-                // 更新说明
-                if let whatsNew = localization.whatsNew, !whatsNew.isEmpty {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("更新说明")
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.secondary)
-
-                        Text(whatsNew)
-                            .font(.caption)
-                            .foregroundColor(.primary)
-                            .lineLimit(5)
-                            .multilineTextAlignment(.leading)
-                            .textSelection(.enabled)
-                    }
-                }
-
-                // 推广文本
-                if let promotionalText = localization.promotionalText, !promotionalText.isEmpty {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("推广文本")
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.secondary)
-
-                        Text(promotionalText)
-                            .font(.caption)
-                            .foregroundColor(.primary)
-                            .lineLimit(3)
-                            .multilineTextAlignment(.leading)
-                            .textSelection(.enabled)
-                    }
-                }
-
-                // 语言环境
-                if let locale = localization.locale {
-                    HStack(spacing: 4) {
-                        Image(systemName: "globe")
-                            .font(.caption2)
-                        Text("语言: \(locale)")
+                // 版权信息
+                if let copyright = version.copyright {
+                    HStack {
+                        Image(systemName: "c.circle")
+                        Text(copyright)
                             .font(.caption2)
                             .foregroundColor(.secondary)
-                    }
-                }
-
-                // 关键词
-                if let keywords = localization.keywords, !keywords.isEmpty {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("关键词")
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.secondary)
-
-                        Text(keywords)
-                            .font(.caption)
-                            .foregroundColor(.primary)
-                            .lineLimit(3)
-                            .multilineTextAlignment(.leading)
                             .textSelection(.enabled)
                     }
                 }
 
-                // 营销网址
-                if let marketingUrl = localization.marketingUrl, !marketingUrl.isEmpty {
-                    EditableUrlField(
-                        label: "营销网址",
-                        icon: "link",
-                        url: marketingUrl,
-                        isEditing: $editingMarketingUrl,
-                        tempUrl: $tempMarketingUrl,
-                        isSaving: $isSavingUrl,
-                        onSave: { newUrl in
-                            Task { await saveMarketingUrl(url: newUrl) }
-                        }
-                    )
+                // IDFA 使用
+                if let usesIdfa = version.usesIdfa {
+                    HStack {
+                        Image(systemName: usesIdfa ? "person.badge.key" : "person.badge")
+                        Text(usesIdfa ? "使用 IDFA" : "不使用 IDFA")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                 }
 
-                // 技术支持网址
-                if let supportUrl = localization.supportUrl, !supportUrl.isEmpty {
-                    EditableUrlField(
-                        label: "技术支持",
-                        icon: "lifepreserver",
-                        url: supportUrl,
-                        isEditing: $editingSupportUrl,
-                        tempUrl: $tempSupportUrl,
-                        isSaving: $isSavingUrl,
-                        onSave: { newUrl in
-                            Task { await saveSupportUrl(url: newUrl) }
-                        }
-                    )
+                // 可下载状态
+                if let downloadable = version.downloadable {
+                    HStack {
+                        Label(downloadable ? "可下载" : "不可下载", systemImage: downloadable ? "checkmark.circle" : "xmark.circle")
+                            .font(.caption)
+                            .foregroundColor(downloadable ? .green : .red)
+                    }
                 }
-            }
 
-            // 审核详情
-            if let review = reviewDetail {
-                Divider()
-                reviewInfoSection(review)
-            }
+                // 版本状态
+                if let appVersionState = version.appVersionState {
+                    HStack {
+                        Image(systemName: "info.circle")
+                        Text("状态: \(formatAppState(appVersionState))")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .textSelection(.enabled)
+                    }
+                }
 
-            // 版本 ID
-            Text("ID: \(version.id)")
-                .font(.caption2)
-                .foregroundColor(Color.secondary.opacity(0.6))
-                .textSelection(.enabled)
+                // 版本描述
+                if let localization = version.localization {
+                    Divider()
+
+                    // 描述
+                    if let description = localization.description, !description.isEmpty {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("版本描述")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.secondary)
+
+                            Text(description)
+                                .font(.caption)
+                                .foregroundColor(.primary)
+                                .lineLimit(5)
+                                .multilineTextAlignment(.leading)
+                                .textSelection(.enabled)
+                        }
+                    }
+
+                    // 更新说明
+                    if let whatsNew = localization.whatsNew, !whatsNew.isEmpty {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("更新说明")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.secondary)
+
+                            Text(whatsNew)
+                                .font(.caption)
+                                .foregroundColor(.primary)
+                                .lineLimit(5)
+                                .multilineTextAlignment(.leading)
+                                .textSelection(.enabled)
+                        }
+                    }
+
+                    // 推广文本
+                    if let promotionalText = localization.promotionalText, !promotionalText.isEmpty {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("推广文本")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.secondary)
+
+                            Text(promotionalText)
+                                .font(.caption)
+                                .foregroundColor(.primary)
+                                .lineLimit(3)
+                                .multilineTextAlignment(.leading)
+                                .textSelection(.enabled)
+                        }
+                    }
+
+                    // 语言环境
+                    if let locale = localization.locale {
+                        HStack(spacing: 4) {
+                            Image(systemName: "globe")
+                                .font(.caption2)
+                            Text("语言: \(locale)")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+
+                    // 关键词
+                    if let keywords = localization.keywords, !keywords.isEmpty {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("关键词")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.secondary)
+
+                            Text(keywords)
+                                .font(.caption)
+                                .foregroundColor(.primary)
+                                .lineLimit(3)
+                                .multilineTextAlignment(.leading)
+                                .textSelection(.enabled)
+                        }
+                    }
+
+                    // 营销网址
+                    if let marketingUrl = localization.marketingUrl, !marketingUrl.isEmpty {
+                        EditableUrlField(
+                            label: "营销网址",
+                            icon: "link",
+                            url: marketingUrl,
+                            isEditing: $editingMarketingUrl,
+                            tempUrl: $tempMarketingUrl,
+                            isSaving: $isSavingUrl,
+                            onSave: { newUrl in
+                                Task { await saveMarketingUrl(url: newUrl) }
+                            }
+                        )
+                    }
+
+                    // 技术支持网址
+                    if let supportUrl = localization.supportUrl, !supportUrl.isEmpty {
+                        EditableUrlField(
+                            label: "技术支持",
+                            icon: "lifepreserver",
+                            url: supportUrl,
+                            isEditing: $editingSupportUrl,
+                            tempUrl: $tempSupportUrl,
+                            isSaving: $isSavingUrl,
+                            onSave: { newUrl in
+                                Task { await saveSupportUrl(url: newUrl) }
+                            }
+                        )
+                    }
+                }
+
+                // 审核详情
+                if let review = reviewDetail {
+                    Divider()
+                    reviewInfoSection(review)
+                }
+
+                // 版本 ID
+                Text("ID: \(version.id)")
+                    .font(.caption2)
+                    .foregroundColor(Color.secondary.opacity(0.6))
+                    .textSelection(.enabled)
             }
         }
         .padding(12)
