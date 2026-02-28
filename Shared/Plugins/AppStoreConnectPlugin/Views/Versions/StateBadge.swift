@@ -19,6 +19,8 @@ struct StateBadge: View {
             return "eye.circle.fill"
         case "PENDING_DEVELOPER_RELEASE":
             return "clock.circle.fill"
+        case "PREPARE_FOR_SUBMISSION":
+            return "paperplane.circle.fill"
         case "REJECTED", "DEVELOPER_REJECTED", "METADATA_REJECTED":
             return "xmark.circle.fill"
         case "REMOVED_FROM_SALE":
@@ -36,6 +38,8 @@ struct StateBadge: View {
             return .orange
         case "IN_REVIEW", "PENDING_DEVELOPER_RELEASE":
             return .blue
+        case "PREPARE_FOR_SUBMISSION":
+            return .orange
         case "REJECTED", "DEVELOPER_REJECTED", "METADATA_REJECTED":
             return .red
         case "REMOVED_FROM_SALE":

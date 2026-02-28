@@ -120,6 +120,7 @@ struct VersionCard: View {
                     Text(copyright)
                         .font(.caption2)
                         .foregroundColor(.secondary)
+                        .textSelection(.enabled)
                 }
             }
 
@@ -149,6 +150,7 @@ struct VersionCard: View {
                     Text("状态: \(formatAppState(appVersionState))")
                         .font(.caption)
                         .foregroundColor(.secondary)
+                        .textSelection(.enabled)
                 }
             }
 
@@ -169,6 +171,7 @@ struct VersionCard: View {
                             .foregroundColor(.primary)
                             .lineLimit(5)
                             .multilineTextAlignment(.leading)
+                            .textSelection(.enabled)
                     }
                 }
 
@@ -185,6 +188,7 @@ struct VersionCard: View {
                             .foregroundColor(.primary)
                             .lineLimit(5)
                             .multilineTextAlignment(.leading)
+                            .textSelection(.enabled)
                     }
                 }
 
@@ -201,6 +205,7 @@ struct VersionCard: View {
                             .foregroundColor(.primary)
                             .lineLimit(3)
                             .multilineTextAlignment(.leading)
+                            .textSelection(.enabled)
                     }
                 }
 
@@ -228,6 +233,7 @@ struct VersionCard: View {
                             .foregroundColor(.primary)
                             .lineLimit(3)
                             .multilineTextAlignment(.leading)
+                            .textSelection(.enabled)
                     }
                 }
 
@@ -272,6 +278,7 @@ struct VersionCard: View {
             Text("ID: \(version.id)")
                 .font(.caption2)
                 .foregroundColor(Color.secondary.opacity(0.6))
+                .textSelection(.enabled)
         }
         .padding(12)
         .background(.regularMaterial)
@@ -313,6 +320,7 @@ struct VersionCard: View {
                         .font(.caption2)
                     Text("\(firstName) \(lastName)")
                         .font(.caption2)
+                        .textSelection(.enabled)
                 }
             }
 
@@ -323,6 +331,7 @@ struct VersionCard: View {
                     Text(email)
                         .font(.caption2)
                         .foregroundColor(.secondary)
+                        .textSelection(.enabled)
                 }
             }
 
@@ -333,6 +342,7 @@ struct VersionCard: View {
                     Text(phone)
                         .font(.caption2)
                         .foregroundColor(.secondary)
+                        .textSelection(.enabled)
                 }
             }
 
