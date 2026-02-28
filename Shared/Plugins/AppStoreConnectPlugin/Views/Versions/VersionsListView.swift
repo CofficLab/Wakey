@@ -91,12 +91,7 @@ struct VersionListItem: View {
     let hasDetail: Bool
 
     var body: some View {
-        VStack(spacing: 8) {
-            // 版本号
-            Text("v\(version.versionString)")
-                .font(.subheadline)
-                .fontWeight(isSelected ? .semibold : .regular)
-
+        HStack(spacing: 8) {
             // 状态徽章
             StateBadge(state: version.appStoreState)
 
@@ -105,23 +100,20 @@ struct VersionListItem: View {
                 .foregroundColor(.accentColor)
                 .font(.caption)
 
-            // 详情加载指示器
-            if hasDetail {
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundColor(.green)
-                    .font(.caption2)
-            }
+            // 版本号
+            Text("v\(version.versionString)")
+                .font(.subheadline)
+                .fontWeight(isSelected ? .semibold : .regular)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
-        .frame(width: 100)
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(isSelected ? Color.accentColor.opacity(0.1) : Color.clear)
         )
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(isSelected ? Color.accentColor : Color.clear, lineWidth: 2)
+                .stroke(isSelected ? Color.accentColor : Color.secondary.opacity(0.3), lineWidth: 2)
         )
     }
 
@@ -136,8 +128,8 @@ struct VersionListItem: View {
     }
 }
 
-#Preview("Copilot - App Store Connect") {
-    AppStoreConnectAppsView()
+#Preview("App Store Connect - Versions") {
+    AppStoreConnectVersionsView()
         .inRootView()
         .withDebugBar()
 }
