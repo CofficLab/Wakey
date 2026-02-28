@@ -3,9 +3,8 @@ import SwiftUI
 struct VersionCard: View {
     let version: AppStoreVersion
     let reviewDetail: AppStoreReviewDetail?
-    let onVersionUpdate: ((String) async throws -> Void)?
-    let onMarketingUrlUpdate: ((String, String, String) async throws -> Void)?
-    let onSupportUrlUpdate: ((String, String, String) async throws -> Void)?
+
+    @StateObject private var service = AppStoreConnectService.shared
 
     @State private var isEditing = false
     @State private var newVersionString = ""
@@ -19,12 +18,9 @@ struct VersionCard: View {
     @State private var tempSupportUrl = ""
     @State private var isSavingUrl = false
 
-    init(version: AppStoreVersion, reviewDetail: AppStoreReviewDetail? = nil, onVersionUpdate: ((String) async throws -> Void)? = nil, onMarketingUrlUpdate: ((String, String, String) async throws -> Void)? = nil, onSupportUrlUpdate: ((String, String, String) async throws -> Void)? = nil) {
+    init(version: AppStoreVersion, reviewDetail: AppStoreReviewDetail? = nil) {
         self.version = version
         self.reviewDetail = reviewDetail
-        self.onVersionUpdate = onVersionUpdate
-        self.onMarketingUrlUpdate = onMarketingUrlUpdate
-        self.onSupportUrlUpdate = onSupportUrlUpdate
     }
 
     var body: some View {
@@ -70,17 +66,14 @@ struct VersionCard: View {
                             Text("v\(version.versionString)")
                                 .font(.headline)
                                 .fontWeight(.semibold)
-                            if onVersionUpdate != nil {
-                                Image(systemName: "pencil.circle")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
+                            Image(systemName: "pencil.circle")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
                         }
                         .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
-                    .disabled(onVersionUpdate == nil)
-                    .help(onVersionUpdate != nil ? "点击编辑版本号" : "")
+                    .help("点击编辑版本号")
 
                     Spacer()
                     StateBadge(state: version.appStoreState)
@@ -385,7 +378,7 @@ struct VersionCard: View {
         errorMessage = nil
 
         do {
-            try await onVersionUpdate?(newVersionString)
+            try await service.updateVersion(versionId: version.id, newVersionString: newVersionString)
             isEditing = false
         } catch {
             errorMessage = (error as? AppStoreConnectError)?.localizedDescription ?? error.localizedDescription
@@ -404,7 +397,11 @@ struct VersionCard: View {
         isSavingUrl = true
 
         do {
-            try await onMarketingUrlUpdate?(localizationId, version.id, url)
+            try await service.updateVersionLocalization(
+                localizationId: localizationId,
+                versionId: version.id,
+                marketingUrl: url
+            )
             editingMarketingUrl = false
         } catch {
             print("保存营销网址失败: \(error.localizedDescription)")
@@ -421,7 +418,11 @@ struct VersionCard: View {
         isSavingUrl = true
 
         do {
-            try await onSupportUrlUpdate?(localizationId, version.id, url)
+            try await service.updateVersionLocalization(
+                localizationId: localizationId,
+                versionId: version.id,
+                supportUrl: url
+            )
             editingSupportUrl = false
         } catch {
             print("保存技术支持网址失败: \(error.localizedDescription)")

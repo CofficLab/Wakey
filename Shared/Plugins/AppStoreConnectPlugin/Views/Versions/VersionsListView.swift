@@ -4,9 +4,6 @@ struct VersionsListView: View {
     let versions: [AppStoreVersion]
     var reviewDetails: [String: AppStoreReviewDetail] = [:]
     var onVersionSelect: ((AppStoreVersion) async -> Void)?
-    var onVersionUpdate: ((String, String) async throws -> Void)?
-    var onMarketingUrlUpdate: ((String, String, String) async throws -> Void)?
-    var onSupportUrlUpdate: ((String, String, String) async throws -> Void)?
 
     @State private var selectedVersion: AppStoreVersion?
     @State private var isLoadingDetail = false
@@ -41,31 +38,13 @@ struct VersionsListView: View {
                 } else if let selected = selectedVersion {
                     VersionCard(
                         version: selected,
-                        reviewDetail: reviewDetails[selected.id],
-                        onVersionUpdate: { newVersionString in
-                            try await onVersionUpdate?(selected.id, newVersionString)
-                        },
-                        onMarketingUrlUpdate: { localizationId, versionId, url in
-                            try await onMarketingUrlUpdate?(localizationId, versionId, url)
-                        },
-                        onSupportUrlUpdate: { localizationId, versionId, url in
-                            try await onSupportUrlUpdate?(localizationId, versionId, url)
-                        }
+                        reviewDetail: reviewDetails[selected.id]
                     )
                     .padding()
                 } else if let first = versions.first {
                     VersionCard(
                         version: first,
-                        reviewDetail: reviewDetails[first.id],
-                        onVersionUpdate: { newVersionString in
-                            try await onVersionUpdate?(first.id, newVersionString)
-                        },
-                        onMarketingUrlUpdate: { localizationId, versionId, url in
-                            try await onMarketingUrlUpdate?(localizationId, versionId, url)
-                        },
-                        onSupportUrlUpdate: { localizationId, versionId, url in
-                            try await onSupportUrlUpdate?(localizationId, versionId, url)
-                        }
+                        reviewDetail: reviewDetails[first.id]
                     )
                     .padding()
                 } else {
@@ -97,7 +76,7 @@ struct VersionsListView: View {
     }
 }
 
-// 简化的版本列表项（横向）
+// 版本列表项
 struct VersionListItem: View {
     let version: AppStoreVersion
     let isSelected: Bool
