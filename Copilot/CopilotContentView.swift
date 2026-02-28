@@ -12,9 +12,14 @@ public struct CopilotContentView: View {
         } else {
             NavigationSplitView {
                 // 左侧导航 - 支持多级导航
-                List(navigationItems, children: \.children, selection: $selectedPluginId) { item in
-                    Label(item.displayName, systemImage: item.iconName)
+                List(selection: $selectedPluginId) {
+                    ForEach(navigationItems) { item in
+                        NavigationItemView(
+                            item: item,
+                            expandedItems: $expandedItems
+                        )
                         .tag(item.id)
+                    }
                 }
                 .navigationSplitViewColumnWidth(min: 180, ideal: 200)
             } detail: {
@@ -36,9 +41,11 @@ public struct CopilotContentView: View {
                 }
             }
             .onAppear {
-                // 默认选中第一个叶子节点
+                // 默认选中第一个叶子节点并展开其父节点
                 if selectedPluginId == nil, let firstLeaf = findFirstLeaf(navigationItems) {
                     selectedPluginId = firstLeaf.id
+                    // 展开该节点的所有父节点
+                    expandedItems = expandPath(to: firstLeaf.id, in: navigationItems)
                 }
             }
         }
@@ -52,6 +59,36 @@ public struct CopilotContentView: View {
     }
 
     // MARK: - Helper Methods
+
+    /// 展开到指定节点的路径，返回路径上所有父节点的 ID
+    private func expandPath(to targetId: String, in items: [CopilotNavigationItem]) -> Set<String> {
+        var path: Set<String> = []
+        findPath(to: targetId, in: items, currentPath: &path)
+        return path
+    }
+
+    /// 递归查找目标节点的路径
+    private func findPath(to targetId: String, in items: [CopilotNavigationItem], currentPath: inout Set<String>) -> Bool {
+        for item in items {
+            // 检查当前节点是否有子节点
+            if let children = item.children, !children.isEmpty {
+                // 将当前父节点 ID 添加到路径
+                currentPath.insert(item.id)
+
+                // 在子节点中查找目标
+                if findPath(to: targetId, in: children, currentPath: &currentPath) {
+                    return true
+                }
+
+                // 如果没找到，移除当前节点
+                currentPath.remove(item.id)
+            } else if item.id == targetId {
+                // 找到目标叶子节点
+                return true
+            }
+        }
+        return false
+    }
 
     /// 在导航树中查找指定 ID 的项
     private func findItem(_ items: [CopilotNavigationItem], id: String) -> CopilotNavigationItem? {
@@ -111,6 +148,47 @@ public struct CopilotContentView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
         .withDebugBar()
+    }
+}
+
+// MARK: - Navigation Item View
+
+/// 支持展开/折叠的导航项视图
+private struct NavigationItemView: View {
+    let item: CopilotNavigationItem
+    @Binding var expandedItems: Set<String>
+
+    var body: some View {
+        if let children = item.children, !children.isEmpty {
+            // 有子节点 - 使用 DisclosureGroup
+            DisclosureGroup(isExpanded: isExpanded) {
+                ForEach(children) { child in
+                    NavigationItemView(
+                        item: child,
+                        expandedItems: $expandedItems
+                    )
+                    .tag(child.id)
+                }
+            } label: {
+                Label(item.displayName, systemImage: item.iconName)
+            }
+        } else {
+            // 叶子节点
+            Label(item.displayName, systemImage: item.iconName)
+        }
+    }
+
+    private var isExpanded: Binding<Bool> {
+        Binding(
+            get: { expandedItems.contains(item.id) },
+            set: { newValue in
+                if newValue {
+                    expandedItems.insert(item.id)
+                } else {
+                    expandedItems.remove(item.id)
+                }
+            }
+        )
     }
 }
 
