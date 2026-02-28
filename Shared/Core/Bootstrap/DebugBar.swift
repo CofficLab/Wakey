@@ -16,6 +16,7 @@ struct PreviewSize: Identifiable, Equatable {
         PreviewSize("500 × 700"),
         PreviewSize("500 × 800"),
         PreviewSize("500 × 1000"),
+        PreviewSize("600 × 800"),
         PreviewSize("600 × 900"),
         PreviewSize("800 × 1000"),
         PreviewSize("1000 × 1200"),
