@@ -1,11 +1,13 @@
 import MagicKit
 import SwiftUI
+import WakeryUI
 
 /// 状态栏弹窗视图
 struct StatusBar: View {
     // MARK: - Properties
 
     @EnvironmentObject var pluginProvider: PluginProvider
+    @EnvironmentObject private var themeVM: AppThemeVM
 
     // MARK: - Body
 
@@ -32,6 +34,12 @@ struct StatusBar: View {
         }
         .frame(width: 300)
         .fixedSize(horizontal: false, vertical: true)
+        .background {
+            GeometryReader { proxy in
+                themeVM.currentTheme?.chromeTheme.makeGlobalBackground(proxy: proxy)
+                    ?? AnyView(Color(nsColor: .windowBackgroundColor))
+            }
+        }
     }
 
     // MARK: - App Info Section

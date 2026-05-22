@@ -9,10 +9,12 @@ extension View {
     func inRootView() -> some View {
         let allowedIds = UserDefaults.standard.stringArray(forKey: "WAKEY_ALLOWED_PLUGINS")
         let pluginProvider = PluginProvider(allowedPluginIds: allowedIds)
+        let themeVM = AppThemeVM(pluginProvider: pluginProvider)
 
         return self
             .environmentObject(AppProvider.shared)
             .environmentObject(pluginProvider)
+            .environmentObject(themeVM)
             .environment(\.demoMode, false)
     }
 
@@ -22,10 +24,12 @@ extension View {
     /// - Returns: 包装后的视图，包含所有环境对象
     func inRootView(onlyPlugins pluginIds: [String]?) -> some View {
         let pluginProvider = PluginProvider(allowedPluginIds: pluginIds)
+        let themeVM = AppThemeVM(pluginProvider: pluginProvider)
 
         return self
             .environmentObject(AppProvider.shared)
             .environmentObject(pluginProvider)
+            .environmentObject(themeVM)
             .environment(\.demoMode, false)
     }
 }

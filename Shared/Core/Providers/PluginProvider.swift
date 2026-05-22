@@ -5,6 +5,7 @@ import MagicKit
 import ObjectiveC
 import OSLog
 import SwiftUI
+import WakeryUI
 
 /// 插件提供者，负责管理所有可用插件的生命周期和状态
 @MainActor
@@ -227,6 +228,25 @@ final class PluginProvider: ObservableObject, SuperLog {
     /// - Returns: SuperLogo 或 nil
     func getDefaultLogoConfiguration() -> (any SuperLogo)? {
         getLogoConfigurations().first
+    }
+
+    /// 获取所有已启用插件提供的主题贡献
+    /// - Returns: 主题贡献数组，按插件 order 和主题 id 排序
+    func getThemeContributions() -> [WakeryUIThemeContribution] {
+        plugins
+            .filter { isPluginEnabled($0) }
+            .flatMap { plugin in
+                let order = type(of: plugin).order
+                return plugin.addThemeContributions().map { contribution in
+                    WakeryUIThemeContribution(
+                        sortKey: ThemeSortKey(pluginOrder: order, themeId: contribution.id),
+                        chromeTheme: contribution.chromeTheme,
+                        editorThemeId: contribution.editorThemeId,
+                        uiTheme: contribution.uiTheme,
+                        attachments: contribution.attachments
+                    )
+                }
+            }
     }
 
     /// 获取所有已启用插件的设置视图

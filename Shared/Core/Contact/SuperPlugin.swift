@@ -1,5 +1,6 @@
 import AppKit
 import SwiftUI
+import WakeryUI
 
 /// Plugin Protocol
 protocol SuperPlugin: Actor {
@@ -16,6 +17,7 @@ protocol SuperPlugin: Actor {
     @MainActor func addCopilotNavigationItems() -> [CopilotNavigationItem]
     @MainActor static func providePosterViews() -> [PosterViewConfiguration]
     @MainActor static func provideLogos() -> [any SuperLogo]
+    @MainActor func addThemeContributions() -> [WakeryUIThemeContribution]
 
     nonisolated func onRegister()
     nonisolated func onEnable()
@@ -44,6 +46,7 @@ extension SuperPlugin {
     @MainActor func addCopilotNavigationItems() -> [CopilotNavigationItem] { [] }
     @MainActor static func providePosterViews() -> [PosterViewConfiguration] { [] }
     @MainActor static func provideLogos() -> [any SuperLogo] { [] }
+    @MainActor func addThemeContributions() -> [WakeryUIThemeContribution] { [] }
 
     nonisolated func onRegister() {}
     nonisolated func onEnable() {}
