@@ -44,6 +44,11 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		F5412BA02FC041B200C98C03 /* Packages */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Packages;
+			sourceTree = "<group>";
+		};
 		F585CCF32F51987D00D41B4F /* Copilot */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Copilot;
@@ -82,17 +87,10 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F541BC722FC037B800C98C03 /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Packages;
-			sourceTree = "<group>";
-		};
 		F54F8C752F1A3B6500AABB2A = {
 			isa = PBXGroup;
 			children = (
-				F541BC722FC037B800C98C03 /* Packages */,
+				F5412BA02FC041B200C98C03 /* Packages */,
 				F52F04452F519B9200E97674 /* Hero */,
 				F53C49142F1A42EC00929321 /* Wakey.app */,
 				F585CCF22F51987D00D41B4F /* Copilot.app */,

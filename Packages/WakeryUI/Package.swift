@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 5.9
 import PackageDescription
 
 let package = Package(
@@ -16,11 +16,6 @@ let package = Package(
         .target(
             name: "WakeryUI",
             path: "Sources/WakeryUI"
-        ),
-        .testTarget(
-            name: "WakeryUITests",
-            dependencies: ["WakeryUI"],
-            path: "Tests/WakeryUITests"
         )
     ]
 )
