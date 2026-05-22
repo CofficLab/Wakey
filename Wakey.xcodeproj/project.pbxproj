@@ -44,11 +44,6 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
-		F541BC722FC037B800C98C03 /* Packages */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Packages;
-			sourceTree = "<group>";
-		};
 		F585CCF32F51987D00D41B4F /* Copilot */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Copilot;
@@ -87,6 +82,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F541BC722FC037B800C98C03 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
 		F54F8C752F1A3B6500AABB2A = {
 			isa = PBXGroup;
 			children = (
@@ -118,7 +120,6 @@
 			fileSystemSynchronizedGroups = (
 				F52F04452F519B9200E97674 /* Hero */,
 				F52F053B2F519FD200E97674 /* Shared */,
-				F541BC722FC037B800C98C03 /* Packages */,
 			);
 			name = Wakey;
 			packageProductDependencies = (
@@ -145,7 +146,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				F52F053B2F519FD200E97674 /* Shared */,
-				F541BC722FC037B800C98C03 /* Packages */,
 				F585CCF32F51987D00D41B4F /* Copilot */,
 			);
 			name = Copilot;
