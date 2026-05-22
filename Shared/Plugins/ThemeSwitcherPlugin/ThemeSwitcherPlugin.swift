@@ -10,12 +10,12 @@ actor ThemeSwitcherPlugin: SuperPlugin {
     static let order = 79
 
     @MainActor
-    func addStatusBarPopupView() -> AnyView? {
-        AnyView(ThemeSwitcherView())
+    func addSettingsView() -> AnyView? {
+        AnyView(ThemeSettingsView())
     }
 }
 
-private struct ThemeSwitcherView: View {
+private struct ThemeSettingsView: View {
     @EnvironmentObject private var themeVM: AppThemeVM
 
     var body: some View {
