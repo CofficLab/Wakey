@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0B0073C22F2F1ABF001B3789 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0B0073C12F2F1ABF001B3789 /* MagicKit */; };
+		0B70E95B2F52000100A12345 /* WakeryUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E95A2F52000100A12345 /* WakeryUI */; };
+		0B70E95D2F52000100A12345 /* WakeryUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E95C2F52000100A12345 /* WakeryUI */; };
 		F53364712F51A58B00020751 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = F53364702F51A58B00020751 /* MagicKit */; };
 		F5B5A73E2F511DB400F1239E /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = F5B5A73D2F511DB400F1239E /* MagicKit */; };
 		F5B80C552F513C0100BCB284 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = F5B80C542F513C0100BCB284 /* MagicKit */; };
@@ -42,6 +44,11 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		F5411AFE2FC0340800C98C03 /* Packages */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Packages;
+			sourceTree = "<group>";
+		};
 		F585CCF32F51987D00D41B4F /* Copilot */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Copilot;
@@ -57,6 +64,7 @@
 				F5B80C552F513C0100BCB284 /* MagicKit in Frameworks */,
 				0B0073C22F2F1ABF001B3789 /* MagicKit in Frameworks */,
 				F5B5A73E2F511DB400F1239E /* MagicKit in Frameworks */,
+				0B70E95B2F52000100A12345 /* WakeryUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +73,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F53364712F51A58B00020751 /* MagicKit in Frameworks */,
+				0B70E95D2F52000100A12345 /* WakeryUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +90,7 @@
 		F54F8C752F1A3B6500AABB2A = {
 			isa = PBXGroup;
 			children = (
+				F5411AFE2FC0340800C98C03 /* Packages */,
 				F52F04452F519B9200E97674 /* Hero */,
 				F53C49142F1A42EC00929321 /* Wakey.app */,
 				F585CCF22F51987D00D41B4F /* Copilot.app */,
@@ -108,12 +118,14 @@
 			fileSystemSynchronizedGroups = (
 				F52F04452F519B9200E97674 /* Hero */,
 				F52F053B2F519FD200E97674 /* Shared */,
+				F5411AFE2FC0340800C98C03 /* Packages */,
 			);
 			name = Wakey;
 			packageProductDependencies = (
 				0B0073C12F2F1ABF001B3789 /* MagicKit */,
 				F5B5A73D2F511DB400F1239E /* MagicKit */,
 				F5B80C542F513C0100BCB284 /* MagicKit */,
+				0B70E95A2F52000100A12345 /* WakeryUI */,
 			);
 			productName = "SwiftUI-Template";
 			productReference = F53C49142F1A42EC00929321 /* Wakey.app */;
@@ -133,11 +145,13 @@
 			);
 			fileSystemSynchronizedGroups = (
 				F52F053B2F519FD200E97674 /* Shared */,
+				F5411AFE2FC0340800C98C03 /* Packages */,
 				F585CCF32F51987D00D41B4F /* Copilot */,
 			);
 			name = Copilot;
 			packageProductDependencies = (
 				F53364702F51A58B00020751 /* MagicKit */,
+				0B70E95C2F52000100A12345 /* WakeryUI */,
 			);
 			productName = Copilot;
 			productReference = F585CCF22F51987D00D41B4F /* Copilot.app */;
@@ -174,6 +188,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F5B80C532F513C0100BCB284 /* XCRemoteSwiftPackageReference "MagicKit" */,
+				0B70E9592F52000100A12345 /* XCLocalSwiftPackageReference "Packages/WakeryUI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F54F8C752F1A3B6500AABB2A;
@@ -559,6 +574,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		0B70E9592F52000100A12345 /* XCLocalSwiftPackageReference "Packages/WakeryUI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/WakeryUI;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		F5B80C532F513C0100BCB284 /* XCRemoteSwiftPackageReference "MagicKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -574,6 +596,16 @@
 		0B0073C12F2F1ABF001B3789 /* MagicKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MagicKit;
+		};
+		0B70E95A2F52000100A12345 /* WakeryUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0B70E9592F52000100A12345 /* XCLocalSwiftPackageReference "Packages/WakeryUI" */;
+			productName = WakeryUI;
+		};
+		0B70E95C2F52000100A12345 /* WakeryUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0B70E9592F52000100A12345 /* XCLocalSwiftPackageReference "Packages/WakeryUI" */;
+			productName = WakeryUI;
 		};
 		F53364702F51A58B00020751 /* MagicKit */ = {
 			isa = XCSwiftPackageProductDependency;
