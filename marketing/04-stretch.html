@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=2560">
+<title>Wakey — Stretch Reminder</title>
+<link rel="stylesheet" href="components.css">
+<style>
+  body { margin: 0; display: flex; justify-content: center; background: #000; }
+  .bg-icon-figure { top: 12%; right: 22%; transform: rotate(5deg); }
+  .bg-icon-walk { bottom: 18%; left: 18%; transform: rotate(-10deg); }
+
+  .stretch-overlay {
+    width: 520px;
+    background: rgba(30,30,35,0.95);
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    overflow: hidden; backdrop-filter: blur(40px);
+  }
+  .stretch-top {
+    display: flex; align-items: center; gap: 16px;
+    padding: 28px 28px 20px;
+  }
+  .stretch-icon {
+    width: 56px; height: 56px; border-radius: 16px;
+    background: linear-gradient(135deg, #7c6fff, #af52de);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .stretch-icon svg { width: 30px; height: 30px; fill: #fff; stroke: none; }
+  .stretch-titles { display: flex; flex-direction: column; gap: 4px; }
+  .stretch-main-title { font-size: 22px; font-weight: 700; color: #fff; }
+  .stretch-sub { font-size: 14px; color: var(--c-secondary); }
+
+  .stretch-exercises {
+    margin: 0 28px 20px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .exercise-card {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .exercise-card.active {
+    border-color: rgba(124,111,255,0.4);
+    background: rgba(124,111,255,0.08);
+  }
+  .exercise-num {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .exercise-card.active .exercise-num {
+    background: rgba(124,111,255,0.25); color: var(--c-accent-purple);
+  }
+  .exercise-card:not(.active) .exercise-num {
+    background: rgba(255,255,255,0.06); color: var(--c-secondary);
+  }
+  .exercise-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .exercise-name { font-size: 14px; font-weight: 600; color: #fff; }
+  .exercise-detail { font-size: 12px; color: var(--c-secondary); }
+  .exercise-duration { font-size: 13px; font-weight: 600; color: var(--c-accent-purple); font-family: var(--c-mono); }
+
+  .stretch-countdown {
+    margin: 0 28px 20px;
+    padding: 20px;
+    background: rgba(124,111,255,0.06);
+    border-radius: 14px;
+    border: 1px solid rgba(124,111,255,0.12);
+    display: flex; align-items: center; gap: 20px;
+  }
+  .countdown-ring {
+    width: 64px; height: 64px; position: relative; flex-shrink: 0;
+  }
+  .countdown-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .countdown-ring .track { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 6; }
+  .countdown-ring .fill { fill: none; stroke: var(--c-accent-purple); stroke-width: 6; stroke-linecap: round; }
+  .countdown-ring .center {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 800; color: #fff;
+  }
+  .countdown-info { display: flex; flex-direction: column; gap: 4px; }
+  .countdown-label { font-size: 14px; font-weight: 600; color: #fff; }
+  .countdown-text { font-size: 13px; color: var(--c-secondary); }
+
+  .stretch-actions {
+    display: flex; gap: 10px;
+    padding: 0 28px 24px;
+  }
+  .action-btn {
+    flex: 1; padding: 12px 0;
+    border-radius: 10px; border: none;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    text-align: center;
+  }
+  .action-btn.primary {
+    background: linear-gradient(135deg, #7c6fff, #af52de);
+    color: #fff;
+  }
+  .action-btn.secondary {
+    background: rgba(255,255,255,0.08);
+    color: var(--c-text);
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <!-- Background -->
+  <div class="poster-bg">
+    <div class="bg-circle-purple"></div>
+    <div class="bg-circle-orange"></div>
+    <svg class="bg-icon bg-icon-figure" width="200" height="200" viewBox="0 0 24 24" fill="rgba(175,82,222,0.06)"><circle cx="12" cy="5" r="3"/><path d="M12 8v5"/><path d="M8 17l4-4 4 4"/><path d="M8 13h8"/></svg>
+    <svg class="bg-icon bg-icon-walk" width="180" height="180" viewBox="0 0 24 24" fill="rgba(175,82,222,0.05)"><circle cx="13" cy="4" r="2"/><path d="M7 21l3-7"/><path d="M13 14l-3-3 4-2"/><path d="M10 11l-3 2"/><path d="M13 14l3 7"/><path d="M10 8l3-2"/></svg>
+  </div>
+
+  <!-- Content -->
+  <div class="poster-content">
+    <!-- Left -->
+    <div class="poster-left">
+      <div class="poster-title">Stretch Reminder</div>
+      <div class="poster-subtitle">Move your body, stay healthy</div>
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-icon outline">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="feature-text">
+            <div class="feature-name">Scheduled Reminder</div>
+            <div class="feature-desc">Remind you to stand up every hour</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><path d="M12 8v5"/><path d="M8 17l4-4 4 4"/><path d="M8 13h8"/></svg>
+          </div>
+          <div class="feature-text">
+            <div class="feature-name">Move Your Body</div>
+            <div class="feature-desc">Help reduce the risks of long-time sitting</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon outline">
+            <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          </div>
+          <div class="feature-text">
+            <div class="feature-name">Flexible Configuration</div>
+            <div class="feature-desc">Customize reminder intervals and other parameters</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Stretch Overlay Mockup -->
+    <div class="poster-right">
+      <div class="stretch-overlay">
+        <div class="stretch-top">
+          <div class="stretch-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><path d="M12 8v5"/><path d="M8 17l4-4 4 4"/><path d="M8 13h8"/></svg>
+          </div>
+          <div class="stretch-titles">
+            <div class="stretch-main-title">Time to Stretch!</div>
+            <div class="stretch-sub">Follow these quick exercises to stay energized</div>
+          </div>
+        </div>
+
+        <!-- Exercises -->
+        <div class="stretch-exercises">
+          <div class="exercise-card active">
+            <div class="exercise-num">1</div>
+            <div class="exercise-info">
+              <span class="exercise-name">Neck Rolls</span>
+              <span class="exercise-detail">Slowly roll your head in a circle</span>
+            </div>
+            <span class="exercise-duration">0:30</span>
+          </div>
+          <div class="exercise-card">
+            <div class="exercise-num">2</div>
+            <div class="exercise-info">
+              <span class="exercise-name">Shoulder Shrugs</span>
+              <span class="exercise-detail">Raise and lower your shoulders</span>
+            </div>
+            <span class="exercise-duration">0:30</span>
+          </div>
+          <div class="exercise-card">
+            <div class="exercise-num">3</div>
+            <div class="exercise-info">
+              <span class="exercise-name">Standing Stretch</span>
+              <span class="exercise-detail">Stand up and reach for the sky</span>
+            </div>
+            <span class="exercise-duration">1:00</span>
+          </div>
+        </div>
+
+        <!-- Countdown -->
+        <div class="stretch-countdown">
+          <div class="countdown-ring">
+            <svg viewBox="0 0 64 64">
+              <circle class="track" cx="32" cy="32" r="26"/>
+              <circle class="fill" cx="32" cy="32" r="26" stroke-dasharray="163" stroke-dashoffset="46"/>
+            </svg>
+            <div class="center">22</div>
+          </div>
+          <div class="countdown-info">
+            <div class="countdown-label">Neck Rolls</div>
+            <div class="countdown-text">Slowly roll your head clockwise, then reverse</div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="stretch-actions">
+          <button class="action-btn primary">Start Exercise</button>
+          <button class="action-btn secondary">Skip</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
