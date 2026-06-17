@@ -69,6 +69,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F54F8C752F1A3B6500AABB2A = {
 			isa = PBXGroup;
 			children = (
 				0B18AE4D2FE2C9C900CBB621 /* Plugins */,
