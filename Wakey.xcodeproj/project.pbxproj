@@ -20,38 +20,20 @@
 		F585CCF22F51987D00D41B4F /* Copilot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Copilot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		F53364752F51A81C00020751 /* Exceptions for "Shared" folder in "Copilot" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Plugins/AppStoreConnectPlugin/openapi.oas.json,
-			);
-			target = F585CCF12F51987D00D41B4F /* Copilot */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		F52F04452F519B9200E97674 /* Hero */ = {
+		0B18AD822FE2C9BD00CBB621 /* App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Hero;
+			path = App;
 			sourceTree = "<group>";
 		};
-		F52F053B2F519FD200E97674 /* Shared */ = {
+		0B18AE4D2FE2C9C900CBB621 /* Plugins */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				F53364752F51A81C00020751 /* Exceptions for "Shared" folder in "Copilot" target */,
-			);
-			path = Shared;
+			path = Plugins;
 			sourceTree = "<group>";
 		};
 		F5412BA02FC041B200C98C03 /* Packages */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Packages;
-			sourceTree = "<group>";
-		};
-		F585CCF32F51987D00D41B4F /* Copilot */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Copilot;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -90,12 +72,11 @@
 		F54F8C752F1A3B6500AABB2A = {
 			isa = PBXGroup;
 			children = (
+				0B18AE4D2FE2C9C900CBB621 /* Plugins */,
+				0B18AD822FE2C9BD00CBB621 /* App */,
 				F5412BA02FC041B200C98C03 /* Packages */,
-				F52F04452F519B9200E97674 /* Hero */,
 				F53C49142F1A42EC00929321 /* Wakey.app */,
 				F585CCF22F51987D00D41B4F /* Copilot.app */,
-				F585CCF32F51987D00D41B4F /* Copilot */,
-				F52F053B2F519FD200E97674 /* Shared */,
 				F533646F2F51A58B00020751 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -116,8 +97,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				F52F04452F519B9200E97674 /* Hero */,
-				F52F053B2F519FD200E97674 /* Shared */,
+				0B18AD822FE2C9BD00CBB621 /* App */,
+				0B18AE4D2FE2C9C900CBB621 /* Plugins */,
 			);
 			name = Wakey;
 			packageProductDependencies = (
@@ -141,10 +122,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				F52F053B2F519FD200E97674 /* Shared */,
-				F585CCF32F51987D00D41B4F /* Copilot */,
 			);
 			name = Copilot;
 			packageProductDependencies = (
@@ -365,7 +342,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Hero/App.entitlements;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -386,7 +363,7 @@
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Hero/Info.plist;
+				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Wakey;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -410,7 +387,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Hero/App.entitlements;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -431,7 +408,7 @@
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Hero/Info.plist;
+				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Wakey;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
