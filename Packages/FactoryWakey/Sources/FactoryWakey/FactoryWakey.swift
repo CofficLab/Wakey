@@ -5,47 +5,47 @@ import SwiftUI
 import WakeryUI
 
 // Plugin imports — Logo (11)
-import LogoBoltPlugin
-import LogoLightBulbPlugin
-import LogoOwlPlugin
-import LogoCoffeePlugin
-import LogoSunPlugin
-import LogoBatteryPlugin
-import LogoMoonPlugin
-import LogoNoSleepPlugin
-import LogoRadarPlugin
-import LogoPulsePlugin
-import LogoPreviewPlugin
+import PluginLogoBolt
+import PluginLogoLightBulb
+import PluginLogoOwl
+import PluginLogoCoffee
+import PluginLogoSun
+import PluginLogoBattery
+import PluginLogoMoon
+import PluginLogoNoSleep
+import PluginLogoRadar
+import PluginLogoPulse
+import PluginLogoPreview
 // Plugin imports — Poster (6)
-import PosterWakeyPlugin
-import PosterCaffeinatePlugin
-import PosterEyeCarePlugin
-import PosterStretchPlugin
-import PosterHydrationPlugin
-import PosterPreviewPlugin
+import PluginPosterWakey
+import PluginPosterCaffeinate
+import PluginPosterEyeCare
+import PluginPosterStretch
+import PluginPosterHydration
+import PluginPosterPreview
 // Plugin imports — Business (4)
-import CaffeinatePlugin
-import EyeCareReminderPlugin
-import StretchReminderPlugin
-import HydrationReminderPlugin
+import PluginCaffeinate
+import PluginEyeCareReminder
+import PluginStretchReminder
+import PluginHydrationReminder
 // Plugin imports — Other (3)
-import AppInfoPlugin
-import AppStoreConnectPlugin
-import PurchasePlugin
+import PluginAppInfo
+import PluginAppStoreConnect
+import PluginPurchase
 // Plugin imports — Theme (13)
-import ThemeSwitcherPlugin
-import ThemeWakeyPlugin
-import ThemeAuroraPlugin
-import ThemeDraculaPlugin
-import ThemeGithubPlugin
-import ThemeOneDarkPlugin
-import ThemeVscodeDarkPlugin
-import ThemeVscodeLightPlugin
-import ThemeSpringPlugin
-import ThemeSummerPlugin
-import ThemeAutumnPlugin
-import ThemeWinterPlugin
-import ThemeRiverPlugin
+import PluginThemeSwitcher
+import PluginThemeWakey
+import PluginThemeAurora
+import PluginThemeDracula
+import PluginThemeGithub
+import PluginThemeOneDark
+import PluginThemeVscodeDark
+import PluginThemeVscodeLight
+import PluginThemeSpring
+import PluginThemeSummer
+import PluginThemeAutumn
+import PluginThemeWinter
+import PluginThemeRiver
 
 /// FactoryWakey — Wakey 唯一静态装配点（Composition Root）。
 ///
@@ -94,58 +94,58 @@ public enum FactoryWakey {
     public static func makePlugins() -> [any SuperPlugin] {
         [
             // order 0
-            LogoBoltPlugin(),
-            WakeyIntroPlugin(),
+            PluginLogoBolt(),
+            PluginPosterWakey(),
             // order 1
-            LogoLightBulbPlugin(),
-            CaffeinatePosterPlugin(),
+            PluginLogoLightBulb(),
+            PluginPosterCaffeinate(),
             // order 2
-            LogoOwlPlugin(),
-            EyeCarePosterPlugin(),
+            PluginLogoOwl(),
+            PluginPosterEyeCare(),
             // order 3
-            LogoCoffeePlugin(),
-            StretchPosterPlugin(),
+            PluginLogoCoffee(),
+            PluginPosterStretch(),
             // order 4
-            LogoSunPlugin(),
-            HydrationPosterPlugin(),
+            PluginLogoSun(),
+            PluginPosterHydration(),
             // order 6
-            LogoBatteryPlugin(),
+            PluginLogoBattery(),
             // order 7
-            LogoMoonPlugin(),
-            CaffeinatePlugin(),
+            PluginLogoMoon(),
+            PluginCaffeinate(),
             // order 8
-            LogoNoSleepPlugin(),
-            EyeCareReminderPlugin(),
+            PluginLogoNoSleep(),
+            PluginEyeCareReminder(),
             // order 9
-            LogoRadarPlugin(),
-            StretchReminderPlugin(),
+            PluginLogoRadar(),
+            PluginStretchReminder(),
             // order 10
-            LogoPulsePlugin(),
-            AppInfoPlugin(),
-            HydrationReminderPlugin(),
+            PluginLogoPulse(),
+            PluginAppInfo(),
+            PluginHydrationReminder(),
             // order 15
-            PosterPreviewPlugin(),
+            PluginPosterPreview(),
             // order 20
-            AppStoreConnectPlugin(),
+            PluginAppStoreConnect(),
             // order 79
-            ThemeSwitcherPlugin(),
+            PluginThemeSwitcher(),
             // order 80-91
-            ThemeWakeyPlugin(),
-            ThemeAuroraPlugin(),
-            ThemeDraculaPlugin(),
-            ThemeGithubPlugin(),
-            ThemeOneDarkPlugin(),
-            ThemeVscodeDarkPlugin(),
-            ThemeVscodeLightPlugin(),
-            ThemeSpringPlugin(),
-            ThemeSummerPlugin(),
-            ThemeAutumnPlugin(),
-            ThemeWinterPlugin(),
-            ThemeRiverPlugin(),
+            PluginThemeWakey(),
+            PluginThemeAurora(),
+            PluginThemeDracula(),
+            PluginThemeGithub(),
+            PluginThemeOneDark(),
+            PluginThemeVscodeDark(),
+            PluginThemeVscodeLight(),
+            PluginThemeSpring(),
+            PluginThemeSummer(),
+            PluginThemeAutumn(),
+            PluginThemeWinter(),
+            PluginThemeRiver(),
             // order 99
-            LogoPreviewPlugin(),
+            PluginLogoPreview(),
             // order 100
-            PurchasePlugin(),
+            PluginPurchase(),
         ]
     }
 
@@ -158,7 +158,7 @@ public enum FactoryWakey {
         return AnyView(StatusBarHostView(popupViews: popupViews, theme: theme?.currentTheme))
     }
 
-    /// 设置视图：TabView，第一页是插件开关，后续页是各插件贡献的设置页。
+    /// 设置视图：与 Lumi 一致的侧边栏 + 详情区，第一页是插件开关，后续页是各插件贡献的设置页。
     public static func makeSettingsView(kernel: KernelCoreContainer) -> AnyView {
         let settingsTabs = kernel.resolveProvider(SettingsViewProviding.self)?.settingsTabs ?? []
         let stateStore = kernel.stateStore as? WakeyPluginStateStore ?? WakeyPluginStateStore()
@@ -273,26 +273,120 @@ struct SettingsHostView: View {
     let kernel: KernelCoreContainer
     let settingsTabs: [SettingsTabItem]
     let stateStore: WakeyPluginStateStore
+    @State private var selectedEntryID = "plugins"
+    @WakeryTheme private var theme
 
     var body: some View {
-        TabView {
-            PluginSettingsView(kernel: kernel, stateStore: stateStore)
-                .tabItem {
-                    Label { Text("Plugins", tableName: "Core") } icon: { Image(systemName: "puzzlepiece") }
+        AppSettingsSidebarShell { sidebar } detail: { detail }
+            .frame(minWidth: 960, minHeight: 520)
+            .background(theme.background)
+            .appThemedAppearance()
+        #if canImport(AppKit)
+            .background {
+                ThemeWindowAppearanceBridge()
+            }
+        #endif
+            .ignoresSafeArea()
+            .onAppear {
+                if selectedEntryID != "plugins", settingsTabs.allSatisfy({ $0.id != selectedEntryID }) {
+                    selectedEntryID = "plugins"
                 }
-                .tag("plugins")
+                NSApp.activate(ignoringOtherApps: true)
+            }
+    }
 
-            ForEach(settingsTabs) { tab in
-                tab.makeView()
-                    .tabItem {
-                        Label { Text(tab.displayName) } icon: { Image(systemName: tab.iconName) }
+    /// 左侧：与 Lumi 相同的应用 Header、分隔线和固定宽度入口列表。
+    private var sidebar: some View {
+        AppSettingsSidebarContainer(width: 220) {
+            VStack(alignment: .leading, spacing: 10) {
+                AppSettingsSidebarHeader(
+                    name: appName,
+                    version: appVersion,
+                    build: appBuild,
+                    topSpacing: 22,
+                    bottomSpacing: 8
+                ) {
+                    HStack {
+                        Spacer()
+                        appIcon
+                            .frame(width: 64, height: 64)
+                        Spacer()
                     }
-                    .tag(tab.id)
+                }
+
+                AppSettingsDivider()
+
+                ScrollView {
+                    VStack(spacing: 6) {
+                        AppSettingsSidebarItem(
+                            title: String(localized: "Plugins", table: "Core"),
+                            systemImage: "puzzlepiece",
+                            isSelected: selectedEntryID == "plugins"
+                        ) {
+                            selectedEntryID = "plugins"
+                        }
+
+                        ForEach(settingsTabs) { tab in
+                            AppSettingsSidebarItem(
+                                title: tab.displayName,
+                                systemImage: tab.iconName,
+                                isSelected: selectedEntryID == tab.id
+                            ) {
+                                selectedEntryID = tab.id
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+
+                Spacer()
             }
         }
-        .frame(width: 500, height: 500)
-        .padding()
-        .onAppear { NSApp.activate(ignoringOtherApps: true) }
+    }
+
+    /// 右侧：保留各插件原有设置页，只把承载容器改为 Lumi 的详情面板样式。
+    private var detail: some View {
+        AppSettingsDetailPane {
+            Group {
+                if selectedEntryID == "plugins" {
+                    PluginSettingsView(kernel: kernel, stateStore: stateStore)
+                } else if let selectedTab = settingsTabs.first(where: { $0.id == selectedEntryID }) {
+                    selectedTab.makeView()
+                } else {
+                    AppEmptyState(icon: "gearshape", title: "Select a tab")
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+
+    @ViewBuilder
+    private var appIcon: some View {
+        if let icon = NSApp.applicationIconImage {
+            Image(nsImage: icon)
+                .resizable()
+                .scaledToFit()
+        } else {
+            Image(systemName: "app.fill")
+                .resizable()
+                .scaledToFit()
+                .symbolRenderingMode(.hierarchical)
+                .foregroundStyle(theme.primary)
+        }
+    }
+
+    private var appName: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
+            ?? Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
+            ?? "Wakey"
+    }
+
+    private var appVersion: String? {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+    }
+
+    private var appBuild: String? {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
     }
 }
 
