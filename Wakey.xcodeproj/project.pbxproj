@@ -7,33 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B0073C22F2F1ABF001B3789 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0B0073C12F2F1ABF001B3789 /* MagicKit */; };
 		0B70E95B2F52000100A12345 /* WakeryUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E95A2F52000100A12345 /* WakeryUI */; };
-		0B70E95D2F52000100A12345 /* WakeryUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E95C2F52000100A12345 /* WakeryUI */; };
-		F53364712F51A58B00020751 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = F53364702F51A58B00020751 /* MagicKit */; };
-		F5B5A73E2F511DB400F1239E /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = F5B5A73D2F511DB400F1239E /* MagicKit */; };
-		F5B80C552F513C0100BCB284 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = F5B80C542F513C0100BCB284 /* MagicKit */; };
+		0B70E9672F52000200A1234D /* FactoryWakey in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E9642F52000200A1234A /* FactoryWakey */; };
+		0B70E9682F52000200A1234E /* KernelCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E9652F52000200A1234B /* KernelCore */; };
+		0B70E9692F52000200A1234F /* ProviderWakeyHost in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E9662F52000200A1234C /* ProviderWakeyHost */; };
+		0B70E96B2F52000200A12351 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E96A2F52000200A12350 /* MagicKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F53C49142F1A42EC00929321 /* Wakey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wakey.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F585CCF22F51987D00D41B4F /* Copilot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Copilot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		0B18AD822FE2C9BD00CBB621 /* App */ = {
+		0B18AD822FE2C9BD00CBB621 /* WakeyApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = App;
-			sourceTree = "<group>";
-		};
-		0B18AE4D2FE2C9C900CBB621 /* Plugins */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Plugins;
-			sourceTree = "<group>";
-		};
-		F5412BA02FC041B200C98C03 /* Packages */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Packages;
+			path = WakeyApp;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -43,19 +31,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5B80C552F513C0100BCB284 /* MagicKit in Frameworks */,
-				0B0073C22F2F1ABF001B3789 /* MagicKit in Frameworks */,
-				F5B5A73E2F511DB400F1239E /* MagicKit in Frameworks */,
+				0B70E9672F52000200A1234D /* FactoryWakey in Frameworks */,
+				0B70E9682F52000200A1234E /* KernelCore in Frameworks */,
+				0B70E9692F52000200A1234F /* ProviderWakeyHost in Frameworks */,
+				0B70E96B2F52000200A12351 /* MagicKit in Frameworks */,
 				0B70E95B2F52000100A12345 /* WakeryUI in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F585CCEF2F51987D00D41B4F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F53364712F51A58B00020751 /* MagicKit in Frameworks */,
-				0B70E95D2F52000100A12345 /* WakeryUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,11 +52,8 @@
 		F54F8C752F1A3B6500AABB2A = {
 			isa = PBXGroup;
 			children = (
-				0B18AE4D2FE2C9C900CBB621 /* Plugins */,
-				0B18AD822FE2C9BD00CBB621 /* App */,
-				F5412BA02FC041B200C98C03 /* Packages */,
+				0B18AD822FE2C9BD00CBB621 /* WakeyApp */,
 				F53C49142F1A42EC00929321 /* Wakey.app */,
-				F585CCF22F51987D00D41B4F /* Copilot.app */,
 				F533646F2F51A58B00020751 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -97,39 +74,18 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				0B18AD822FE2C9BD00CBB621 /* App */,
-				0B18AE4D2FE2C9C900CBB621 /* Plugins */,
+				0B18AD822FE2C9BD00CBB621 /* WakeyApp */,
 			);
 			name = Wakey;
 			packageProductDependencies = (
-				0B0073C12F2F1ABF001B3789 /* MagicKit */,
-				F5B5A73D2F511DB400F1239E /* MagicKit */,
-				F5B80C542F513C0100BCB284 /* MagicKit */,
+				0B70E9642F52000200A1234A /* FactoryWakey */,
+				0B70E9652F52000200A1234B /* KernelCore */,
+				0B70E9662F52000200A1234C /* ProviderWakeyHost */,
+				0B70E96A2F52000200A12350 /* MagicKit */,
 				0B70E95A2F52000100A12345 /* WakeryUI */,
 			);
 			productName = "SwiftUI-Template";
 			productReference = F53C49142F1A42EC00929321 /* Wakey.app */;
-			productType = "com.apple.product-type.application";
-		};
-		F585CCF12F51987D00D41B4F /* Copilot */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F585CCFC2F51987E00D41B4F /* Build configuration list for PBXNativeTarget "Copilot" */;
-			buildPhases = (
-				F585CCEE2F51987D00D41B4F /* Sources */,
-				F585CCEF2F51987D00D41B4F /* Frameworks */,
-				F585CCF02F51987D00D41B4F /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Copilot;
-			packageProductDependencies = (
-				F53364702F51A58B00020751 /* MagicKit */,
-				0B70E95C2F52000100A12345 /* WakeryUI */,
-			);
-			productName = Copilot;
-			productReference = F585CCF22F51987D00D41B4F /* Copilot.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -145,9 +101,6 @@
 					F54F8C7D2F1A3B6500AABB2A = {
 						CreatedOnToolsVersion = 16.4;
 					};
-					F585CCF12F51987D00D41B4F = {
-						CreatedOnToolsVersion = 26.2;
-					};
 				};
 			};
 			buildConfigurationList = F54F8C792F1A3B6500AABB2A /* Build configuration list for PBXProject "Wakey" */;
@@ -162,7 +115,10 @@
 			mainGroup = F54F8C752F1A3B6500AABB2A;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				F5B80C532F513C0100BCB284 /* XCRemoteSwiftPackageReference "MagicKit" */,
+				0B70E9632F52000200A12349 /* XCRemoteSwiftPackageReference "LumiKernel" */,
+				0B70E9602F52000200A12346 /* XCLocalSwiftPackageReference "Packages/FactoryWakey" */,
+				0B70E9612F52000200A12347 /* XCLocalSwiftPackageReference "Packages/ProviderWakeyHost" */,
+				0B70E9622F52000200A12348 /* XCLocalSwiftPackageReference "Packages/MagicKit" */,
 				0B70E9592F52000100A12345 /* XCLocalSwiftPackageReference "Packages/WakeryUI" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -171,7 +127,6 @@
 			projectRoot = "";
 			targets = (
 				F54F8C7D2F1A3B6500AABB2A /* Wakey */,
-				F585CCF12F51987D00D41B4F /* Copilot */,
 			);
 		};
 /* End PBXProject section */
@@ -184,24 +139,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F585CCF02F51987D00D41B4F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F54F8C7A2F1A3B6500AABB2A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F585CCEE2F51987D00D41B4F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -342,7 +283,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WakeyApp/App.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -363,7 +304,7 @@
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_FILE = WakeyApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Wakey;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -387,7 +328,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WakeyApp/App.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -408,7 +349,7 @@
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_FILE = WakeyApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Wakey;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -423,96 +364,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 6.0;
-			};
-			name = Release;
-		};
-		F585CCFA2F51987E00D41B4F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = Y6HZ9JJYV6;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readwrite;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
-				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
-				ENABLE_PREVIEWS = YES;
-				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
-				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
-				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
-				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
-				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
-				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
-				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
-				ENABLE_RESOURCE_ACCESS_USB = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.7.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.coffic.wakey.Copilot;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = YES;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 6.0;
-			};
-			name = Debug;
-		};
-		F585CCFB2F51987E00D41B4F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = Y6HZ9JJYV6;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readwrite;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
-				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
-				ENABLE_PREVIEWS = YES;
-				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
-				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
-				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
-				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
-				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
-				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
-				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
-				ENABLE_RESOURCE_ACCESS_USB = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.7.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.coffic.wakey.Copilot;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = YES;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
@@ -538,15 +389,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F585CCFC2F51987E00D41B4F /* Build configuration list for PBXNativeTarget "Copilot" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F585CCFA2F51987E00D41B4F /* Debug */,
-				F585CCFB2F51987E00D41B4F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
@@ -554,46 +396,51 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/WakeryUI;
 		};
+		0B70E9602F52000200A12346 /* XCLocalSwiftPackageReference "Packages/FactoryWakey" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/FactoryWakey;
+		};
+		0B70E9612F52000200A12347 /* XCLocalSwiftPackageReference "Packages/ProviderWakeyHost" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/ProviderWakeyHost;
+		};
+		0B70E9622F52000200A12348 /* XCLocalSwiftPackageReference "Packages/MagicKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/MagicKit;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		F5B80C532F513C0100BCB284 /* XCRemoteSwiftPackageReference "MagicKit" */ = {
+		0B70E9632F52000200A12349 /* XCRemoteSwiftPackageReference "LumiKernel" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/CofficLab/MagicKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.5.23;
-			};
+			repositoryURL = "https://github.com/CofficLab/LumiKernel.git";
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0B0073C12F2F1ABF001B3789 /* MagicKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MagicKit;
-		};
 		0B70E95A2F52000100A12345 /* WakeryUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0B70E9592F52000100A12345 /* XCLocalSwiftPackageReference "Packages/WakeryUI" */;
 			productName = WakeryUI;
 		};
-		0B70E95C2F52000100A12345 /* WakeryUI */ = {
+		0B70E9642F52000200A1234A /* FactoryWakey */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0B70E9592F52000100A12345 /* XCLocalSwiftPackageReference "Packages/WakeryUI" */;
-			productName = WakeryUI;
+			package = 0B70E9602F52000200A12346 /* XCLocalSwiftPackageReference "Packages/FactoryWakey" */;
+			productName = FactoryWakey;
 		};
-		F53364702F51A58B00020751 /* MagicKit */ = {
+		0B70E9652F52000200A1234B /* KernelCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F5B80C532F513C0100BCB284 /* XCRemoteSwiftPackageReference "MagicKit" */;
-			productName = MagicKit;
+			package = 0B70E9632F52000200A12349 /* XCRemoteSwiftPackageReference "LumiKernel" */;
+			productName = KernelCore;
 		};
-		F5B5A73D2F511DB400F1239E /* MagicKit */ = {
+		0B70E9662F52000200A1234C /* ProviderWakeyHost */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = MagicKit;
+			package = 0B70E9612F52000200A12347 /* XCLocalSwiftPackageReference "Packages/ProviderWakeyHost" */;
+			productName = ProviderWakeyHost;
 		};
-		F5B80C542F513C0100BCB284 /* MagicKit */ = {
+		0B70E96A2F52000200A12350 /* MagicKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F5B80C532F513C0100BCB284 /* XCRemoteSwiftPackageReference "MagicKit" */;
+			package = 0B70E9622F52000200A12348 /* XCLocalSwiftPackageReference "Packages/MagicKit" */;
 			productName = MagicKit;
 		};
 /* End XCSwiftPackageProductDependency section */
