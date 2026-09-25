@@ -43,6 +43,11 @@ struct CoreApp: App {
                 BootstrapFailureView(error: bootstrapError)
             }
         }
+        // `SettingsHostView` follows Lumi's full-height settings shell. Its
+        // content may extend through the title-bar area only when the scene
+        // owns the same hidden-title-bar chrome as Lumi's settings window.
+        .windowStyle(.hiddenTitleBar)
+        .windowToolbarStyle(.unified(showsTitle: false))
     }
 }
 

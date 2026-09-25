@@ -1,8 +1,9 @@
 import KernelCore
+import LumiUI
 import OSLog
+import ProviderTheme
 import ProviderWakeyHost
 import SwiftUI
-import WakeryUI
 
 // Plugin imports — Logo (11)
 import PluginLogoBolt
@@ -32,20 +33,8 @@ import PluginHydrationReminder
 import PluginAppInfo
 import PluginAppStoreConnect
 import PluginPurchase
-// Plugin imports — Theme (13)
-import PluginThemeSwitcher
-import PluginThemeWakey
-import PluginThemeAurora
-import PluginThemeDracula
-import PluginThemeGithub
-import PluginThemeOneDark
-import PluginThemeVscodeDark
-import PluginThemeVscodeLight
-import PluginThemeSpring
-import PluginThemeSummer
-import PluginThemeAutumn
-import PluginThemeWinter
-import PluginThemeRiver
+// Plugin imports — Theme
+import PluginThemePack
 
 /// FactoryWakey — Wakey 唯一静态装配点（Composition Root）。
 ///
@@ -72,7 +61,10 @@ public enum FactoryWakey {
         try kernel.registerHostProvider(SettingsViewProviding.self, DefaultSettingsViewProviding())
         try kernel.registerHostProvider(PosterProviding.self, DefaultPosterProviding())
         try kernel.registerHostProvider(LogoProviding.self, DefaultLogoProviding())
-        try kernel.registerHostProvider(ThemeProviding.self, DefaultThemeProviding())
+        try kernel.registerHostProvider(
+            ProviderTheme.ThemeProviding.self,
+            ProviderTheme.DefaultThemeProviding()
+        )
         try kernel.registerHostProvider(CopilotNavigationProviding.self, DefaultCopilotNavigationProviding())
 
         // 设置插件启用状态持久化（兼容旧版 UserDefaults key）
@@ -128,20 +120,7 @@ public enum FactoryWakey {
             // order 20
             PluginAppStoreConnect(),
             // order 79
-            PluginThemeSwitcher(),
-            // order 80-91
-            PluginThemeWakey(),
-            PluginThemeAurora(),
-            PluginThemeDracula(),
-            PluginThemeGithub(),
-            PluginThemeOneDark(),
-            PluginThemeVscodeDark(),
-            PluginThemeVscodeLight(),
-            PluginThemeSpring(),
-            PluginThemeSummer(),
-            PluginThemeAutumn(),
-            PluginThemeWinter(),
-            PluginThemeRiver(),
+            ThemePackPlugin(),
             // order 99
             PluginLogoPreview(),
             // order 100
@@ -154,15 +133,16 @@ public enum FactoryWakey {
     /// 状态栏弹窗视图：从内核解析 StatusBarPopupProviding 并渲染插件贡献的内容。
     public static func makeStatusBarView(kernel: KernelCoreContainer) -> AnyView {
         let popupViews = kernel.resolveProvider(StatusBarPopupProviding.self)?.popupViews ?? []
-        let theme = kernel.resolveProvider(ThemeProviding.self)
-        return AnyView(StatusBarHostView(popupViews: popupViews, theme: theme?.currentTheme))
+        let view = AnyView(StatusBarHostView(popupViews: popupViews))
+        return themed(view, kernel: kernel)
     }
 
     /// 设置视图：与 Lumi 一致的侧边栏 + 详情区，第一页是插件开关，后续页是各插件贡献的设置页。
     public static func makeSettingsView(kernel: KernelCoreContainer) -> AnyView {
         let settingsTabs = kernel.resolveProvider(SettingsViewProviding.self)?.settingsTabs ?? []
         let stateStore = kernel.stateStore as? WakeyPluginStateStore ?? WakeyPluginStateStore()
-        return AnyView(SettingsHostView(kernel: kernel, settingsTabs: settingsTabs, stateStore: stateStore))
+        let view = AnyView(SettingsHostView(kernel: kernel, settingsTabs: settingsTabs, stateStore: stateStore))
+        return themed(view, kernel: kernel)
     }
 
     /// Logo 视图：从内核解析 LogoProviding，选中指定 logo 或默认第一个。
@@ -179,6 +159,14 @@ public enum FactoryWakey {
         // Fallback: 默认闪电图标
         return AnyView(LogoFallbackView(variant: variant))
     }
+
+    private static func themed(_ view: AnyView, kernel: KernelCoreContainer) -> AnyView {
+        guard let theme = kernel.resolveProvider((any ProviderTheme.ThemeProviding).self) else {
+            return view
+        }
+        ThemeSynchronizer.sync(theme)
+        return AnyView(ThemeHostingView(theme: theme, content: view))
+    }
 }
 
 // MARK: - Status Bar Host View
@@ -186,7 +174,7 @@ public enum FactoryWakey {
 @MainActor
 struct StatusBarHostView: View {
     let popupViews: [AnyView]
-    let theme: WakeryUIThemeContribution?
+    @LumiUI.LumiTheme private var theme: any LumiUI.LumiUITheme
 
     var body: some View {
         VStack(spacing: 0) {
@@ -203,12 +191,7 @@ struct StatusBarHostView: View {
         }
         .frame(width: 300)
         .fixedSize(horizontal: false, vertical: true)
-        .background {
-            GeometryReader { proxy in
-                theme?.chromeTheme.makeGlobalBackground(proxy: proxy)
-                    ?? AnyView(Color(nsColor: .windowBackgroundColor))
-            }
-        }
+        .background(theme.surface)
     }
 
     private var appInfoSection: some View {
@@ -274,7 +257,7 @@ struct SettingsHostView: View {
     let settingsTabs: [SettingsTabItem]
     let stateStore: WakeyPluginStateStore
     @State private var selectedEntryID = "plugins"
-    @WakeryTheme private var theme
+    @LumiUI.LumiTheme private var theme: any LumiUI.LumiUITheme
 
     var body: some View {
         AppSettingsSidebarShell { sidebar } detail: { detail }

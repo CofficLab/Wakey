@@ -1,3 +1,4 @@
+import LumiUI
 import SwiftUI
 
 struct CaffeinateSettingsView: View {
@@ -5,61 +6,64 @@ struct CaffeinateSettingsView: View {
     @State private var customMinutes: Int = 45
 
     var body: some View {
-        Form {
-            Section {
-                // Interval List
-                ForEach(manager.availableDurations, id: \.self) { option in
-                    HStack {
-                        Text(option.displayName)
-
-                        Spacer()
-
-                        // Delete button for custom durations
-                        if !CaffeinateManager.commonDurations.contains(option) {
-                            Button {
-                                manager.removeDuration(option)
-                            } label: {
-                                Image(systemName: "minus.circle.fill")
-                                    .foregroundColor(.red)
+        AppSettingsContentScaffold(maxContentWidth: nil) {
+            AppSettingSection(title: String(localized: "Anti-Sleep Durations", table: "Caffeinate")) {
+                VStack(spacing: 0) {
+                    ForEach(Array(manager.availableDurations.enumerated()), id: \.offset) { index, option in
+                        AppSettingRow(
+                            title: option.displayName,
+                            description: CaffeinateManager.commonDurations.contains(option)
+                                ? nil
+                                : String(localized: "Custom duration", table: "Caffeinate"),
+                            icon: "clock"
+                        ) {
+                            if !CaffeinateManager.commonDurations.contains(option) {
+                                AppButton(systemImage: "minus", style: .destructive) {
+                                    manager.removeDuration(option)
+                                }
+                                .help(Text("Delete", tableName: "Caffeinate"))
                             }
-                            .buttonStyle(.plain)
-                            .help(Text("Delete", tableName: "Caffeinate"))
+                        }
+                        if index < manager.availableDurations.count - 1 {
+                            Divider().padding(.vertical, 8)
                         }
                     }
-                }
 
-                // Add Custom Interval
-                HStack {
-                    Text("Add Custom (minutes):", tableName: "Caffeinate")
-                    TextField("", value: $customMinutes, format: .number)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(width: 60)
-                        .onSubmit {
-                            addCustomDuration()
+                    Divider().padding(.vertical, 8)
+
+                    AppSettingRow(
+                        title: String(localized: "Add Custom (minutes):", table: "Caffeinate"),
+                        description: String(localized: "Add a duration for manual activation.", table: "Caffeinate"),
+                        icon: "plus.circle"
+                    ) {
+                        HStack(spacing: 8) {
+                            TextField("", value: $customMinutes, format: .number)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: 64)
+                                .onSubmit { addCustomDuration() }
+                            AppButton(systemImage: "plus", style: .secondary, action: addCustomDuration)
+                                .disabled(customMinutes <= 0)
                         }
-
-                    Button {
-                        addCustomDuration()
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
                     }
-                    .disabled(customMinutes <= 0)
-                }
 
-                // Reset Durations Button
-                Button {
-                    manager.resetDurations()
-                } label: {
-                    Text("Reset to Default Durations", tableName: "Caffeinate")
+                    Divider().padding(.vertical, 8)
+
+                    AppSettingRow(
+                        title: String(localized: "Reset to Default Durations", table: "Caffeinate"),
+                        description: String(localized: "Restore the built-in anti-sleep durations.", table: "Caffeinate"),
+                        icon: "arrow.counterclockwise"
+                    ) {
+                        AppButton(
+                            String(localized: "Reset", table: "Caffeinate"),
+                            systemImage: "arrow.counterclockwise",
+                            style: .secondary,
+                            size: .small,
+                            action: manager.resetDurations
+                        )
+                    }
                 }
-                .controlSize(.large)
-            } header: {
-                Text("Anti-Sleep Durations", tableName: "Caffeinate")
-            } footer: {
-                Text("Manage your custom anti-sleep durations. Click the delete button to remove custom durations.", tableName: "Caffeinate")
             }
         }
-        .formStyle(.grouped)
         .onAppear {
             customMinutes = 45
         }

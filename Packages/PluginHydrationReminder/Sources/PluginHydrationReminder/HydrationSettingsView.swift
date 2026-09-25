@@ -1,3 +1,4 @@
+import LumiUI
 import SwiftUI
 
 struct HydrationSettingsView: View {
@@ -5,61 +6,64 @@ struct HydrationSettingsView: View {
     @State private var customMinutes: Int = 120
     
     var body: some View {
-        Form {
-            Section {
-                // Interval List
-                ForEach(manager.availableIntervals) { option in
-                    HStack {
-                        Text(option.displayName)
-
-                        Spacer()
-
-                        // Delete button for custom intervals
-                        if !HydrationReminderManager.commonIntervals.contains(option) {
-                            Button {
-                                manager.removeInterval(option)
-                            } label: {
-                                Image(systemName: "minus.circle.fill")
-                                    .foregroundColor(.red)
+        AppSettingsContentScaffold(maxContentWidth: nil) {
+            AppSettingSection(title: String(localized: "Reminder Intervals", table: "HydrationReminder")) {
+                VStack(spacing: 0) {
+                    ForEach(Array(manager.availableIntervals.enumerated()), id: \.offset) { index, option in
+                        AppSettingRow(
+                            title: option.displayName,
+                            description: HydrationReminderManager.commonIntervals.contains(option)
+                                ? nil
+                                : String(localized: "Custom interval", table: "HydrationReminder"),
+                            icon: "drop"
+                        ) {
+                            if !HydrationReminderManager.commonIntervals.contains(option) {
+                                AppButton(systemImage: "minus", style: .destructive) {
+                                    manager.removeInterval(option)
+                                }
+                                .help(Text("Delete", tableName: "HydrationReminder"))
                             }
-                            .buttonStyle(.plain)
-                            .help(Text("Delete", tableName: "HydrationReminder"))
+                        }
+                        if index < manager.availableIntervals.count - 1 {
+                            Divider().padding(.vertical, 8)
                         }
                     }
-                }
 
-                // Add Custom Interval
-                HStack {
-                    Text("Add Custom (minutes):", tableName: "HydrationReminder")
-                    TextField("", value: $customMinutes, format: .number)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(width: 60)
-                        .onSubmit {
-                            addCustomInterval()
+                    Divider().padding(.vertical, 8)
+
+                    AppSettingRow(
+                        title: String(localized: "Add Custom (minutes):", table: "HydrationReminder"),
+                        description: String(localized: "Add a custom hydration reminder interval.", table: "HydrationReminder"),
+                        icon: "plus.circle"
+                    ) {
+                        HStack(spacing: 8) {
+                            TextField("", value: $customMinutes, format: .number)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: 64)
+                                .onSubmit { addCustomInterval() }
+                            AppButton(systemImage: "plus", style: .secondary, action: addCustomInterval)
+                                .disabled(customMinutes <= 0)
                         }
-
-                    Button {
-                        addCustomInterval()
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
                     }
-                    .disabled(customMinutes <= 0)
-                }
 
-                // Reset Intervals Button
-                Button {
-                    manager.resetIntervals()
-                } label: {
-                    Text("Reset to Default Intervals", tableName: "HydrationReminder")
+                    Divider().padding(.vertical, 8)
+
+                    AppSettingRow(
+                        title: String(localized: "Reset to Default Intervals", table: "HydrationReminder"),
+                        description: String(localized: "Restore the built-in reminder intervals.", table: "HydrationReminder"),
+                        icon: "arrow.counterclockwise"
+                    ) {
+                        AppButton(
+                            String(localized: "Reset", table: "HydrationReminder"),
+                            systemImage: "arrow.counterclockwise",
+                            style: .secondary,
+                            size: .small,
+                            action: manager.resetIntervals
+                        )
+                    }
                 }
-                .controlSize(.large)
-            } header: {
-                Text("Reminder Intervals", tableName: "HydrationReminder")
-            } footer: {
-                Text("Manage your custom reminder intervals. Click the delete button to remove custom intervals.", tableName: "HydrationReminder")
             }
         }
-        .formStyle(.grouped)
         .onAppear {
             customMinutes = 120
         }

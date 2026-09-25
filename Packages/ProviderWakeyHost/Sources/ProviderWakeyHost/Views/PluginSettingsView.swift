@@ -1,5 +1,6 @@
-import SwiftUI
 import KernelCore
+import LumiUI
+import SwiftUI
 
 // MARK: - Plugin Info
 
@@ -34,32 +35,36 @@ public struct PluginSettingsView: View {
     }
 
     public var body: some View {
-        Form {
-            Section {
-                ForEach(configurablePlugins) { plugin in
-                    PluginToggleRow(
-                        plugin: plugin,
-                        isEnabled: Binding(
-                            get: { pluginStates[plugin.id, default: true] },
-                            set: { newValue in
-                                pluginStates[plugin.id] = newValue
-                                stateStore.setEnabled(newValue, pluginID: plugin.id)
-                            }
-                        )
-                    )
-                }
-            } header: {
-                Text("Enabled Plugins", tableName: "Core")
-            } footer: {
+        // Keep the page geometry identical to Lumi's settings details: the
+        // detail pane owns the backdrop, while every page starts from the
+        // shared 24pt LumiUI content scaffold instead of a system Form.
+        AppSettingsContentScaffold(maxContentWidth: nil) {
+            AppSettingsSection(
+                title: String(localized: "Enabled Plugins", table: "Core"),
+                subtitle: String(localized: "Toggle plugins to enable or disable features.", table: "Core")
+            ) {
                 if configurablePlugins.isEmpty {
-                    Text("No configurable plugins found.", tableName: "Core")
+                    AppEmptyState(
+                        icon: "puzzlepiece",
+                        title: String(localized: "No configurable plugins found.", table: "Core")
+                    )
+                    .padding(.vertical, 32)
                 } else {
-                    Text("Toggle plugins to enable or disable features.", tableName: "Core")
+                    ForEach(configurablePlugins) { plugin in
+                        PluginToggleRow(
+                            plugin: plugin,
+                            isEnabled: Binding(
+                                get: { pluginStates[plugin.id, default: true] },
+                                set: { newValue in
+                                    pluginStates[plugin.id] = newValue
+                                    stateStore.setEnabled(newValue, pluginID: plugin.id)
+                                }
+                            )
+                        )
+                    }
                 }
             }
         }
-        .formStyle(.grouped)
-        .navigationTitle(Text("Plugins", tableName: "Core"))
         .onAppear {
             loadPluginStates()
         }
@@ -106,32 +111,11 @@ public struct PluginToggleRow: View {
     }
 
     public var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: plugin.icon)
-                .font(.system(size: 18))
-                .foregroundColor(.accentColor)
-                .frame(width: 28, height: 28)
-                .background(Color.accentColor.opacity(0.1))
-                .cornerRadius(6)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(plugin.name)
-                    .font(.body)
-                    .fontWeight(.medium)
-
-                if !plugin.description.isEmpty {
-                    Text(plugin.description)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .lineLimit(2)
-                }
-            }
-
-            Spacer()
-
-            Toggle("", isOn: $isEnabled)
-                .labelsHidden()
-        }
-        .padding(.vertical, 4)
+        AppSettingsToggleRow(
+            plugin.name,
+            description: plugin.description.isEmpty ? nil : plugin.description,
+            systemImage: plugin.icon,
+            isOn: $isEnabled
+        )
     }
 }

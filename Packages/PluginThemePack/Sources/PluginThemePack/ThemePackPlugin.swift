@@ -37,7 +37,8 @@ public final class ThemePackPlugin: SuperPlugin {
             SettingsTabItem(
                 id: "appearance",
                 displayName: "Appearance",
-                iconName: "paintpalette"
+                iconName: "paintpalette",
+                order: 2
             ) {
                 ThemeSettingsDetailView(theme: theme, observation: observation)
             }

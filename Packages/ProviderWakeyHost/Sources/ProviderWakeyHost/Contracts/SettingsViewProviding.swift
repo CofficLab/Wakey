@@ -8,17 +8,22 @@ public struct SettingsTabItem: Identifiable {
     public let id: String
     public let displayName: String
     public let iconName: String
+    /// Sidebar display order. Lumi's settings provider uses the same ordering
+    /// contract so core pages remain stable regardless of plugin boot order.
+    public var order: Int
     public let makeView: @MainActor () -> AnyView
 
     public init<Content: View>(
         id: String,
         displayName: String,
         iconName: String,
+        order: Int = 200,
         @ViewBuilder view: @escaping @MainActor () -> Content
     ) {
         self.id = id
         self.displayName = displayName
         self.iconName = iconName
+        self.order = order
         self.makeView = { AnyView(view()) }
     }
 }

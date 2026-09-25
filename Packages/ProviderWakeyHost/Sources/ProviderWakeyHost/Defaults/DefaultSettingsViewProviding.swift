@@ -5,7 +5,11 @@ import SwiftUI
 public final class DefaultSettingsViewProviding: SettingsViewProviding {
     private var entries: [(ownerID: String, item: SettingsTabItem)] = []
 
-    public var settingsTabs: [SettingsTabItem] { entries.map(\.item) }
+    public var settingsTabs: [SettingsTabItem] {
+        entries.map(\.item).sorted { lhs, rhs in
+            lhs.order == rhs.order ? lhs.id < rhs.id : lhs.order < rhs.order
+        }
+    }
 
     public init() {}
 
