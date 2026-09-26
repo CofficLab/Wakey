@@ -14,7 +14,6 @@ let package = Package(
         .package(path: "../ProviderWakeyHost"),
         .package(path: "../ProviderTheme"),
         .package(path: "../PluginThemePack"),
-        .package(path: "../WakeryUI"),
         .package(path: "../MagicKit"),
         // Logo plugins (11)
         .package(path: "../PluginLogoBolt"),
@@ -54,7 +53,6 @@ let package = Package(
                 "ProviderWakeyHost",
                 "ProviderTheme",
                 "PluginThemePack",
-                "WakeryUI",
                 "MagicKit",
                 // Logo
                 "PluginLogoBolt", "PluginLogoLightBulb", "PluginLogoOwl",

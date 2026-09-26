@@ -1,9 +1,7 @@
 import KernelCore
+import ProviderTheme
 import ProviderWakeyHost
-import SwiftUI
-import WakeryUI
 
-/// Theme Plugin: 秋枫橙
 @MainActor
 public final class PluginThemeAutumn: SuperPlugin {
     public let id = "ThemeAutumnPlugin"
@@ -18,10 +16,12 @@ public final class PluginThemeAutumn: SuperPlugin {
     public init() {}
 
     public func onBoot(kernel: KernelCoreContainer) throws {
-        kernel.resolveProvider(ThemeProviding.self)?.addTheme(ownerID: id, AutumnTheme().themeContribution)
+        kernel.resolveProvider((any ProviderTheme.ThemeProviding).self)?
+            .registerTheme(AutumnTheme.themeContribution)
     }
 
     public func onShutdown(kernel: KernelCoreContainer) throws {
-        kernel.resolveProvider(ThemeProviding.self)?.removeThemes(ownerID: id)
+        kernel.resolveProvider((any ProviderTheme.ThemeProviding).self)?
+            .unregisterTheme(id: "autumn")
     }
 }

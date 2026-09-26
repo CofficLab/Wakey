@@ -1,5 +1,4 @@
 import Foundation
-import ProviderTheme
 
 // MARK: - 旧版 Lumi 主题色板复刻目录
 //
@@ -12,8 +11,8 @@ import ProviderTheme
 // 其余主题沿用 `LumiAppChromeTheme` 协议默认值
 // （primary 1C1C1E/FFFFFF、secondary 6B6B7B/EBEBF5、tertiary 98989E/EBEBF5）。
 
-/// 旧版主题插件的复刻目录（19 个主题贡献）。
-public enum LegacyThemeCatalog {
+/// Wakey 可用主题目录（19 个主题贡献）。
+public enum WakeyThemeCatalog {
     /// 全部复刻主题，按旧版插件 order（100 → 132）升序排列。
     public static let all: [LumiTheme] = [
         lumi,

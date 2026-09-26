@@ -1,9 +1,7 @@
 import KernelCore
+import ProviderTheme
 import ProviderWakeyHost
-import SwiftUI
-import WakeryUI
 
-/// Theme Plugin: One Dark
 @MainActor
 public final class PluginThemeOneDark: SuperPlugin {
     public let id = "ThemeOneDarkPlugin"
@@ -18,10 +16,12 @@ public final class PluginThemeOneDark: SuperPlugin {
     public init() {}
 
     public func onBoot(kernel: KernelCoreContainer) throws {
-        kernel.resolveProvider(ThemeProviding.self)?.addTheme(ownerID: id, OneDarkTheme().themeContribution)
+        kernel.resolveProvider((any ProviderTheme.ThemeProviding).self)?
+            .registerTheme(OneDarkTheme.themeContribution)
     }
 
     public func onShutdown(kernel: KernelCoreContainer) throws {
-        kernel.resolveProvider(ThemeProviding.self)?.removeThemes(ownerID: id)
+        kernel.resolveProvider((any ProviderTheme.ThemeProviding).self)?
+            .unregisterTheme(id: "oneDark")
     }
 }

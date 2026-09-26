@@ -1,9 +1,7 @@
 import KernelCore
+import ProviderTheme
 import ProviderWakeyHost
-import SwiftUI
-import WakeryUI
 
-/// Theme Plugin: VS Code 亮色
 @MainActor
 public final class PluginThemeVscodeLight: SuperPlugin {
     public let id = "ThemeVscodeLightPlugin"
@@ -18,10 +16,12 @@ public final class PluginThemeVscodeLight: SuperPlugin {
     public init() {}
 
     public func onBoot(kernel: KernelCoreContainer) throws {
-        kernel.resolveProvider(ThemeProviding.self)?.addTheme(ownerID: id, VscodeLightTheme().themeContribution)
+        kernel.resolveProvider((any ProviderTheme.ThemeProviding).self)?
+            .registerTheme(VscodeLightTheme.themeContribution)
     }
 
     public func onShutdown(kernel: KernelCoreContainer) throws {
-        kernel.resolveProvider(ThemeProviding.self)?.removeThemes(ownerID: id)
+        kernel.resolveProvider((any ProviderTheme.ThemeProviding).self)?
+            .unregisterTheme(id: "vscodeLight")
     }
 }

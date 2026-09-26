@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B70E95B2F52000100A12345 /* WakeryUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E95A2F52000100A12345 /* WakeryUI */; };
 		0B70E9672F52000200A1234D /* FactoryWakey in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E9642F52000200A1234A /* FactoryWakey */; };
 		0B70E9682F52000200A1234E /* KernelCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E9652F52000200A1234B /* KernelCore */; };
 		0B70E9692F52000200A1234F /* ProviderWakeyHost in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E9662F52000200A1234C /* ProviderWakeyHost */; };
@@ -35,7 +34,6 @@
 				0B70E9682F52000200A1234E /* KernelCore in Frameworks */,
 				0B70E9692F52000200A1234F /* ProviderWakeyHost in Frameworks */,
 				0B70E96B2F52000200A12351 /* MagicKit in Frameworks */,
-				0B70E95B2F52000100A12345 /* WakeryUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +80,6 @@
 				0B70E9652F52000200A1234B /* KernelCore */,
 				0B70E9662F52000200A1234C /* ProviderWakeyHost */,
 				0B70E96A2F52000200A12350 /* MagicKit */,
-				0B70E95A2F52000100A12345 /* WakeryUI */,
 			);
 			productName = "SwiftUI-Template";
 			productReference = F53C49142F1A42EC00929321 /* Wakey.app */;
@@ -119,7 +116,6 @@
 				0B70E9602F52000200A12346 /* XCLocalSwiftPackageReference "Packages/FactoryWakey" */,
 				0B70E9612F52000200A12347 /* XCLocalSwiftPackageReference "Packages/ProviderWakeyHost" */,
 				0B70E9622F52000200A12348 /* XCLocalSwiftPackageReference "Packages/MagicKit" */,
-				0B70E9592F52000100A12345 /* XCLocalSwiftPackageReference "Packages/WakeryUI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F54F8C752F1A3B6500AABB2A;
@@ -392,10 +388,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		0B70E9592F52000100A12345 /* XCLocalSwiftPackageReference "Packages/WakeryUI" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Packages/WakeryUI;
-		};
 		0B70E9602F52000200A12346 /* XCLocalSwiftPackageReference "Packages/FactoryWakey" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/FactoryWakey;
@@ -418,11 +410,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0B70E95A2F52000100A12345 /* WakeryUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0B70E9592F52000100A12345 /* XCLocalSwiftPackageReference "Packages/WakeryUI" */;
-			productName = WakeryUI;
-		};
 		0B70E9642F52000200A1234A /* FactoryWakey */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0B70E9602F52000200A12346 /* XCLocalSwiftPackageReference "Packages/FactoryWakey" */;

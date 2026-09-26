@@ -1,7 +1,8 @@
 import KernelCore
+import LumiUI
+import ProviderTheme
 import ProviderWakeyHost
 import SwiftUI
-import WakeryUI
 
 /// Theme Switcher Plugin: 贡献主题切换设置页
 @MainActor
@@ -19,7 +20,7 @@ public final class PluginThemeSwitcher: SuperPlugin {
 
     public func onBoot(kernel: KernelCoreContainer) throws {
         guard let settingsProvider = kernel.resolveProvider(SettingsViewProviding.self),
-              let themeProvider = kernel.resolveProvider(ThemeProviding.self) else { return }
+              let themeProvider = kernel.resolveProvider((any ProviderTheme.ThemeProviding).self) else { return }
 
         settingsProvider.addSettingsTab(
             ownerID: id,

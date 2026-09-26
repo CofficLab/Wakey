@@ -10,7 +10,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
         .package(path: "../ProviderWakeyHost"),
-        .package(path: "../WakeryUI"),
+        .package(path: "../ProviderTheme"),
     ],
     targets: [
         .target(
@@ -18,7 +18,7 @@ let package = Package(
             dependencies: [
                 .product(name: "KernelCore", package: "LumiKernel"),
                 "ProviderWakeyHost",
-                "WakeryUI",
+                "ProviderTheme",
             ]
         )
     ]

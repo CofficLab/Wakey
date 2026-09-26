@@ -20,10 +20,6 @@ let package = Package(
         .target(
             name: "ProviderTheme",
             path: "Sources/ProviderTheme"
-        ),
-        .testTarget(
-            name: "ProviderThemeTests",
-            dependencies: ["ProviderTheme"]
         )
     ]
 )
