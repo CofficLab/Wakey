@@ -11,9 +11,22 @@
 		0B70E9682F52000200A1234E /* KernelCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E9652F52000200A1234B /* KernelCore */; };
 		0B70E9692F52000200A1234F /* ProviderWakeyHost in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E9662F52000200A1234C /* ProviderWakeyHost */; };
 		0B70E96B2F52000200A12351 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E96A2F52000200A12350 /* MagicKit */; };
+		EC469867CEA40292EDE3B98C /* WakeyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688586AC8BD6946331B1E /* WakeyUITests.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4FDA3B970BFE2B6469D35FEC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F54F8C762F1A3B6500AABB2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F54F8C7D2F1A3B6500AABB2A;
+			remoteInfo = Wakey;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		317688586AC8BD6946331B1E /* WakeyUITests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WakeyUITests.swift; sourceTree = "<group>"; };
+		5E97DD71ADF24E7C774F14F2 /* WakeyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WakeyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F53C49142F1A42EC00929321 /* Wakey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wakey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -26,6 +39,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0071975282C2E3CEB2C1F50F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F54F8C7B2F1A3B6500AABB2A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -40,6 +60,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A4B3CFFDEE7462549D3B0FCA /* WakeyUITests */ = {
+			isa = PBXGroup;
+			children = (
+				317688586AC8BD6946331B1E /* WakeyUITests.swift */,
+			);
+			name = WakeyUITests;
+			path = WakeyUITests;
+			sourceTree = "<group>";
+		};
 		F533646F2F51A58B00020751 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -53,12 +82,32 @@
 				0B18AD822FE2C9BD00CBB621 /* WakeyApp */,
 				F53C49142F1A42EC00929321 /* Wakey.app */,
 				F533646F2F51A58B00020751 /* Frameworks */,
+				5E97DD71ADF24E7C774F14F2 /* WakeyUITests.xctest */,
+				A4B3CFFDEE7462549D3B0FCA /* WakeyUITests */,
 			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0AE2DDA18B22DC9EAE34F2DB /* WakeyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00ABEECA750C56D9189876E8 /* Build configuration list for PBXNativeTarget "WakeyUITests" */;
+			buildPhases = (
+				B56ED1F193DF1BA303CE97E6 /* Sources */,
+				0071975282C2E3CEB2C1F50F /* Frameworks */,
+				3EBB83DDBF74DADBBCDC4456 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4A1B3D61E1F38D961E11EDA0 /* PBXTargetDependency */,
+			);
+			name = WakeyUITests;
+			productName = WakeyUITests;
+			productReference = 5E97DD71ADF24E7C774F14F2 /* WakeyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		F54F8C7D2F1A3B6500AABB2A /* Wakey */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F54F8C8A2F1A3B6600AABB2A /* Build configuration list for PBXNativeTarget "Wakey" */;
@@ -123,11 +172,19 @@
 			projectRoot = "";
 			targets = (
 				F54F8C7D2F1A3B6500AABB2A /* Wakey */,
+				0AE2DDA18B22DC9EAE34F2DB /* WakeyUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3EBB83DDBF74DADBBCDC4456 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F54F8C7C2F1A3B6500AABB2A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -138,6 +195,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B56ED1F193DF1BA303CE97E6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC469867CEA40292EDE3B98C /* WakeyUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F54F8C7A2F1A3B6500AABB2A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -147,7 +212,46 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4A1B3D61E1F38D961E11EDA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Wakey;
+			target = F54F8C7D2F1A3B6500AABB2A /* Wakey */;
+			targetProxy = 4FDA3B970BFE2B6469D35FEC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		0822C3EA87D7245D0DF1AB7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_APP_SANDBOX = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.coffic.wakey.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+				TEST_TARGET_NAME = Wakey;
+			};
+			name = Debug;
+		};
+		D4AFEC13B3EBCD06939DD476 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_APP_SANDBOX = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.coffic.wakey.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+				TEST_TARGET_NAME = Wakey;
+			};
+			name = Release;
+		};
 		F54F8C882F1A3B6600AABB2A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -299,6 +403,7 @@
 				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
 				ENABLE_RESOURCE_ACCESS_USB = NO;
+				ENABLE_TESTABILITY = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WakeyApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Wakey;
@@ -367,6 +472,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00ABEECA750C56D9189876E8 /* Build configuration list for PBXNativeTarget "WakeyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4AFEC13B3EBCD06939DD476 /* Release */,
+				0822C3EA87D7245D0DF1AB7F /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F54F8C792F1A3B6500AABB2A /* Build configuration list for PBXProject "Wakey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

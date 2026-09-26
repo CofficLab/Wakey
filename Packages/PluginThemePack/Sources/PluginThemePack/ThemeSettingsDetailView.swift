@@ -125,6 +125,7 @@ struct ThemeSettingsDetailView: View {
         VStack(spacing: 0) {
             VStack(spacing: 10) {
                 AppSearchBar(text: $searchText, placeholder: "搜索主题")
+                    .accessibilityIdentifier("wakey.theme.search")
                 AppSegmentedControl(
                     ThemeAppearanceFilter.allCases.map(\.title),
                     selection: Binding(
@@ -183,6 +184,7 @@ struct ThemeSettingsDetailView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
+        .accessibilityIdentifier("wakey.theme.item.\(item.id)")
     }
 
     @ViewBuilder
@@ -254,6 +256,7 @@ private struct ThemePreviewPane: View {
                 AppTag("当前使用", style: .accent)
             } else {
                 AppButton("使用", systemImage: "paintbrush.fill", style: .primary, size: .small, action: onApply)
+                    .accessibilityIdentifier("wakey.theme.apply")
             }
         }
     }

@@ -117,5 +117,6 @@ public struct PluginToggleRow: View {
             systemImage: plugin.icon,
             isOn: $isEnabled
         )
+        .accessibilityIdentifier("wakey.settings.plugin.\(plugin.id)")
     }
 }

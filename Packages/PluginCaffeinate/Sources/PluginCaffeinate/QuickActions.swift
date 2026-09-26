@@ -11,6 +11,7 @@ struct CaffeinateQuickActions: View {
                 icon: "sun.max.fill",
                 color: .orange,
                 isSelected: manager.activeAction == .systemAndDisplay,
+                identifier: "wakey.caffeinate.action.system-and-display",
                 action: {
                     toggleAction(.systemAndDisplay)
                 }
@@ -24,6 +25,7 @@ struct CaffeinateQuickActions: View {
                 icon: "moon.fill",
                 color: .blue,
                 isSelected: manager.activeAction == .systemOnly,
+                identifier: "wakey.caffeinate.action.system-only",
                 action: {
                     toggleAction(.systemOnly)
                 }
@@ -37,6 +39,7 @@ struct CaffeinateQuickActions: View {
                 icon: "power",
                 color: .purple,
                 showCheckmark: false, // Instant action, no checkmark
+                identifier: "wakey.caffeinate.action.turn-off-display",
                 action: {
                     // Turn off display immediately and switch to "systemOnly" mode
                     manager.activateAndTurnOffDisplay(duration: manager.selectedDuration)
@@ -82,6 +85,7 @@ private struct QuickActionMenuItem: View {
     let color: Color
     var isSelected: Bool = false
     var showCheckmark: Bool? = nil // nil means automatic based on isSelected
+    let identifier: String
     let action: () -> Void
 
     @State private var isHovering = false
@@ -120,6 +124,8 @@ private struct QuickActionMenuItem: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .accessibilityIdentifier(identifier)
+        .accessibilityValue(shouldShowCheckmark ? "selected" : "not selected")
         .background(
             Rectangle()
                 .fill(isHovering ? Color(nsColor: .selectedContentBackgroundColor) : Color.clear)

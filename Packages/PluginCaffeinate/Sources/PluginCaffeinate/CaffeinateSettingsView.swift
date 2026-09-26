@@ -22,6 +22,7 @@ struct CaffeinateSettingsView: View {
                                     manager.removeDuration(option)
                                 }
                                 .help(Text("Delete", tableName: "Caffeinate"))
+                                .accessibilityIdentifier("wakey.caffeinate.duration.remove.\(Int(option.timeInterval))")
                             }
                         }
                         if index < manager.availableDurations.count - 1 {
@@ -40,9 +41,11 @@ struct CaffeinateSettingsView: View {
                             TextField("", value: $customMinutes, format: .number)
                                 .textFieldStyle(.roundedBorder)
                                 .frame(width: 64)
+                                .accessibilityIdentifier("wakey.caffeinate.custom-duration.minutes")
                                 .onSubmit { addCustomDuration() }
                             AppButton(systemImage: "plus", style: .secondary, action: addCustomDuration)
                                 .disabled(customMinutes <= 0)
+                                .accessibilityIdentifier("wakey.caffeinate.custom-duration.add")
                         }
                     }
 
@@ -60,6 +63,7 @@ struct CaffeinateSettingsView: View {
                             size: .small,
                             action: manager.resetDurations
                         )
+                        .accessibilityIdentifier("wakey.caffeinate.duration.reset")
                     }
                 }
             }

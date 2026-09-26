@@ -239,6 +239,7 @@ struct StatusBarHostView: View {
             MenuItemRow(
                 title: String(localized: "Quit", table: "Core", comment: "Menu item to quit the application"),
                 color: .red,
+                accessibilityIdentifier: "wakey.statusbar.quit",
                 action: { NSApp.terminate(nil) }
             )
         }
@@ -308,6 +309,7 @@ struct SettingsHostView: View {
                         ) {
                             selectedEntryID = "plugins"
                         }
+                        .accessibilityIdentifier("wakey.settings.sidebar.plugins")
 
                         ForEach(settingsTabs) { tab in
                             AppSettingsSidebarItem(
@@ -317,6 +319,7 @@ struct SettingsHostView: View {
                             ) {
                                 selectedEntryID = tab.id
                             }
+                            .accessibilityIdentifier("wakey.settings.sidebar.\(tab.id)")
                         }
                     }
                     .padding(.horizontal)
@@ -380,32 +383,27 @@ struct SettingsMenuItemRow: View {
     @State private var isHovering = false
 
     var body: some View {
-        if #available(macOS 14.0, *) {
-            SettingsLink {
-                HStack(spacing: 12) {
-                    Text(title).font(.system(size: 13))
-                        .foregroundColor(isHovering ? .white : .primary)
-                        .padding(.horizontal)
-                    Spacer()
-                }
-                .padding(.vertical, 10)
-                .contentShape(Rectangle())
+        SettingsLink {
+            HStack(spacing: 12) {
+                Text(title).font(.system(size: 13))
+                    .foregroundColor(isHovering ? .white : .primary)
+                    .padding(.horizontal)
+                Spacer()
             }
-            .buttonStyle(.plain)
-            .background(Rectangle().fill(isHovering ? Color(nsColor: .selectedContentBackgroundColor) : Color.clear))
-            .onHover { isHovering = $0 }
-        } else {
-            MenuItemRow(title: title) {
-                NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-                NSApp.activate(ignoringOtherApps: true)
-            }
+            .padding(.vertical, 10)
+            .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("wakey.statusbar.settings")
+        .background(Rectangle().fill(isHovering ? Color(nsColor: .selectedContentBackgroundColor) : Color.clear))
+        .onHover { isHovering = $0 }
     }
 }
 
 struct MenuItemRow: View {
     let title: String
     var color: Color = .primary
+    var accessibilityIdentifier: String? = nil
     let action: () -> Void
     @State private var isHovering = false
 
@@ -421,6 +419,7 @@ struct MenuItemRow: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .accessibilityIdentifier(accessibilityIdentifier ?? "wakey.menu-item")
         .background(Rectangle().fill(isHovering ? Color(nsColor: .selectedContentBackgroundColor) : Color.clear))
         .onHover { isHovering = $0 }
     }

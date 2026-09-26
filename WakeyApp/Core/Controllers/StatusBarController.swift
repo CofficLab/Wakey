@@ -32,6 +32,8 @@ class StatusBarController: NSObject, NSPopoverDelegate {
         self.iconHostingView = hostingView
 
         button.image = nil
+        button.setAccessibilityLabel("Wakey")
+        button.setAccessibilityIdentifier("wakey.statusbar.button")
         button.subviews.forEach { $0.removeFromSuperview() }
         button.addSubview(hostingView)
 

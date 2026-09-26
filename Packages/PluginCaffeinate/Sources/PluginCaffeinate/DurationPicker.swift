@@ -16,6 +16,7 @@ struct CaffeinateDurationPicker: View {
                     PopupDurationButton(
                         title: option.displayName,
                         isSelected: manager.selectedDuration == option.timeInterval,
+                        identifier: "wakey.caffeinate.duration.\(Int(option.timeInterval))",
                         action: {
                             // Update selected duration
                             manager.selectedDuration = option.timeInterval
@@ -51,6 +52,7 @@ struct CaffeinateDurationPicker: View {
 private struct PopupDurationButton: View {
     let title: String
     let isSelected: Bool
+    let identifier: String
     let action: () -> Void
 
     /// 按钮的视图主体
@@ -65,6 +67,7 @@ private struct PopupDurationButton: View {
                 .cornerRadius(3)
         }
         .buttonStyle(.plain)
+        .accessibilityIdentifier(identifier)
     }
 }
 

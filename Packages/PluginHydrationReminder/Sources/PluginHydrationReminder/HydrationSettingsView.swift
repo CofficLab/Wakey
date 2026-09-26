@@ -22,6 +22,7 @@ struct HydrationSettingsView: View {
                                     manager.removeInterval(option)
                                 }
                                 .help(Text("Delete", tableName: "HydrationReminder"))
+                                .accessibilityIdentifier("wakey.hydration.interval.remove.\(Int(option.timeInterval))")
                             }
                         }
                         if index < manager.availableIntervals.count - 1 {
@@ -40,9 +41,11 @@ struct HydrationSettingsView: View {
                             TextField("", value: $customMinutes, format: .number)
                                 .textFieldStyle(.roundedBorder)
                                 .frame(width: 64)
+                                .accessibilityIdentifier("wakey.hydration.custom-interval.minutes")
                                 .onSubmit { addCustomInterval() }
                             AppButton(systemImage: "plus", style: .secondary, action: addCustomInterval)
                                 .disabled(customMinutes <= 0)
+                                .accessibilityIdentifier("wakey.hydration.custom-interval.add")
                         }
                     }
 
@@ -60,6 +63,7 @@ struct HydrationSettingsView: View {
                             size: .small,
                             action: manager.resetIntervals
                         )
+                        .accessibilityIdentifier("wakey.hydration.interval.reset")
                     }
                 }
             }
