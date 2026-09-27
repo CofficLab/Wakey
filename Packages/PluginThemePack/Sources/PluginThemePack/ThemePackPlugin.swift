@@ -1,3 +1,4 @@
+import LumiThemePack
 import KernelCore
 import ProviderTheme
 import ProviderWakeyHost
@@ -26,7 +27,7 @@ public final class ThemePackPlugin: SuperPlugin {
             return
         }
 
-        for item in WakeyThemeCatalog.all {
+        for item in LumiThemeCatalog.all {
             theme.registerTheme(item)
         }
 
@@ -52,7 +53,7 @@ public final class ThemePackPlugin: SuperPlugin {
         guard let theme = kernel.resolveProvider((any ProviderTheme.ThemeProviding).self) else {
             return
         }
-        for item in WakeyThemeCatalog.all {
+        for item in LumiThemeCatalog.all {
             theme.unregisterTheme(id: item.id)
         }
     }

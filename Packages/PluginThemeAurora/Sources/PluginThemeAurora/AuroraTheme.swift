@@ -1,5 +1,6 @@
+import LumiThemePack
 import ProviderTheme
 
 enum AuroraTheme {
-    static let themeContribution = WakeyThemeCatalog.aurora
+    static let themeContribution = LumiThemeCatalog.aurora
 }

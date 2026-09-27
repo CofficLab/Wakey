@@ -1,5 +1,6 @@
+import LumiThemePack
 import ProviderTheme
 
 enum VscodeLightTheme {
-    static let themeContribution = WakeyThemeCatalog.vscodeLight
+    static let themeContribution = LumiThemeCatalog.vscodeLight
 }

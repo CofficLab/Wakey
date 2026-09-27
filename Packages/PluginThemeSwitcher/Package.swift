@@ -8,10 +8,10 @@ let package = Package(
         .library(name: "PluginThemeSwitcher", targets: ["PluginThemeSwitcher"])
     ],
     dependencies: [
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.1.1"),
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
         .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.7.0"),
         .package(path: "../ProviderWakeyHost"),
-        .package(path: "../ProviderTheme"),
     ],
     targets: [
         .target(
@@ -20,7 +20,7 @@ let package = Package(
                 .product(name: "KernelCore", package: "LumiKernel"),
                 .product(name: "LumiUI", package: "LumiUI"),
                 "ProviderWakeyHost",
-                "ProviderTheme",
+                .product(name: "ProviderTheme", package: "LumiProviders"),
             ]
         )
     ]

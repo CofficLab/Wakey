@@ -1,5 +1,6 @@
+import LumiThemePack
 import ProviderTheme
 
 enum RiverTheme {
-    static let themeContribution = WakeyThemeCatalog.river
+    static let themeContribution = LumiThemeCatalog.river
 }

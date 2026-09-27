@@ -1,5 +1,6 @@
+import LumiThemePack
 import ProviderTheme
 
 enum SpringTheme {
-    static let themeContribution = WakeyThemeCatalog.spring
+    static let themeContribution = LumiThemeCatalog.spring
 }

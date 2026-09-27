@@ -63,7 +63,7 @@ public enum FactoryWakey {
         try kernel.registerHostProvider(LogoProviding.self, DefaultLogoProviding())
         try kernel.registerHostProvider(
             ProviderTheme.ThemeProviding.self,
-            ProviderTheme.DefaultThemeProviding()
+            ProviderTheme.DefaultThemeProviding(defaultStorageDirectoryName: "com.coffic.lumi.plugin.theme-manager")
         )
         try kernel.registerHostProvider(CopilotNavigationProviding.self, DefaultCopilotNavigationProviding())
 

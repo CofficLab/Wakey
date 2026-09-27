@@ -8,17 +8,19 @@ let package = Package(
         .library(name: "PluginThemeRiver", targets: ["PluginThemeRiver"])
     ],
     dependencies: [
+        .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.2"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.1.1"),
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
         .package(path: "../ProviderWakeyHost"),
-        .package(path: "../ProviderTheme"),
     ],
     targets: [
         .target(
             name: "PluginThemeRiver",
             dependencies: [
+                .product(name: "LumiThemePack", package: "LumiThemePack"),
                 .product(name: "KernelCore", package: "LumiKernel"),
                 "ProviderWakeyHost",
-                "ProviderTheme",
+                .product(name: "ProviderTheme", package: "LumiProviders"),
             ]
         )
     ]

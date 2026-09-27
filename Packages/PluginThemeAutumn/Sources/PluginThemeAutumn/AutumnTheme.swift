@@ -1,5 +1,6 @@
+import LumiThemePack
 import ProviderTheme
 
 enum AutumnTheme {
-    static let themeContribution = WakeyThemeCatalog.autumn
+    static let themeContribution = LumiThemeCatalog.autumn
 }

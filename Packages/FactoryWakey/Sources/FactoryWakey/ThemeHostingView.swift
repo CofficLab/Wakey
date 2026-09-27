@@ -1,3 +1,4 @@
+import LumiThemePack
 import Combine
 import Foundation
 import LumiUI
@@ -22,7 +23,7 @@ enum ThemeSynchronizer {
         }
 
         ResolvedSystemColorScheme.current = colorScheme
-        let chrome = PaletteChromeTheme(theme: selected, colorScheme: colorScheme)
+        let chrome = LumiPaletteChromeTheme(theme: selected, colorScheme: colorScheme)
         ActiveChromeTheme.current = chrome
         LumiUIThemeStore.shared.setTheme(ChromeToUIThemeAdapter(chrome: chrome))
         ThemeWindowAppearanceSync.syncAllWindows()
