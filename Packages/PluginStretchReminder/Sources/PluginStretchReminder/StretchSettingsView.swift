@@ -7,21 +7,21 @@ struct StretchSettingsView: View {
     
     var body: some View {
         AppSettingsContentScaffold(maxContentWidth: nil) {
-            AppSettingSection(title: String(localized: "Reminder Intervals", table: "StretchReminder")) {
+            AppSettingSection(title: String(localized: "Reminder Intervals", table: "StretchReminder", bundle: .module)) {
                 VStack(spacing: 0) {
                     ForEach(Array(manager.availableIntervals.enumerated()), id: \.offset) { index, option in
                         AppSettingRow(
                             title: option.displayName,
                             description: StretchReminderManager.commonIntervals.contains(option)
                                 ? nil
-                                : String(localized: "Custom interval", table: "StretchReminder"),
+                                : String(localized: "Custom interval", table: "StretchReminder", bundle: .module),
                             icon: "figure.cooldown"
                         ) {
                             if !StretchReminderManager.commonIntervals.contains(option) {
                                 AppButton(systemImage: "minus", style: .destructive) {
                                     manager.removeInterval(option)
                                 }
-                                .help(Text("Delete", tableName: "StretchReminder"))
+                                .help(Text("Delete", tableName: "StretchReminder", bundle: .module))
                                 .accessibilityIdentifier("wakey.stretch.interval.remove.\(Int(option.timeInterval))")
                             }
                         }
@@ -33,8 +33,8 @@ struct StretchSettingsView: View {
                     Divider().padding(.vertical, 8)
 
                     AppSettingRow(
-                        title: String(localized: "Add Custom (minutes):", table: "StretchReminder"),
-                        description: String(localized: "Add a custom stretch reminder interval.", table: "StretchReminder"),
+                        title: String(localized: "Add Custom (minutes):", table: "StretchReminder", bundle: .module),
+                        description: String(localized: "Add a custom stretch reminder interval.", table: "StretchReminder", bundle: .module),
                         icon: "plus.circle"
                     ) {
                         HStack(spacing: 8) {
@@ -52,12 +52,12 @@ struct StretchSettingsView: View {
                     Divider().padding(.vertical, 8)
 
                     AppSettingRow(
-                        title: String(localized: "Reset to Default Intervals", table: "StretchReminder"),
-                        description: String(localized: "Restore the built-in reminder intervals.", table: "StretchReminder"),
+                        title: String(localized: "Reset to Default Intervals", table: "StretchReminder", bundle: .module),
+                        description: String(localized: "Restore the built-in reminder intervals.", table: "StretchReminder", bundle: .module),
                         icon: "arrow.counterclockwise"
                     ) {
                         AppButton(
-                            String(localized: "Reset", table: "StretchReminder"),
+                            String(localized: "Reset", table: "StretchReminder", bundle: .module),
                             systemImage: "arrow.counterclockwise",
                             style: .secondary,
                             size: .small,

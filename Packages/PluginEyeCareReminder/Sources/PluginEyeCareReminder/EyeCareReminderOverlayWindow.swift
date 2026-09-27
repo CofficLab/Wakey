@@ -77,11 +77,11 @@ private struct EyeCareGradientView: View {
                         value: isAnimating
                     )
 
-                Text(String(localized: "Eye Care", table: "EyeCareReminder"))
+                Text(String(localized: "Eye Care", table: "EyeCareReminder", bundle: .module))
                     .font(.system(size: 32, weight: .bold))
                     .foregroundColor(.primary)
 
-                Text(String(localized: "Look away from the screen for 20 seconds to rest your eyes.", table: "EyeCareReminder"))
+                Text(String(localized: "Look away from the screen for 20 seconds to rest your eyes.", table: "EyeCareReminder", bundle: .module))
                     .font(.system(size: 18))
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)

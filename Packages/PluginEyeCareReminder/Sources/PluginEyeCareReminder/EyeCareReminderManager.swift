@@ -308,8 +308,8 @@ extension EyeCareReminderManager {
 
         var displayName: String {
             switch self {
-            case let .minutes(m): return String(localized: "\(m) min", table: "EyeCareReminder", comment: "Label for duration in minutes")
-            case let .hours(h): return String(localized: "\(h) hr", table: "EyeCareReminder", comment: "Label for duration in hours")
+            case let .minutes(m): return String(localized: "\(m) min", table: "EyeCareReminder", bundle: .module, comment: "Label for duration in minutes")
+            case let .hours(h): return String(localized: "\(h) hr", table: "EyeCareReminder", bundle: .module, comment: "Label for duration in hours")
             }
         }
 

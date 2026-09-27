@@ -12,8 +12,8 @@ public final class PluginCaffeinate: SuperPlugin {
     public let order = 7
     public let metadata = PluginMetadata(
         id: "CaffeinatePlugin",
-        name: String(localized: "Caffeinate", table: "Caffeinate", comment: "Name of the anti-sleep plugin"),
-        description: String(localized: "Prevent system sleep, supporting scheduled and manual control", table: "Caffeinate", comment: "Description of what the Caffeinate plugin does"),
+        name: String(localized: "Caffeinate", table: "Caffeinate", bundle: .module, comment: "Name of the anti-sleep plugin"),
+        description: String(localized: "Prevent system sleep, supporting scheduled and manual control", table: "Caffeinate", bundle: .module, comment: "Description of what the Caffeinate plugin does"),
         policy: .enabledByDefault
     )
 
@@ -30,7 +30,7 @@ public final class PluginCaffeinate: SuperPlugin {
                 ownerID: id,
                 SettingsTabItem(
                     id: id,
-                    displayName: String(localized: "Caffeinate", table: "Caffeinate", comment: "Name of the anti-sleep plugin"),
+                    displayName: String(localized: "Caffeinate", table: "Caffeinate", bundle: .module, comment: "Name of the anti-sleep plugin"),
                     iconName: "bolt",
                     view: { CaffeinateSettingsView() }
                 )

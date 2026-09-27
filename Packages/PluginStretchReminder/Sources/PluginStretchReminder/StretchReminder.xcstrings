@@ -260,7 +260,7 @@
         }
       }
     },
-    "Start_Button" : {
+    "Start" : {
       "comment" : "Button to start stretch reminder",
       "localizations" : {
         "zh-Hans" : {
@@ -293,7 +293,7 @@
         }
       }
     },
-    "Stop_Button" : {
+    "Stop" : {
       "comment" : "Button to stop stretch reminder",
       "localizations" : {
         "zh-Hans" : {

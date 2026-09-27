@@ -33,9 +33,9 @@ private struct EyeCareIntervalButton: View {
             Group {
                 switch interval {
                 case let .minutes(m):
-                    Text("\(m) min", tableName: "EyeCareReminder")
+                    Text("\(m) min", tableName: "EyeCareReminder", bundle: .module)
                 case let .hours(h):
-                    Text("\(h) hr", tableName: "EyeCareReminder")
+                    Text("\(h) hr", tableName: "EyeCareReminder", bundle: .module)
                 }
             }
             .font(.system(size: 10))

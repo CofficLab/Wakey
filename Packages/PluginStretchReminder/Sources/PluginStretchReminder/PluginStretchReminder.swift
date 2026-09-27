@@ -12,8 +12,8 @@ public final class PluginStretchReminder: SuperPlugin {
     public let order = 9
     public let metadata = PluginMetadata(
         id: "StretchReminderPlugin",
-        name: String(localized: "Stretch", table: "StretchReminder", comment: "Name of the stretch reminder plugin"),
-        description: String(localized: "Remind you to move your body every hour", table: "StretchReminder", comment: "Description of what the Stretch Reminder plugin does"),
+        name: String(localized: "Stretch", table: "StretchReminder", bundle: .module, comment: "Name of the stretch reminder plugin"),
+        description: String(localized: "Remind you to move your body every hour", table: "StretchReminder", bundle: .module, comment: "Description of what the Stretch Reminder plugin does"),
         policy: .enabledByDefault
     )
 
@@ -30,7 +30,7 @@ public final class PluginStretchReminder: SuperPlugin {
                 ownerID: id,
                 SettingsTabItem(
                     id: id,
-                    displayName: String(localized: "Stretch", table: "StretchReminder", comment: "Name of the stretch reminder plugin"),
+                    displayName: String(localized: "Stretch", table: "StretchReminder", bundle: .module, comment: "Name of the stretch reminder plugin"),
                     iconName: "figure.stand",
                     view: { StretchSettingsView() }
                 )

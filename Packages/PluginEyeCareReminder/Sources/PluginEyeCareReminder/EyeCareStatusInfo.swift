@@ -21,11 +21,11 @@ struct EyeCareReminderStatusInfo: View {
                         let minutes = Int(timeUntil) / 60
                         Group {
                             if minutes < 1 {
-                                Text("Next break: less than 1 min", tableName: "EyeCareReminder")
+                                Text("Next break: less than 1 min", tableName: "EyeCareReminder", bundle: .module)
                             } else if minutes == 1 {
-                                Text("Next break: 1 min", tableName: "EyeCareReminder")
+                                Text("Next break: 1 min", tableName: "EyeCareReminder", bundle: .module)
                             } else {
-                                Text("Next break: \(minutes) mins", tableName: "EyeCareReminder")
+                                Text("Next break: \(minutes) mins", tableName: "EyeCareReminder", bundle: .module)
                             }
                         }
                         .font(.system(size: 10))
@@ -41,7 +41,7 @@ struct EyeCareReminderStatusInfo: View {
                         .font(.system(size: 9))
                         .foregroundColor(.green)
 
-                    Text("Today: \(manager.todayBreakCount) breaks", tableName: "EyeCareReminder")
+                    Text("Today: \(manager.todayBreakCount) breaks", tableName: "EyeCareReminder", bundle: .module)
                         .font(.system(size: 10))
                         .foregroundColor(.secondary)
 
@@ -53,7 +53,7 @@ struct EyeCareReminderStatusInfo: View {
                         .font(.system(size: 9))
                         .foregroundColor(.secondary)
 
-                    Text("Break reminder is off", tableName: "EyeCareReminder")
+                    Text("Break reminder is off", tableName: "EyeCareReminder", bundle: .module)
                         .font(.system(size: 10))
                         .foregroundColor(.secondary)
 

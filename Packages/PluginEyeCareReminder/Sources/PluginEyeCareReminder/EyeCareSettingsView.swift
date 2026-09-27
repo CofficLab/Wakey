@@ -7,21 +7,21 @@ struct EyeCareSettingsView: View {
     
     var body: some View {
         AppSettingsContentScaffold(maxContentWidth: nil) {
-            AppSettingSection(title: String(localized: "Reminder Intervals", table: "EyeCareReminder")) {
+            AppSettingSection(title: String(localized: "Reminder Intervals", table: "EyeCareReminder", bundle: .module)) {
                 VStack(spacing: 0) {
                     ForEach(Array(manager.availableIntervals.enumerated()), id: \.offset) { index, option in
                         AppSettingRow(
                             title: option.displayName,
                             description: EyeCareReminderManager.commonIntervals.contains(option)
                                 ? nil
-                                : String(localized: "Custom interval", table: "EyeCareReminder"),
+                                : String(localized: "Custom interval", table: "EyeCareReminder", bundle: .module),
                             icon: "eye"
                         ) {
                             if !EyeCareReminderManager.commonIntervals.contains(option) {
                                 AppButton(systemImage: "minus", style: .destructive) {
                                     manager.removeInterval(option)
                                 }
-                                .help(Text("Delete", tableName: "EyeCareReminder"))
+                                .help(Text("Delete", tableName: "EyeCareReminder", bundle: .module))
                                 .accessibilityIdentifier("wakey.eyecare.interval.remove.\(Int(option.timeInterval))")
                             }
                         }
@@ -33,8 +33,8 @@ struct EyeCareSettingsView: View {
                     Divider().padding(.vertical, 8)
 
                     AppSettingRow(
-                        title: String(localized: "Add Custom (minutes):", table: "EyeCareReminder"),
-                        description: String(localized: "Add a custom rest reminder interval.", table: "EyeCareReminder"),
+                        title: String(localized: "Add Custom (minutes):", table: "EyeCareReminder", bundle: .module),
+                        description: String(localized: "Add a custom rest reminder interval.", table: "EyeCareReminder", bundle: .module),
                         icon: "plus.circle"
                     ) {
                         HStack(spacing: 8) {
@@ -52,12 +52,12 @@ struct EyeCareSettingsView: View {
                     Divider().padding(.vertical, 8)
 
                     AppSettingRow(
-                        title: String(localized: "Reset to Default Intervals", table: "EyeCareReminder"),
-                        description: String(localized: "Restore the built-in reminder intervals.", table: "EyeCareReminder"),
+                        title: String(localized: "Reset to Default Intervals", table: "EyeCareReminder", bundle: .module),
+                        description: String(localized: "Restore the built-in reminder intervals.", table: "EyeCareReminder", bundle: .module),
                         icon: "arrow.counterclockwise"
                     ) {
                         AppButton(
-                            String(localized: "Reset", table: "EyeCareReminder"),
+                            String(localized: "Reset", table: "EyeCareReminder", bundle: .module),
                             systemImage: "arrow.counterclockwise",
                             style: .secondary,
                             size: .small,

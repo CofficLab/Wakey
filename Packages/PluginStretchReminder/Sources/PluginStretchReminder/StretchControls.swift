@@ -5,8 +5,8 @@ struct StretchReminderControls: View {
     @State private var manager = StretchReminderManager.shared
 
     // 显式声明翻译key以防止Xcode构建时删除
-    private static let startButtonTitle = String(localized: "Start_Button", table: "StretchReminder")
-    private static let stopButtonTitle = String(localized: "Stop_Button", table: "StretchReminder")
+    private static let startButtonTitle = String(localized: "Start", table: "StretchReminder", bundle: .module)
+    private static let stopButtonTitle = String(localized: "Stop", table: "StretchReminder", bundle: .module)
 
     var body: some View {
         HStack(spacing: 8) {

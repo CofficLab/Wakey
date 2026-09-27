@@ -27,9 +27,9 @@ private struct HydrationIntervalButton: View {
             Group {
                 switch interval {
                 case .minutes(let m):
-                    Text("\(m) min", tableName: "HydrationReminder")
+                    Text("\(m) min", tableName: "HydrationReminder", bundle: .module)
                 case .hours(let h):
-                    Text("\(h) hr", tableName: "HydrationReminder")
+                    Text("\(h) hr", tableName: "HydrationReminder", bundle: .module)
                 }
             }
             .font(.system(size: 10))

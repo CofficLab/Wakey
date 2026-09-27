@@ -5,8 +5,8 @@ struct EyeCareReminderControls: View {
     @State private var manager = EyeCareReminderManager.shared
 
     // 显式声明翻译key以防止Xcode构建时删除
-    private static let startButtonTitle = String(localized: "Start_Button", table: "EyeCareReminder")
-    private static let stopButtonTitle = String(localized: "Stop_Button", table: "EyeCareReminder")
+    private static let startButtonTitle = String(localized: "Start", table: "EyeCareReminder", bundle: .module)
+    private static let stopButtonTitle = String(localized: "Stop", table: "EyeCareReminder", bundle: .module)
 
     var body: some View {
         HStack(spacing: 8) {

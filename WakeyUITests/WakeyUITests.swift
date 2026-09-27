@@ -8,9 +8,17 @@ import XCTest
 class WakeyUITestBase: XCTestCase {
     var app: XCUIApplication!
 
+    var launchLanguage: (language: String, locale: String)? { nil }
+
     override func setUpWithError() throws {
         continueAfterFailure = false
         app = XCUIApplication()
+        if let launchLanguage {
+            app.launchArguments += [
+                "-AppleLanguages", "(\(launchLanguage.language))",
+                "-AppleLocale", launchLanguage.locale,
+            ]
+        }
         app.launch()
         XCTAssertTrue(statusBarButton.waitForExistence(timeout: 20), "Wakey did not create its menu-bar item")
     }
@@ -28,6 +36,20 @@ class WakeyUITestBase: XCTestCase {
 
     func element(_ identifier: String) -> XCUIElement {
         app.descendants(matching: .any).matching(identifier: identifier).firstMatch
+    }
+
+    func assertAccessibilityLabels(_ labels: [String], file: StaticString = #filePath, line: UInt = #line) {
+        for label in labels {
+            let match = app.descendants(matching: .any)
+                .matching(NSPredicate(format: "label == %@ OR value == %@", label, label))
+                .firstMatch
+            XCTAssertTrue(match.exists, "Missing localized accessibility text: \(label)", file: file, line: line)
+        }
+    }
+
+    func assertButtonCount(_ label: String, equals expectedCount: Int, file: StaticString = #filePath, line: UInt = #line) {
+        let matchingButtons = app.buttons.matching(NSPredicate(format: "label == %@", label))
+        XCTAssertEqual(matchingButtons.count, expectedCount, "Unexpected number of buttons labeled \(label)", file: file, line: line)
     }
 
     func openPopup() {
@@ -179,5 +201,49 @@ final class WakeyCaffeinateUITests: WakeyUITestBase {
         XCTAssertEqual(action.value as? String, "selected", "Quick action did not activate")
         action.click()
         XCTAssertEqual(action.value as? String, "not selected", "Quick action did not deactivate")
+    }
+}
+
+final class WakeyChineseLocalizationUITests: WakeyUITestBase {
+    override var launchLanguage: (language: String, locale: String)? { ("zh-Hans", "zh_CN") }
+
+    func testChineseEnvironmentShowsChineseInterface() {
+        openPopup()
+        XCTAssertEqual(element("wakey.statusbar.settings").label, "设置...")
+        XCTAssertEqual(element("wakey.statusbar.quit").label, "退出")
+
+        assertAccessibilityLabels([
+            "防休眠", "时长", "操作", "永久", "30 分钟", "1 小时", "2 小时", "5 小时",
+            "阻止休眠并保持屏幕常亮", "阻止休眠并允许屏幕关闭", "阻止休眠并立即关闭屏幕",
+            "护眼", "状态", "护眼提醒已关闭", "提醒间隔", "10 分钟", "30 分钟", "1 小时", "2 小时", "3 小时",
+            "活动", "活动提醒已关闭", "补水", "补水提醒已关闭",
+        ])
+        assertButtonCount("开始", equals: 3)
+
+        element("wakey.statusbar.settings").click()
+        XCTAssertTrue(element("wakey.settings.sidebar.plugins").waitForExistence(timeout: 15))
+        XCTAssertEqual(element("wakey.settings.sidebar.plugins").label, "插件")
+    }
+}
+
+final class WakeyEnglishLocalizationUITests: WakeyUITestBase {
+    override var launchLanguage: (language: String, locale: String)? { ("en", "en_US") }
+
+    func testEnglishEnvironmentShowsEnglishInterface() {
+        openPopup()
+        XCTAssertEqual(element("wakey.statusbar.settings").label, "Settings...")
+        XCTAssertEqual(element("wakey.statusbar.quit").label, "Quit")
+
+        assertAccessibilityLabels([
+            "Caffeinate", "Duration", "Actions", "Indefinite", "30 minutes", "1 hours", "2 hours", "5 hours",
+            "Keep Awake & Display On", "Keep Awake & Allow Display Sleep", "Keep Awake & Turn Off Display Now",
+            "Eye Care", "Status", "Break reminder is off", "Interval", "10 min", "30 min", "1 hr", "2 hr", "3 hr",
+            "Stretch", "Hydration",
+        ])
+        assertButtonCount("Start", equals: 3)
+
+        element("wakey.statusbar.settings").click()
+        XCTAssertTrue(element("wakey.settings.sidebar.plugins").waitForExistence(timeout: 15))
+        XCTAssertEqual(element("wakey.settings.sidebar.plugins").label, "Plugins")
     }
 }

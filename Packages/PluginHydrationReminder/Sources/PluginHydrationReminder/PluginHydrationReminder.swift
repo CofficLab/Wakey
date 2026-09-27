@@ -12,8 +12,8 @@ public final class PluginHydrationReminder: SuperPlugin {
     public let order = 10
     public let metadata = PluginMetadata(
         id: "HydrationReminderPlugin",
-        name: String(localized: "Hydration", table: "HydrationReminder", comment: "Name of the hydration reminder plugin"),
-        description: String(localized: "Remind you to stay hydrated every 2 hours", table: "HydrationReminder", comment: "Description of what the Hydration Reminder plugin does"),
+        name: String(localized: "Hydration", table: "HydrationReminder", bundle: .module, comment: "Name of the hydration reminder plugin"),
+        description: String(localized: "Remind you to stay hydrated every 2 hours", table: "HydrationReminder", bundle: .module, comment: "Description of what the Hydration Reminder plugin does"),
         policy: .enabledByDefault
     )
 
@@ -30,7 +30,7 @@ public final class PluginHydrationReminder: SuperPlugin {
                 ownerID: id,
                 SettingsTabItem(
                     id: id,
-                    displayName: String(localized: "Hydration", table: "HydrationReminder", comment: "Name of the hydration reminder plugin"),
+                    displayName: String(localized: "Hydration", table: "HydrationReminder", bundle: .module, comment: "Name of the hydration reminder plugin"),
                     iconName: "drop.fill",
                     view: { HydrationSettingsView() }
                 )

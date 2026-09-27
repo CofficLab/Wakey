@@ -293,7 +293,7 @@
         }
       }
     },
-    "Start_Button" : {
+    "Start" : {
       "comment" : "Button to start hydration reminder",
       "localizations" : {
         "zh-Hans" : {
@@ -326,7 +326,7 @@
         }
       }
     },
-    "Stop_Button" : {
+    "Stop" : {
       "comment" : "Button to stop hydration reminder",
       "localizations" : {
         "zh-Hans" : {

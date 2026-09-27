@@ -12,8 +12,8 @@ public final class PluginEyeCareReminder: SuperPlugin {
     public let order = 8
     public let metadata = PluginMetadata(
         id: "EyeCareReminderPlugin",
-        name: String(localized: "Eye Care", table: "EyeCareReminder", comment: "Name of the eye care reminder plugin"),
-        description: String(localized: "Remind you to rest your eyes every 20 minutes", table: "EyeCareReminder", comment: "Description of what the Eye Care Reminder plugin does"),
+        name: String(localized: "Eye Care", table: "EyeCareReminder", bundle: .module, comment: "Name of the eye care reminder plugin"),
+        description: String(localized: "Remind you to rest your eyes every 20 minutes", table: "EyeCareReminder", bundle: .module, comment: "Description of what the Eye Care Reminder plugin does"),
         policy: .enabledByDefault
     )
 
@@ -30,7 +30,7 @@ public final class PluginEyeCareReminder: SuperPlugin {
                 ownerID: id,
                 SettingsTabItem(
                     id: id,
-                    displayName: String(localized: "Eye Care", table: "EyeCareReminder", comment: "Name of the eye care reminder plugin"),
+                    displayName: String(localized: "Eye Care", table: "EyeCareReminder", bundle: .module, comment: "Name of the eye care reminder plugin"),
                     iconName: "eye.fill",
                     view: { EyeCareSettingsView() }
                 )

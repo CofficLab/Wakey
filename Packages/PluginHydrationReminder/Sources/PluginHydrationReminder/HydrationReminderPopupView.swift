@@ -8,7 +8,7 @@ struct HydrationReminderPopupView: View {
                 Image(systemName: "drop.fill")
                     .font(.system(size: 11))
                     .foregroundColor(.blue)
-                Text("Hydration", tableName: "HydrationReminder")
+                Text("Hydration", tableName: "HydrationReminder", bundle: .module)
                     .font(.system(size: 11, weight: .semibold))
                     .foregroundColor(.primary)
                 Spacer()
@@ -19,7 +19,7 @@ struct HydrationReminderPopupView: View {
             .padding(.bottom, 4)
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("Status", tableName: "HydrationReminder")
+                Text("Status", tableName: "HydrationReminder", bundle: .module)
                     .font(.system(size: 9))
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 12)
@@ -28,7 +28,7 @@ struct HydrationReminderPopupView: View {
             }
             Divider().padding(.horizontal, 12).padding(.vertical, 4)
             VStack(alignment: .leading, spacing: 4) {
-                Text("Interval", tableName: "HydrationReminder")
+                Text("Interval", tableName: "HydrationReminder", bundle: .module)
                     .font(.system(size: 9))
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 12)
@@ -62,13 +62,13 @@ struct HydrationNotificationPermissionWarning: View {
         VStack(spacing: 8) {
             HStack(spacing: 8) {
                 Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.orange).font(.system(size: 14))
-                Text("Notifications Disabled", tableName: "HydrationReminder").font(.system(size: 11, weight: .medium)).foregroundColor(.primary)
+                Text("Notifications Disabled", tableName: "HydrationReminder", bundle: .module).font(.system(size: 11, weight: .medium)).foregroundColor(.primary)
                 Spacer()
             }
-            Text("Please enable notifications in System Settings to receive break reminders.", tableName: "HydrationReminder")
+            Text("Please enable notifications in System Settings to receive break reminders.", tableName: "HydrationReminder", bundle: .module)
                 .font(.system(size: 10)).foregroundColor(.secondary).fixedSize(horizontal: false, vertical: true).multilineTextAlignment(.leading)
             Button(action: { manager.openNotificationSettings() }) {
-                Text("Open Settings", tableName: "HydrationReminder").font(.system(size: 10, weight: .medium)).padding(.horizontal, 8).padding(.vertical, 4).background(Color.accentColor.opacity(0.1)).cornerRadius(4)
+                Text("Open Settings", tableName: "HydrationReminder", bundle: .module).font(.system(size: 10, weight: .medium)).padding(.horizontal, 8).padding(.vertical, 4).background(Color.accentColor.opacity(0.1)).cornerRadius(4)
             }
             .buttonStyle(.plain)
         }

@@ -7,21 +7,21 @@ struct CaffeinateSettingsView: View {
 
     var body: some View {
         AppSettingsContentScaffold(maxContentWidth: nil) {
-            AppSettingSection(title: String(localized: "Anti-Sleep Durations", table: "Caffeinate")) {
+            AppSettingSection(title: String(localized: "Anti-Sleep Durations", table: "Caffeinate", bundle: .module)) {
                 VStack(spacing: 0) {
                     ForEach(Array(manager.availableDurations.enumerated()), id: \.offset) { index, option in
                         AppSettingRow(
                             title: option.displayName,
                             description: CaffeinateManager.commonDurations.contains(option)
                                 ? nil
-                                : String(localized: "Custom duration", table: "Caffeinate"),
+                                : String(localized: "Custom duration", table: "Caffeinate", bundle: .module),
                             icon: "clock"
                         ) {
                             if !CaffeinateManager.commonDurations.contains(option) {
                                 AppButton(systemImage: "minus", style: .destructive) {
                                     manager.removeDuration(option)
                                 }
-                                .help(Text("Delete", tableName: "Caffeinate"))
+                                .help(Text("Delete", tableName: "Caffeinate", bundle: .module))
                                 .accessibilityIdentifier("wakey.caffeinate.duration.remove.\(Int(option.timeInterval))")
                             }
                         }
@@ -33,8 +33,8 @@ struct CaffeinateSettingsView: View {
                     Divider().padding(.vertical, 8)
 
                     AppSettingRow(
-                        title: String(localized: "Add Custom (minutes):", table: "Caffeinate"),
-                        description: String(localized: "Add a duration for manual activation.", table: "Caffeinate"),
+                        title: String(localized: "Add Custom (minutes):", table: "Caffeinate", bundle: .module),
+                        description: String(localized: "Add a duration for manual activation.", table: "Caffeinate", bundle: .module),
                         icon: "plus.circle"
                     ) {
                         HStack(spacing: 8) {
@@ -52,12 +52,12 @@ struct CaffeinateSettingsView: View {
                     Divider().padding(.vertical, 8)
 
                     AppSettingRow(
-                        title: String(localized: "Reset to Default Durations", table: "Caffeinate"),
-                        description: String(localized: "Restore the built-in anti-sleep durations.", table: "Caffeinate"),
+                        title: String(localized: "Reset to Default Durations", table: "Caffeinate", bundle: .module),
+                        description: String(localized: "Restore the built-in anti-sleep durations.", table: "Caffeinate", bundle: .module),
                         icon: "arrow.counterclockwise"
                     ) {
                         AppButton(
-                            String(localized: "Reset", table: "Caffeinate"),
+                            String(localized: "Reset", table: "Caffeinate", bundle: .module),
                             systemImage: "arrow.counterclockwise",
                             style: .secondary,
                             size: .small,

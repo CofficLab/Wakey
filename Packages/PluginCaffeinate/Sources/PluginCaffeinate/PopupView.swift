@@ -10,7 +10,7 @@ struct CaffeinatePopupView: View {
                     .font(.system(size: 11))
                     .foregroundColor(.orange)
 
-                Text("Caffeinate", tableName: "Caffeinate")
+                Text("Caffeinate", tableName: "Caffeinate", bundle: .module)
                     .font(.system(size: 11, weight: .semibold))
                     .foregroundColor(.primary)
 
@@ -22,7 +22,7 @@ struct CaffeinatePopupView: View {
 
             // Section 1: Duration Options
             VStack(alignment: .leading, spacing: 4) {
-                Text("Duration", tableName: "Caffeinate")
+                Text("Duration", tableName: "Caffeinate", bundle: .module)
                     .font(.system(size: 9))
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 12)
@@ -38,7 +38,7 @@ struct CaffeinatePopupView: View {
 
             // Section 2: Quick Actions
             VStack(alignment: .leading, spacing: 4) {
-                Text("Actions", tableName: "Caffeinate")
+                Text("Actions", tableName: "Caffeinate", bundle: .module)
                     .font(.system(size: 9))
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 12)

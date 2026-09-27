@@ -17,11 +17,11 @@ struct StretchReminderStatusInfo: View {
                         let minutes = Int(timeUntil) / 60
                         Group {
                             if minutes < 1 {
-                                Text("Next break: less than 1 min", tableName: "StretchReminder")
+                                Text("Next break: less than 1 min", tableName: "StretchReminder", bundle: .module)
                             } else if minutes == 1 {
-                                Text("Next break: 1 min", tableName: "StretchReminder")
+                                Text("Next break: 1 min", tableName: "StretchReminder", bundle: .module)
                             } else {
-                                Text("Next break: \(minutes) mins", tableName: "StretchReminder")
+                                Text("Next break: \(minutes) mins", tableName: "StretchReminder", bundle: .module)
                             }
                         }
                         .font(.system(size: 10))
@@ -32,13 +32,13 @@ struct StretchReminderStatusInfo: View {
             }
                 HStack {
                     Image(systemName: "checkmark.circle.fill").font(.system(size: 9)).foregroundColor(.green)
-                    Text("Today: \(manager.todayBreakCount) breaks", tableName: "StretchReminder").font(.system(size: 10)).foregroundColor(.secondary)
+                    Text("Today: \(manager.todayBreakCount) breaks", tableName: "StretchReminder", bundle: .module).font(.system(size: 10)).foregroundColor(.secondary)
                     Spacer()
                 }
             } else {
                 HStack {
                     Image(systemName: "zzz").font(.system(size: 9)).foregroundColor(.secondary)
-                    Text("Break reminder is off", tableName: "StretchReminder").font(.system(size: 10)).foregroundColor(.secondary)
+                    Text("Break reminder is off", tableName: "StretchReminder", bundle: .module).font(.system(size: 10)).foregroundColor(.secondary)
                     Spacer()
                 }
             }

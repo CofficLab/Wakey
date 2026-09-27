@@ -7,21 +7,21 @@ struct HydrationSettingsView: View {
     
     var body: some View {
         AppSettingsContentScaffold(maxContentWidth: nil) {
-            AppSettingSection(title: String(localized: "Reminder Intervals", table: "HydrationReminder")) {
+            AppSettingSection(title: String(localized: "Reminder Intervals", table: "HydrationReminder", bundle: .module)) {
                 VStack(spacing: 0) {
                     ForEach(Array(manager.availableIntervals.enumerated()), id: \.offset) { index, option in
                         AppSettingRow(
                             title: option.displayName,
                             description: HydrationReminderManager.commonIntervals.contains(option)
                                 ? nil
-                                : String(localized: "Custom interval", table: "HydrationReminder"),
+                                : String(localized: "Custom interval", table: "HydrationReminder", bundle: .module),
                             icon: "drop"
                         ) {
                             if !HydrationReminderManager.commonIntervals.contains(option) {
                                 AppButton(systemImage: "minus", style: .destructive) {
                                     manager.removeInterval(option)
                                 }
-                                .help(Text("Delete", tableName: "HydrationReminder"))
+                                .help(Text("Delete", tableName: "HydrationReminder", bundle: .module))
                                 .accessibilityIdentifier("wakey.hydration.interval.remove.\(Int(option.timeInterval))")
                             }
                         }
@@ -33,8 +33,8 @@ struct HydrationSettingsView: View {
                     Divider().padding(.vertical, 8)
 
                     AppSettingRow(
-                        title: String(localized: "Add Custom (minutes):", table: "HydrationReminder"),
-                        description: String(localized: "Add a custom hydration reminder interval.", table: "HydrationReminder"),
+                        title: String(localized: "Add Custom (minutes):", table: "HydrationReminder", bundle: .module),
+                        description: String(localized: "Add a custom hydration reminder interval.", table: "HydrationReminder", bundle: .module),
                         icon: "plus.circle"
                     ) {
                         HStack(spacing: 8) {
@@ -52,12 +52,12 @@ struct HydrationSettingsView: View {
                     Divider().padding(.vertical, 8)
 
                     AppSettingRow(
-                        title: String(localized: "Reset to Default Intervals", table: "HydrationReminder"),
-                        description: String(localized: "Restore the built-in reminder intervals.", table: "HydrationReminder"),
+                        title: String(localized: "Reset to Default Intervals", table: "HydrationReminder", bundle: .module),
+                        description: String(localized: "Restore the built-in reminder intervals.", table: "HydrationReminder", bundle: .module),
                         icon: "arrow.counterclockwise"
                     ) {
                         AppButton(
-                            String(localized: "Reset", table: "HydrationReminder"),
+                            String(localized: "Reset", table: "HydrationReminder", bundle: .module),
                             systemImage: "arrow.counterclockwise",
                             style: .secondary,
                             size: .small,

@@ -17,11 +17,11 @@ struct HydrationReminderStatusInfo: View {
                             let minutes = Int(timeUntil) / 60
                             Group {
                                 if minutes < 1 {
-                                    Text("Next break: less than 1 min", tableName: "HydrationReminder")
+                                    Text("Next break: less than 1 min", tableName: "HydrationReminder", bundle: .module)
                                 } else if minutes == 1 {
-                                    Text("Next break: 1 min", tableName: "HydrationReminder")
+                                    Text("Next break: 1 min", tableName: "HydrationReminder", bundle: .module)
                                 } else {
-                                    Text("Next break: \(minutes) mins", tableName: "HydrationReminder")
+                                    Text("Next break: \(minutes) mins", tableName: "HydrationReminder", bundle: .module)
                                 }
                             }
                             .font(.system(size: 10))
@@ -32,13 +32,13 @@ struct HydrationReminderStatusInfo: View {
                 }
                 HStack {
                     Image(systemName: "checkmark.circle.fill").font(.system(size: 9)).foregroundColor(.green)
-                    Text("Today: \(manager.todayBreakCount) breaks", tableName: "HydrationReminder").font(.system(size: 10)).foregroundColor(.secondary)
+                    Text("Today: \(manager.todayBreakCount) breaks", tableName: "HydrationReminder", bundle: .module).font(.system(size: 10)).foregroundColor(.secondary)
                     Spacer()
                 }
             } else {
                 HStack {
                     Image(systemName: "zzz").font(.system(size: 9)).foregroundColor(.secondary)
-                    Text("Break reminder is off", tableName: "HydrationReminder").font(.system(size: 10)).foregroundColor(.secondary)
+                    Text("Break reminder is off", tableName: "HydrationReminder", bundle: .module).font(.system(size: 10)).foregroundColor(.secondary)
                     Spacer()
                 }
             }

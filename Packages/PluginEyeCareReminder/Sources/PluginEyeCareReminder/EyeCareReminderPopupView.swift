@@ -12,7 +12,7 @@ struct EyeCareReminderPopupView: View {
                     .font(.system(size: 11))
                     .foregroundColor(.green)
 
-                Text("Eye Care", tableName: "EyeCareReminder")
+                Text("Eye Care", tableName: "EyeCareReminder", bundle: .module)
                     .font(.system(size: 11, weight: .semibold))
                     .foregroundColor(.primary)
 
@@ -26,7 +26,7 @@ struct EyeCareReminderPopupView: View {
 
             // Status info
             VStack(alignment: .leading, spacing: 4) {
-                Text("Status", tableName: "EyeCareReminder")
+                Text("Status", tableName: "EyeCareReminder", bundle: .module)
                     .font(.system(size: 9))
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 12)
@@ -41,7 +41,7 @@ struct EyeCareReminderPopupView: View {
 
             // Interval picker
             VStack(alignment: .leading, spacing: 4) {
-                Text("Interval", tableName: "EyeCareReminder")
+                Text("Interval", tableName: "EyeCareReminder", bundle: .module)
                     .font(.system(size: 9))
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 12)
@@ -92,14 +92,14 @@ struct EyeCareNotificationPermissionWarning: View {
                     .foregroundColor(.orange)
                     .font(.system(size: 14))
 
-                Text("Notifications Disabled", tableName: "EyeCareReminder")
+                Text("Notifications Disabled", tableName: "EyeCareReminder", bundle: .module)
                     .font(.system(size: 11, weight: .medium))
                     .foregroundColor(.primary)
 
                 Spacer()
             }
 
-            Text("Please enable notifications in System Settings to receive break reminders.", tableName: "EyeCareReminder")
+            Text("Please enable notifications in System Settings to receive break reminders.", tableName: "EyeCareReminder", bundle: .module)
                 .font(.system(size: 10))
                 .foregroundColor(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
@@ -108,7 +108,7 @@ struct EyeCareNotificationPermissionWarning: View {
             Button(action: {
                 manager.openNotificationSettings()
             }) {
-                Text("Open Settings", tableName: "EyeCareReminder")
+                Text("Open Settings", tableName: "EyeCareReminder", bundle: .module)
                     .font(.system(size: 10, weight: .medium))
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)

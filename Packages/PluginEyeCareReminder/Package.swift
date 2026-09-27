@@ -21,7 +21,8 @@ let package = Package(
                 .product(name: "LumiUI", package: "LumiUI"),
                 "ProviderWakeyHost",
                 "MagicKit",
-            ]
+            ],
+            resources: [.process("EyeCareReminder.xcstrings")]
         )
     ]
 )

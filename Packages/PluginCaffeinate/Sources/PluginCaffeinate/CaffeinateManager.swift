@@ -106,7 +106,7 @@ class CaffeinateManager: SuperLog {
         }
 
         self.mode = mode
-        let reason = String(localized: "Anti-sleep mode enabled via Wakey", table: "Caffeinate", comment: "Reason shown in system power assertions when anti-sleep is active") as NSString
+        let reason = String(localized: "Anti-sleep mode enabled via Wakey", table: "Caffeinate", bundle: .module, comment: "Reason shown in system power assertions when anti-sleep is active") as NSString
 
         let systemResult = IOPMAssertionCreateWithName(
             kIOPMAssertionTypePreventUserIdleSystemSleep as CFString,
@@ -325,9 +325,9 @@ extension CaffeinateManager {
         var displayName: String {
             switch self {
             case .systemOnly:
-                return String(localized: "Keep system awake, allow display sleep", table: "Caffeinate", comment: "Option to prevent system sleep but allow the monitor to turn off")
+                return String(localized: "Keep system awake, allow display sleep", table: "Caffeinate", bundle: .module, comment: "Option to prevent system sleep but allow the monitor to turn off")
             case .systemAndDisplay:
-                return String(localized: "Keep system awake, prevent display sleep", table: "Caffeinate", comment: "Option to prevent both system and monitor from sleeping")
+                return String(localized: "Keep system awake, prevent display sleep", table: "Caffeinate", bundle: .module, comment: "Option to prevent both system and monitor from sleeping")
             }
         }
     }
@@ -342,11 +342,11 @@ extension CaffeinateManager {
         var displayName: String {
             switch self {
             case .indefinite:
-                return String(localized: "Indefinite", table: "Caffeinate", comment: "Label for infinite duration")
+                return String(localized: "Indefinite", table: "Caffeinate", bundle: .module, comment: "Label for infinite duration")
             case let .minutes(m):
-                return String(localized: "\(m) minutes", table: "Caffeinate", comment: "Label for duration in minutes")
+                return String(localized: "\(m) minutes", table: "Caffeinate", bundle: .module, comment: "Label for duration in minutes")
             case let .hours(h):
-                return String(localized: "\(h) hours", table: "Caffeinate", comment: "Label for duration in hours")
+                return String(localized: "\(h) hours", table: "Caffeinate", bundle: .module, comment: "Label for duration in hours")
             }
         }
 
