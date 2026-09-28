@@ -25,8 +25,10 @@ import PluginAppStoreConnect
 import PluginPurchase
 // Plugin imports — Theme
 import PluginThemePack
+import PluginRootView
 // Plugin imports — Shared infrastructure
 import PluginToast
+import ProviderRootView
 import ProviderToast
 
 /// FactoryWakey — Wakey 唯一静态装配点（Composition Root）。
@@ -78,6 +80,8 @@ public enum FactoryWakey {
     /// 顺序约定：order 值越小越先启动。
     public static func makePlugins() -> [any SuperPlugin] {
         [
+            // order -1: shared root-view contract registration
+            WakeyRootViewPlugin(),
             // order 0
             PluginLogoBolt(),
             PluginPosterWakey(),
@@ -117,7 +121,11 @@ public enum FactoryWakey {
     public static func makeStatusBarView(kernel: KernelCoreContainer) -> AnyView {
         let popupViews = kernel.resolveProvider(StatusBarPopupProviding.self)?.popupViews ?? []
         let view = AnyView(StatusBarHostView(popupViews: popupViews))
-        return themed(view, kernel: kernel)
+        guard let rootView = kernel.resolveProvider((any RootViewProviding).self) else {
+            return themed(view, kernel: kernel)
+        }
+        rootView.setView(view, for: .statusBar)
+        return themed(rootView.view(for: .statusBar) ?? view, kernel: kernel)
     }
 
     /// 设置视图：与 Lumi 一致的侧边栏 + 详情区，第一页是插件开关，后续页是各插件贡献的设置页。
@@ -125,7 +133,11 @@ public enum FactoryWakey {
         let settingsTabs = kernel.resolveProvider(SettingsViewProviding.self)?.settingsTabs ?? []
         let stateStore = kernel.stateStore as? WakeyPluginStateStore ?? WakeyPluginStateStore()
         let view = AnyView(SettingsHostView(kernel: kernel, settingsTabs: settingsTabs, stateStore: stateStore))
-        return themed(view, kernel: kernel)
+        guard let rootView = kernel.resolveProvider((any RootViewProviding).self) else {
+            return themed(view, kernel: kernel)
+        }
+        rootView.setContentView(view)
+        return themed(rootView.makeRootView(), kernel: kernel)
     }
 
     /// Logo 视图：从内核解析 LogoProviding，选中指定 logo 或默认第一个。

@@ -20,7 +20,7 @@ struct CoreApp: App {
 
     init() {
         do {
-            // 同步装配内核：注册 Host Provider + 启动全部 37 插件
+            // 同步装配内核：注册 Host Provider + 启动显式注册的插件
             let k = try FactoryWakey.makeKernel()
             kernel = k
             bootstrapError = nil

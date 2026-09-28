@@ -1,5 +1,5 @@
 {
-  "originHash" : "0b3de796d32e8fffb4a829a814e11b0c35bcb538bf804edc7b26de29be44d6d1",
+  "originHash" : "5d410fd7537b83b998c95f82e185399c897c6a7043bb94fd1c41a9cee1261eb6",
   "pins" : [
     {
       "identity" : "id3tageditor",
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiProviders.git",
       "state" : {
-        "revision" : "43c9cbafe724bb2914dd314be1182e5fc008ed3f",
-        "version" : "1.2.6"
+        "revision" : "a7abaf96f6fdc1390f21ccff8846993f08c9c7cb",
+        "version" : "1.2.7"
       }
     },
     {

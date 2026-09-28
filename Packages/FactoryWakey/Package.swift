@@ -11,10 +11,11 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
         .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.7.0"),
-        .package(url: "https://github.com/CofficLab/LumiProviders.git", exact: "1.2.6"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", exact: "1.2.7"),
         .package(url: "https://github.com/CofficLab/LumiPluginToast.git", from: "1.0.1"),
         .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.4"),
         .package(path: "../ProviderWakeyHost"),
+        .package(path: "../PluginRootView"),
         .package(path: "../PluginThemePack"),
         .package(path: "../MagicKit"),
         // Logo plugins (1)
@@ -44,9 +45,11 @@ let package = Package(
                 .product(name: "LumiUI", package: "LumiUI"),
                 .product(name: "LumiThemePack", package: "LumiThemePack"),
                 .product(name: "ProviderTheme", package: "LumiProviders"),
+                .product(name: "ProviderRootView", package: "LumiProviders"),
                 .product(name: "ProviderToast", package: "LumiProviders"),
                 .product(name: "PluginToast", package: "LumiPluginToast"),
                 "ProviderWakeyHost",
+                "PluginRootView",
                 "PluginThemePack",
                 "MagicKit",
                 // Logo
