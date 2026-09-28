@@ -1,5 +1,5 @@
-import LumiThemePack
 import KernelCore
+import LumiThemePack
 import ProviderTheme
 import ProviderWakeyHost
 import SwiftUI
@@ -18,8 +18,6 @@ public final class ThemePackPlugin: SuperPlugin {
         policy: .alwaysOn
     )
 
-    private var themeObservation: ThemeSettingsObservationModel?
-
     public init() {}
 
     public func onBoot(kernel: KernelCoreContainer) throws {
@@ -27,12 +25,8 @@ public final class ThemePackPlugin: SuperPlugin {
             return
         }
 
-        for item in LumiThemeCatalog.all {
-            theme.registerTheme(item)
-        }
+        LumiThemeRegistration.register(in: theme)
 
-        let observation = ThemeSettingsObservationModel(theme: theme)
-        themeObservation = observation
         kernel.resolveProvider(SettingsViewProviding.self)?.addSettingsTab(
             ownerID: id,
             SettingsTabItem(
@@ -41,20 +35,16 @@ public final class ThemePackPlugin: SuperPlugin {
                 iconName: "paintpalette",
                 order: 2
             ) {
-                ThemeSettingsDetailView(theme: theme, observation: observation)
+                ThemeSettingsDetailView(theme: theme)
             }
         )
     }
 
     public func onShutdown(kernel: KernelCoreContainer) throws {
-        themeObservation?.cancel()
-        themeObservation = nil
         kernel.resolveProvider(SettingsViewProviding.self)?.removeSettingsTabs(ownerID: id)
         guard let theme = kernel.resolveProvider((any ProviderTheme.ThemeProviding).self) else {
             return
         }
-        for item in LumiThemeCatalog.all {
-            theme.unregisterTheme(id: item.id)
-        }
+        LumiThemeRegistration.unregister(from: theme)
     }
 }

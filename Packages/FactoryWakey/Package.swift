@@ -9,25 +9,15 @@ let package = Package(
         .library(name: "FactoryWakey", targets: ["FactoryWakey"])
     ],
     dependencies: [
-        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.1.1"),
-        .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.2"),
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
         .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.7.0"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.2.2"),
+        .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.4"),
         .package(path: "../ProviderWakeyHost"),
         .package(path: "../PluginThemePack"),
         .package(path: "../MagicKit"),
-        // Logo plugins (11)
+        // Logo plugins (1)
         .package(path: "../PluginLogoBolt"),
-        .package(path: "../PluginLogoLightBulb"),
-        .package(path: "../PluginLogoOwl"),
-        .package(path: "../PluginLogoCoffee"),
-        .package(path: "../PluginLogoSun"),
-        .package(path: "../PluginLogoBattery"),
-        .package(path: "../PluginLogoMoon"),
-        .package(path: "../PluginLogoNoSleep"),
-        .package(path: "../PluginLogoRadar"),
-        .package(path: "../PluginLogoPulse"),
-        .package(path: "../PluginLogoPreview"),
         // Poster plugins (6)
         .package(path: "../PluginPosterWakey"),
         .package(path: "../PluginPosterCaffeinate"),
@@ -49,18 +39,15 @@ let package = Package(
         .target(
             name: "FactoryWakey",
             dependencies: [
-                .product(name: "LumiThemePack", package: "LumiThemePack"),
                 .product(name: "KernelCore", package: "LumiKernel"),
                 .product(name: "LumiUI", package: "LumiUI"),
-                "ProviderWakeyHost",
+                .product(name: "LumiThemePack", package: "LumiThemePack"),
                 .product(name: "ProviderTheme", package: "LumiProviders"),
+                "ProviderWakeyHost",
                 "PluginThemePack",
                 "MagicKit",
                 // Logo
-                "PluginLogoBolt", "PluginLogoLightBulb", "PluginLogoOwl",
-                "PluginLogoCoffee", "PluginLogoSun", "PluginLogoBattery",
-                "PluginLogoMoon", "PluginLogoNoSleep", "PluginLogoRadar",
-                "PluginLogoPulse", "PluginLogoPreview",
+                "PluginLogoBolt",
                 // Poster
                 "PluginPosterWakey", "PluginPosterCaffeinate", "PluginPosterEyeCare",
                 "PluginPosterStretch", "PluginPosterHydration", "PluginPosterPreview",
@@ -70,6 +57,10 @@ let package = Package(
                 // Other
                 "PluginAppInfo", "PluginAppStoreConnect", "PluginPurchase",
             ]
+        ),
+        .testTarget(
+            name: "FactoryWakeyTests",
+            dependencies: ["FactoryWakey"]
         )
     ]
 )

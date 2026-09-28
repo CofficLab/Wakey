@@ -1,6 +1,7 @@
 import LumiThemePack
 import Combine
 import Foundation
+import LumiThemePack
 import LumiUI
 import ProviderTheme
 import SwiftUI
