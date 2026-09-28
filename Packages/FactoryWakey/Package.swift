@@ -70,6 +70,10 @@ let package = Package(
                 // Other
                 "PluginAppInfo", "PluginAppStoreConnect", "PluginPurchase",
             ]
+        ),
+        .testTarget(
+            name: "FactoryWakeyTests",
+            dependencies: ["FactoryWakey"]
         )
     ]
 )
