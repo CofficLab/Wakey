@@ -18,8 +18,6 @@ public final class ThemePackPlugin: SuperPlugin {
         policy: .alwaysOn
     )
 
-    private var themeObservation: ThemeSettingsObservationModel?
-
     public init() {}
 
     public func onBoot(kernel: KernelCoreContainer) throws {
@@ -29,8 +27,6 @@ public final class ThemePackPlugin: SuperPlugin {
 
         LumiThemeRegistration.register(in: theme)
 
-        let observation = ThemeSettingsObservationModel(theme: theme)
-        themeObservation = observation
         kernel.resolveProvider(SettingsViewProviding.self)?.addSettingsTab(
             ownerID: id,
             SettingsTabItem(
@@ -39,14 +35,12 @@ public final class ThemePackPlugin: SuperPlugin {
                 iconName: "paintpalette",
                 order: 2
             ) {
-                ThemeSettingsDetailView(theme: theme, observation: observation)
+                ThemeSettingsDetailView(theme: theme)
             }
         )
     }
 
     public func onShutdown(kernel: KernelCoreContainer) throws {
-        themeObservation?.cancel()
-        themeObservation = nil
         kernel.resolveProvider(SettingsViewProviding.self)?.removeSettingsTabs(ownerID: id)
         guard let theme = kernel.resolveProvider((any ProviderTheme.ThemeProviding).self) else {
             return
