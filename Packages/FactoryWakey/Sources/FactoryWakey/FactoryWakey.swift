@@ -25,6 +25,9 @@ import PluginAppStoreConnect
 import PluginPurchase
 // Plugin imports — Theme
 import PluginThemePack
+// Plugin imports — Shared infrastructure
+import PluginToast
+import ProviderToast
 
 /// FactoryWakey — Wakey 唯一静态装配点（Composition Root）。
 ///
@@ -78,6 +81,8 @@ public enum FactoryWakey {
             // order 0
             PluginLogoBolt(),
             PluginPosterWakey(),
+            // order 10
+            ToastSuperPlugin(),
             // order 1
             PluginPosterCaffeinate(),
             // order 2
@@ -239,6 +244,16 @@ struct SettingsHostView: View {
     @LumiUI.LumiTheme private var theme: any LumiUI.LumiUITheme
 
     var body: some View {
+        Group {
+            if let center = kernel.resolveProvider((any ToastProviding).self) as? ToastCenter {
+                ToastOverlay(content: AnyView(settingsShell), center: center)
+            } else {
+                settingsShell
+            }
+        }
+    }
+
+    private var settingsShell: some View {
         AppSettingsSidebarShell { sidebar } detail: { detail }
             .frame(minWidth: 960, minHeight: 520)
             .background(theme.background)

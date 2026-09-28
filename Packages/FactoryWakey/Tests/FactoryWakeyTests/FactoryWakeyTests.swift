@@ -1,4 +1,6 @@
 import FactoryWakey
+import PluginToast
+import ProviderToast
 import ProviderTheme
 import Testing
 
@@ -11,5 +13,11 @@ struct FactoryWakeyTests {
 
         #expect(theme.themes.count == 22)
         #expect(Set(theme.themes.map(\.id)).count == 22)
+    }
+
+    @Test("Wakey starts the shared Toast plugin")
+    func sharedToastPluginIsActive() throws {
+        let kernel = try FactoryWakey.makeKernel()
+        #expect(kernel.resolveProvider((any ToastProviding).self) is ToastCenter)
     }
 }

@@ -47,12 +47,21 @@
       }
     },
     {
+      "identity": "lumiplugintoast",
+      "kind": "remoteSourceControl",
+      "location": "https://github.com/CofficLab/LumiPluginToast.git",
+      "state": {
+        "revision": "0dcd45a9866bffda3147d6fae4d2edd6c46de5a8",
+        "version": "1.0.1"
+      }
+    },
+    {
       "identity": "lumiproviders",
       "kind": "remoteSourceControl",
       "location": "https://github.com/CofficLab/LumiProviders.git",
       "state": {
-        "revision": "23ecda6",
-        "version": "1.2.2"
+        "revision": "43c9cbafe724bb2914dd314be1182e5fc008ed3f",
+        "version": "1.2.6"
       }
     },
     {

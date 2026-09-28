@@ -1,5 +1,5 @@
 {
-  "originHash" : "beeccc2c4685e29c6c9e41255edfefb1b5370fca3a6f3566cc89038d43d1f5dd",
+  "originHash" : "0b3de796d32e8fffb4a829a814e11b0c35bcb538bf804edc7b26de29be44d6d1",
   "pins" : [
     {
       "identity" : "id3tageditor",
@@ -38,12 +38,21 @@
       }
     },
     {
+      "identity" : "lumiplugintoast",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CofficLab/LumiPluginToast.git",
+      "state" : {
+        "revision" : "0dcd45a9866bffda3147d6fae4d2edd6c46de5a8",
+        "version" : "1.0.1"
+      }
+    },
+    {
       "identity" : "lumiproviders",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiProviders.git",
       "state" : {
-        "revision" : "23ecda68a0831931169812918bd54072a5860d86",
-        "version" : "1.2.2"
+        "revision" : "43c9cbafe724bb2914dd314be1182e5fc008ed3f",
+        "version" : "1.2.6"
       }
     },
     {
