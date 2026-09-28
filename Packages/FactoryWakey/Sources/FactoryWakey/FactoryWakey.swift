@@ -5,18 +5,8 @@ import ProviderTheme
 import ProviderWakeyHost
 import SwiftUI
 
-// Plugin imports — Logo (11)
+// Plugin imports — Logo (1)
 import PluginLogoBolt
-import PluginLogoLightBulb
-import PluginLogoOwl
-import PluginLogoCoffee
-import PluginLogoSun
-import PluginLogoBattery
-import PluginLogoMoon
-import PluginLogoNoSleep
-import PluginLogoRadar
-import PluginLogoPulse
-import PluginLogoPreview
 // Plugin imports — Poster (6)
 import PluginPosterWakey
 import PluginPosterCaffeinate
@@ -89,30 +79,20 @@ public enum FactoryWakey {
             PluginLogoBolt(),
             PluginPosterWakey(),
             // order 1
-            PluginLogoLightBulb(),
             PluginPosterCaffeinate(),
             // order 2
-            PluginLogoOwl(),
             PluginPosterEyeCare(),
             // order 3
-            PluginLogoCoffee(),
             PluginPosterStretch(),
             // order 4
-            PluginLogoSun(),
             PluginPosterHydration(),
-            // order 6
-            PluginLogoBattery(),
             // order 7
-            PluginLogoMoon(),
             PluginCaffeinate(),
             // order 8
-            PluginLogoNoSleep(),
             PluginEyeCareReminder(),
             // order 9
-            PluginLogoRadar(),
             PluginStretchReminder(),
             // order 10
-            PluginLogoPulse(),
             PluginAppInfo(),
             PluginHydrationReminder(),
             // order 15
@@ -121,8 +101,6 @@ public enum FactoryWakey {
             PluginAppStoreConnect(),
             // order 79
             ThemePackPlugin(),
-            // order 99
-            PluginLogoPreview(),
             // order 100
             PluginPurchase(),
         ]

@@ -16,18 +16,8 @@ let package = Package(
         .package(path: "../ProviderWakeyHost"),
         .package(path: "../PluginThemePack"),
         .package(path: "../MagicKit"),
-        // Logo plugins (11)
+        // Logo plugins (1)
         .package(path: "../PluginLogoBolt"),
-        .package(path: "../PluginLogoLightBulb"),
-        .package(path: "../PluginLogoOwl"),
-        .package(path: "../PluginLogoCoffee"),
-        .package(path: "../PluginLogoSun"),
-        .package(path: "../PluginLogoBattery"),
-        .package(path: "../PluginLogoMoon"),
-        .package(path: "../PluginLogoNoSleep"),
-        .package(path: "../PluginLogoRadar"),
-        .package(path: "../PluginLogoPulse"),
-        .package(path: "../PluginLogoPreview"),
         // Poster plugins (6)
         .package(path: "../PluginPosterWakey"),
         .package(path: "../PluginPosterCaffeinate"),
@@ -57,10 +47,7 @@ let package = Package(
                 "PluginThemePack",
                 "MagicKit",
                 // Logo
-                "PluginLogoBolt", "PluginLogoLightBulb", "PluginLogoOwl",
-                "PluginLogoCoffee", "PluginLogoSun", "PluginLogoBattery",
-                "PluginLogoMoon", "PluginLogoNoSleep", "PluginLogoRadar",
-                "PluginLogoPulse", "PluginLogoPreview",
+                "PluginLogoBolt",
                 // Poster
                 "PluginPosterWakey", "PluginPosterCaffeinate", "PluginPosterEyeCare",
                 "PluginPosterStretch", "PluginPosterHydration", "PluginPosterPreview",
