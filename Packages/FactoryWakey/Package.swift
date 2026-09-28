@@ -11,8 +11,9 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
         .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.7.0"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.1.0"),
+        .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.2"),
         .package(path: "../ProviderWakeyHost"),
-        .package(path: "../ProviderTheme"),
         .package(path: "../PluginThemePack"),
         .package(path: "../MagicKit"),
         // Logo plugins (11)
@@ -50,8 +51,9 @@ let package = Package(
             dependencies: [
                 .product(name: "KernelCore", package: "LumiKernel"),
                 .product(name: "LumiUI", package: "LumiUI"),
+                .product(name: "LumiThemePack", package: "LumiThemePack"),
+                .product(name: "ProviderTheme", package: "LumiProviders"),
                 "ProviderWakeyHost",
-                "ProviderTheme",
                 "PluginThemePack",
                 "MagicKit",
                 // Logo

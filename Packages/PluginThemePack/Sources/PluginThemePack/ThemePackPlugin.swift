@@ -1,4 +1,5 @@
 import KernelCore
+import LumiThemePack
 import ProviderTheme
 import ProviderWakeyHost
 import SwiftUI
@@ -26,9 +27,7 @@ public final class ThemePackPlugin: SuperPlugin {
             return
         }
 
-        for item in WakeyThemeCatalog.all {
-            theme.registerTheme(item)
-        }
+        LumiThemeRegistration.register(in: theme)
 
         let observation = ThemeSettingsObservationModel(theme: theme)
         themeObservation = observation
@@ -52,8 +51,6 @@ public final class ThemePackPlugin: SuperPlugin {
         guard let theme = kernel.resolveProvider((any ProviderTheme.ThemeProviding).self) else {
             return
         }
-        for item in WakeyThemeCatalog.all {
-            theme.unregisterTheme(id: item.id)
-        }
+        LumiThemeRegistration.unregister(from: theme)
     }
 }

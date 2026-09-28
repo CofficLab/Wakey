@@ -10,7 +10,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
         .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.7.0"),
-        .package(path: "../ProviderTheme"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.1.0"),
+        .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.2"),
         .package(path: "../ProviderWakeyHost"),
     ],
     targets: [
@@ -19,7 +20,8 @@ let package = Package(
             dependencies: [
                 .product(name: "KernelCore", package: "LumiKernel"),
                 .product(name: "LumiUI", package: "LumiUI"),
-                "ProviderTheme",
+                .product(name: "ProviderTheme", package: "LumiProviders"),
+                .product(name: "LumiThemePack", package: "LumiThemePack"),
                 "ProviderWakeyHost",
             ]
         )
