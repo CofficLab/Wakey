@@ -1,5 +1,4 @@
 {
-  "originHash": "6a93d5f7d2043e9cbc6deb8ee764f3c410f53870221b6dd6a5a0499b93de8a39",
   "pins": [
     {
       "identity": "id3tageditor",
@@ -44,6 +43,15 @@
       "state": {
         "revision": "8c00bb13b76a21f88bee186a68ca20568550f65e",
         "version": "1.0.1"
+      }
+    },
+    {
+      "identity": "lumipluginstorage",
+      "kind": "remoteSourceControl",
+      "location": "https://github.com/CofficLab/LumiPluginStorage.git",
+      "state": {
+        "revision": "521d3ed40f374a03cd2aea5b9bfd5ed13375ee12",
+        "version": "1.1.1"
       }
     },
     {
