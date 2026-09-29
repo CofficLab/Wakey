@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		0B70E9672F52000200A1234D /* FactoryWakey in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E9642F52000200A1234A /* FactoryWakey */; };
 		0B70E9682F52000200A1234E /* KernelCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E9652F52000200A1234B /* KernelCore */; };
-		0B70E9692F52000200A1234F /* ProviderWakeyHost in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E9662F52000200A1234C /* ProviderWakeyHost */; };
-		0B70E96B2F52000200A12351 /* MagicKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0B70E96A2F52000200A12350 /* MagicKit */; };
 		EC469867CEA40292EDE3B98C /* WakeyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688586AC8BD6946331B1E /* WakeyUITests.swift */; };
 /* End PBXBuildFile section */
 
@@ -65,8 +63,6 @@
 			files = (
 				0B70E9672F52000200A1234D /* FactoryWakey in Frameworks */,
 				0B70E9682F52000200A1234E /* KernelCore in Frameworks */,
-				0B70E9692F52000200A1234F /* ProviderWakeyHost in Frameworks */,
-				0B70E96B2F52000200A12351 /* MagicKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,8 +135,6 @@
 			packageProductDependencies = (
 				0B70E9642F52000200A1234A /* FactoryWakey */,
 				0B70E9652F52000200A1234B /* KernelCore */,
-				0B70E9662F52000200A1234C /* ProviderWakeyHost */,
-				0B70E96A2F52000200A12350 /* MagicKit */,
 			);
 			productName = "SwiftUI-Template";
 			productReference = F53C49142F1A42EC00929321 /* Wakey.app */;
@@ -175,8 +169,6 @@
 			packageReferences = (
 				0B70E9632F52000200A12349 /* XCRemoteSwiftPackageReference "LumiKernel" */,
 				0B70E9602F52000200A12346 /* XCLocalSwiftPackageReference "Packages/FactoryWakey" */,
-				0B70E9612F52000200A12347 /* XCLocalSwiftPackageReference "Packages/ProviderWakeyHost" */,
-				0B70E9622F52000200A12348 /* XCLocalSwiftPackageReference "Packages/MagicKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F54F8C752F1A3B6500AABB2A;
@@ -518,14 +510,6 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/FactoryWakey;
 		};
-		0B70E9612F52000200A12347 /* XCLocalSwiftPackageReference "Packages/ProviderWakeyHost" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Packages/ProviderWakeyHost;
-		};
-		0B70E9622F52000200A12348 /* XCLocalSwiftPackageReference "Packages/MagicKit" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Packages/MagicKit;
-		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -545,16 +529,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0B70E9632F52000200A12349 /* XCRemoteSwiftPackageReference "LumiKernel" */;
 			productName = KernelCore;
-		};
-		0B70E9662F52000200A1234C /* ProviderWakeyHost */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0B70E9612F52000200A12347 /* XCLocalSwiftPackageReference "Packages/ProviderWakeyHost" */;
-			productName = ProviderWakeyHost;
-		};
-		0B70E96A2F52000200A12350 /* MagicKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0B70E9622F52000200A12348 /* XCLocalSwiftPackageReference "Packages/MagicKit" */;
-			productName = MagicKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
