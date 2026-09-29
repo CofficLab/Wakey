@@ -1,5 +1,5 @@
 import SwiftUI
-internal import Combine
+import Combine
 
 /// 悬停协调器，用于管理多个悬停容器之间的互斥状态
 @MainActor
@@ -173,4 +173,3 @@ struct HoverableContainerView<Content: View, Detail: View>: View {
     }
     .frame(width: 400, height: 300)
 }
-

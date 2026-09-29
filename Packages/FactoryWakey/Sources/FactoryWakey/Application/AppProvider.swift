@@ -1,4 +1,4 @@
-internal import Combine
+import Combine
 import SwiftData
 import SwiftUI
 
@@ -32,4 +32,3 @@ final class AppProvider: ObservableObject {
         errorMessage = nil
     }
 }
-

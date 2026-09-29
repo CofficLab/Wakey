@@ -64,6 +64,9 @@ let package = Package(
                 "PluginStretchReminder", "PluginHydrationReminder",
                 // Other
                 "PluginAppInfo", "PluginAppStoreConnect", "PluginPurchase",
+            ],
+            resources: [
+                .process("Resources")
             ]
         ),
         .testTarget(

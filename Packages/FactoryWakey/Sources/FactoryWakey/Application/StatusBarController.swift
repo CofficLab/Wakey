@@ -1,5 +1,4 @@
 import AppKit
-import FactoryWakey
 import KernelCore
 import OSLog
 import SwiftUI
@@ -11,7 +10,7 @@ class StatusBarController: NSObject, NSPopoverDelegate {
 
     static let defaultPopoverWidth: CGFloat = 300
 
-    /// 内核容器（由 MacAgent 注入）
+    /// 内核容器（由 WakeyAppDelegate 注入）
     weak var kernel: KernelCoreContainer?
 
     private var statusItem: NSStatusItem?

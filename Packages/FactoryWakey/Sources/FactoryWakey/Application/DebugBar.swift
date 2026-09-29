@@ -1,4 +1,3 @@
-import MagicAlert
 import MagicKit
 import SwiftUI
 

@@ -8,15 +8,15 @@ import SwiftUI
 /// 架构：内核在 `init()` 中同步装配并持有（非可选路径），body 直接使用；
 /// 装配失败时降级为 `BootstrapFailureView`，绝不在 body 中强解包。
 @main
-struct CoreApp: App {
-    @NSApplicationDelegateAdaptor private var appDelegate: MacAgent
+struct WakeyApp: App {
+    @NSApplicationDelegateAdaptor private var appDelegate: WakeyAppDelegate
 
     /// 内核容器（init 中同步装配，失败为 nil 并展示失败视图）
     private let kernel: KernelCoreContainer?
     /// 装配失败时的错误（用于失败视图展示）
     private let bootstrapError: Error?
 
-    private static let logger = Logger(subsystem: "com.coffic.wakey.app", category: "CoreApp")
+    private static let logger = Logger(subsystem: "com.coffic.wakey.app", category: "WakeyApp")
 
     init() {
         do {

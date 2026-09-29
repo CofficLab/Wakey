@@ -30,9 +30,22 @@
 		F53C49142F1A42EC00929321 /* Wakey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wakey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0B18AD842FE2C9BD00CBB621 /* Exceptions for "WakeyApp" folder in "Wakey" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Wakey-Info.plist",
+			);
+			target = F54F8C7D2F1A3B6500AABB2A /* Wakey */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0B18AD822FE2C9BD00CBB621 /* WakeyApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0B18AD842FE2C9BD00CBB621 /* Exceptions for "WakeyApp" folder in "Wakey" target */,
+			);
 			path = WakeyApp;
 			sourceTree = "<group>";
 		};
@@ -65,7 +78,6 @@
 			children = (
 				317688586AC8BD6946331B1E /* WakeyUITests.swift */,
 			);
-			name = WakeyUITests;
 			path = WakeyUITests;
 			sourceTree = "<group>";
 		};
@@ -383,7 +395,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = WakeyApp/App.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WakeyApp/Wakey.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -405,7 +417,7 @@
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_TESTABILITY = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = WakeyApp/Info.plist;
+				INFOPLIST_FILE = WakeyApp/Wakey-Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Wakey;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -429,7 +441,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = WakeyApp/App.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WakeyApp/Wakey.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -450,7 +462,7 @@
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = WakeyApp/Info.plist;
+				INFOPLIST_FILE = WakeyApp/Wakey-Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Wakey;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
