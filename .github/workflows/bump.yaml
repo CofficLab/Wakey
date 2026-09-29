@@ -40,19 +40,19 @@ jobs:
 
       - name: Update Xcode Project Version
         run: |
-          # 直接更新 project.pbxproj 中的 MARKETING_VERSION
-          # 同时更新 Debug 和 Release 配置
-          sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = ${{ env.new_version }}/" ${{ env.PROJECT }}/project.pbxproj
+          # 直接更新 project.xcproj 中的 MARKETING_VERSION（JSON 格式）
+          sed -i '' "s/\"MARKETING_VERSION\": \"[^\"]*\"/\"MARKETING_VERSION\": \"${{ env.new_version }}\"/" ${{ env.PROJECT }}/project.xcproj
 
       - name: 更新构建号
         run: |
-          # 更新 CURRENT_PROJECT_VERSION
-          agvtool next-version -all
+          # 更新 CURRENT_PROJECT_VERSION（agvtool 不识别 .xcproj JSON 格式，直接改 JSON）
+          CURRENT_BUILD=$(grep -m1 '"CURRENT_PROJECT_VERSION"' ${{ env.PROJECT }}/project.xcproj | sed 's/.*: *"\([0-9]*\)".*/\1/' | xargs)
+          sed -i '' "s/\"CURRENT_PROJECT_VERSION\": \"[0-9]*\"/\"CURRENT_PROJECT_VERSION\": \"$((CURRENT_BUILD + 1))\"/" ${{ env.PROJECT }}/project.xcproj
 
       - name: 生成标签（pre 分支）
         if: github.ref == 'refs/heads/pre'
         run: |
-          build=$(agvtool what-version -terse | tail -n1 | cut -d= -f2 | xargs)
+          build=$(grep -m1 '"CURRENT_PROJECT_VERSION"' ${{ env.PROJECT }}/project.xcproj | sed 's/.*: *"\([0-9]*\)".*/\1/' | xargs)
           echo "tag=p${{ env.new_version }}($build)" >> $GITHUB_ENV
 
       - name: 生成标签（main 分支）
@@ -72,8 +72,8 @@ jobs:
       - name: 输出最终摘要
         if: always()
         run: |
-          # 获取更新后的构建号 - 使用 sed 提取等号后的内容，若无等号则保持原样
-          NEW_B_VER=$(agvtool what-version -terse | tail -n1 | sed 's/.*=//' | xargs)
+          # 获取更新后的构建号（从 project.xcproj JSON 读取）
+          NEW_B_VER=$(grep -m1 '"CURRENT_PROJECT_VERSION"' ${{ env.PROJECT }}/project.xcproj | sed 's/.*: *"\([0-9]*\)".*/\1/' | xargs)
 
           echo "## ✅ 版本 Bump 完成" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
