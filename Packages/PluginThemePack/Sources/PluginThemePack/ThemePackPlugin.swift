@@ -1,7 +1,7 @@
 import KernelCore
 import LumiThemePack
 import ProviderTheme
-import ProviderSettingsView
+import ProviderSettingView
 import SwiftUI
 
 /// Wakey adopts Lumi's single theme pack: `ProviderTheme` owns selection and
@@ -27,21 +27,20 @@ public final class ThemePackPlugin: SuperPlugin {
 
         LumiThemeRegistration.register(in: theme)
 
-        kernel.resolveProvider(SettingsViewProviding.self)?.addSettingsTab(
-            ownerID: id,
-            SettingsTabItem(
+        kernel.resolveProvider((any SettingViewProviding).self)?.addEntries([
+            SettingEntryItem(
                 id: "appearance",
-                displayName: "Appearance",
-                iconName: "paintpalette",
+                title: "Appearance",
+                systemImage: "paintpalette",
                 order: 2
             ) {
                 ThemeSettingsDetailView(theme: theme)
             }
-        )
+        ])
     }
 
     public func onShutdown(kernel: KernelCoreContainer) throws {
-        kernel.resolveProvider(SettingsViewProviding.self)?.removeSettingsTabs(ownerID: id)
+        kernel.resolveProvider((any SettingViewProviding).self)?.removeEntries(ids: ["appearance"])
         guard let theme = kernel.resolveProvider((any ProviderTheme.ThemeProviding).self) else {
             return
         }

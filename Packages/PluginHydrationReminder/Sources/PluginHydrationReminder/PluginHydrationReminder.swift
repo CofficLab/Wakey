@@ -1,7 +1,7 @@
 import KernelCore
 import OSLog
 import ProviderStatusBarPopup
-import ProviderSettingsView
+import ProviderSettingView
 import SwiftUI
 
 /// Hydration Reminder Plugin: reminds users to stay hydrated.
@@ -26,21 +26,20 @@ public final class PluginHydrationReminder: SuperPlugin {
             .addPopupView(ownerID: id, AnyView(HydrationReminderPopupView()))
 
         // 设置页标签
-        kernel.resolveProvider(SettingsViewProviding.self)?
-            .addSettingsTab(
-                ownerID: id,
-                SettingsTabItem(
+        kernel.resolveProvider((any SettingViewProviding).self)?
+            .addEntries([
+                SettingEntryItem(
                     id: id,
-                    displayName: String(localized: "Hydration", table: "HydrationReminder", bundle: .module, comment: "Name of the hydration reminder plugin"),
-                    iconName: "drop.fill",
-                    view: { HydrationSettingsView() }
+                    title: String(localized: "Hydration", table: "HydrationReminder", bundle: .module, comment: "Name of the hydration reminder plugin"),
+                    systemImage: "drop.fill",
+                    detail: { HydrationSettingsView() }
                 )
-            )
+            ])
     }
 
     public func onShutdown(kernel: KernelCoreContainer) throws {
         kernel.resolveProvider(StatusBarPopupProviding.self)?.removePopupViews(ownerID: id)
-        kernel.resolveProvider(SettingsViewProviding.self)?.removeSettingsTabs(ownerID: id)
+        kernel.resolveProvider((any SettingViewProviding).self)?.removeEntries(ids: [id])
 
         // 清理：卸载插件时停止提醒定时器
         HydrationReminderManager.shared.stop()

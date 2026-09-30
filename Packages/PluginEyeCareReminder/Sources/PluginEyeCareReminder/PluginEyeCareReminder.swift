@@ -1,7 +1,7 @@
 import KernelCore
 import OSLog
 import ProviderStatusBarPopup
-import ProviderSettingsView
+import ProviderSettingView
 import SwiftUI
 
 /// Eye Care Reminder Plugin: reminds users to take eye care breaks.
@@ -26,21 +26,20 @@ public final class PluginEyeCareReminder: SuperPlugin {
             .addPopupView(ownerID: id, AnyView(EyeCareReminderPopupView()))
 
         // 设置页标签
-        kernel.resolveProvider(SettingsViewProviding.self)?
-            .addSettingsTab(
-                ownerID: id,
-                SettingsTabItem(
+        kernel.resolveProvider((any SettingViewProviding).self)?
+            .addEntries([
+                SettingEntryItem(
                     id: id,
-                    displayName: String(localized: "Eye Care", table: "EyeCareReminder", bundle: .module, comment: "Name of the eye care reminder plugin"),
-                    iconName: "eye.fill",
-                    view: { EyeCareSettingsView() }
+                    title: String(localized: "Eye Care", table: "EyeCareReminder", bundle: .module, comment: "Name of the eye care reminder plugin"),
+                    systemImage: "eye.fill",
+                    detail: { EyeCareSettingsView() }
                 )
-            )
+            ])
     }
 
     public func onShutdown(kernel: KernelCoreContainer) throws {
         kernel.resolveProvider(StatusBarPopupProviding.self)?.removePopupViews(ownerID: id)
-        kernel.resolveProvider(SettingsViewProviding.self)?.removeSettingsTabs(ownerID: id)
+        kernel.resolveProvider((any SettingViewProviding).self)?.removeEntries(ids: [id])
 
         // 清理：卸载插件时停止提醒定时器
         EyeCareReminderManager.shared.stop()

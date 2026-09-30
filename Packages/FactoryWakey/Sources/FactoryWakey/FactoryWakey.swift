@@ -5,7 +5,10 @@ import ProviderTheme
 import ProviderLogo
 import ProviderPoster
 import ProviderStatusBarPopup
-import ProviderSettingsView
+import ProviderSettingView
+import ProviderPluginControl
+import ProviderPluginManaging
+import ProviderStorage
 import ProviderCopilotNavigation
 import SwiftUI
 
@@ -58,7 +61,7 @@ public enum FactoryWakey {
 
         // 注册共享 Host Provider（由 Factory 持有，插件向其贡献 UI）
         try kernel.registerHostProvider(StatusBarPopupProviding.self, DefaultStatusBarPopupProviding())
-        try kernel.registerHostProvider(SettingsViewProviding.self, DefaultSettingsViewProviding())
+        try kernel.registerHostProvider((any SettingViewProviding).self, DefaultSettingViewProviding())
         try kernel.registerHostProvider(PosterProviding.self, DefaultPosterProviding())
         try kernel.registerHostProvider(LogoProviding.self, DefaultLogoProviding())
         try kernel.registerHostProvider(
@@ -67,8 +70,34 @@ public enum FactoryWakey {
         )
         try kernel.registerHostProvider(CopilotNavigationProviding.self, DefaultCopilotNavigationProviding())
 
-        // 设置插件启用状态持久化（兼容旧版 UserDefaults key）
-        kernel.stateStore = WakeyPluginStateStore()
+        // 数据存储：为插件启用状态提供持久化目录（对齐 Lumi 的 ProviderStorage 体系）
+        try kernel.registerProvider((any StorageProviding).self, DefaultStorageProvider())
+        if let storage = kernel.resolveProvider((any StorageProviding).self) {
+            kernel.stateStore = PluginEnabledStateStore(
+                pluginDirectory: storage.pluginDataDirectory(for: "com.coffic.wakey.plugin-manager")
+            )
+        }
+
+        // 插件管理：PluginControlling 与 PluginManaging 共享同一内核状态（对齐 Lumi）
+        try kernel.registerProvider((any PluginControlling).self, DefaultPluginControlling(kernel: kernel))
+        let pluginControlling = kernel.resolveProvider((any PluginControlling).self)
+            ?? DefaultPluginControlling(kernel: kernel)
+        try kernel.registerProvider(
+            (any PluginManaging).self,
+            DefaultPluginManager(kernel: kernel, controlling: pluginControlling)
+        )
+
+        // 宿主级设置入口：插件开关页（Plugins）固定排第一
+        kernel.resolveProvider((any SettingViewProviding).self)?.addEntries([
+            SettingEntryItem(
+                id: "plugins",
+                title: String(localized: "Plugins", table: "Core"),
+                systemImage: "puzzlepiece",
+                order: -100
+            ) {
+                PluginSettingsView(kernel: kernel)
+            }
+        ])
 
         // 启动全部插件（拓扑排序 + 原子启动 + 失败回滚）
         let plugins = makePlugins()
@@ -135,11 +164,11 @@ public enum FactoryWakey {
         return themed(rootView.view(for: .statusBar) ?? view, kernel: kernel)
     }
 
-    /// 设置视图：与 Lumi 一致的侧边栏 + 详情区，第一页是插件开关，后续页是各插件贡献的设置页。
+    /// 设置视图：由 LumiSettings 的 `SettingViewProviding` 渲染（侧边栏 + 详情区），
+    /// 插件开关页作为宿主入口固定在第一项，后续页是各插件贡献的设置页。
     public static func makeSettingsView(kernel: KernelCoreContainer) -> AnyView {
-        let settingsTabs = kernel.resolveProvider(SettingsViewProviding.self)?.settingsTabs ?? []
-        let stateStore = kernel.stateStore as? WakeyPluginStateStore ?? WakeyPluginStateStore()
-        let view = AnyView(SettingsHostView(kernel: kernel, settingsTabs: settingsTabs, stateStore: stateStore))
+        let settings = kernel.resolveProvider((any SettingViewProviding).self)
+        let view = settings.map { $0.makeSettingView() } ?? AnyView(AppEmptyState(icon: "gearshape", title: "No settings"))
         guard let rootView = kernel.resolveProvider((any RootViewProviding).self) else {
             return themed(view, kernel: kernel)
         }
@@ -249,142 +278,6 @@ struct StatusBarHostView: View {
 
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
-    }
-}
-
-// MARK: - Settings Host View
-
-@MainActor
-struct SettingsHostView: View {
-    let kernel: KernelCoreContainer
-    let settingsTabs: [SettingsTabItem]
-    let stateStore: WakeyPluginStateStore
-    @State private var selectedEntryID = "plugins"
-    @LumiUI.LumiTheme private var theme: any LumiUI.LumiUITheme
-
-    var body: some View {
-        Group {
-            if let center = kernel.resolveProvider((any ToastProviding).self) as? ToastCenter {
-                ToastOverlay(content: AnyView(settingsShell), center: center)
-            } else {
-                settingsShell
-            }
-        }
-    }
-
-    private var settingsShell: some View {
-        AppSettingsSidebarShell { sidebar } detail: { detail }
-            .frame(minWidth: 960, minHeight: 520)
-            .background(theme.background)
-            .appThemedAppearance()
-        #if canImport(AppKit)
-            .background {
-                ThemeWindowAppearanceBridge()
-            }
-        #endif
-            .ignoresSafeArea()
-            .onAppear {
-                if selectedEntryID != "plugins", settingsTabs.allSatisfy({ $0.id != selectedEntryID }) {
-                    selectedEntryID = "plugins"
-                }
-                NSApp.activate(ignoringOtherApps: true)
-            }
-    }
-
-    /// 左侧：与 Lumi 相同的应用 Header、分隔线和固定宽度入口列表。
-    private var sidebar: some View {
-        AppSettingsSidebarContainer(width: 220) {
-            VStack(alignment: .leading, spacing: 10) {
-                AppSettingsSidebarHeader(
-                    name: appName,
-                    version: appVersion,
-                    build: appBuild,
-                    topSpacing: 22,
-                    bottomSpacing: 8
-                ) {
-                    HStack {
-                        Spacer()
-                        appIcon
-                            .frame(width: 64, height: 64)
-                        Spacer()
-                    }
-                }
-
-                AppSettingsDivider()
-
-                ScrollView {
-                    VStack(spacing: 6) {
-                        AppSettingsSidebarItem(
-                            title: String(localized: "Plugins", table: "Core"),
-                            systemImage: "puzzlepiece",
-                            isSelected: selectedEntryID == "plugins"
-                        ) {
-                            selectedEntryID = "plugins"
-                        }
-                        .accessibilityIdentifier("wakey.settings.sidebar.plugins")
-
-                        ForEach(settingsTabs) { tab in
-                            AppSettingsSidebarItem(
-                                title: tab.displayName,
-                                systemImage: tab.iconName,
-                                isSelected: selectedEntryID == tab.id
-                            ) {
-                                selectedEntryID = tab.id
-                            }
-                            .accessibilityIdentifier("wakey.settings.sidebar.\(tab.id)")
-                        }
-                    }
-                    .padding(.horizontal)
-                }
-
-                Spacer()
-            }
-        }
-    }
-
-    /// 右侧：保留各插件原有设置页，只把承载容器改为 Lumi 的详情面板样式。
-    private var detail: some View {
-        AppSettingsDetailPane {
-            Group {
-                if selectedEntryID == "plugins" {
-                    PluginSettingsView(kernel: kernel, stateStore: stateStore)
-                } else if let selectedTab = settingsTabs.first(where: { $0.id == selectedEntryID }) {
-                    selectedTab.makeView()
-                } else {
-                    AppEmptyState(icon: "gearshape", title: "Select a tab")
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-    }
-
-    @ViewBuilder
-    private var appIcon: some View {
-        if let icon = NSApp.applicationIconImage {
-            Image(nsImage: icon)
-                .resizable()
-                .scaledToFit()
-        } else {
-            Image(systemName: "app.fill")
-                .resizable()
-                .scaledToFit()
-                .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(theme.primary)
-        }
-    }
-
-    private var appName: String {
-        Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
-            ?? Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
-            ?? "Wakey"
-    }
-
-    private var appVersion: String? {
-        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-    }
-
-    private var appBuild: String? {
-        Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
     }
 }
 

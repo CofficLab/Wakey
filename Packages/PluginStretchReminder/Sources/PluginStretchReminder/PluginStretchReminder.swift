@@ -1,7 +1,7 @@
 import KernelCore
 import OSLog
 import ProviderStatusBarPopup
-import ProviderSettingsView
+import ProviderSettingView
 import SwiftUI
 
 /// Stretch Reminder Plugin: reminds users to move their body.
@@ -26,21 +26,20 @@ public final class PluginStretchReminder: SuperPlugin {
             .addPopupView(ownerID: id, AnyView(StretchReminderPopupView()))
 
         // 设置页标签
-        kernel.resolveProvider(SettingsViewProviding.self)?
-            .addSettingsTab(
-                ownerID: id,
-                SettingsTabItem(
+        kernel.resolveProvider((any SettingViewProviding).self)?
+            .addEntries([
+                SettingEntryItem(
                     id: id,
-                    displayName: String(localized: "Stretch", table: "StretchReminder", bundle: .module, comment: "Name of the stretch reminder plugin"),
-                    iconName: "figure.stand",
-                    view: { StretchSettingsView() }
+                    title: String(localized: "Stretch", table: "StretchReminder", bundle: .module, comment: "Name of the stretch reminder plugin"),
+                    systemImage: "figure.stand",
+                    detail: { StretchSettingsView() }
                 )
-            )
+            ])
     }
 
     public func onShutdown(kernel: KernelCoreContainer) throws {
         kernel.resolveProvider(StatusBarPopupProviding.self)?.removePopupViews(ownerID: id)
-        kernel.resolveProvider(SettingsViewProviding.self)?.removeSettingsTabs(ownerID: id)
+        kernel.resolveProvider((any SettingViewProviding).self)?.removeEntries(ids: [id])
 
         // 清理：卸载插件时停止提醒定时器
         StretchReminderManager.shared.stop()

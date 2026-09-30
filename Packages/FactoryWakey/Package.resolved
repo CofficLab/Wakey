@@ -1,5 +1,5 @@
 {
-  "originHash" : "050279bc345a1c4fb78fb7a122b6bddec61e37bcac0f3c3278cb2ca7514bfaa8",
+  "originHash" : "8a544222bf6d71448d4c137f3bb74a9cd1189ddfb571ff5f27ad8c902eb17721",
   "pins" : [
     {
       "identity" : "lumikernel",
@@ -53,6 +53,15 @@
       "state" : {
         "revision" : "a7abaf96f6fdc1390f21ccff8846993f08c9c7cb",
         "version" : "1.2.7"
+      }
+    },
+    {
+      "identity" : "lumisettings",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CofficLab/LumiSettings.git",
+      "state" : {
+        "revision" : "59af093194b98154bba8e9ac61669b253d66e2ba",
+        "version" : "1.0.1"
       }
     },
     {

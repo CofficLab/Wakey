@@ -1,7 +1,7 @@
 import KernelCore
 import OSLog
 import ProviderStatusBarPopup
-import ProviderSettingsView
+import ProviderSettingView
 import SwiftUI
 
 /// Anti-sleep plugin: prevents system sleep, supports scheduled and manual control.
@@ -26,21 +26,20 @@ public final class PluginCaffeinate: SuperPlugin {
             .addPopupView(ownerID: id, AnyView(CaffeinatePopupView()))
 
         // 设置页标签
-        kernel.resolveProvider(SettingsViewProviding.self)?
-            .addSettingsTab(
-                ownerID: id,
-                SettingsTabItem(
+        kernel.resolveProvider((any SettingViewProviding).self)?
+            .addEntries([
+                SettingEntryItem(
                     id: id,
-                    displayName: String(localized: "Caffeinate", table: "Caffeinate", bundle: .module, comment: "Name of the anti-sleep plugin"),
-                    iconName: "bolt",
-                    view: { CaffeinateSettingsView() }
+                    title: String(localized: "Caffeinate", table: "Caffeinate", bundle: .module, comment: "Name of the anti-sleep plugin"),
+                    systemImage: "bolt",
+                    detail: { CaffeinateSettingsView() }
                 )
-            )
+            ])
     }
 
     public func onShutdown(kernel: KernelCoreContainer) throws {
         kernel.resolveProvider(StatusBarPopupProviding.self)?.removePopupViews(ownerID: id)
-        kernel.resolveProvider(SettingsViewProviding.self)?.removeSettingsTabs(ownerID: id)
+        kernel.resolveProvider((any SettingViewProviding).self)?.removeEntries(ids: [id])
 
         // 清理：卸载插件时若仍处于防休眠状态则释放电源断言与定时器
         if CaffeinateManager.shared.isActive {
