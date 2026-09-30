@@ -145,7 +145,7 @@ public enum FactoryWakey {
             // order 20
             PluginAppStoreConnect(),
             // order 79
-            ThemePackPlugin(),
+            ThemePackPlugin(id: "com.coffic.wakey.plugin.theme-pack", order: 79, policy: .alwaysOn),
             // order 100
             PluginPurchase(),
         ]

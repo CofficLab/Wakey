@@ -25,7 +25,7 @@ let package = Package(
         .package(path: "../KitLogging"),
         .package(path: "../KitLayout"),
         .package(path: "../PluginRootView"),
-        .package(path: "../PluginThemePack"),
+        .package(url: "https://github.com/CofficLab/LumiPluginThemePack.git", from: "1.1.0"),
         // Logo plugins (1)
         .package(path: "../PluginLogoBolt"),
         // Poster plugins (6)
@@ -70,7 +70,7 @@ let package = Package(
                 .product(name: "PluginToast", package: "LumiPluginToast"),
                 .product(name: "PluginStorage", package: "LumiPluginStorage"),
                                 "PluginRootView",
-                "PluginThemePack",
+                .product(name: "PluginThemePack", package: "LumiPluginThemePack"),
                                 // Logo
                 "PluginLogoBolt",
                 // Poster
