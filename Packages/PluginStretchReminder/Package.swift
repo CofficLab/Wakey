@@ -8,19 +8,23 @@ let package = Package(
         .library(name: "PluginStretchReminder", targets: ["PluginStretchReminder"])
     ],
     dependencies: [
+        .package(path: "../ProviderStatusBarPopup"),
+        .package(path: "../ProviderSettingsView"),
+        .package(path: "../KitLogging"),
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
         .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.7.0"),
-        .package(path: "../ProviderWakeyHost"),
-        .package(path: "../MagicKit"),
     ],
     targets: [
         .target(
             name: "PluginStretchReminder",
             dependencies: [
+                "ProviderStatusBarPopup",
+                "ProviderSettingsView",
+                "KitLogging",
                 .product(name: "KernelCore", package: "LumiKernel"),
                 .product(name: "LumiUI", package: "LumiUI"),
-                "ProviderWakeyHost",
-                "MagicKit",
+
+
             ],
             resources: [.process("StretchReminder.xcstrings")]
         )

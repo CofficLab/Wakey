@@ -1,6 +1,6 @@
 import KernelCore
 import OSLog
-import ProviderWakeyHost
+import ProviderLogo
 import SwiftUI
 
 /// Logo Plugin: 能量闪电

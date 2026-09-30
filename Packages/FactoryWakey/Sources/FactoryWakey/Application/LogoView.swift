@@ -1,6 +1,6 @@
 import AppKit
 import KernelCore
-import ProviderWakeyHost
+import ProviderLogo
 import SwiftUI
 
 // MARK: - Logo View

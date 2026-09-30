@@ -1,6 +1,6 @@
 import KernelCore
 import OSLog
-import ProviderWakeyHost
+import ProviderCopilotNavigation
 import SwiftUI
 
 /// App Info Plugin: 为 Copilot 提供应用信息导航视图

@@ -1,6 +1,7 @@
 import KernelCore
 import OSLog
-import ProviderWakeyHost
+import ProviderStatusBarPopup
+import ProviderSettingsView
 import SwiftUI
 
 /// Hydration Reminder Plugin: reminds users to stay hydrated.

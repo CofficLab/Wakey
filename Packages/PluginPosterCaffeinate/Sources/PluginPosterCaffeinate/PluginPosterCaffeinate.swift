@@ -1,6 +1,6 @@
 import KernelCore
 import OSLog
-import ProviderWakeyHost
+import ProviderPoster
 import SwiftUI
 
 /// Caffeinate Poster Plugin: 提供防休眠相关的海报视图

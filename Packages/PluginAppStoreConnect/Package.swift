@@ -8,15 +8,16 @@ let package = Package(
         .library(name: "PluginAppStoreConnect", targets: ["PluginAppStoreConnect"])
     ],
     dependencies: [
+        .package(path: "../ProviderCopilotNavigation"),
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
-        .package(path: "../ProviderWakeyHost"),
     ],
     targets: [
         .target(
             name: "PluginAppStoreConnect",
             dependencies: [
+                "ProviderCopilotNavigation",
                 .product(name: "KernelCore", package: "LumiKernel"),
-                "ProviderWakeyHost",
+
             ]
         )
     ]

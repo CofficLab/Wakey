@@ -1,5 +1,6 @@
 import Foundation
-import MagicKit
+import KitDesktop
+import KitLayout
 import SwiftUI
 
 // MARK: - PurchaseViewDemo

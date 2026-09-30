@@ -1,6 +1,6 @@
 import KernelCore
 import OSLog
-import ProviderWakeyHost
+import ProviderPoster
 import SwiftUI
 
 /// Eye Care Poster Plugin: 提供护眼相关的海报视图

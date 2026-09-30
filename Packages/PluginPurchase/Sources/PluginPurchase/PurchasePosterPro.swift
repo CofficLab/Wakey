@@ -1,4 +1,5 @@
-import MagicKit
+import KitDesktop
+import KitLayout
 import SwiftUI
 
 struct PurchasePosterPro: View {

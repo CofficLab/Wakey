@@ -1,7 +1,9 @@
 import KernelCore
-import MagicKit
 import OSLog
-import ProviderWakeyHost
+import ProviderPoster
+import ProviderCopilotNavigation
+import KitLogging
+import KitLayout
 import SwiftUI
 
 /// Poster Preview Plugin: 为 Copilot 提供海报预览和截图生成功能

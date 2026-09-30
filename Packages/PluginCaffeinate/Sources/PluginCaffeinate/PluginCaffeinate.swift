@@ -1,6 +1,7 @@
 import KernelCore
 import OSLog
-import ProviderWakeyHost
+import ProviderStatusBarPopup
+import ProviderSettingsView
 import SwiftUI
 
 /// Anti-sleep plugin: prevents system sleep, supports scheduled and manual control.

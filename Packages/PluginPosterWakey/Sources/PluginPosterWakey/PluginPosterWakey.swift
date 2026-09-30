@@ -1,6 +1,6 @@
 import KernelCore
 import OSLog
-import ProviderWakeyHost
+import ProviderPoster
 import SwiftUI
 
 /// Wakey Intro Plugin: 提供应用整体介绍的海报视图

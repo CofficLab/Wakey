@@ -1,6 +1,6 @@
 import KernelCore
 import OSLog
-import ProviderWakeyHost
+import ProviderPoster
 import SwiftUI
 
 /// Hydration Poster Plugin: 提供饮水提醒相关的海报视图

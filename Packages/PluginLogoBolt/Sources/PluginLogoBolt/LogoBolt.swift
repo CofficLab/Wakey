@@ -1,4 +1,4 @@
-import ProviderWakeyHost
+import ProviderLogo
 import SwiftUI
 
 /// Logo: 能量闪电主题

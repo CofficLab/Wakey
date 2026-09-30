@@ -15,10 +15,17 @@ let package = Package(
         .package(url: "https://github.com/CofficLab/LumiPluginStorage.git", from: "1.0.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginToast.git", from: "1.0.1"),
         .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.4"),
-        .package(path: "../ProviderWakeyHost"),
+        .package(path: "../ProviderLogo"),
+        .package(path: "../ProviderPoster"),
+        .package(path: "../ProviderStatusBarPopup"),
+        .package(path: "../ProviderSettingsView"),
+        .package(path: "../ProviderCopilotNavigation"),
+        .package(path: "../KitBackground"),
+        .package(path: "../KitDesktop"),
+        .package(path: "../KitLogging"),
+        .package(path: "../KitLayout"),
         .package(path: "../PluginRootView"),
         .package(path: "../PluginThemePack"),
-        .package(path: "../MagicKit"),
         // Logo plugins (1)
         .package(path: "../PluginLogoBolt"),
         // Poster plugins (6)
@@ -42,6 +49,15 @@ let package = Package(
         .target(
             name: "FactoryWakey",
             dependencies: [
+                "ProviderLogo",
+                "ProviderPoster",
+                "ProviderStatusBarPopup",
+                "ProviderSettingsView",
+                "ProviderCopilotNavigation",
+                "KitBackground",
+                "KitDesktop",
+                "KitLogging",
+                "KitLayout",
                 .product(name: "KernelCore", package: "LumiKernel"),
                 .product(name: "LumiUI", package: "LumiUI"),
                 .product(name: "LumiThemePack", package: "LumiThemePack"),
@@ -50,11 +66,9 @@ let package = Package(
                 .product(name: "ProviderToast", package: "LumiProviders"),
                 .product(name: "PluginToast", package: "LumiPluginToast"),
                 .product(name: "PluginStorage", package: "LumiPluginStorage"),
-                "ProviderWakeyHost",
-                "PluginRootView",
+                                "PluginRootView",
                 "PluginThemePack",
-                "MagicKit",
-                // Logo
+                                // Logo
                 "PluginLogoBolt",
                 // Poster
                 "PluginPosterWakey", "PluginPosterCaffeinate", "PluginPosterEyeCare",

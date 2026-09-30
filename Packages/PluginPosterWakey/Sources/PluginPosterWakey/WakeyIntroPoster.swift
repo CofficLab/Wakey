@@ -1,5 +1,5 @@
-import MagicKit
-import ProviderWakeyHost
+import KitLayout
+import ProviderPoster
 import SwiftUI
 
 /// Wakey 整体介绍海报

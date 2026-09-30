@@ -2,7 +2,11 @@ import KernelCore
 import LumiUI
 import OSLog
 import ProviderTheme
-import ProviderWakeyHost
+import ProviderLogo
+import ProviderPoster
+import ProviderStatusBarPopup
+import ProviderSettingsView
+import ProviderCopilotNavigation
 import SwiftUI
 
 // Plugin imports — Logo (1)

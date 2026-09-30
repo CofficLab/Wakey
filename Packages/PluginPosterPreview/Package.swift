@@ -8,17 +8,21 @@ let package = Package(
         .library(name: "PluginPosterPreview", targets: ["PluginPosterPreview"])
     ],
     dependencies: [
+        .package(path: "../ProviderPoster"),
+        .package(path: "../ProviderCopilotNavigation"),
+        .package(path: "../KitLogging"),
+        .package(path: "../KitLayout"),
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
-        .package(path: "../ProviderWakeyHost"),
-        .package(path: "../MagicKit"),
     ],
     targets: [
         .target(
             name: "PluginPosterPreview",
             dependencies: [
+                "ProviderPoster",
+                "ProviderCopilotNavigation",
+                "KitLogging",
+                "KitLayout",
                 .product(name: "KernelCore", package: "LumiKernel"),
-                "ProviderWakeyHost",
-                "MagicKit",
             ]
         )
     ]

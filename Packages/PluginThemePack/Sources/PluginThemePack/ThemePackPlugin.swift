@@ -1,7 +1,7 @@
 import KernelCore
 import LumiThemePack
 import ProviderTheme
-import ProviderWakeyHost
+import ProviderSettingsView
 import SwiftUI
 
 /// Wakey adopts Lumi's single theme pack: `ProviderTheme` owns selection and

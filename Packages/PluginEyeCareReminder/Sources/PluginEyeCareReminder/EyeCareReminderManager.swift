@@ -1,5 +1,5 @@
 import Foundation
-import MagicKit
+import KitLogging
 import Observation
 import OSLog
 import SwiftUI

@@ -1,6 +1,6 @@
 import Foundation
 import IOKit.pwr_mgt
-import MagicKit
+import KitLogging
 import Observation
 import OSLog
 import SwiftUI

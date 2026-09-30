@@ -1,4 +1,3 @@
-import MagicKit
 import SwiftUI
 
 // MARK: - Preview Size Presets

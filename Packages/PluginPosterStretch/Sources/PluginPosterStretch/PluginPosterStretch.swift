@@ -1,6 +1,6 @@
 import KernelCore
 import OSLog
-import ProviderWakeyHost
+import ProviderPoster
 import SwiftUI
 
 /// Stretch Poster Plugin: 提供伸展提醒相关的海报视图

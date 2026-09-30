@@ -1,6 +1,7 @@
 import KernelCore
 import OSLog
-import ProviderWakeyHost
+import ProviderStatusBarPopup
+import ProviderSettingsView
 import SwiftUI
 
 /// Stretch Reminder Plugin: reminds users to move their body.

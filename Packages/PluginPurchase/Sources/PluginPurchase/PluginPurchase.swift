@@ -1,6 +1,6 @@
 import KernelCore
 import OSLog
-import ProviderWakeyHost
+import ProviderCopilotNavigation
 import SwiftUI
 
 /// Purchase Plugin: 提供购买相关的海报视图和功能

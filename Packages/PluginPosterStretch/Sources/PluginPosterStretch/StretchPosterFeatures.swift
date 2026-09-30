@@ -1,5 +1,5 @@
-import MagicKit
-import ProviderWakeyHost
+import KitLayout
+import ProviderPoster
 import SwiftUI
 
 /// Stretch Poster View: Features

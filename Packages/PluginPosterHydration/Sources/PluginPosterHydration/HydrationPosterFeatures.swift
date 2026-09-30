@@ -1,5 +1,5 @@
-import MagicKit
-import ProviderWakeyHost
+import KitLayout
+import ProviderPoster
 import SwiftUI
 
 /// Hydration Poster View: Features

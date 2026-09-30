@@ -1,6 +1,6 @@
 import KernelCore
 import OSLog
-import ProviderWakeyHost
+import ProviderCopilotNavigation
 import SwiftUI
 
 /// App Store Connect Plugin: 为 Copilot 提供 App Store Connect API 集成功能
