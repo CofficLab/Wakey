@@ -12,6 +12,8 @@ import ProviderStorage
 import ProviderCopilotNavigation
 import SwiftUI
 
+// Plugin imports — Settings shell (Lumi 同款设置外壳：左上角 App 图标 + 名称/版本)
+import PluginSettingView
 // Plugin imports — Logo (1)
 import PluginLogoBolt
 // Plugin imports — Poster (6)
@@ -131,6 +133,8 @@ public enum FactoryWakey {
             PluginPosterStretch(),
             // order 4
             PluginPosterHydration(),
+            // order 5: 设置外壳（替换 DefaultSettingViewProviding，渲染 App 图标头部）
+            PluginSettingView(id: "com.coffic.wakey.plugin.setting-view"),
             // order 7
             PluginCaffeinate(),
             // order 8
