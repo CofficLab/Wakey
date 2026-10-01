@@ -29,8 +29,8 @@ if [ -z "$PROJECT_FILE" ]; then
   exit 1
 fi
 
-# Get MARKETING_VERSION from project.pbxproj
-PROJECT_VERSION=$(grep -m1 "MARKETING_VERSION" "$PROJECT_FILE/project.pbxproj" | sed 's/.*MARKETING_VERSION = \([^;]*\).*/\1/' | xargs)
+# Get MARKETING_VERSION from project.xcproj (JSON 格式: "MARKETING_VERSION": "1.7.0")
+PROJECT_VERSION=$(grep -m1 '"MARKETING_VERSION"' "$PROJECT_FILE/project.xcproj" | sed 's/.*"MARKETING_VERSION": *"\([^"]*\)".*/\1/' | xargs)
 
 # Compare versions and use the larger one
 LAST_TAG=$(printf '%s\n%s\n' "$GIT_TAG" "$PROJECT_VERSION" | sort -V | tail -n1)

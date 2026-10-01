@@ -1,0 +1,94 @@
+import LumiUI
+import SwiftUI
+
+struct StretchSettingsView: View {
+    @State private var manager = StretchReminderManager.shared
+    @State private var customMinutes: Int = 60
+    
+    var body: some View {
+        AppSettingsContentScaffold(maxContentWidth: nil) {
+            AppSettingSection(title: String(localized: "Reminder Intervals", table: "StretchReminder", bundle: .module)) {
+                VStack(spacing: 0) {
+                    ForEach(Array(manager.availableIntervals.enumerated()), id: \.offset) { index, option in
+                        AppSettingRow(
+                            title: option.displayName,
+                            description: StretchReminderManager.commonIntervals.contains(option)
+                                ? nil
+                                : String(localized: "Custom interval", table: "StretchReminder", bundle: .module),
+                            icon: "figure.cooldown"
+                        ) {
+                            if !StretchReminderManager.commonIntervals.contains(option) {
+                                AppButton(systemImage: "minus", style: .destructive) {
+                                    manager.removeInterval(option)
+                                }
+                                .help(Text("Delete", tableName: "StretchReminder", bundle: .module))
+                                .accessibilityIdentifier("wakey.stretch.interval.remove.\(Int(option.timeInterval))")
+                            }
+                        }
+                        if index < manager.availableIntervals.count - 1 {
+                            Divider().padding(.vertical, 8)
+                        }
+                    }
+
+                    Divider().padding(.vertical, 8)
+
+                    AppSettingRow(
+                        title: String(localized: "Add Custom (minutes):", table: "StretchReminder", bundle: .module),
+                        description: String(localized: "Add a custom stretch reminder interval.", table: "StretchReminder", bundle: .module),
+                        icon: "plus.circle"
+                    ) {
+                        HStack(spacing: 8) {
+                            TextField("", value: $customMinutes, format: .number)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: 64)
+                                .accessibilityIdentifier("wakey.stretch.custom-interval.minutes")
+                                .onSubmit { addCustomInterval() }
+                            AppButton(systemImage: "plus", style: .secondary, action: addCustomInterval)
+                                .disabled(customMinutes <= 0)
+                                .accessibilityIdentifier("wakey.stretch.custom-interval.add")
+                        }
+                    }
+
+                    Divider().padding(.vertical, 8)
+
+                    AppSettingRow(
+                        title: String(localized: "Reset to Default Intervals", table: "StretchReminder", bundle: .module),
+                        description: String(localized: "Restore the built-in reminder intervals.", table: "StretchReminder", bundle: .module),
+                        icon: "arrow.counterclockwise"
+                    ) {
+                        AppButton(
+                            String(localized: "Reset", table: "StretchReminder", bundle: .module),
+                            systemImage: "arrow.counterclockwise",
+                            style: .secondary,
+                            size: .small,
+                            action: manager.resetIntervals
+                        )
+                        .accessibilityIdentifier("wakey.stretch.interval.reset")
+                    }
+                }
+            }
+        }
+        .onAppear {
+            customMinutes = 60
+        }
+    }
+    
+    private func addCustomInterval() {
+        guard customMinutes > 0 else { return }
+        manager.addCustomInterval(minutes: customMinutes)
+        customMinutes = 60 // Reset to default suggestion
+    }
+    
+    private func formatInterval(_ interval: TimeInterval) -> String {
+        let mins = Int(interval / 60)
+        if mins % 60 == 0 {
+            return "\(mins / 60) hr"
+        }
+        return "\(mins) min"
+    }
+}
+
+#Preview {
+    StretchSettingsView()
+        .frame(width: 400, height: 300)
+}
