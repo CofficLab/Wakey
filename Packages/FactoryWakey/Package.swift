@@ -45,6 +45,8 @@ let package = Package(
         .package(path: "../PluginAppInfo"),
         .package(path: "../PluginAppStoreConnect"),
         .package(path: "../PluginPurchase"),
+        // Plugin management (aligned to Lumi)
+        .package(path: "../PluginPluginManager"),
     ],
     targets: [
         .target(
@@ -83,6 +85,8 @@ let package = Package(
                 "PluginStretchReminder", "PluginHydrationReminder",
                 // Other
                 "PluginAppInfo", "PluginAppStoreConnect", "PluginPurchase",
+                // Plugin management (aligned to Lumi)
+                "PluginPluginManager",
             ],
             resources: [
                 .process("Resources")

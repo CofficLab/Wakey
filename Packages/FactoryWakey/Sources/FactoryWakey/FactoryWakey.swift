@@ -32,6 +32,8 @@ import PluginHydrationReminder
 import PluginAppInfo
 import PluginAppStoreConnect
 import PluginPurchase
+// Plugin imports — Plugin management (aligned to Lumi)
+import PluginPluginManager
 // Plugin imports — Theme
 import PluginThemePack
 import PluginRootView
@@ -89,18 +91,6 @@ public enum FactoryWakey {
             DefaultPluginManager(kernel: kernel, controlling: pluginControlling)
         )
 
-        // 宿主级设置入口：插件开关页（Plugins）固定排第一
-        kernel.resolveProvider((any SettingViewProviding).self)?.addEntries([
-            SettingEntryItem(
-                id: "plugins",
-                title: String(localized: "Plugins", table: "Core"),
-                systemImage: "puzzlepiece",
-                order: -100
-            ) {
-                PluginSettingsView(kernel: kernel)
-            }
-        ])
-
         // 启动全部插件（拓扑排序 + 原子启动 + 失败回滚）
         let plugins = makePlugins()
         try kernel.start(plugins: plugins)
@@ -150,6 +140,8 @@ public enum FactoryWakey {
             PluginAppStoreConnect(),
             // order 79
             ThemePackPlugin(id: "com.coffic.wakey.plugin.theme-pack", order: 79, policy: .alwaysOn),
+            // order 90: 插件管理（对齐 Lumi 的 PluginPluginManager）
+            PluginPluginManager(),
             // order 100
             PluginPurchase(),
         ]
@@ -169,7 +161,7 @@ public enum FactoryWakey {
     }
 
     /// 设置视图：由 LumiSettings 的 `SettingViewProviding` 渲染（侧边栏 + 详情区），
-    /// 插件开关页作为宿主入口固定在第一项，后续页是各插件贡献的设置页。
+    /// 「插件管理」入口由 PluginPluginManager 插件注册（order 3），后续页是各插件贡献的设置页。
     public static func makeSettingsView(kernel: KernelCoreContainer) -> AnyView {
         let settings = kernel.resolveProvider((any SettingViewProviding).self)
         let view = settings.map { $0.makeSettingView() } ?? AnyView(AppEmptyState(icon: "gearshape", title: "No settings"))
