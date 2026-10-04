@@ -34,6 +34,10 @@ import PluginAppStoreConnect
 import PluginPurchase
 // Plugin imports — Plugin management (aligned to Lumi)
 import PluginPluginManager
+// Plugin imports — Settings-General (aligned to Lumi)
+import PluginSettingGeneral
+// Provider imports — Onboarding (通用页「新手引导」分组)
+import ProviderOnboarding
 // Plugin imports — Theme
 import PluginThemePack
 import PluginRootView
@@ -73,6 +77,8 @@ public enum FactoryWakey {
             ProviderTheme.DefaultThemeProviding(defaultStorageDirectoryName: "com.coffic.lumi.plugin.theme-manager")
         )
         try kernel.registerHostProvider(CopilotNavigationProviding.self, DefaultCopilotNavigationProviding())
+        // 通用设置页「新手引导」分组（对齐 Lumi 的 ProviderOnboarding 体系）
+        try kernel.registerHostProvider((any OnboardingProviding).self, DefaultOnboardingProviding())
 
         // 数据存储：为插件启用状态提供持久化目录（对齐 Lumi 的 ProviderStorage 体系）
         try kernel.registerProvider((any StorageProviding).self, DefaultStorageProvider())
@@ -142,6 +148,8 @@ public enum FactoryWakey {
             ThemePackPlugin(id: "com.coffic.wakey.plugin.theme-pack", order: 79, policy: .alwaysOn),
             // order 90: 插件管理（对齐 Lumi 的 PluginPluginManager）
             PluginPluginManager(),
+            // order 100: 设置-通用（对齐 Lumi 的 PluginSettingGeneral）
+            SettingGeneralPlugin(),
             // order 100
             PluginPurchase(),
         ]
