@@ -289,10 +289,15 @@ struct StatusBarHostView: View {
 
 struct SettingsMenuItemRow: View {
     let title: String
+    @Environment(\.openWindow) private var openWindow
     @State private var isHovering = false
 
     var body: some View {
-        SettingsLink {
+        // 对齐 Lumi：设置窗口为 `Window` 场景（id "wakey.settings"），
+        // 用 openWindow 打开（`SettingsLink` 仅对 Settings 场景生效）。
+        Button {
+            openWindow(id: "wakey.settings")
+        } label: {
             HStack(spacing: 12) {
                 Text(title).font(.system(size: 13))
                     .foregroundColor(isHovering ? .white : .primary)
