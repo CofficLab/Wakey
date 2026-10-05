@@ -54,7 +54,7 @@ import ProviderToast
 ///    并通过 `start(plugins:)` 启动 `makePlugins()` 返回的显式插件数组。
 /// 2. `makePlugins()`：返回稳定顺序的插件数组（彻底替代 ObjC 运行时自动发现）。
 /// 3. `makeStatusBarView(kernel:)` / `makeSettingsView(kernel:)` /
-///    `makeLogoView(kernel:variant:)`：从内核解析 Host Provider 并渲染 UI。
+///    `makeLogoView(kernel:scene:)`：从内核解析 Host Provider 并渲染 UI。
 ///
 /// 线程/actor：全部方法 `@MainActor`。
 @MainActor
@@ -180,19 +180,19 @@ public enum FactoryWakey {
         return themed(rootView.makeRootView(), kernel: kernel)
     }
 
-    /// Logo 视图：从内核解析 LogoProviding，选中指定 logo 或默认第一个。
+    /// Logo 视图：从内核解析 LogoProviding，选中指定 logo 或默认最高优先级。
     public static func makeLogoView(
         kernel: KernelCoreContainer,
-        variant: LogoVariant = .general,
+        scene: LogoScene = .general,
         selectedLogoId: String? = nil
     ) -> AnyView {
-        let logos = kernel.resolveProvider(LogoProviding.self)?.logos ?? []
+        let logos = kernel.resolveProvider(LogoProviding.self)?.allLogoItems ?? []
         let selected = selectedLogoId.flatMap { id in logos.first { $0.id == id } } ?? logos.first
         if let logo = selected {
-            return logo.makeView(for: variant)
+            return logo.makeView(scene)
         }
         // Fallback: 默认闪电图标
-        return AnyView(LogoFallbackView(variant: variant))
+        return AnyView(LogoFallbackView(scene: scene))
     }
 
     private static func themed(_ view: AnyView, kernel: KernelCoreContainer) -> AnyView {
@@ -342,20 +342,24 @@ struct MenuItemRow: View {
 // MARK: - Logo Fallback
 
 struct LogoFallbackView: View {
-    let variant: LogoVariant
+    let scene: LogoScene
 
     var body: some View {
-        switch variant {
+        switch scene {
         case .appIcon:
             Image(systemName: "bolt.fill")
                 .resizable().aspectRatio(contentMode: .fit)
                 .foregroundColor(.cyan)
                 .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
                 .background(Color.black)
-        case .statusBar(let isActive):
+        case .statusBar:
             Image(systemName: "bolt.fill")
                 .resizable().aspectRatio(contentMode: .fit)
-                .foregroundColor(isActive ? .cyan : .primary)
+                .foregroundColor(.primary)
+        case .statusBarHighlighted:
+            Image(systemName: "bolt.fill")
+                .resizable().aspectRatio(contentMode: .fit)
+                .foregroundColor(.cyan)
         case .about:
             Image(systemName: "bolt.fill")
                 .resizable().aspectRatio(contentMode: .fit)

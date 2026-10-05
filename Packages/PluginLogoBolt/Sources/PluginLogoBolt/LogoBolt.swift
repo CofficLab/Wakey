@@ -3,34 +3,30 @@ import SwiftUI
 
 /// Logo: 能量闪电主题
 /// 概念：能量环 + 闪电，象征"持续供电、充满活力、拒绝休眠"
-struct LogoBolt: SuperLogo {
-    // MARK: - LogoProvider
+enum LogoBolt {
+    static let id = "logo.bolt"
 
-    var id: String { "logo.bolt" }
-    var title: String { "能量闪电" }
-    var description: String? { "能量环 + 闪电，象征充满活力" }
-    var order: Int { 0 }
-
-    func makeView(for variant: LogoVariant) -> AnyView {
-        AnyView(
+    @MainActor
+    static func makeItem() -> LogoItem {
+        LogoItem(id: id, order: 200) { scene in
             GeometryReader { geometry in
                 let size = min(geometry.size.width, geometry.size.height)
 
                 ZStack {
-                    renderContent(size: size, variant: variant)
+                    renderContent(size: size, scene: scene)
                 }
                 .frame(width: size, height: size)
-                .applyVariantModifiers(variant: variant)
+                .applySceneModifiers(scene: scene)
             }
-        )
+        }
     }
 
     // MARK: - Internal Rendering
 
     @ViewBuilder
-    private func renderContent(size: CGFloat, variant: LogoVariant) -> some View {
-        let innerSize = size * innerSizeRatio(variant)
-        let colors = colorsForVariant(variant)
+    private static func renderContent(size: CGFloat, scene: LogoScene) -> some View {
+        let innerSize = size * innerSizeRatio(scene)
+        let colors = colorsForScene(scene)
 
         ZStack {
             // 外层能量环
@@ -60,60 +56,44 @@ struct LogoBolt: SuperLogo {
         }
     }
 
-    // MARK: - Variant Styling
+    // MARK: - Scene Styling
 
-    private struct VariantColors {
+    private struct SceneColors {
         let ring: [Color]
         let background: Color
         let icon: Color
         let shadow: Color
     }
 
-    private func colorsForVariant(_ variant: LogoVariant) -> VariantColors {
-        switch variant {
-        case .appIcon:
-            return VariantColors(
+    private static func colorsForScene(_ scene: LogoScene) -> SceneColors {
+        switch scene {
+        case .appIcon, .about, .general:
+            return SceneColors(
                 ring: [.blue, .cyan, .purple, .blue],
                 background: Color.blue.opacity(0.1),
                 icon: .cyan,
                 shadow: .cyan
             )
-        case .statusBar(let isActive):
-            if isActive {
-                return VariantColors(
-                    ring: [.blue, .cyan, .blue],
-                    background: Color.blue.opacity(0.15),
-                    icon: .cyan,
-                    shadow: .cyan
-                )
-            } else {
-                return VariantColors(
-                    ring: [Color.primary.opacity(0.6), Color.primary.opacity(0.2), Color.primary.opacity(0.6)],
-                    background: Color.primary.opacity(0.1),
-                    icon: .primary,
-                    shadow: .clear
-                )
-            }
-        case .about:
-            return VariantColors(
-                ring: [.blue, .cyan, .purple, .blue],
-                background: Color.blue.opacity(0.1),
-                icon: .cyan,
-                shadow: .cyan
+        case .statusBar:
+            return SceneColors(
+                ring: [Color.primary.opacity(0.6), Color.primary.opacity(0.2), Color.primary.opacity(0.6)],
+                background: Color.primary.opacity(0.1),
+                icon: .primary,
+                shadow: .clear
             )
-        case .general:
-            return VariantColors(
-                ring: [.blue, .cyan, .purple, .blue],
-                background: Color.blue.opacity(0.1),
+        case .statusBarHighlighted:
+            return SceneColors(
+                ring: [.blue, .cyan, .blue],
+                background: Color.blue.opacity(0.15),
                 icon: .cyan,
                 shadow: .cyan
             )
         }
     }
 
-    private func innerSizeRatio(_ variant: LogoVariant) -> CGFloat {
-        switch variant {
-        case .statusBar:
+    private static func innerSizeRatio(_ scene: LogoScene) -> CGFloat {
+        switch scene {
+        case .statusBar, .statusBarHighlighted:
             return 0.85
         default:
             return 0.7
@@ -121,16 +101,16 @@ struct LogoBolt: SuperLogo {
     }
 }
 
-// MARK: - Variant Modifiers
+// MARK: - Scene Modifiers
 
 extension View {
     @ViewBuilder
-    func applyVariantModifiers(variant: LogoVariant) -> some View {
-        switch variant {
+    func applySceneModifiers(scene: LogoScene) -> some View {
+        switch scene {
         case .appIcon:
             self.shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
                 .background(Color.black)
-        case .statusBar:
+        case .statusBar, .statusBarHighlighted:
             self.scaleEffect(1.0)
         case .about:
             self.shadow(radius: 5)

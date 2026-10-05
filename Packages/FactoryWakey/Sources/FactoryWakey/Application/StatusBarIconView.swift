@@ -9,7 +9,7 @@ struct StatusBarIconView: View {
     var body: some View {
         LogoView(
             kernel: kernel,
-            variant: .statusBar(isActive: viewModel.isActive)
+            scene: viewModel.isActive ? .statusBarHighlighted : .statusBar
         )
         .frame(width: 20, height: 20)
         .inRootView()

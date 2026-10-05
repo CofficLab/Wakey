@@ -11,13 +11,12 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
         .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.7.0"),
-        .package(url: "https://github.com/CofficLab/LumiProviders.git", exact: "1.2.7"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.5.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginStorage.git", from: "1.0.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginToast.git", from: "1.0.1"),
         .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.4"),
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.0.1"),
         .package(url: "https://github.com/CofficLab/LumiPluginSettingView.git", from: "1.0.2"),
-        .package(path: "../ProviderLogo"),
         .package(path: "../ProviderPoster"),
         .package(path: "../ProviderStatusBarPopup"),
         .package(path: "../ProviderCopilotNavigation"),
@@ -55,7 +54,7 @@ let package = Package(
         .target(
             name: "FactoryWakey",
             dependencies: [
-                "ProviderLogo",
+                .product(name: "ProviderLogo", package: "LumiProviders"),
                 "ProviderPoster",
                 "ProviderStatusBarPopup",
                 "ProviderCopilotNavigation",
