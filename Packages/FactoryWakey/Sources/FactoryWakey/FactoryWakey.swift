@@ -173,10 +173,13 @@ public enum FactoryWakey {
     public static func makeSettingsView(kernel: KernelCoreContainer) -> AnyView {
         let settings = kernel.resolveProvider((any SettingViewProviding).self)
         let view = settings.map { $0.makeSettingView() } ?? AnyView(AppEmptyState(icon: "gearshape", title: "No settings"))
+        // 稳定的窗口内容标识符，供 UI 测试等待设置窗口出现（侧边栏条目本身
+        // 由 LumiSettings 渲染、不带 accessibility identifier，不能依赖其 id）。
+        let identified = AnyView(view.accessibilityIdentifier("wakey.settings.window"))
         guard let rootView = kernel.resolveProvider((any RootViewProviding).self) else {
-            return themed(view, kernel: kernel)
+            return themed(identified, kernel: kernel)
         }
-        rootView.setContentView(view)
+        rootView.setContentView(identified)
         return themed(rootView.makeRootView(), kernel: kernel)
     }
 
@@ -268,11 +271,11 @@ struct StatusBarHostView: View {
     private var menuItemsSection: some View {
         VStack(spacing: 0) {
             SettingsMenuItemRow(
-                title: String(localized: "Settings...", table: "Core", comment: "Menu item to open settings")
+                title: String(localized: "Settings...", table: "Core", bundle: .module, comment: "Menu item to open settings")
             )
             Divider()
             MenuItemRow(
-                title: String(localized: "Quit", table: "Core", comment: "Menu item to quit the application"),
+                title: String(localized: "Quit", table: "Core", bundle: .module, comment: "Menu item to quit the application"),
                 color: .red,
                 accessibilityIdentifier: "wakey.statusbar.quit",
                 action: { NSApp.terminate(nil) }
