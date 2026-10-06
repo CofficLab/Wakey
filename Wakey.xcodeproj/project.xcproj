@@ -8,8 +8,8 @@
     "development": "en",
     "supported": [
       "Base",
-      "zh-Hans",
       "zh-HK",
+      "zh-Hans",
     ],
   },
   "packages": [

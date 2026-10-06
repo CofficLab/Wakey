@@ -20,6 +20,7 @@ let package = Package(
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
         .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.7.0"),
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.0.1"),
+        .package(url: "https://github.com/CofficLab/LumiLocalization.git", from: "1.0.1"),
     ],
     targets: [
         .target(
@@ -31,8 +32,10 @@ let package = Package(
                 .product(name: "ProviderDocsView", package: "LumiProviders"),
                 .product(name: "ProviderPluginManaging", package: "LumiProviders"),
                 .product(name: "ProviderSettingView", package: "LumiSettings"),
+                .product(name: "LumiLocalizationKit", package: "LumiLocalization"),
             ],
-            path: "Sources/PluginPluginManager"
+            path: "Sources/PluginPluginManager",
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "PluginPluginManagerTests",
