@@ -164,7 +164,7 @@ struct GeneralSettingsDetailView: View {
         ) {
             AppSettingRow(
                 title: "官方网站",
-                description: "coffic.cn",
+                description: "coffic.cn/wakey",
                 icon: "globe"
             ) {
                 AppButton(
@@ -173,7 +173,7 @@ struct GeneralSettingsDetailView: View {
                     style: .secondary,
                     size: .small
                 ) {
-                    if let url = URL(string: "https://coffic.cn") {
+                    if let url = URL(string: "https://coffic.cn/wakey") {
                         #if canImport(AppKit)
                         NSWorkspace.shared.open(url)
                         #elseif canImport(UIKit)
