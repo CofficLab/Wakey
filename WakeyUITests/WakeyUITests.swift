@@ -13,6 +13,9 @@ class WakeyUITestBase: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
         app = XCUIApplication()
+        // 关闭首次自动呈现的欢迎卡片：避免卡片初始覆盖 popup 导致 AX 快照
+        // 崩溃。Onboarding UI 测试通过设置-通用「重新查看新手引导」重放验证。
+        app.launchArguments.append("-disable-auto-onboarding")
         if let launchLanguage {
             app.launchArguments += [
                 "-AppleLanguages", "(\(launchLanguage.language))",
@@ -58,10 +61,13 @@ class WakeyUITestBase: XCTestCase {
         for attempt in 0..<2 {
             statusBarButton.click()
             if element("wakey.statusbar.settings").waitForExistence(timeout: 8) {
-                return
+                break
             }
         }
-        XCTFail("Status-bar popup did not open")
+        XCTAssertTrue(element("wakey.statusbar.settings").exists, "Status-bar popup did not open")
+        // 注意：不做「跳过」卡片等全量 AX 查询——popup 组合 RootView overlay
+        // 后大范围枚举会触发 XCTest 与被测 app 的 AX 快照崩溃。欢迎卡片在
+        // UI 测试中通过 -disable-auto-onboarding 关闭自动呈现，不影响本流程。
     }
 
     func openSettings() {
@@ -127,13 +133,13 @@ final class WakeyLaunchUITests: WakeyUITestBase {
 
 final class WakeySettingsUITests: WakeyUITestBase {
     // 侧边栏条目按标题（label）定位，固定英文环境保证标题稳定
-    // （“插件管理”为 PluginPluginManager 硬编码标题，中文英文环境均如此）。
+    // （PluginPluginManager 的条目经本地化，en 环境显示 "Plugin Manager"）。
     override var launchLanguage: (language: String, locale: String)? { ("en", "en_US") }
 
     func testSettingsShowsCoreAndFeaturePages() {
         openSettings()
         for title in [
-            "插件管理",
+            "Plugin Manager",
             "Caffeinate",
             "Hydration",
             "Eye Care",

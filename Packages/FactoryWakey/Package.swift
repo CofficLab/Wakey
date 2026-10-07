@@ -48,7 +48,9 @@ let package = Package(
         .package(path: "../PluginPluginManager"),
         // Settings - General (aligned to Lumi)
         .package(path: "../PluginSettingGeneral"),
-        .package(path: "../ProviderOnboarding"),
+        // Onboarding (aligned to Lumi)
+        .package(path: "../PluginOnboarding"),
+        .package(path: "../PluginWelcome"),
     ],
     targets: [
         .target(
@@ -91,7 +93,8 @@ let package = Package(
                 "PluginPluginManager",
                 // Settings - General (aligned to Lumi)
                 "PluginSettingGeneral",
-                .product(name: "ProviderOnboarding", package: "ProviderOnboarding"),
+                // Onboarding (aligned to Lumi)
+                "PluginOnboarding", "PluginWelcome",
             ],
             resources: [
                 .process("Resources")

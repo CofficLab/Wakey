@@ -36,8 +36,9 @@ import PluginPurchase
 import PluginPluginManager
 // Plugin imports — Settings-General (aligned to Lumi)
 import PluginSettingGeneral
-// Provider imports — Onboarding (通用页「新手引导」分组)
-import ProviderOnboarding
+// Plugin imports — Onboarding (aligned to Lumi)
+import PluginOnboarding
+import PluginWelcome
 // Plugin imports — Theme
 import PluginThemePack
 import PluginRootView
@@ -77,8 +78,6 @@ public enum FactoryWakey {
             ProviderTheme.DefaultThemeProviding(defaultStorageDirectoryName: "com.coffic.lumi.plugin.theme-manager")
         )
         try kernel.registerHostProvider(CopilotNavigationProviding.self, DefaultCopilotNavigationProviding())
-        // 通用设置页「新手引导」分组（对齐 Lumi 的 ProviderOnboarding 体系）
-        try kernel.registerHostProvider((any OnboardingProviding).self, DefaultOnboardingProviding())
 
         // 数据存储：为插件启用状态提供持久化目录（对齐 Lumi 的 ProviderStorage 体系）
         try kernel.registerProvider((any StorageProviding).self, DefaultStorageProvider())
@@ -152,6 +151,9 @@ public enum FactoryWakey {
             SettingGeneralPlugin(),
             // order 100
             PluginPurchase(),
+            // order 10/20: 首次启动引导（对齐 Lumi 的 PluginOnboarding/PluginWelcome）
+            OnboardingPlugin(),
+            PluginWelcome(),
         ]
     }
 
@@ -165,7 +167,11 @@ public enum FactoryWakey {
             return themed(view, kernel: kernel)
         }
         rootView.setView(view, for: .statusBar)
-        return themed(rootView.view(for: .statusBar) ?? view, kernel: kernel)
+        // 状态栏 popover 组合 RootView overlay：欢迎卡片（OnboardingOverlay）
+        // 在未激活时直通内容（ViewBuilder 分支，无 ZStack/Group 包装），避免
+        // popover 场景的 AX 崩溃；激活时卡片显示在 popup（菜单栏 app 无主窗口）。
+        rootView.setContentView(view)
+        return themed(rootView.makeRootView(), kernel: kernel)
     }
 
     /// 设置视图：由 LumiSettings 的 `SettingViewProviding` 渲染（侧边栏 + 详情区），
@@ -176,11 +182,10 @@ public enum FactoryWakey {
         // 稳定的窗口内容标识符，供 UI 测试等待设置窗口出现（侧边栏条目本身
         // 由 LumiSettings 渲染、不带 accessibility identifier，不能依赖其 id）。
         let identified = AnyView(view.accessibilityIdentifier("wakey.settings.window"))
-        guard let rootView = kernel.resolveProvider((any RootViewProviding).self) else {
-            return themed(identified, kernel: kernel)
-        }
-        rootView.setContentView(identified)
-        return themed(rootView.makeRootView(), kernel: kernel)
+        // 设置窗口直接返回（不组合 RootView overlay）：菜单栏 app 的 Window
+        // 场景下，overlay 的 ZStack/包装层会让详情区 AX 的 hit point 不稳定
+        // （XCTest 随机失败）。欢迎卡片由状态栏 popup 的 RootView overlay 呈现。
+        return themed(identified, kernel: kernel)
     }
 
     /// Logo 视图：从内核解析 LogoProviding，选中指定 logo 或默认最高优先级。

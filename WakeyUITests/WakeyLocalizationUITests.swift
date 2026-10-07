@@ -10,9 +10,14 @@ struct WakeySidebarExpectation {
 /// 复用 WakeyUITestBase 的 launchLanguage 机制。
 @MainActor
 class WakeyLocalizationUITestCase: WakeyUITestBase {
-    var expected: WakeySidebarExpectation { fatalError("Override per language") }
+    // 基类不提供语言期望值（子类覆写）；基类自身被 XCTest 实例化时测试方法
+    // 会跳过，避免 fatalError 导致整个测试目标失败。
+    var expected: WakeySidebarExpectation? { nil }
 
-    func testSettingsSidebarFollowsLanguage() {
+    func testSettingsSidebarFollowsLanguage() throws {
+        guard let expected else {
+            throw XCTSkip("Base class: override per language")
+        }
         openSettings()
 
         func sidebarButton(_ label: String) -> XCUIElement {
