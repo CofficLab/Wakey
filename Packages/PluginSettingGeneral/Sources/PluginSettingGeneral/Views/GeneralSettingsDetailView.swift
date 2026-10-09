@@ -24,13 +24,12 @@ struct GeneralSettingsDetailView: View {
     var body: some View {
         AppSettingsContentScaffold(maxContentWidth: nil) {
             VStack(alignment: .leading, spacing: 24) {
-                onboardingSection
+                helpSection
                 lumiSection
                 websiteSection
                 if viewModel.isUpdateChannelAvailable {
                     updatesSection
                 }
-                diagnosticsSection
                 uninstallSection
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -45,47 +44,26 @@ struct GeneralSettingsDetailView: View {
         }
     }
 
-    // MARK: - 新手引导
+    // MARK: - 帮助
 
-    private var onboardingSection: some View {
+    private var helpSection: some View {
         AppSettingSection(
-            title: "新手引导",
+            title: "帮助",
             titleAlignment: .leading
         ) {
-            VStack(spacing: 0) {
+            if !viewModel.manuals.isEmpty {
                 AppSettingRow(
-                    title: "重新查看新手引导",
-                    description: "重放首次启动引导流程。",
-                    icon: "graduationcap"
+                    title: "说明书",
+                    description: "各功能的使用指南。",
+                    icon: "book"
                 ) {
                     AppButton(
-                        "开始",
-                        systemImage: "arrow.right",
+                        "打开",
+                        systemImage: "book.pages",
                         style: .secondary,
                         size: .small
                     ) {
-                        viewModel.replayOnboarding()
-                    }
-                    .disabled(!viewModel.isOnboardingAvailable)
-                }
-
-                if !viewModel.manuals.isEmpty {
-                    Divider()
-                        .padding(.vertical, 8)
-
-                    AppSettingRow(
-                        title: "说明书",
-                        description: "各功能的使用指南。",
-                        icon: "book"
-                    ) {
-                        AppButton(
-                            "打开",
-                            systemImage: "book.pages",
-                            style: .secondary,
-                            size: .small
-                        ) {
-                            isPresentingManuals = true
-                        }
+                        isPresentingManuals = true
                     }
                 }
             }
@@ -228,43 +206,6 @@ struct GeneralSettingsDetailView: View {
                         .labelsHidden()
                         .pickerStyle(.menu)
                     }
-                }
-            }
-        }
-    }
-
-    // MARK: - 诊断日志
-
-    private var diagnosticsSection: some View {
-        AppSettingSection(
-            title: "诊断日志",
-            titleAlignment: .leading
-        ) {
-            VStack(spacing: 0) {
-                AppSettingRow(
-                    title: "导出日志",
-                    description: "打包最近的运行日志，便于提交问题反馈。",
-                    icon: "doc.badge.arrow.up"
-                ) {
-                    AppButton(
-                        viewModel.isExportingDiagnostics ? "导出中…" : "导出",
-                        systemImage: viewModel.isExportingDiagnostics ? "hourglass" : "square.and.arrow.up",
-                        style: .secondary,
-                        size: .small
-                    ) {
-                        viewModel.exportDiagnostics()
-                    }
-                    .disabled(viewModel.isExportingDiagnostics || !viewModel.isDiagnosticsAvailable)
-                }
-
-                if let diagnosticsFeedback = viewModel.diagnosticsFeedback {
-                    Divider()
-                        .padding(.vertical, 8)
-                    Text(diagnosticsFeedback)
-                        .font(.appCaption)
-                        .foregroundStyle(.secondary)
-                        .textSelection(.enabled)
-                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
         }

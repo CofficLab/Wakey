@@ -1,8 +1,6 @@
 import Foundation
 import ProviderAppUpdate
-import ProviderDiagnostics
 import ProviderDocsView
-import ProviderOnboarding
 import ProviderStorage
 import ProviderUninstall
 
@@ -12,9 +10,9 @@ import AppKit
 
 /// 通用设置页需要的最小外部操作集合。
 ///
-/// 收敛 `DocsViewProviding` / `DiagnosticsProviding` /
-/// `AppUpdateChannelProviding` / `OnboardingProviding` /
-/// `UninstallProviding` 五个 Provider，View 与 ViewModel 都不再直接接触 Provider。
+/// 收敛 `DocsViewProviding` /
+/// `AppUpdateChannelProviding` /
+/// `UninstallProviding` 三个 Provider，View 与 ViewModel 都不再直接接触 Provider。
 @MainActor
 protocol GeneralSettingsCapability {
     /// 所有提供了说明书的文档条目。
@@ -25,16 +23,6 @@ protocol GeneralSettingsCapability {
     var updateChannel: AppUpdateChannel { get }
     var isUpdateChannelAvailable: Bool { get }
     func setUpdateChannel(_ channel: AppUpdateChannel)
-
-    // MARK: 新手引导
-
-    var isOnboardingAvailable: Bool { get }
-    func replayOnboarding()
-
-    // MARK: 诊断
-
-    var isDiagnosticsAvailable: Bool { get }
-    func makeDiagnosticsArchive() async throws -> DiagnosticsArchive
 
     // MARK: 卸载
 
@@ -61,26 +49,20 @@ protocol GeneralSettingsCapability {
 @MainActor
 final class GeneralSettingsCapabilityAdapter: GeneralSettingsCapability {
     private let docsProvider: (any DocsViewProviding)?
-    private let diagnosticsProvider: (any DiagnosticsProviding)?
     private let updateProvider: (any AppUpdateChannelProviding)?
-    private let onboardingProvider: (any OnboardingProviding)?
     private let storageProvider: (any StorageProviding)?
     private let uninstallProvider: (any UninstallProviding)?
     private let prepareForUninstall: (@MainActor () async -> Void)?
 
     init(
         docsProvider: (any DocsViewProviding)?,
-        diagnosticsProvider: (any DiagnosticsProviding)?,
         updateProvider: (any AppUpdateChannelProviding)?,
-        onboardingProvider: (any OnboardingProviding)?,
         storageProvider: (any StorageProviding)?,
         uninstallProvider: (any UninstallProviding)?,
         prepareForUninstall: (@MainActor () async -> Void)?
     ) {
         self.docsProvider = docsProvider
-        self.diagnosticsProvider = diagnosticsProvider
         self.updateProvider = updateProvider
-        self.onboardingProvider = onboardingProvider
         self.storageProvider = storageProvider
         self.uninstallProvider = uninstallProvider
         self.prepareForUninstall = prepareForUninstall
@@ -100,25 +82,6 @@ final class GeneralSettingsCapabilityAdapter: GeneralSettingsCapability {
 
     func setUpdateChannel(_ channel: AppUpdateChannel) {
         updateProvider?.setChannel(channel)
-    }
-
-    var isOnboardingAvailable: Bool {
-        onboardingProvider != nil
-    }
-
-    func replayOnboarding() {
-        onboardingProvider?.replay()
-    }
-
-    var isDiagnosticsAvailable: Bool {
-        diagnosticsProvider != nil
-    }
-
-    func makeDiagnosticsArchive() async throws -> DiagnosticsArchive {
-        guard let diagnosticsProvider else {
-            throw GeneralSettingsCapabilityError.unavailable("诊断日志服务暂不可用。")
-        }
-        return try await diagnosticsProvider.makeDiagnosticsArchive()
     }
 
     var isUninstallAvailable: Bool {

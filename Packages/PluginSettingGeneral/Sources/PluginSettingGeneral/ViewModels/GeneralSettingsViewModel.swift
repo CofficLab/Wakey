@@ -48,10 +48,6 @@ final class GeneralSettingsViewModel: ObservableObject {
         }
     }
 
-    // 诊断导出
-    @Published private(set) var isExportingDiagnostics = false
-    @Published private(set) var diagnosticsFeedback: String?
-
     // 卸载流程
     @Published private(set) var uninstallScan: UninstallScan?
     @Published private(set) var isScanningUninstall = false
@@ -70,16 +66,8 @@ final class GeneralSettingsViewModel: ObservableObject {
 
     // MARK: - 派生状态
 
-    var isOnboardingAvailable: Bool {
-        capability.isOnboardingAvailable
-    }
-
     var isUpdateChannelAvailable: Bool {
         capability.isUpdateChannelAvailable
-    }
-
-    var isDiagnosticsAvailable: Bool {
-        capability.isDiagnosticsAvailable
     }
 
     var isUninstallAvailable: Bool {
@@ -111,10 +99,6 @@ final class GeneralSettingsViewModel: ObservableObject {
 
     // MARK: - 用户意图
 
-    func replayOnboarding() {
-        capability.replayOnboarding()
-    }
-
     func openStorageDirectory() {
         capability.openStorageDirectory()
     }
@@ -125,43 +109,6 @@ final class GeneralSettingsViewModel: ObservableObject {
             name: Notification.Name("checkForUpdates"),
             object: nil
         )
-    }
-
-    func exportDiagnostics() {
-        guard isDiagnosticsAvailable else {
-            diagnosticsFeedback = "日志服务暂不可用。"
-            return
-        }
-
-        isExportingDiagnostics = true
-        diagnosticsFeedback = nil
-
-        Task { @MainActor in
-            defer { isExportingDiagnostics = false }
-
-            do {
-                let archive = try await capability.makeDiagnosticsArchive()
-                defer { try? FileManager.default.removeItem(at: archive.url) }
-                let panel = NSSavePanel()
-                panel.allowedContentTypes = [.zip]
-                panel.canCreateDirectories = true
-                panel.nameFieldStringValue = archive.filename
-                panel.message = "选择诊断日志保存位置"
-
-                guard panel.runModal() == .OK, let destination = panel.url else {
-                    diagnosticsFeedback = "已取消导出。"
-                    return
-                }
-
-                if FileManager.default.fileExists(atPath: destination.path) {
-                    try FileManager.default.removeItem(at: destination)
-                }
-                try FileManager.default.copyItem(at: archive.url, to: destination)
-                diagnosticsFeedback = "日志已导出：\(destination.lastPathComponent)"
-            } catch {
-                diagnosticsFeedback = "导出失败：\(error.localizedDescription)"
-            }
-        }
     }
 
     func beginUninstall() {
