@@ -24,7 +24,6 @@ struct GeneralSettingsDetailView: View {
     var body: some View {
         AppSettingsContentScaffold(maxContentWidth: nil) {
             VStack(alignment: .leading, spacing: 24) {
-                helpSection
                 lumiSection
                 websiteSection
                 if viewModel.isUpdateChannelAvailable {
@@ -44,37 +43,11 @@ struct GeneralSettingsDetailView: View {
         }
     }
 
-    // MARK: - 帮助
-
-    private var helpSection: some View {
-        AppSettingSection(
-            title: "帮助",
-            titleAlignment: .leading
-        ) {
-            if !viewModel.manuals.isEmpty {
-                AppSettingRow(
-                    title: "说明书",
-                    description: "各功能的使用指南。",
-                    icon: "book"
-                ) {
-                    AppButton(
-                        "打开",
-                        systemImage: "book.pages",
-                        style: .secondary,
-                        size: .small
-                    ) {
-                        isPresentingManuals = true
-                    }
-                }
-            }
-        }
-    }
-
     // MARK: - Wakey（应用信息）
 
     private var lumiSection: some View {
         AppSettingSection(
-            title: pluginLocalization.string("Wakey"),
+            title: "基本信息",
             titleAlignment: .leading
         ) {
             VStack(spacing: 0) {
@@ -215,7 +188,7 @@ struct GeneralSettingsDetailView: View {
 
     private var uninstallSection: some View {
         AppSettingSection(
-            title: "卸载 Wakey",
+            title: "卸载",
             titleAlignment: .leading
         ) {
             AppSettingRow(
