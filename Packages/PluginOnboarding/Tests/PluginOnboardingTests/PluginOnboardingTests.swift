@@ -32,7 +32,7 @@ import Testing
     try plugin.onBoot(kernel: kernel)
     let onboarding = try #require(kernel.resolveProvider((any OnboardingProviding).self))
     #expect(onboarding.allPages.isEmpty)
-    #expect(onboarding.isPresented)
+    #expect(!onboarding.isPresented) // 不再自动呈现
 
     try plugin.onShutdown(kernel: kernel)
     #expect(onboarding.allPages.isEmpty)

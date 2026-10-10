@@ -67,12 +67,10 @@ public final class OnboardingPlugin: SuperPlugin, SuperLog {
         }
 
         if !store.hasSeen {
-            // UI 测试用 `-disable-auto-onboarding` 关闭首次自动呈现：避免
-            // 欢迎卡片初始覆盖 popup 导致 XCTest 的 AX 快照崩溃。重放入口
-            // （设置-通用「开始」）与真实用户行为不受影响。
-            if !ProcessInfo.processInfo.arguments.contains("-disable-auto-onboarding") {
-                provider.show()
-            }
+            // 不自动呈现 onboarding：菜单栏应用的弹出窗口体验不佳，
+            // 用户可通过设置-通用「重新查看新手引导」手动重放。
+            // UI 测试也用 `-disable-auto-onboarding` 确保不弹出。
+            store.markSeen()
         }
     }
 
