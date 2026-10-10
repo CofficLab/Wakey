@@ -53,19 +53,9 @@ class StatusBarController: NSObject, NSPopoverDelegate {
             object: nil
         )
 
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleApplicationResignedActive),
-            name: NSApplication.didResignActiveNotification,
-            object: nil
-        )
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleWindowChanged),
-            name: NSWindow.didBecomeKeyNotification,
-            object: nil
-        )
+        // 对齐 Lumi：popover 为 `.transient`，点击外部自动关闭，不再额外
+        // 监听失焦 / key window 变化强制关闭（该逻辑在 UI 测试的合成点击下
+        // 会误关 popup，导致弹窗交互不稳定）。
 
         Self.logger.info("📊 状态栏已设置")
     }
@@ -92,18 +82,6 @@ class StatusBarController: NSObject, NSPopoverDelegate {
             activeSources.remove(source)
         }
         updateStatusBarIconAppearance()
-    }
-
-    @objc private func handleApplicationResignedActive() {
-        closePopover()
-    }
-
-    @objc private func handleWindowChanged(_ notification: Notification) {
-        guard let popover, popover.isShown,
-              let popoverWindow = popover.contentViewController?.view.window else { return }
-        if let keyWindow = NSApp.keyWindow, keyWindow != popoverWindow {
-            closePopover()
-        }
     }
 
     // MARK: - Status Bar Actions

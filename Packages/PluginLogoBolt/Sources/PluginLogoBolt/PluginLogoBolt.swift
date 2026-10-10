@@ -21,10 +21,10 @@ public final class PluginLogoBolt: SuperPlugin {
 
     public func onBoot(kernel: KernelCoreContainer) throws {
         guard let logoProvider = kernel.resolveProvider(LogoProviding.self) else { return }
-        logoProvider.addLogo(ownerID: id, LogoBolt())
+        logoProvider.registerLogoItem(LogoBolt.makeItem())
     }
 
     public func onShutdown(kernel: KernelCoreContainer) throws {
-        kernel.resolveProvider(LogoProviding.self)?.removeLogos(ownerID: id)
+        kernel.resolveProvider(LogoProviding.self)?.unregisterLogoItem(id: LogoBolt.id)
     }
 }

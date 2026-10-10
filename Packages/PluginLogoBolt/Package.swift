@@ -8,14 +8,14 @@ let package = Package(
         .library(name: "PluginLogoBolt", targets: ["PluginLogoBolt"])
     ],
     dependencies: [
-        .package(path: "../ProviderLogo"),
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.5.0"),
     ],
     targets: [
         .target(
             name: "PluginLogoBolt",
             dependencies: [
-                "ProviderLogo",
+                .product(name: "ProviderLogo", package: "LumiProviders"),
                 .product(name: "KernelCore", package: "LumiKernel"),
 
             ]

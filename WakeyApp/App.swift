@@ -16,6 +16,8 @@ struct WakeyApp: App {
     /// 装配失败时的错误（用于失败视图展示）
     private let bootstrapError: Error?
 
+    @Environment(\.openWindow) private var openWindow
+
     private static let logger = Logger(subsystem: "com.coffic.wakey.app", category: "WakeyApp")
 
     init() {
@@ -35,7 +37,9 @@ struct WakeyApp: App {
     }
 
     var body: some Scene {
-        Settings {
+        // 对齐 Lumi：设置窗口用 `Window` 场景（`Settings` 场景的系统偏好设置风格
+        // 默认不允许用户缩放窗口；`Window` 默认可调节大小）。
+        Window("设置", id: "wakey.settings") {
             if let kernel {
                 FactoryWakey.makeSettingsView(kernel: kernel)
                     .inRootView()
@@ -48,6 +52,17 @@ struct WakeyApp: App {
         // owns the same hidden-title-bar chrome as Lumi's settings window.
         .windowStyle(.hiddenTitleBar)
         .windowToolbarStyle(.unified(showsTitle: false))
+        // Preserve the legacy `AppBootstrap.defaultSettingsWindowSize` (Lumi 同款)。
+        // 宽度对齐设置壳的 minWidth: 960，避免窄窗口触发 compact size class。
+        .defaultSize(width: 960, height: 560)
+        .commands {
+            // Settings 场景换成 Window 场景后，系统不再自动把 Cmd+, 绑定到设置窗口，
+            // 这里等价补回「设置…」命令（对齐 Lumi 的 CommandItem "Settings..."）。
+            CommandGroup(replacing: .appSettings) {
+                Button("设置…") { openWindow(id: "wakey.settings") }
+                    .keyboardShortcut(",", modifiers: .command)
+            }
+        }
     }
 }
 

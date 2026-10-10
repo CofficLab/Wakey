@@ -1,0 +1,122 @@
+import KernelCore
+import LumiUI
+import ProviderCommand
+import ProviderAppUpdate
+import ProviderDocsView
+import ProviderStorage
+import ProviderUninstall
+import ProviderSettingView
+import SwiftUI
+import LumiLoggingKit
+import os
+
+/// 设置 - 通用 插件
+///
+/// 在设置视图中注册「通用」入口，包含 `AppSettingsContentScaffold`
+/// 包裹的多个分组卡片（新手引导 / Wakey / 网站 / 更新等），每行均为
+/// `AppSettingRow`（图标 + 标题 + 描述 + 右侧 `AppButton`）。
+///
+/// 通过 `SuperPlugin.onBoot(kernel:)` 解析内核中的 `SettingViewProviding`
+/// 与 `DocsViewProviding`，用 `addEntries(_:)`（追加语义）注册入口，
+/// 不覆盖其他插件贡献的入口。
+@MainActor
+public final class SettingGeneralPlugin: SuperPlugin, SuperLog {
+    nonisolated static let logger = Logger(subsystem: "com.coffic.wakey.plugin.setting-general", category: "SettingGeneral")
+    public let id = "com.coffic.wakey.plugin.setting-general"
+    public let order = 100
+    public let metadata = PluginMetadata(
+        id: "com.coffic.wakey.plugin.setting-general",
+        name: pluginLocalization.string("General Settings"),
+        description: pluginLocalization.string("Registers the General settings entry with app info, website and updates."),
+        category: .system,
+        stage: .stable,
+        policy: .alwaysOn
+    )
+
+    /// 版本字符串提供器；默认读取 App bundle 版本，可注入以便测试。
+    private let versionProvider: @MainActor () -> String?
+    private let uninstallProvider: any UninstallProviding
+    private var generalObserver: GeneralSettingsObserver?
+
+    public init(
+        versionProvider: @escaping @MainActor () -> String? = { AppVersion.current },
+        uninstallProvider: any UninstallProviding = DefaultUninstallProvider()
+    ) {
+        self.versionProvider = versionProvider
+        self.uninstallProvider = uninstallProvider
+    }
+
+    public func onBoot(kernel: KernelCoreContainer) throws {
+        kernel.resolveProvider((any CommandProviding).self)?.registerCommandGroup(
+            CommandMenuGroup(
+                id: "\(id).commands",
+                name: "Settings",
+                items: [
+                    CommandItem(
+                        id: "\(id).openSettings",
+                        title: pluginLocalization.string("Settings..."),
+                        shortcut: ",",
+                        modifiers: .command
+                    ) {
+                        NotificationCenter.default.post(
+                            name: Notification.Name("wakey.openSettings"),
+                            object: nil
+                        )
+                    },
+                ],
+                placement: .appMenu
+            )
+        )
+
+        guard let settings = kernel.resolveProvider((any SettingViewProviding).self) else {
+            // 设置视图未注册：优雅降级，不贡献入口。
+            return
+        }
+
+        // 捕获 docs provider 引用，供详情视图读取。
+        let docsProvider = kernel.resolveProvider((any DocsViewProviding).self)
+        let storageProvider = kernel.resolveProvider((any StorageProviding).self)
+        let uninstallProvider = self.uninstallProvider
+        let prepareForUninstall: @MainActor () async -> Void = {
+            try? await kernel.stopAsync()
+        }
+
+        let entry = SettingEntryItem(
+            id: "general",
+            title: pluginLocalization.string("General"),
+            systemImage: "gearshape",
+            order: 1
+        ) { [versionProvider, docsProvider, storageProvider, uninstallProvider, prepareForUninstall, kernel] in
+            // AppUpdateBootstrap is host-owned and may register after
+            // plugin boot. Resolve it when the entry is materialized so
+            // settings sees the provider in both Debug and Release.
+            let capability = GeneralSettingsCapabilityAdapter(
+                docsProvider: docsProvider,
+                updateProvider: kernel.resolveProvider((any AppUpdateChannelProviding).self),
+                storageProvider: storageProvider,
+                uninstallProvider: uninstallProvider,
+                prepareForUninstall: prepareForUninstall
+            )
+            let viewModel = GeneralSettingsViewModel(capability: capability)
+            let observer = GeneralSettingsObserver(capability: capability, viewModel: viewModel)
+            self.generalObserver?.cancel()
+            self.generalObserver = observer
+
+            return GeneralSettingsDetailView(
+                version: versionProvider(),
+                viewModel: viewModel
+            )
+        }
+
+        settings.addEntries([entry])
+    }
+
+    public func onShutdown(kernel: KernelCoreContainer) throws {
+        generalObserver?.cancel()
+        generalObserver = nil
+        kernel.resolveProvider((any CommandProviding).self)?
+            .unregisterCommandGroup(id: "\(id).commands")
+        kernel.resolveProvider((any SettingViewProviding).self)?
+            .removeEntries(ids: ["general"])
+    }
+}

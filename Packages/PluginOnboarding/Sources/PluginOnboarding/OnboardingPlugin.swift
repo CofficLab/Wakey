@@ -1,0 +1,231 @@
+import Foundation
+import KernelCore
+import LumiLoggingKit
+import LumiUI
+import ProviderOnboarding
+import ProviderRootView
+import ProviderStorage
+import SwiftUI
+import os
+
+/// First-run onboarding contribution.
+///
+/// The plugin owns the complete onboarding feature: it creates the page
+/// provider, contributes the root overlay, and persists completion in its own
+/// storage directory. Hosts only need to assemble the root view.
+@MainActor
+public final class OnboardingPlugin: SuperPlugin, SuperLog {
+    nonisolated static let logger = Logger(subsystem: "com.coffic.wakey.plugin.onboarding", category: "Onboarding")
+    public let id = "com.coffic.wakey.plugin.onboarding"
+    public let order = 10
+    public let metadata = PluginMetadata(
+        id: "com.coffic.wakey.plugin.onboarding",
+        name: "Onboarding",
+        description: "First-run welcome and AI setup guide.",
+        category: .system,
+        stage: .stable,
+        policy: .alwaysOn
+    )
+
+    private var onboardingProvider: DefaultOnboardingProviding?
+    private var seenStore: OnboardingSeenStore?
+    private var observerHandle: (any OnboardingObserverHandle)?
+
+    public init() {}
+
+    public func onBoot(kernel: KernelCoreContainer) throws {
+        guard let storage = kernel.resolveProvider((any StorageProviding).self) else {
+            throw KernelCoreError.providerNotRegistered(type: (any StorageProviding).self)
+        }
+
+        let store = OnboardingSeenStore(directory: storage.pluginDataDirectory(for: id))
+        let provider = DefaultOnboardingProviding(onReplay: { [weak store] in
+            store?.reset()
+        })
+        try kernel.registerProvider((any OnboardingProviding).self, provider)
+
+        onboardingProvider = provider
+        seenStore = store
+
+        let finish: @MainActor () -> Void = { [weak provider, weak store] in
+            store?.markSeen()
+            provider?.dismiss()
+        }
+
+        // 观察 provider 状态变化，驱动独立窗口显隐
+        observerHandle = provider.addObserver { [weak self] event in
+            switch event {
+            case .pagesChanged:
+                self?.syncWindow(finish: finish)
+            case let .presentationChanged(presented):
+                if presented {
+                    self?.syncWindow(finish: finish)
+                } else {
+                    OnboardingWindowController.shared.close()
+                }
+            }
+        }
+
+        if !store.hasSeen {
+            // 不自动呈现 onboarding：菜单栏应用的弹出窗口体验不佳，
+            // 用户可通过设置-通用「重新查看新手引导」手动重放。
+            // UI 测试也用 `-disable-auto-onboarding` 确保不弹出。
+            store.markSeen()
+        }
+    }
+
+    public func onShutdown(kernel: KernelCoreContainer) throws {
+        OnboardingWindowController.shared.close()
+        observerHandle?.cancel()
+        observerHandle = nil
+        onboardingProvider?.dismiss()
+        kernel.unregisterProvider((any OnboardingProviding).self)
+        onboardingProvider = nil
+        seenStore = nil
+    }
+
+    public func onUnregister(kernel: KernelCoreContainer) throws {}
+
+    // MARK: - Window Management
+
+    /// 根据 provider 当前状态同步窗口：有页面且已展示时打开窗口，否则关闭。
+    private func syncWindow(finish: @escaping @MainActor () -> Void) {
+        guard let provider = onboardingProvider else { return }
+        let pages = provider.allPages
+        guard provider.isPresented, !pages.isEmpty else {
+            OnboardingWindowController.shared.close()
+            return
+        }
+        OnboardingWindowController.shared.show(pages: pages, finish: finish)
+    }
+}
+
+@MainActor
+final class OnboardingSeenStore {
+    private let markerURL: URL
+
+    init(directory: URL) {
+        try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        markerURL = directory.appendingPathComponent("completed", isDirectory: false)
+    }
+
+    var hasSeen: Bool {
+        FileManager.default.fileExists(atPath: markerURL.path)
+    }
+
+    func markSeen() {
+        do {
+            try Data("completed".utf8).write(to: markerURL, options: .atomic)
+        } catch {
+            OnboardingPlugin.logger.error(
+                "Failed to persist onboarding completion: \(error.localizedDescription, privacy: .public)"
+            )
+        }
+    }
+
+    func reset() {
+        do {
+            try FileManager.default.removeItem(at: markerURL)
+        } catch CocoaError.fileNoSuchFile {
+            // The marker is already absent.
+        } catch {
+            OnboardingPlugin.logger.error(
+                "Failed to reset onboarding completion: \(error.localizedDescription, privacy: .public)"
+            )
+        }
+    }
+}
+
+// MARK: - Onboarding Card View
+
+struct OnboardingCard: View {
+    let pages: [OnboardingPageItem]
+    @Binding var index: Int
+    let finish: @MainActor () -> Void
+
+    @LumiTheme private var theme
+
+    var body: some View {
+        let safeIndex = min(max(index, 0), max(pages.count - 1, 0))
+        VStack(spacing: 0) {
+            HStack {
+                Label(
+                    pages.indices.contains(safeIndex)
+                        ? pages[safeIndex].title
+                        : pluginLocalization.string("Getting started"),
+                    systemImage: "graduationcap.fill"
+                )
+                .font(DesignTokens.Typography.bodyEmphasized)
+                .foregroundStyle(theme.textSecondary)
+                .lineLimit(1)
+                Spacer()
+                Text(
+                    String(
+                        format: pluginLocalization.string("%lld of %lld"),
+                        Int64(safeIndex + 1),
+                        Int64(pages.count)
+                    )
+                )
+                .font(DesignTokens.Typography.caption1)
+                .foregroundStyle(theme.textTertiary)
+                if safeIndex < pages.count - 1 {
+                    AppButton(
+                        pluginLocalization.string("Skip"),
+                        style: .tonal,
+                        size: .small,
+                        action: finish
+                    )
+                }
+            }
+            .padding(.horizontal, DesignTokens.Spacing.lg)
+            .padding(.vertical, DesignTokens.Spacing.md + 4)
+
+            Divider()
+
+            if pages.indices.contains(safeIndex) {
+                ScrollView {
+                    pages[safeIndex].makeView()
+                        .padding(DesignTokens.Spacing.xl)
+                        .frame(maxWidth: .infinity)
+                }
+                .frame(maxWidth: .infinity)
+            }
+
+            Divider()
+
+            HStack {
+                AppButton(
+                    pluginLocalization.string("Back"),
+                    systemImage: "chevron.left",
+                    style: .ghost,
+                    size: .small,
+                    action: { index = max(0, safeIndex - 1) }
+                )
+                .disabled(safeIndex == 0)
+
+                Spacer()
+
+                AppButton(
+                    safeIndex == pages.count - 1
+                        ? pluginLocalization.string("Finish")
+                        : pluginLocalization.string("Continue"),
+                    systemImage: safeIndex == pages.count - 1 ? nil : "chevron.right",
+                    style: .primary,
+                    action: {
+                        if safeIndex == pages.count - 1 {
+                            finish()
+                        } else {
+                            index = safeIndex + 1
+                        }
+                    }
+                )
+            }
+            .padding(.horizontal, DesignTokens.Spacing.lg)
+            .padding(.vertical, DesignTokens.Spacing.md + 4)
+        }
+        .frame(width: 440, height: 400)
+        .background(theme.background)
+        .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.lg))
+        .shadow(radius: 24)
+    }
+}

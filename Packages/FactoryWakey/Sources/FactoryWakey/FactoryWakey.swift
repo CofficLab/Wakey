@@ -12,6 +12,8 @@ import ProviderStorage
 import ProviderCopilotNavigation
 import SwiftUI
 
+// Plugin imports — Settings shell (Lumi 同款设置外壳：左上角 App 图标 + 名称/版本)
+import PluginSettingView
 // Plugin imports — Logo (1)
 import PluginLogoBolt
 // Plugin imports — Poster (6)
@@ -26,10 +28,16 @@ import PluginCaffeinate
 import PluginEyeCareReminder
 import PluginStretchReminder
 import PluginHydrationReminder
-// Plugin imports — Other (3)
+// Plugin imports — Other (2)
 import PluginAppInfo
-import PluginAppStoreConnect
 import PluginPurchase
+// Plugin imports — Plugin management (aligned to Lumi)
+import PluginPluginManager
+// Plugin imports — Settings-General (aligned to Lumi)
+import PluginSettingGeneral
+// Plugin imports — Onboarding (aligned to Lumi)
+import PluginOnboarding
+import PluginWelcome
 // Plugin imports — Theme
 import PluginThemePack
 import PluginRootView
@@ -46,7 +54,7 @@ import ProviderToast
 ///    并通过 `start(plugins:)` 启动 `makePlugins()` 返回的显式插件数组。
 /// 2. `makePlugins()`：返回稳定顺序的插件数组（彻底替代 ObjC 运行时自动发现）。
 /// 3. `makeStatusBarView(kernel:)` / `makeSettingsView(kernel:)` /
-///    `makeLogoView(kernel:variant:)`：从内核解析 Host Provider 并渲染 UI。
+///    `makeLogoView(kernel:scene:)`：从内核解析 Host Provider 并渲染 UI。
 ///
 /// 线程/actor：全部方法 `@MainActor`。
 @MainActor
@@ -87,23 +95,24 @@ public enum FactoryWakey {
             DefaultPluginManager(kernel: kernel, controlling: pluginControlling)
         )
 
-        // 宿主级设置入口：插件开关页（Plugins）固定排第一
-        kernel.resolveProvider((any SettingViewProviding).self)?.addEntries([
-            SettingEntryItem(
-                id: "plugins",
-                title: String(localized: "Plugins", table: "Core"),
-                systemImage: "puzzlepiece",
-                order: -100
-            ) {
-                PluginSettingsView(kernel: kernel)
-            }
-        ])
-
         // 启动全部插件（拓扑排序 + 原子启动 + 失败回滚）
         let plugins = makePlugins()
         try kernel.start(plugins: plugins)
 
         Self.logger.info("🧠 Wakey kernel started with \(plugins.count) plugins")
+
+        // 默认选中 order 最小的入口（「通用」）：首个 addEntries 的插件会把
+        // 选中态锁定为当时的唯一入口（如 boot order 7 的 Caffeinate），后续
+        // 注册只做保持——这是注册顺序副作用，与"默认选中第一个"的设计意图
+        // 不符。全部入口就位后在此重置；本次运行内的用户选择不受影响
+        // （选中态在内存中保留，重启后回到第一个入口）。
+        if let settings = kernel.resolveProvider((any SettingViewProviding).self),
+           let firstID = settings.entries.first?.id,
+           settings.selectedEntryID != firstID
+        {
+            settings.selectEntry(id: firstID)
+        }
+
         return kernel
     }
 
@@ -131,6 +140,8 @@ public enum FactoryWakey {
             PluginPosterStretch(),
             // order 4
             PluginPosterHydration(),
+            // order 5: 设置外壳（替换 DefaultSettingViewProviding，渲染 App 图标头部）
+            PluginSettingView(id: "com.coffic.wakey.plugin.setting-view"),
             // order 7
             PluginCaffeinate(),
             // order 8
@@ -142,12 +153,17 @@ public enum FactoryWakey {
             PluginHydrationReminder(),
             // order 15
             PluginPosterPreview(),
-            // order 20
-            PluginAppStoreConnect(),
             // order 79
             ThemePackPlugin(id: "com.coffic.wakey.plugin.theme-pack", order: 79, policy: .alwaysOn),
+            // order 90: 插件管理（对齐 Lumi 的 PluginPluginManager）
+            PluginPluginManager(),
+            // order 100: 设置-通用（对齐 Lumi 的 PluginSettingGeneral）
+            SettingGeneralPlugin(),
             // order 100
             PluginPurchase(),
+            // order 10/20: 首次启动引导（对齐 Lumi 的 PluginOnboarding/PluginWelcome）
+            OnboardingPlugin(),
+            PluginWelcome(),
         ]
     }
 
@@ -161,34 +177,40 @@ public enum FactoryWakey {
             return themed(view, kernel: kernel)
         }
         rootView.setView(view, for: .statusBar)
-        return themed(rootView.view(for: .statusBar) ?? view, kernel: kernel)
-    }
-
-    /// 设置视图：由 LumiSettings 的 `SettingViewProviding` 渲染（侧边栏 + 详情区），
-    /// 插件开关页作为宿主入口固定在第一项，后续页是各插件贡献的设置页。
-    public static func makeSettingsView(kernel: KernelCoreContainer) -> AnyView {
-        let settings = kernel.resolveProvider((any SettingViewProviding).self)
-        let view = settings.map { $0.makeSettingView() } ?? AnyView(AppEmptyState(icon: "gearshape", title: "No settings"))
-        guard let rootView = kernel.resolveProvider((any RootViewProviding).self) else {
-            return themed(view, kernel: kernel)
-        }
+        // 状态栏 popover 组合 RootView overlay：欢迎卡片（OnboardingOverlay）
+        // 在未激活时直通内容（ViewBuilder 分支，无 ZStack/Group 包装），避免
+        // popover 场景的 AX 崩溃；激活时卡片显示在 popup（菜单栏 app 无主窗口）。
         rootView.setContentView(view)
         return themed(rootView.makeRootView(), kernel: kernel)
     }
 
-    /// Logo 视图：从内核解析 LogoProviding，选中指定 logo 或默认第一个。
+    /// 设置视图：由 LumiSettings 的 `SettingViewProviding` 渲染（侧边栏 + 详情区），
+    /// 「插件管理」入口由 PluginPluginManager 插件注册（order 3），后续页是各插件贡献的设置页。
+    public static func makeSettingsView(kernel: KernelCoreContainer) -> AnyView {
+        let settings = kernel.resolveProvider((any SettingViewProviding).self)
+        let view = settings.map { $0.makeSettingView() } ?? AnyView(AppEmptyState(icon: "gearshape", title: "No settings"))
+        // 稳定的窗口内容标识符，供 UI 测试等待设置窗口出现（侧边栏条目本身
+        // 由 LumiSettings 渲染、不带 accessibility identifier，不能依赖其 id）。
+        let identified = AnyView(view.accessibilityIdentifier("wakey.settings.window"))
+        // 设置窗口直接返回（不组合 RootView overlay）：菜单栏 app 的 Window
+        // 场景下，overlay 的 ZStack/包装层会让详情区 AX 的 hit point 不稳定
+        // （XCTest 随机失败）。欢迎卡片由状态栏 popup 的 RootView overlay 呈现。
+        return themed(identified, kernel: kernel)
+    }
+
+    /// Logo 视图：从内核解析 LogoProviding，选中指定 logo 或默认最高优先级。
     public static func makeLogoView(
         kernel: KernelCoreContainer,
-        variant: LogoVariant = .general,
+        scene: LogoScene = .general,
         selectedLogoId: String? = nil
     ) -> AnyView {
-        let logos = kernel.resolveProvider(LogoProviding.self)?.logos ?? []
+        let logos = kernel.resolveProvider(LogoProviding.self)?.allLogoItems ?? []
         let selected = selectedLogoId.flatMap { id in logos.first { $0.id == id } } ?? logos.first
         if let logo = selected {
-            return logo.makeView(for: variant)
+            return logo.makeView(scene)
         }
         // Fallback: 默认闪电图标
-        return AnyView(LogoFallbackView(variant: variant))
+        return AnyView(LogoFallbackView(scene: scene))
     }
 
     private static func themed(_ view: AnyView, kernel: KernelCoreContainer) -> AnyView {
@@ -264,11 +286,11 @@ struct StatusBarHostView: View {
     private var menuItemsSection: some View {
         VStack(spacing: 0) {
             SettingsMenuItemRow(
-                title: String(localized: "Settings...", table: "Core", comment: "Menu item to open settings")
+                title: String(localized: "Settings...", table: "Core", bundle: .module, comment: "Menu item to open settings")
             )
             Divider()
             MenuItemRow(
-                title: String(localized: "Quit", table: "Core", comment: "Menu item to quit the application"),
+                title: String(localized: "Quit", table: "Core", bundle: .module, comment: "Menu item to quit the application"),
                 color: .red,
                 accessibilityIdentifier: "wakey.statusbar.quit",
                 action: { NSApp.terminate(nil) }
@@ -285,10 +307,15 @@ struct StatusBarHostView: View {
 
 struct SettingsMenuItemRow: View {
     let title: String
+    @Environment(\.openWindow) private var openWindow
     @State private var isHovering = false
 
     var body: some View {
-        SettingsLink {
+        // 对齐 Lumi：设置窗口为 `Window` 场景（id "wakey.settings"），
+        // 用 openWindow 打开（`SettingsLink` 仅对 Settings 场景生效）。
+        Button {
+            openWindow(id: "wakey.settings")
+        } label: {
             HStack(spacing: 12) {
                 Text(title).font(.system(size: 13))
                     .foregroundColor(isHovering ? .white : .primary)
@@ -333,20 +360,24 @@ struct MenuItemRow: View {
 // MARK: - Logo Fallback
 
 struct LogoFallbackView: View {
-    let variant: LogoVariant
+    let scene: LogoScene
 
     var body: some View {
-        switch variant {
+        switch scene {
         case .appIcon:
             Image(systemName: "bolt.fill")
                 .resizable().aspectRatio(contentMode: .fit)
                 .foregroundColor(.cyan)
                 .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
                 .background(Color.black)
-        case .statusBar(let isActive):
+        case .statusBar:
             Image(systemName: "bolt.fill")
                 .resizable().aspectRatio(contentMode: .fit)
-                .foregroundColor(isActive ? .cyan : .primary)
+                .foregroundColor(.primary)
+        case .statusBarHighlighted:
+            Image(systemName: "bolt.fill")
+                .resizable().aspectRatio(contentMode: .fit)
+                .foregroundColor(.cyan)
         case .about:
             Image(systemName: "bolt.fill")
                 .resizable().aspectRatio(contentMode: .fit)

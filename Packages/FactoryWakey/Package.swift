@@ -11,12 +11,12 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
         .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.7.0"),
-        .package(url: "https://github.com/CofficLab/LumiProviders.git", exact: "1.2.7"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.5.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginStorage.git", from: "1.0.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginToast.git", from: "1.0.1"),
-        .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.4"),
+        .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.5"),
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.0.1"),
-        .package(path: "../ProviderLogo"),
+        .package(url: "https://github.com/CofficLab/LumiPluginSettingView.git", from: "1.0.2"),
         .package(path: "../ProviderPoster"),
         .package(path: "../ProviderStatusBarPopup"),
         .package(path: "../ProviderCopilotNavigation"),
@@ -40,16 +40,22 @@ let package = Package(
         .package(path: "../PluginEyeCareReminder"),
         .package(path: "../PluginStretchReminder"),
         .package(path: "../PluginHydrationReminder"),
-        // Other plugins (3)
+        // Other plugins (2)
         .package(path: "../PluginAppInfo"),
-        .package(path: "../PluginAppStoreConnect"),
         .package(path: "../PluginPurchase"),
+        // Plugin management (aligned to Lumi)
+        .package(path: "../PluginPluginManager"),
+        // Settings - General (aligned to Lumi)
+        .package(path: "../PluginSettingGeneral"),
+        // Onboarding (aligned to Lumi)
+        .package(path: "../PluginOnboarding"),
+        .package(path: "../PluginWelcome"),
     ],
     targets: [
         .target(
             name: "FactoryWakey",
             dependencies: [
-                "ProviderLogo",
+                .product(name: "ProviderLogo", package: "LumiProviders"),
                 "ProviderPoster",
                 "ProviderStatusBarPopup",
                 "ProviderCopilotNavigation",
@@ -64,6 +70,7 @@ let package = Package(
                 .product(name: "ProviderRootView", package: "LumiProviders"),
                 .product(name: "ProviderToast", package: "LumiProviders"),
                 .product(name: "ProviderSettingView", package: "LumiSettings"),
+                .product(name: "PluginSettingView", package: "LumiPluginSettingView"),
                 .product(name: "ProviderPluginControl", package: "LumiProviders"),
                 .product(name: "ProviderPluginManaging", package: "LumiProviders"),
                 .product(name: "ProviderStorage", package: "LumiProviders"),
@@ -80,7 +87,13 @@ let package = Package(
                 "PluginCaffeinate", "PluginEyeCareReminder",
                 "PluginStretchReminder", "PluginHydrationReminder",
                 // Other
-                "PluginAppInfo", "PluginAppStoreConnect", "PluginPurchase",
+                "PluginAppInfo", "PluginPurchase",
+                // Plugin management (aligned to Lumi)
+                "PluginPluginManager",
+                // Settings - General (aligned to Lumi)
+                "PluginSettingGeneral",
+                // Onboarding (aligned to Lumi)
+                "PluginOnboarding", "PluginWelcome",
             ],
             resources: [
                 .process("Resources")
@@ -88,7 +101,10 @@ let package = Package(
         ),
         .testTarget(
             name: "FactoryWakeyTests",
-            dependencies: ["FactoryWakey"]
+            dependencies: [
+                "FactoryWakey",
+                .product(name: "ProviderSettingView", package: "LumiSettings"),
+            ]
         )
     ]
 )

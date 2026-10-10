@@ -9,7 +9,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
-        .package(url: "https://github.com/CofficLab/LumiProviders.git", exact: "1.2.7"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.5.0"),
     ],
     targets: [
         .target(
