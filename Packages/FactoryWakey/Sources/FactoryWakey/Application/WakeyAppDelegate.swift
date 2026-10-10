@@ -26,6 +26,14 @@ public final class WakeyAppDelegate: NSObject, NSApplicationDelegate {
     public func applicationDidFinishLaunching(_ notification: Notification) {
         Self.logger.info("🍎 应用启动完成")
 
+        // 禁用窗口状态恢复：菜单栏应用的设置窗口不应在启动时自动出现
+        UserDefaults.standard.set(false, forKey: "NSQuitAlwaysKeepsWindows")
+        // 关闭可能被系统恢复的设置窗口
+        for window in NSApplication.shared.windows {
+            if window is NSPanel { continue } // 保留浮层（如 onboarding）
+            window.close()
+        }
+
         if let kernel {
             Self.logger.info("🧠 Kernel ready with \(kernel.registeredPluginCount) plugins")
         } else {
