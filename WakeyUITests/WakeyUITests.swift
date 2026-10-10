@@ -118,6 +118,18 @@ final class WakeyLaunchUITests: WakeyUITestBase {
         XCTAssertTrue(statusBarButton.exists)
     }
 
+    /// 回归测试：菜单栏应用启动时不应自动显示设置窗口。
+    /// macOS 默认会恢复上次退出时打开的窗口，但菜单栏应用的设置窗口
+    /// 仅在用户主动打开时出现。
+    func testSettingsWindowDoesNotAutoRestoreOnLaunch() {
+        // setUpWithError 中已 launch 并等待 statusBarButton 出现，
+        // 再额外等待一段时间确保窗口恢复逻辑（如果有）已经执行
+        XCTAssertTrue(
+            element("wakey.settings.window").waitForExistence(timeout: 3) == false,
+            "Settings window should NOT appear automatically on launch"
+        )
+    }
+
     func testStatusBarPopupShowsAppAndCommands() {
         openPopup()
         XCTAssertTrue(element("wakey.statusbar.settings").exists, app.debugDescription)
