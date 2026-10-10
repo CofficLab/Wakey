@@ -28,9 +28,8 @@ import PluginCaffeinate
 import PluginEyeCareReminder
 import PluginStretchReminder
 import PluginHydrationReminder
-// Plugin imports — Other (3)
+// Plugin imports — Other (2)
 import PluginAppInfo
-import PluginAppStoreConnect
 import PluginPurchase
 // Plugin imports — Plugin management (aligned to Lumi)
 import PluginPluginManager
@@ -141,8 +140,6 @@ public enum FactoryWakey {
             PluginHydrationReminder(),
             // order 15
             PluginPosterPreview(),
-            // order 20
-            PluginAppStoreConnect(),
             // order 79
             ThemePackPlugin(id: "com.coffic.wakey.plugin.theme-pack", order: 79, policy: .alwaysOn),
             // order 90: 插件管理（对齐 Lumi 的 PluginPluginManager）

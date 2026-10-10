@@ -40,9 +40,8 @@ let package = Package(
         .package(path: "../PluginEyeCareReminder"),
         .package(path: "../PluginStretchReminder"),
         .package(path: "../PluginHydrationReminder"),
-        // Other plugins (3)
+        // Other plugins (2)
         .package(path: "../PluginAppInfo"),
-        .package(path: "../PluginAppStoreConnect"),
         .package(path: "../PluginPurchase"),
         // Plugin management (aligned to Lumi)
         .package(path: "../PluginPluginManager"),
@@ -88,7 +87,7 @@ let package = Package(
                 "PluginCaffeinate", "PluginEyeCareReminder",
                 "PluginStretchReminder", "PluginHydrationReminder",
                 // Other
-                "PluginAppInfo", "PluginAppStoreConnect", "PluginPurchase",
+                "PluginAppInfo", "PluginPurchase",
                 // Plugin management (aligned to Lumi)
                 "PluginPluginManager",
                 // Settings - General (aligned to Lumi)
