@@ -52,36 +52,51 @@ public final class WakeyAppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Window auto-close (fix settings window popping up on launch)
 
-    /// SwiftUI 的 `Window` 场景在 app 被激活/前台化时（Xcode Run、`open -a`、
-    /// UI 测试启动）会自动打开设置窗口——菜单栏应用不应在启动时弹窗。
-    /// 启动后轮询关闭自动打开的 `wakey.settings` 窗口；用户之后手动打开的
-    /// 窗口不受影响（清理只在启动后的头几秒内进行）。
+    /// SwiftUI 的 `Window` 场景在前台化启动（Xcode Run、`open -a`、UI 测试）时
+    /// 会自动打开设置窗口，且会在启动流程中再次 order front（约 0.4 秒后）——
+    /// 仅仅 close() 会与 SwiftUI 拉锯，残留 50~100ms 的闪烁。
     ///
-    /// UI 测试携带 `-wakey-open-settings` 时跳过关闭：XCTest 对无窗口的菜单栏
-    /// 应用做深层 AX 枚举会让 `XCElementSnapshot.rootElement` 无限递归崩溃，
-    /// 测试统一以「有窗口」状态运行。
+    /// 因此启动压制期采用「alpha=0 不可见 + close」双保险：
+    /// - 同步首关 + 前 2 秒 50ms 轮询：把 `wakey.settings` 窗口置为 alpha 0，
+    ///   SwiftUI 之后的 orderFront 也保持完全不可见（零闪烁）
+    /// - 压制期结束：close 并恢复 alpha=1，用户之后手动打开的窗口正常显示
+    ///
+    /// UI 测试携带 `-wakey-open-settings` 时跳过整个压制（XCTest 对无窗口的
+    /// 菜单栏应用做深层 AX 枚举会让 `XCElementSnapshot.rootElement` 无限递归
+    /// 崩溃，测试统一以「有窗口」状态运行）。
     private func prepareWindowAutoCloseIfNeeded() {
         guard !ProcessInfo.processInfo.arguments.contains("-wakey-open-settings") else { return }
 
+        // 1) 同步首关：SwiftUI 在 didFinishLaunching 之前就已创建 Window 场景
+        //    （窗口内容 onAppear 与本回调同一毫秒）。applicationShouldTerminate-
+        //    AfterLastWindowClosed 返回 false 保证关闭唯一的窗口不会让应用退出。
+        suppressSettingsWindowAppearance()
+
+        // 2) 高频压制：覆盖 SwiftUI 后续（约 0.4s）完成的 order front
         Task { @MainActor [weak self] in
-            // 启动期自动窗口通常在 1~2 秒内出现；轮询最多 10 秒后放弃
-            for _ in 0 ..< 20 {
-                try? await Task.sleep(nanoseconds: 500_000_000)
-                if self?.closeAutoOpenedSettingsWindow() == true { return }
+            for _ in 0 ..< 40 {
+                self?.suppressSettingsWindowAppearance()
+                try? await Task.sleep(nanoseconds: 50_000_000)
             }
+            self?.finalizeSettingsWindowSuppression()
         }
     }
 
-    /// 关闭自动弹出的设置窗口（按窗口标识识别）；关闭成功返回 true。
-    @discardableResult
-    private func closeAutoOpenedSettingsWindow() -> Bool {
-        let settingsWindows = NSApp.windows.filter { $0.identifier?.rawValue == "wakey.settings" }
-        guard !settingsWindows.isEmpty else { return false }
-        for window in settingsWindows {
-            window.close()
+    /// 压制启动期自动弹出的设置窗口：alpha 归零（不可见）并关闭。
+    private func suppressSettingsWindowAppearance() {
+        for window in NSApp.windows where window.identifier?.rawValue == "wakey.settings" {
+            window.alphaValue = 0
+            if window.isVisible { window.close() }
         }
-        Self.logger.info("🪟 已关闭启动时自动弹出的设置窗口")
-        return true
+    }
+
+    /// 压制期结束：确保关闭并恢复 alpha，保证用户手动打开时正常可见。
+    private func finalizeSettingsWindowSuppression() {
+        for window in NSApp.windows where window.identifier?.rawValue == "wakey.settings" {
+            if window.isVisible { window.close() }
+            window.alphaValue = 1
+        }
+        Self.logger.info("🪟 启动期设置窗口压制完成（未向用户展示）")
     }
 
     // MARK: - UI Testing Support
