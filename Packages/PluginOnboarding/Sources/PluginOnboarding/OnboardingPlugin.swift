@@ -27,16 +27,13 @@ public final class OnboardingPlugin: SuperPlugin, SuperLog {
         policy: .alwaysOn
     )
 
-    private static let overlayID = "com.coffic.wakey.plugin.onboarding.overlay"
     private var onboardingProvider: DefaultOnboardingProviding?
     private var seenStore: OnboardingSeenStore?
+    private var observerHandle: (any OnboardingObserverHandle)?
 
     public init() {}
 
     public func onBoot(kernel: KernelCoreContainer) throws {
-        guard let rootView = kernel.resolveProvider((any RootViewProviding).self) else {
-            throw KernelCoreError.providerNotRegistered(type: (any RootViewProviding).self)
-        }
         guard let storage = kernel.resolveProvider((any StorageProviding).self) else {
             throw KernelCoreError.providerNotRegistered(type: (any StorageProviding).self)
         }
@@ -54,15 +51,20 @@ public final class OnboardingPlugin: SuperPlugin, SuperLog {
             store?.markSeen()
             provider?.dismiss()
         }
-        rootView.addOverlays([
-            RootOverlayItem(id: Self.overlayID, order: Int.max) { content in
-                OnboardingOverlay(
-                    provider: provider,
-                    content: content,
-                    finish: finish
-                )
+
+        // 观察 provider 状态变化，驱动独立窗口显隐
+        observerHandle = provider.addObserver { [weak self] event in
+            switch event {
+            case .pagesChanged:
+                self?.syncWindow(finish: finish)
+            case let .presentationChanged(presented):
+                if presented {
+                    self?.syncWindow(finish: finish)
+                } else {
+                    OnboardingWindowController.shared.close()
+                }
             }
-        ])
+        }
 
         if !store.hasSeen {
             // UI 测试用 `-disable-auto-onboarding` 关闭首次自动呈现：避免
@@ -75,9 +77,9 @@ public final class OnboardingPlugin: SuperPlugin, SuperLog {
     }
 
     public func onShutdown(kernel: KernelCoreContainer) throws {
-        if let rootView = kernel.resolveProvider((any RootViewProviding).self) {
-            rootView.removeOverlays(ids: [Self.overlayID])
-        }
+        OnboardingWindowController.shared.close()
+        observerHandle?.cancel()
+        observerHandle = nil
         onboardingProvider?.dismiss()
         kernel.unregisterProvider((any OnboardingProviding).self)
         onboardingProvider = nil
@@ -85,6 +87,19 @@ public final class OnboardingPlugin: SuperPlugin, SuperLog {
     }
 
     public func onUnregister(kernel: KernelCoreContainer) throws {}
+
+    // MARK: - Window Management
+
+    /// 根据 provider 当前状态同步窗口：有页面且已展示时打开窗口，否则关闭。
+    private func syncWindow(finish: @escaping @MainActor () -> Void) {
+        guard let provider = onboardingProvider else { return }
+        let pages = provider.allPages
+        guard provider.isPresented, !pages.isEmpty else {
+            OnboardingWindowController.shared.close()
+            return
+        }
+        OnboardingWindowController.shared.show(pages: pages, finish: finish)
+    }
 }
 
 @MainActor
@@ -123,52 +138,9 @@ final class OnboardingSeenStore {
     }
 }
 
-private struct OnboardingOverlay: View {
-    let provider: DefaultOnboardingProviding
-    let content: AnyView
-    let finish: @MainActor () -> Void
-    @State private var pageIndex = 0
-    @State private var isPresented = false
-    @State private var pageCount = 0
-    @State private var observerHandle: (any OnboardingObserverHandle)?
+// MARK: - Onboarding Card View
 
-    var body: some View {
-        ZStack {
-            content
-
-            if isPresented, pageCount > 0 {
-                Color.black.opacity(0.22)
-                    .ignoresSafeArea()
-                OnboardingCard(
-                    pages: provider.allPages,
-                    index: $pageIndex,
-                    finish: finish
-                )
-            }
-        }
-        .onAppear { installObserverIfNeeded() }
-        .onDisappear { observerHandle?.cancel(); observerHandle = nil }
-    }
-
-    private func installObserverIfNeeded() {
-        guard observerHandle == nil else { return }
-        isPresented = provider.isPresented
-        pageCount = provider.allPages.count
-        observerHandle = provider.addObserver { event in
-            switch event {
-            case .pagesChanged:
-                pageCount = provider.allPages.count
-            case let .presentationChanged(presented):
-                isPresented = presented
-                if presented {
-                    pageIndex = 0
-                }
-            }
-        }
-    }
-}
-
-private struct OnboardingCard: View {
+struct OnboardingCard: View {
     let pages: [OnboardingPageItem]
     @Binding var index: Int
     let finish: @MainActor () -> Void
@@ -253,7 +225,7 @@ private struct OnboardingCard: View {
             .padding(.horizontal, DesignTokens.Spacing.lg)
             .padding(.vertical, DesignTokens.Spacing.md + 4)
         }
-        .frame(width: 640, height: 550)
+        .frame(width: 440, height: 400)
         .background(theme.background)
         .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.lg))
         .shadow(radius: 24)

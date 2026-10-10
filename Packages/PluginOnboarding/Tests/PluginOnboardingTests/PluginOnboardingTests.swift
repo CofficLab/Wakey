@@ -1,7 +1,6 @@
 import Foundation
 import KernelCore
 import ProviderOnboarding
-import ProviderRootView
 import ProviderStorage
 import SwiftUI
 import Testing
@@ -24,11 +23,9 @@ import Testing
 @MainActor
 @Test func onboardingRegistersAndRemovesItsPages() throws {
     let kernel = KernelCoreContainer()
-    let rootView = DefaultRootViewProviding()
     let dataRoot = FileManager.default.temporaryDirectory
         .appendingPathComponent("PluginOnboardingTests-\(UUID().uuidString)")
     let storage = DefaultStorageProvider(dataRootDirectory: dataRoot)
-    try kernel.registerProvider((any RootViewProviding).self, rootView)
     try kernel.registerProvider((any StorageProviding).self, storage)
 
     let plugin = OnboardingPlugin()
@@ -36,11 +33,9 @@ import Testing
     let onboarding = try #require(kernel.resolveProvider((any OnboardingProviding).self))
     #expect(onboarding.allPages.isEmpty)
     #expect(onboarding.isPresented)
-    #expect(rootView.overlays.map(\.id) == ["com.coffic.wakey.plugin.onboarding.overlay"])
 
     try plugin.onShutdown(kernel: kernel)
     #expect(onboarding.allPages.isEmpty)
-    #expect(rootView.overlays.isEmpty)
     #expect(kernel.resolveProvider((any OnboardingProviding).self) == nil)
 }
 
