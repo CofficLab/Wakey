@@ -8,6 +8,63 @@ import XCTest
 final class WakeySettingsUITests: WakeyUITestBase {
     override var launchLanguage: (language: String, locale: String)? { ("en", "en_US") }
 
+    /// 全新启动打开设置窗口：详情区默认显示第一个入口「通用」的页面。
+    ///
+    /// 断言依据：「Version」行仅存在于通用页（GeneralSettingsDetailView）；
+    /// 详情区 StaticText 的文本暴露为 AX value（侧边栏按钮才是 label），
+    /// 因此用 label == OR value == 双匹配（与 assertAccessibilityLabels 一致）。
+    /// 历史 bug：首个注册入口的插件（Caffeinate）会锁定默认选中态，
+    /// 由 `FactoryWakey.makeKernel` 在全部入口就位后重置修复。
+    func testSettingsDefaultsToGeneralPageOnFreshLaunch() {
+        openSettings()
+
+        let generalMarker = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "label == %@ OR value == %@", "Version", "Version"))
+            .firstMatch
+        XCTAssertTrue(
+            generalMarker.waitForExistence(timeout: 5),
+            "Fresh launch should default to the General (first) settings entry"
+        )
+        XCTAssertFalse(
+            element("wakey.caffeinate.custom-duration.minutes").exists,
+            "Caffeinate page must not be the default selection"
+        )
+        XCTAssertFalse(
+            element("All").exists,
+            "Appearance page must not be the default selection"
+        )
+    }
+
+    /// 本次运行内切到其它入口后关闭再打开设置窗口：选中态保持（不重置回第一个）。
+    func testSettingsKeepsLastSelectedEntryAfterWindowReopen() {
+        openSettings()
+
+        // 切到「外观」
+        let appearanceEntry = element("Appearance")
+        XCTAssertTrue(appearanceEntry.waitForExistence(timeout: 5), "Appearance entry missing")
+        appearanceEntry.click()
+        XCTAssertTrue(element("All").waitForExistence(timeout: 5), "Appearance detail did not show")
+
+        // 关闭设置窗口（⌘W），确认已关闭
+        app.typeKey("w", modifierFlags: .command)
+        let deadline = Date().addingTimeInterval(8)
+        while Date() < deadline, appHasNormalWindow {
+            Thread.sleep(forTimeInterval: 0.25)
+        }
+        XCTAssertFalse(appHasNormalWindow, "Settings window did not close")
+
+        // 重新打开：应停留在「外观」，而不是重置回「通用」
+        openSettings()
+        XCTAssertTrue(
+            element("All").waitForExistence(timeout: 5),
+            "Selection should be preserved across window close/reopen"
+        )
+        let generalMarker = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "label == %@ OR value == %@", "Version", "Version"))
+            .firstMatch
+        XCTAssertFalse(generalMarker.exists, "Selection must not reset to General on reopen")
+    }
+
     func testSettingsShowsCoreAndFeaturePages() {
         openSettings()
         for title in [

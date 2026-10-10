@@ -101,7 +101,10 @@ let package = Package(
         ),
         .testTarget(
             name: "FactoryWakeyTests",
-            dependencies: ["FactoryWakey"]
+            dependencies: [
+                "FactoryWakey",
+                .product(name: "ProviderSettingView", package: "LumiSettings"),
+            ]
         )
     ]
 )
