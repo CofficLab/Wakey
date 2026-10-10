@@ -53,7 +53,8 @@ struct WakeyApp: App {
         .windowStyle(.hiddenTitleBar)
         .windowToolbarStyle(.unified(showsTitle: false))
         // Preserve the legacy `AppBootstrap.defaultSettingsWindowSize` (Lumi 同款)。
-        .defaultSize(width: 800, height: 500)
+        // 宽度对齐设置壳的 minWidth: 960，避免窄窗口触发 compact size class。
+        .defaultSize(width: 960, height: 560)
         .commands {
             // Settings 场景换成 Window 场景后，系统不再自动把 Cmd+, 绑定到设置窗口，
             // 这里等价补回「设置…」命令（对齐 Lumi 的 CommandItem "Settings..."）。
