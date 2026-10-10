@@ -1,3 +1,4 @@
+import AppKit
 import XCTest
 
 /// App-level coverage for Wakey's menu-bar popup and settings workflows.
@@ -10,12 +11,40 @@ class WakeyUITestBase: XCTestCase {
 
     var launchLanguage: (language: String, locale: String)? { nil }
 
+    /// 启动后由 app 自动打开设置窗口。
+    ///
+    /// XCTest 对「无窗口的菜单栏应用」做深层 AX 枚举（`descendants(matching:)`）
+    /// 会触发 `XCElementSnapshot.rootElement` 无限递归：主线程 30 秒无响应后
+    /// XCT 断言崩溃。因此 UI 测试统一携带 `-wakey-open-settings` 以「有窗口」
+    /// 状态运行（与历史通过状态一致）；仅验证窗口不自动恢复的用例覆盖为 false。
+    var openSettingsOnLaunch: Bool { true }
+
+    /// 用 CGWindowList 判断被测 app 是否拥有**屏幕可见**的普通层级窗口。
+    /// 不走 AX，避免无窗口状态下深层 AX 枚举直接触发崩溃。
+    /// 注意必须用 on-screen 过滤：SwiftUI Window 场景在启动时可能已创建
+    /// 但隐藏的占位 NSWindow，`.optionAll` 会把它误判为"窗口已恢复"。
+    var appHasNormalWindow: Bool {
+        guard let pid = NSRunningApplication
+            .runningApplications(withBundleIdentifier: "com.coffic.wakey")
+            .first?.processIdentifier
+        else { return false }
+        guard let list = CGWindowListCopyWindowInfo([.optionOnScreenOnly], kCGNullWindowID) as? [[String: Any]]
+        else { return false }
+        return list.contains {
+            ($0[kCGWindowOwnerPID as String] as? pid_t) == pid
+                && ($0[kCGWindowLayer as String] as? Int) == 0
+        }
+    }
+
     override func setUpWithError() throws {
         continueAfterFailure = false
         app = XCUIApplication()
         // 关闭首次自动呈现的欢迎卡片：避免卡片初始覆盖 popup 导致 AX 快照
         // 崩溃。Onboarding UI 测试通过设置-通用「重新查看新手引导」重放验证。
         app.launchArguments.append("-disable-auto-onboarding")
+        if openSettingsOnLaunch {
+            app.launchArguments.append("-wakey-open-settings")
+        }
         if let launchLanguage {
             app.launchArguments += [
                 "-AppleLanguages", "(\(launchLanguage.language))",
@@ -24,6 +53,14 @@ class WakeyUITestBase: XCTestCase {
         }
         app.launch()
         XCTAssertTrue(statusBarButton.waitForExistence(timeout: 20), "Wakey did not create its menu-bar item")
+        if openSettingsOnLaunch {
+            // 等待 app 自行打开设置窗口（CGWindowList 轮询，AX-free）
+            let deadline = Date().addingTimeInterval(12)
+            while Date() < deadline, !appHasNormalWindow {
+                Thread.sleep(forTimeInterval: 0.25)
+            }
+            XCTAssertTrue(appHasNormalWindow, "UI 测试前置条件失败：设置窗口未自动打开")
+        }
     }
 
     override func tearDownWithError() throws {
@@ -118,18 +155,6 @@ final class WakeyLaunchUITests: WakeyUITestBase {
         XCTAssertTrue(statusBarButton.exists)
     }
 
-    /// 回归测试：菜单栏应用启动时不应自动显示设置窗口。
-    /// macOS 默认会恢复上次退出时打开的窗口，但菜单栏应用的设置窗口
-    /// 仅在用户主动打开时出现。
-    func testSettingsWindowDoesNotAutoRestoreOnLaunch() {
-        // setUpWithError 中已 launch 并等待 statusBarButton 出现，
-        // 再额外等待一段时间确保窗口恢复逻辑（如果有）已经执行
-        XCTAssertTrue(
-            element("wakey.settings.window").waitForExistence(timeout: 3) == false,
-            "Settings window should NOT appear automatically on launch"
-        )
-    }
-
     func testStatusBarPopupShowsAppAndCommands() {
         openPopup()
         XCTAssertTrue(element("wakey.statusbar.settings").exists, app.debugDescription)
@@ -140,6 +165,28 @@ final class WakeyLaunchUITests: WakeyUITestBase {
         openPopup()
         statusBarButton.click()
         XCTAssertFalse(element("wakey.statusbar.settings").waitForExistence(timeout: 2))
+    }
+}
+
+/// 回归测试：菜单栏应用启动后不应留有设置窗口。
+///
+/// SwiftUI 的 Window 场景在 app 被激活时会自动打开设置窗口，Wakey 在启动后
+/// 会主动把它关掉（见 `WakeyAppDelegate.prepareWindowAutoCloseIfNeeded`）。
+/// 本类特意不携带 `-wakey-open-settings`，等待清理窗口期后断言最终状态。
+/// 窗口判断用 CGWindowList（AX-free）——无窗口状态下做深层 AX 枚举正是
+/// 会触发 XCTest 崩溃的路径。
+final class WakeyWindowRestorationUITests: WakeyUITestBase {
+    override var openSettingsOnLaunch: Bool { false }
+
+    func testSettingsWindowDoesNotAutoRestoreOnLaunch() {
+        // 自动弹出的窗口应在启动后的头几秒内被关掉；最多等 12 秒清理窗口期
+        let deadline = Date().addingTimeInterval(12)
+        while Date() < deadline, appHasNormalWindow {
+            Thread.sleep(forTimeInterval: 0.5)
+        }
+        XCTAssertFalse(appHasNormalWindow, "Settings window should be auto-closed after launch")
+        // 状态栏条目用 typed 查询（不触发深层枚举），确认 app 正常运行
+        XCTAssertTrue(statusBarButton.exists, "Status bar item should exist after window cleanup")
     }
 }
 
