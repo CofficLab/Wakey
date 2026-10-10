@@ -111,16 +111,33 @@ public final class WakeyAppDelegate: NSObject, NSApplicationDelegate {
     private func openSettingsWindowIfRequested() {
         guard ProcessInfo.processInfo.arguments.contains("-wakey-open-settings") else { return }
 
-        // SwiftUI 的 Window 场景与菜单是异步装配的，轮询等待菜单项就绪后执行
+        // 菜单动作在 SwiftUI Window 场景就绪前发送会被静默丢弃，因此不能以
+        // 「动作已发送」为成功标准：每 0.5 秒检查窗口是否真实打开，未打开则
+        // 重发（动作幂等），直到窗口可见或超时。async sleep 让出主线程 runloop，
+        // SwiftUI 才有机会处理开窗。
         Task { @MainActor [weak self] in
-            for _ in 0 ..< 20 {
-                if self?.performSettingsMenuCommand() == true { return }
+            for _ in 0 ..< 24 {
+                if self?.isSettingsWindowVisible == true {
+                    Self.logger.info("🪟 UI 测试参数打开设置窗口成功")
+                    return
+                }
+                self?.performSettingsMenuCommand()
                 try? await Task.sleep(nanoseconds: 500_000_000)
             }
+            Self.logger.error("🪟 UI 测试开窗失败：重试后窗口仍未打开")
+        }
+    }
+
+    /// 设置窗口当前是否真实可见。
+    private var isSettingsWindowVisible: Bool {
+        NSApp.windows.contains {
+            $0.identifier?.rawValue == "wakey.settings" && $0.isVisible
         }
     }
 
     /// 在主菜单中找到 Cmd+,（设置…）并执行；成功返回 true。
+    /// 幂等：窗口未打开时会被反复调用，因此允许忽略返回值。
+    @discardableResult
     private func performSettingsMenuCommand() -> Bool {
         guard let menu = NSApp.mainMenu else { return false }
 
