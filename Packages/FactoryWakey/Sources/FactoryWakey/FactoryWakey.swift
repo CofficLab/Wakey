@@ -28,9 +28,8 @@ import PluginCaffeinate
 import PluginEyeCareReminder
 import PluginStretchReminder
 import PluginHydrationReminder
-// Plugin imports — Other (3)
+// Plugin imports — Other (2)
 import PluginAppInfo
-import PluginAppStoreConnect
 import PluginPurchase
 // Plugin imports — Plugin management (aligned to Lumi)
 import PluginPluginManager
@@ -101,6 +100,19 @@ public enum FactoryWakey {
         try kernel.start(plugins: plugins)
 
         Self.logger.info("🧠 Wakey kernel started with \(plugins.count) plugins")
+
+        // 默认选中 order 最小的入口（「通用」）：首个 addEntries 的插件会把
+        // 选中态锁定为当时的唯一入口（如 boot order 7 的 Caffeinate），后续
+        // 注册只做保持——这是注册顺序副作用，与"默认选中第一个"的设计意图
+        // 不符。全部入口就位后在此重置；本次运行内的用户选择不受影响
+        // （选中态在内存中保留，重启后回到第一个入口）。
+        if let settings = kernel.resolveProvider((any SettingViewProviding).self),
+           let firstID = settings.entries.first?.id,
+           settings.selectedEntryID != firstID
+        {
+            settings.selectEntry(id: firstID)
+        }
+
         return kernel
     }
 
@@ -141,8 +153,6 @@ public enum FactoryWakey {
             PluginHydrationReminder(),
             // order 15
             PluginPosterPreview(),
-            // order 20
-            PluginAppStoreConnect(),
             // order 79
             ThemePackPlugin(id: "com.coffic.wakey.plugin.theme-pack", order: 79, policy: .alwaysOn),
             // order 90: 插件管理（对齐 Lumi 的 PluginPluginManager）
