@@ -18,12 +18,16 @@ final class OnboardingWindowController {
 
     private init() {
         // App 终止时自动关闭窗口，防止阻塞退出
+        // 注意：NotificationCenter 的回调块是 nonisolated 上下文，
+        // 必须显式回到 MainActor，否则调用 @MainActor 方法会产生隐式跨 actor 跳转。
         terminateObserver = NotificationCenter.default.addObserver(
             forName: NSApplication.willTerminateNotification,
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            self?.forceClose()
+            MainActor.assumeIsolated {
+                self?.forceClose()
+            }
         }
     }
 
