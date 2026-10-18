@@ -22,6 +22,10 @@ let package = Package(
                 "KitLayout",
                 .product(name: "KernelCore", package: "LumiKernel"),
             ]
-        )
+        ),
+        .testTarget(
+            name: "PluginPurchaseTests",
+            dependencies: ["PluginPurchase"]
+        ),
     ]
 )

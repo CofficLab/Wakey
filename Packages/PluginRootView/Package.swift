@@ -18,6 +18,13 @@ let package = Package(
                 .product(name: "KernelCore", package: "LumiKernel"),
                 .product(name: "ProviderRootView", package: "LumiProviders"),
             ]
-        )
+        ),
+        .testTarget(
+            name: "PluginRootViewTests",
+            dependencies: [
+                "PluginRootView",
+                .product(name: "ProviderRootView", package: "LumiProviders"),
+            ]
+        ),
     ]
 )
