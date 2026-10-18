@@ -11,5 +11,9 @@ let package = Package(
     ],
     targets: [
         .target(name: "KitBackground"),
+        .testTarget(
+            name: "KitBackgroundTests",
+            dependencies: ["KitBackground"]
+        ),
     ]
 )
