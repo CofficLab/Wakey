@@ -27,6 +27,10 @@ let package = Package(
 
             ],
             resources: [.process("StretchReminder.xcstrings")]
-        )
+        ),
+        .testTarget(
+            name: "PluginStretchReminderTests",
+            dependencies: ["PluginStretchReminder"]
+        ),
     ]
 )

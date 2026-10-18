@@ -27,6 +27,10 @@ let package = Package(
 
             ],
             resources: [.process("HydrationReminder.xcstrings")]
-        )
+        ),
+        .testTarget(
+            name: "PluginHydrationReminderTests",
+            dependencies: ["PluginHydrationReminder"]
+        ),
     ]
 )

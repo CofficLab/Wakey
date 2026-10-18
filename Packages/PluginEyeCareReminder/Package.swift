@@ -27,6 +27,10 @@ let package = Package(
 
             ],
             resources: [.process("EyeCareReminder.xcstrings")]
-        )
+        ),
+        .testTarget(
+            name: "PluginEyeCareReminderTests",
+            dependencies: ["PluginEyeCareReminder"]
+        ),
     ]
 )
