@@ -27,6 +27,10 @@ let package = Package(
 
             ],
             resources: [.process("Caffeinate.xcstrings")]
-        )
+        ),
+        .testTarget(
+            name: "PluginCaffeinateTests",
+            dependencies: ["PluginCaffeinate"]
+        ),
     ]
 )
