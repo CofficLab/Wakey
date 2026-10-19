@@ -1,15 +1,6 @@
 {
-  "originHash" : "79396db9a0f0cb3715adc8e25fc4c98701ab9847cad9f2e06d8f6273afb2e039",
+  "originHash" : "e92c39cef7d4f7b504368863afe20625e5a3daaebe2c0402a7da31857bc45397",
   "pins" : [
-    {
-      "identity" : "id3tageditor",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/chicio/ID3TagEditor",
-      "state" : {
-        "revision" : "3ccc31eafae0ded1fea8c9acd5e7ef7dfdbf1e8e",
-        "version" : "4.6.0"
-      }
-    },
     {
       "identity" : "lumikernel",
       "kind" : "remoteSourceControl",
@@ -20,21 +11,21 @@
       }
     },
     {
-      "identity" : "magicalert",
+      "identity" : "lumisettings",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/nookery/MagicAlert.git",
+      "location" : "https://github.com/CofficLab/LumiSettings.git",
       "state" : {
-        "revision" : "c01ea99ac87530ecc804f082c9311d884bc53418",
+        "revision" : "59af093194b98154bba8e9ac61669b253d66e2ba",
         "version" : "1.0.1"
       }
     },
     {
-      "identity" : "zipfoundation",
+      "identity" : "lumiui",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/weichsel/ZIPFoundation.git",
+      "location" : "https://github.com/CofficLab/LumiUI.git",
       "state" : {
-        "revision" : "22787ffb59de99e5dc1fbfe80b19c97a904ad48d",
-        "version" : "0.9.20"
+        "revision" : "64825782f70998297156db9a834a69f2c959eee4",
+        "version" : "1.10.0"
       }
     }
   ],
