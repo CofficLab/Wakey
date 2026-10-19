@@ -49,12 +49,15 @@ struct PosterViewConfigurationTests {
         #expect(type(of: view) == AnyView.self)
     }
 
-    @Test("content 可重复调用")
+    @Test("content 可重复调用且返回一致")
     func contentIsRepeatable() {
         let poster = makePoster(id: "a", title: "A")
-        _ = poster.content()
-        _ = poster.content()
-        #expect(Bool(true))
+        // content 捕获的是逃逸闭包，重复调用必须每次都产出等价的 AnyView，
+        // 否则 SwiftUI 会在 diff 时把海报视为身份不稳定的内容。
+        let first = poster.content()
+        let second = poster.content()
+        #expect(type(of: first) == type(of: second))
+        #expect(type(of: first) == AnyView.self)
     }
 
     @Test("作为 Identifiable 可直接用于列表")

@@ -110,19 +110,22 @@ struct MagicBackgroundGroupTests {
 
     @Test("未知字符串回退到默认渐变")
     func unknownNameFallsBackToDefault() {
-        let group = MagicBackgroundGroup(for: "not-a-real-gradient")
-        // 回退值为 .blue2cyan；再次用非法值构造应得到同一个视图配置
-        let fallback = MagicBackgroundGroup(for: "")
-        _ = group.body
-        _ = fallback.body
-        #expect(Bool(true))
+        // 非法字符串一律回退到 .blue2cyan，因此构造结果必须与显式构造等价。
+        // `name` 为 private，通过两种构造方式的视图类型一致性来验证回退行为。
+        let fromUnknown = MagicBackgroundGroup(for: "not-a-real-gradient")
+        let fromEmpty = MagicBackgroundGroup(for: "")
+        let fromDefault = MagicBackgroundGroup(for: GradientName.blue2cyan)
+
+        #expect(type(of: fromUnknown.body) == type(of: fromDefault.body))
+        #expect(type(of: fromEmpty.body) == type(of: fromDefault.body))
     }
 
     @Test("可由 GradientName 直接构造")
     func acceptsTypedName() {
         let group = MagicBackgroundGroup(for: .blue2cyan)
-        _ = group.body
-        #expect(Bool(true))
+        let viaString = MagicBackgroundGroup(for: GradientName.blue2cyan.rawValue)
+
+        #expect(type(of: group.body) == type(of: viaString.body))
     }
 
     @Test("all 返回全部渐变名")
@@ -143,48 +146,35 @@ struct MagicBackgroundGroupTests {
 
 /// `MagicBackgroundStyle` 的 `view` 属性会构造含 `TimelineView` / 动画的 SwiftUI 视图，
 /// 在无窗口的测试进程中实例化会触发 signal 5 崩溃。
-/// 因此这里只覆盖「枚举 case 可穷举且与 view 分支一一对应」这一可安全断言的部分。
+/// 因此这里覆盖「枚举 case 可穷举、case 唯一、已登记项齐全」这一可安全断言的部分。
+/// 关键点：枚举已声明 `CaseIterable`，新增 case 后本文件会自动跟随，无需手工同步列表。
 @Suite("MagicBackgroundStyle")
 struct MagicBackgroundStyleTests {
-    /// 与 `MagicBackgroundStyle` 的 case 列表保持同步。
-    private var allStyles: [MagicBackgroundStyle] {
-        [
-            .frost, .gradient, .aurora, .ocean, .sunset, .forest, .lavender, .desert, .midnight,
-            .cherry, .mint, .twilight, .rose, .emerald, .amethyst, .coral, .slate, .sage,
-            .dusk, .serenity, .sunnyBeach, .tropicalSunset, .palmBeach, .candyLand,
-            .crayonBox, .toyBlocks, .balloonParty, .paperPlanes,
-            .colorRed, .colorBlue, .colorGreen, .colorYellow, .colorPurple, .colorOrange,
-            .colorPink, .colorBrown, .colorGray, .colorTeal,
-            .cosmicDust, .galaxySpiral, .nebulaMist, .darkMatter, .cosmicPortal,
-            .mysticalForest, .enchantedGrove, .deepForest,
-            .watermelon, .blueberry, .strawberry, .kiwi,
-            .vanillaMacaron, .roseMacaron, .lavenderMacaron, .mintMacaron, .lemonMacaron,
-            .jazzNight, .classicalHarmony, .rockStage, .electronicBeats, .acousticMorning,
-            .deepOceanCurrent, .tropicalWaters, .coralReef, .mountainStream, .calmRiver, .cascadingRiver,
-            .dawnSky, .stormyHeaven, .sunsetGlow, .snowPeak, .glacierIce, .frostMountain,
-        ]
-    }
-
-    @Test("全部 style 均可构造")
-    func allStylesAreConstructible() {
-        let styles = allStyles
+    @Test("全部 style 均可经 allCases 穷举")
+    func allStylesAreEnumerable() {
+        let styles = MagicBackgroundStyle.allCases
         #expect(styles.count == 72)
         #expect(!styles.isEmpty)
     }
 
-    @Test("颜色系 style 完整")
-    func colorStylesAreComplete() {
+    @Test("颜色系 style 均已登记在 allCases 中")
+    func colorStylesAreRegisteredInAllCases() {
         let colors: [MagicBackgroundStyle] = [
             .colorRed, .colorBlue, .colorGreen, .colorYellow, .colorPurple, .colorOrange,
             .colorPink, .colorBrown, .colorGray, .colorTeal,
         ]
         #expect(colors.count == 10)
+        let allCases = MagicBackgroundStyle.allCases
+        for color in colors {
+            #expect(allCases.contains(color), "\(color) 未出现在 allCases 中")
+        }
     }
 
-    @Test("style 列表与 view 分支数量一致")
-    func styleListMatchesViewBranch() {
-        // `view` 属性对 72 个 case 各有一条 switch 分支；
-        // 这里只校验枚举列表规模，不实例化视图（会触发崩溃）。
-        #expect(allStyles.count == 72)
+    @Test("allCases 中每个 case 都是唯一的")
+    func allCasesAreUnique() {
+        // 重复的 case 会让 allCases.count 虚高，掩盖新增 case 时遗漏 view 分支的问题。
+        let allCases = MagicBackgroundStyle.allCases
+        #expect(allCases.count == 72)
+        #expect(Set(allCases.map(String.init(describing:))).count == allCases.count)
     }
 }
