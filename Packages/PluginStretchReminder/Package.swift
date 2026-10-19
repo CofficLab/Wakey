@@ -10,6 +10,7 @@ let package = Package(
     dependencies: [
         .package(path: "../ProviderStatusBarPopup"),
         .package(path: "../KitLogging"),
+        .package(path: "../KitReminder"),
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.0.1"),
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
         .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.8.0"),
@@ -20,6 +21,7 @@ let package = Package(
             dependencies: [
                 "ProviderStatusBarPopup",
                                 "KitLogging",
+                "KitReminder",
                 .product(name: "ProviderSettingView", package: "LumiSettings"),
                 .product(name: "KernelCore", package: "LumiKernel"),
                 .product(name: "LumiUI", package: "LumiUI"),
