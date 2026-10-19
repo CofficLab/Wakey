@@ -1,4 +1,5 @@
 import Foundation
+import KitReminder
 import Testing
 @testable import PluginEyeCareReminder
 

@@ -1,5 +1,6 @@
 import Foundation
 import KitLogging
+import KitReminder
 import Observation
 import OSLog
 import SwiftUI
@@ -14,7 +15,12 @@ class EyeCareReminderManager: NSObject, SuperLog {
 
     // MARK: - Singleton
 
-    static let shared = EyeCareReminderManager(environment: SystemReminderEnvironment.shared)
+    static let shared = EyeCareReminderManager(
+        environment: SystemReminderEnvironment { kind in
+            guard kind == .eyeCare else { return }
+            EyeCareReminderOverlayWindow().showAndFadeOut()
+        }
+    )
 
     // MARK: - Properties
 

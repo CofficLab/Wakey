@@ -9,7 +9,11 @@ public enum ReminderOverlayKind: String, Sendable {
 
 /// 计时器句柄，用于取消尚未触发的回调。
 public struct ReminderTimerToken: Hashable, Sendable {
-    let id: UInt64
+    public let id: UInt64
+
+    public init(id: UInt64) {
+        self.id = id
+    }
 }
 
 /// 抽象「休息提醒」所需的时间、持久化、计时与弹窗能力。
@@ -50,15 +54,25 @@ public protocol ReminderEnvironment: AnyObject {
     func presentReminderOverlay(kind: ReminderOverlayKind)
 }
 
-/// 生产环境实现：直接使用系统 API，行为与改造前一致。
+/// 生产环境实现：直接使用系统 API，行为与抽象前一致。
+///
+/// 弹层窗口的具体类型由各插件自行决定，本实现只负责时间、
+/// 持久化与计时；`overlayPresenter` 由插件在初始化时注入。
 @MainActor
 public final class SystemReminderEnvironment: ReminderEnvironment {
     public static let shared = SystemReminderEnvironment()
 
+    /// 各插件注入自己的弹层构造函数（接收 nil 表示无需展示）。
+    private let overlayPresenter: @MainActor (ReminderOverlayKind) -> Void
+
     private var nextToken: UInt64 = 0
     private var timers: [UInt64: Timer] = [:]
 
-    private init() {}
+    public init(
+        overlayPresenter: @escaping @MainActor (ReminderOverlayKind) -> Void = { _ in }
+    ) {
+        self.overlayPresenter = overlayPresenter
+    }
 
     public func now() -> Date { Date() }
 
@@ -96,10 +110,6 @@ public final class SystemReminderEnvironment: ReminderEnvironment {
     }
 
     public func presentReminderOverlay(kind: ReminderOverlayKind) {
-        // 生产环境创建真实覆盖窗口；只有 .eyeCare 在本模块内实现，
-        // 其它类型由对应插件自行处理。
-        guard kind == .eyeCare else { return }
-        let window = EyeCareReminderOverlayWindow()
-        window.showAndFadeOut()
+        overlayPresenter(kind)
     }
 }
