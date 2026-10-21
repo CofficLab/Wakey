@@ -1,5 +1,5 @@
 {
-  "originHash" : "b863dbd8ea3fbcc4126517ee7087bb116d64248b1daff8b45269b29c1208b18f",
+  "originHash" : "79b369e32e57758eda626ccf9a18219e1da198f19b44013994c54edd4a4891dc",
   "pins" : [
     {
       "identity" : "lumikernel",
@@ -7,7 +7,7 @@
       "location" : "https://github.com/CofficLab/LumiKernel.git",
       "state" : {
         "branch" : "main",
-        "revision" : "4a30c5f4d6e3b24be61e87a036b14720ef0f1654"
+        "revision" : "b1a0e8028b40777cce0c9ee71ba7728350d9a52b"
       }
     },
     {

@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import ProviderUninstall
+@testable import ProviderAppUninstall
 
 private final class RecordingDomainRemover: UninstallPersistentDomainRemoving, @unchecked Sendable {
     private(set) var removedDomains: [String] = []
@@ -28,7 +28,7 @@ private final class RecordingKeychainManager: UninstallKeychainManaging, @unchec
     }
 }
 
-@Suite("ProviderUninstall")
+@Suite("ProviderAppUninstall")
 struct UninstallProviderTests {
     private struct Fixture {
         let root: URL
@@ -37,7 +37,7 @@ struct UninstallProviderTests {
 
         init() throws {
             root = FileManager.default.temporaryDirectory
-                .appendingPathComponent("ProviderUninstallTests-\(UUID().uuidString)", isDirectory: true)
+                .appendingPathComponent("ProviderAppUninstallTests-\(UUID().uuidString)", isDirectory: true)
             let library = root.appendingPathComponent("Library", isDirectory: true)
             let support = library.appendingPathComponent("Application Support", isDirectory: true)
             let groups = library.appendingPathComponent("Group Containers", isDirectory: true)

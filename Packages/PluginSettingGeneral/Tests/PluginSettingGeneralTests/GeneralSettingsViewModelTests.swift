@@ -1,7 +1,7 @@
 import Foundation
 import ProviderAppUpdate
 import ProviderDocsView
-import ProviderUninstall
+import ProviderAppUninstall
 import SwiftUI
 import Testing
 @testable import PluginSettingGeneral

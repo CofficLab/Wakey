@@ -11,9 +11,9 @@ let package = Package(
         .package(path: "../ProviderStatusBarPopup"),
         .package(path: "../KitLogging"),
         .package(path: "../KitReminder"),
-        .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.0.1"),
+        .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
-        .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.8.0"),
+        .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.11.1"),
     ],
     targets: [
         .target(

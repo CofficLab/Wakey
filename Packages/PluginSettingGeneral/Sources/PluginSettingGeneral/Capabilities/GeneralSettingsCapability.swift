@@ -2,7 +2,7 @@ import Foundation
 import ProviderAppUpdate
 import ProviderDocsView
 import ProviderStorage
-import ProviderUninstall
+import ProviderAppUninstall
 
 #if canImport(AppKit)
 import AppKit

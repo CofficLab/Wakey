@@ -4,7 +4,7 @@ import ProviderCommand
 import ProviderAppUpdate
 import ProviderDocsView
 import ProviderStorage
-import ProviderUninstall
+import ProviderAppUninstall
 import ProviderSettingView
 import SwiftUI
 import LumiLoggingKit
