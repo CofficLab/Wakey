@@ -4,7 +4,7 @@ import Foundation
 import LumiUI
 import ProviderAppUpdate
 import ProviderDocsView
-import ProviderUninstall
+import ProviderAppUninstall
 import SwiftUI
 
 /// 通用设置页的唯一数据来源。

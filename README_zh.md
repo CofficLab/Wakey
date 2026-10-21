@@ -8,7 +8,7 @@ Wakey 是一款轻量级的 macOS 状态栏助手。
 [![macOS](https://img.shields.io/badge/macOS-15.5+-blue.svg)](https://developer.apple.com/macos/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-![Hero](./docs/wakey.intro.png)
+![Hero](./docs/wakey.intro.webp)
 
 ## ✨ 功能特性
 

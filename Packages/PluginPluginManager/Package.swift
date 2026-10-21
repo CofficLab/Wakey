@@ -15,11 +15,11 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.2.7"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.12.0"),
         .package(url: "https://github.com/CofficLab/LumiLogging.git", from: "1.0.1"),
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
-        .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.7.0"),
-        .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.0.1"),
+        .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.11.1"),
+        .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiLocalization.git", from: "1.0.1"),
     ],
     targets: [
@@ -42,6 +42,7 @@ let package = Package(
             dependencies: [
                 "PluginPluginManager",
                 .product(name: "KernelCore", package: "LumiKernel"),
+                .product(name: "ProviderDocsView", package: "LumiProviders"),
                 .product(name: "ProviderPluginManaging", package: "LumiProviders"),
                 .product(name: "ProviderSettingView", package: "LumiSettings"),
             ],

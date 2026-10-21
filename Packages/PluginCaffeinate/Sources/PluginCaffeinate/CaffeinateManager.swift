@@ -10,7 +10,8 @@ import SwiftUI
 @Observable
 class CaffeinateManager: SuperLog {
     nonisolated static let emoji = "🍽️"
-    nonisolated static let verbose: Bool = false
+    /// 详细日志开关。生产环境保持关闭，测试中可临时打开以覆盖日志分支。
+    static var verbose: Bool = false
 
     // MARK: - Singleton
 
@@ -36,23 +37,25 @@ class CaffeinateManager: SuperLog {
     private(set) var mode: SleepMode = .systemAndDisplay
 
     /// IOKit assertion ID
-    private var assertionID: IOPMAssertionID = 0
+    private var assertionID: UInt32 = 0
 
-    private var displayAssertionID: IOPMAssertionID = 0
+    private var displayAssertionID: UInt32 = 0
 
-    /// Timer (for timed mode)
-    private var timer: Timer?
-    
+    /// 电源断言 / 关屏 / 计时 / 持久化的来源。
+    /// 生产环境为系统实现，测试可注入可控实现。
+    private let environment: any CaffeinateEnvironment
+
     // MARK: - Custom Intervals Support
-    
+
     private let customDurationsKey = "CaffeinateCustomDurations"
-    
+
     /// Available durations (including defaults and custom ones)
     private(set) var availableDurations: [DurationOption] = []
 
     // MARK: - Initialization
 
-    private init() {
+    init(environment: any CaffeinateEnvironment = SystemCaffeinateEnvironment()) {
+        self.environment = environment
         if Self.verbose {
             os_log("\(self.t)CaffeinateManager initialized")
         }
@@ -83,14 +86,7 @@ class CaffeinateManager: SuperLog {
 
     /// 立即关闭显示器
     private func turnOffDisplay() {
-        let task = Process()
-        task.launchPath = "/usr/bin/pmset"
-        task.arguments = ["displaysleepnow"]
-        do {
-            try task.run()
-        } catch {
-            os_log(.error, "\(self.t)Failed to turn off display: \(error.localizedDescription)")
-        }
+        environment.turnOffDisplay()
     }
 
     /// 激活指定的防休眠模式
@@ -108,26 +104,18 @@ class CaffeinateManager: SuperLog {
         self.mode = mode
         let reason = String(localized: "Anti-sleep mode enabled via Wakey", table: "Caffeinate", bundle: .module, comment: "Reason shown in system power assertions when anti-sleep is active") as NSString
 
-        let systemResult = IOPMAssertionCreateWithName(
-            kIOPMAssertionTypePreventUserIdleSystemSleep as CFString,
-            IOPMAssertionLevel(kIOPMAssertionLevelOn),
-            reason,
-            &assertionID
-        )
+        let systemResult = environment.createAssertion(kind: .system, reason: reason as String)
+        assertionID = systemResult.id
 
-        var displayResult: IOReturn = kIOReturnSuccess
+        var displayResult = CaffeinateAssertionResult(code: kIOReturnSuccess)
         if mode == .systemAndDisplay {
-            displayResult = IOPMAssertionCreateWithName(
-                kIOPMAssertionTypePreventUserIdleDisplaySleep as CFString,
-                IOPMAssertionLevel(kIOPMAssertionLevelOn),
-                reason,
-                &displayAssertionID
-            )
+            displayResult = environment.createAssertion(kind: .display, reason: reason as String)
+            displayAssertionID = displayResult.id
         } else {
             displayAssertionID = 0
         }
 
-        if systemResult == kIOReturnSuccess && displayResult == kIOReturnSuccess {
+        if systemResult.isSuccess && displayResult.isSuccess {
             isActive = true
             activeAction = (mode == .systemAndDisplay) ? .systemAndDisplay : .systemOnly
             startTime = Date()
@@ -143,18 +131,18 @@ class CaffeinateManager: SuperLog {
                 startTimer(duration: duration)
             }
         } else {
-            if systemResult != kIOReturnSuccess {
-                os_log(.error, "\(self.t)Failed to create system sleep assertion: \(systemResult)")
+            if !systemResult.isSuccess {
+                os_log(.error, "\(self.t)Failed to create system sleep assertion: \(systemResult.code)")
             }
-            if displayResult != kIOReturnSuccess {
-                os_log(.error, "\(self.t)Failed to create display sleep assertion: \(displayResult)")
+            if !displayResult.isSuccess {
+                os_log(.error, "\(self.t)Failed to create display sleep assertion: \(displayResult.code)")
             }
             if assertionID != 0 {
-                IOPMAssertionRelease(assertionID)
+                environment.releaseAssertion(id: assertionID)
                 assertionID = 0
             }
             if displayAssertionID != 0 {
-                IOPMAssertionRelease(displayAssertionID)
+                environment.releaseAssertion(id: displayAssertionID)
                 displayAssertionID = 0
             }
         }
@@ -163,19 +151,19 @@ class CaffeinateManager: SuperLog {
     /// 停止防休眠并清理资源
     func deactivate() {
         guard isActive else { return }
-        
+
         if Self.verbose {
             os_log("\(self.t)Deactivating Caffeinate")
         }
 
         // 1. 释放 IOKit 断言
         if assertionID != 0 {
-            IOPMAssertionRelease(assertionID)
+            environment.releaseAssertion(id: assertionID)
             assertionID = 0
         }
-        
+
         if displayAssertionID != 0 {
-            IOPMAssertionRelease(displayAssertionID)
+            environment.releaseAssertion(id: displayAssertionID)
             displayAssertionID = 0
         }
 
@@ -186,8 +174,7 @@ class CaffeinateManager: SuperLog {
         duration = 0
 
         // 3. 停止定时器
-        timer?.invalidate()
-        timer = nil
+        environment.cancelScheduledTimer()
     }
 
     /// Toggle anti-sleep state
@@ -211,12 +198,10 @@ class CaffeinateManager: SuperLog {
     /// 启动定时器
     /// - Parameter duration: 持续时间（秒）
     private func startTimer(duration: TimeInterval) {
-        timer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { [weak self] _ in
-            Task { @MainActor in
-                self?.deactivate()
-            }
+        environment.scheduleTimer(after: duration) { [weak self] in
+            self?.deactivate()
         }
-        
+
         if Self.verbose {
             os_log("\(self.t)Timer scheduled for \(duration)s")
         }
@@ -229,7 +214,7 @@ class CaffeinateManager: SuperLog {
         var durations = Self.commonDurations
         
         // Load custom durations from UserDefaults
-        if let customMinutes = UserDefaults.standard.array(forKey: customDurationsKey) as? [Int] {
+        if let customMinutes = environment.savedCustomDurations(forKey: customDurationsKey) {
             let customOptions = customMinutes.map { DurationOption.minutes($0) }
             for option in customOptions {
                 if !durations.contains(option) {
@@ -293,7 +278,7 @@ class CaffeinateManager: SuperLog {
             }
         }
         
-        UserDefaults.standard.set(customMinutes, forKey: customDurationsKey)
+        environment.saveCustomDurations(customMinutes, forKey: customDurationsKey)
     }
 
     // MARK: - Cleanup

@@ -11,5 +11,9 @@ let package = Package(
     ],
     targets: [
         .target(name: "ProviderStatusBarPopup"),
+        .testTarget(
+            name: "ProviderStatusBarPopupTests",
+            dependencies: ["ProviderStatusBarPopup"]
+        ),
     ]
 )

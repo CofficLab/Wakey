@@ -1,5 +1,6 @@
 import Foundation
 import KitLogging
+import KitReminder
 import Observation
 import OSLog
 import UserNotifications
@@ -12,17 +13,25 @@ class HydrationReminderManager: NSObject, SuperLog {
     nonisolated static let emoji = "💧"
     nonisolated static let verbose: Bool = true
 
-    static let shared = HydrationReminderManager()
+    static let shared = HydrationReminderManager(
+        environment: SystemReminderEnvironment { kind in
+            guard kind == .hydration else { return }
+            HydrationReminderOverlayWindow().showAndFadeOut()
+        }
+    )
     
     private let userDefaultsKey = "HydrationReminderInterval"
     private let customIntervalsKey = "HydrationCustomIntervals"
+
+    /// 时间 / 持久化 / 计时来源，生产环境为系统实现，测试可注入可控实现。
+    private let environment: any ReminderEnvironment
 
     private(set) var isActive: Bool = false
     private(set) var selectedInterval: TimeInterval = 2 * 60 * 60 // Default 2 hours
     private(set) var availableIntervals: [IntervalOption] = []
     private(set) var nextBreakTime: Date?
     private(set) var startTime: Date?
-    private var timer: Timer?
+    private var timer: ReminderTimerToken?
     private(set) var todayBreakCount: Int = 0
 
     enum PermissionStatus {
@@ -33,16 +42,16 @@ class HydrationReminderManager: NSObject, SuperLog {
 
     private(set) var permissionStatus: PermissionStatus = .notDetermined
     private(set) var notificationPermissionGranted: Bool = false
-    private var currentOverlayWindow: HydrationReminderOverlayWindow?
 
-    private override init() {
+    init(environment: any ReminderEnvironment) {
+        self.environment = environment
         super.init()
         
         // Load custom intervals
         loadAvailableIntervals()
         
         // Load persisted interval
-        let savedInterval = UserDefaults.standard.double(forKey: userDefaultsKey)
+        let savedInterval = environment.savedInterval(forKey: userDefaultsKey)
         if savedInterval > 0 {
             self.selectedInterval = savedInterval
         }
@@ -66,13 +75,13 @@ class HydrationReminderManager: NSObject, SuperLog {
     func start() {
         guard !isActive else { return }
         self.isActive = true
-        self.startTime = Date()
+        self.startTime = environment.now()
         scheduleNextBreak()
     }
 
     func stop() {
         guard isActive else { return }
-        timer?.invalidate()
+        environment.cancel(timer)
         timer = nil
         isActive = false
         nextBreakTime = nil
@@ -120,7 +129,7 @@ class HydrationReminderManager: NSObject, SuperLog {
 
     func updateInterval(_ interval: TimeInterval) {
         selectedInterval = interval
-        UserDefaults.standard.set(interval, forKey: userDefaultsKey)
+        environment.save(interval: interval, forKey: userDefaultsKey)
         if isActive {
             scheduleNextBreak()
         }
@@ -128,7 +137,7 @@ class HydrationReminderManager: NSObject, SuperLog {
 
     func timeUntilNextBreak() -> TimeInterval? {
         guard let next = nextBreakTime else { return nil }
-        return next.timeIntervalSinceNow
+        return next.timeIntervalSince(environment.now())
     }
 
     private func scheduleNextBreak() {
@@ -136,12 +145,10 @@ class HydrationReminderManager: NSObject, SuperLog {
     }
 
     private func scheduleBreak(in interval: TimeInterval) {
-        timer?.invalidate()
-        nextBreakTime = Date().addingTimeInterval(interval)
-        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false) { [weak self] _ in
-            Task { @MainActor in
-                self?.fireBreakReminder()
-            }
+        environment.cancel(timer)
+        nextBreakTime = environment.now().addingTimeInterval(interval)
+        timer = environment.schedule(after: interval) { [weak self] in
+            self?.fireBreakReminder()
         }
         scheduleNotification(in: interval)
     }
@@ -154,8 +161,7 @@ class HydrationReminderManager: NSObject, SuperLog {
     }
 
     private func showDesktopGradient() {
-        currentOverlayWindow = HydrationReminderOverlayWindow()
-        currentOverlayWindow?.showAndFadeOut()
+        environment.presentReminderOverlay(kind: .hydration)
     }
 
     private func scheduleNotification(in interval: TimeInterval) {
@@ -169,7 +175,7 @@ class HydrationReminderManager: NSObject, SuperLog {
     }
 
     func cleanup() {
-        timer?.invalidate()
+        environment.cancel(timer)
         timer = nil
     }
 
@@ -177,7 +183,7 @@ class HydrationReminderManager: NSObject, SuperLog {
         var intervals = Self.commonIntervals
         
         // Load custom intervals from UserDefaults
-        if let customMinutes = UserDefaults.standard.array(forKey: customIntervalsKey) as? [Int] {
+        if let customMinutes = environment.savedCustomIntervals(forKey: customIntervalsKey) {
             let customOptions = customMinutes.map { IntervalOption.minutes($0) }
             for option in customOptions {
                 if !intervals.contains(option) {
@@ -198,7 +204,7 @@ class HydrationReminderManager: NSObject, SuperLog {
             case .hours(let h): return h * 60
             }
         }
-        UserDefaults.standard.set(customMinutes, forKey: customIntervalsKey)
+        environment.saveCustomIntervals(customMinutes, forKey: customIntervalsKey)
     }
 }
 

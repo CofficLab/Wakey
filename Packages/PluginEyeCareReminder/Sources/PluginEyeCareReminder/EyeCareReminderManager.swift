@@ -1,5 +1,6 @@
 import Foundation
 import KitLogging
+import KitReminder
 import Observation
 import OSLog
 import SwiftUI
@@ -14,12 +15,20 @@ class EyeCareReminderManager: NSObject, SuperLog {
 
     // MARK: - Singleton
 
-    static let shared = EyeCareReminderManager()
+    static let shared = EyeCareReminderManager(
+        environment: SystemReminderEnvironment { kind in
+            guard kind == .eyeCare else { return }
+            EyeCareReminderOverlayWindow().showAndFadeOut()
+        }
+    )
 
     // MARK: - Properties
-    
+
     private let userDefaultsKey = "EyeCareReminderInterval"
     private let customIntervalsKey = "EyeCareCustomIntervals"
+
+    /// 时间 / 持久化 / 计时来源，生产环境为系统实现，测试可注入可控实现。
+    private let environment: any ReminderEnvironment
 
     /// Whether break reminder is currently active
     private(set) var isActive: Bool = false
@@ -37,13 +46,10 @@ class EyeCareReminderManager: NSObject, SuperLog {
     private(set) var startTime: Date?
 
     /// Timer for scheduling breaks
-    private var timer: Timer?
+    private var timer: ReminderTimerToken?
 
     /// Today's break count
     private(set) var todayBreakCount: Int = 0
-
-    /// Current overlay window
-    private var currentOverlayWindow: EyeCareReminderOverlayWindow?
 
     /// Notification permission status
     enum PermissionStatus {
@@ -60,14 +66,15 @@ class EyeCareReminderManager: NSObject, SuperLog {
 
     // MARK: - Initialization
 
-    private override init() {
+    init(environment: any ReminderEnvironment) {
+        self.environment = environment
         super.init()
-        
+
         // Load custom intervals
         loadAvailableIntervals()
-        
+
         // Load persisted interval
-        let savedInterval = UserDefaults.standard.double(forKey: userDefaultsKey)
+        let savedInterval = environment.savedInterval(forKey: userDefaultsKey)
         if savedInterval > 0 {
             self.selectedInterval = savedInterval
         }
@@ -97,7 +104,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
         guard !isActive else { return }
 
         self.isActive = true
-        self.startTime = Date()
+        self.startTime = environment.now()
         scheduleNextBreak()
 
         if Self.verbose {
@@ -113,7 +120,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
             os_log("\(self.t)Stopping Eye Care reminder")
         }
 
-        timer?.invalidate()
+        environment.cancel(timer)
         timer = nil
         isActive = false
         nextBreakTime = nil
@@ -176,7 +183,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
     /// - Parameter interval: New interval in seconds
     func updateInterval(_ interval: TimeInterval) {
         selectedInterval = interval
-        UserDefaults.standard.set(interval, forKey: userDefaultsKey)
+        environment.save(interval: interval, forKey: userDefaultsKey)
 
         // Reschedule if active
         if isActive {
@@ -192,7 +199,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
     /// - Returns: Time interval in seconds, nil if not active
     func timeUntilNextBreak() -> TimeInterval? {
         guard let next = nextBreakTime else { return nil }
-        return next.timeIntervalSinceNow
+        return next.timeIntervalSince(environment.now())
     }
 
     // MARK: - Private Methods
@@ -205,12 +212,10 @@ class EyeCareReminderManager: NSObject, SuperLog {
     /// Schedule a break after specified interval
     /// - Parameter interval: Interval in seconds
     private func scheduleBreak(in interval: TimeInterval) {
-        timer?.invalidate()
-        nextBreakTime = Date().addingTimeInterval(interval)
-        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false) { [weak self] _ in
-            Task { @MainActor in
-                self?.fireBreakReminder()
-            }
+        environment.cancel(timer)
+        nextBreakTime = environment.now().addingTimeInterval(interval)
+        timer = environment.schedule(after: interval) { [weak self] in
+            self?.fireBreakReminder()
         }
         scheduleNotification(in: interval)
     }
@@ -230,8 +235,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
 
     /// Show desktop gradient animation
     private func showDesktopGradient() {
-        currentOverlayWindow = EyeCareReminderOverlayWindow()
-        currentOverlayWindow?.showAndFadeOut()
+        environment.presentReminderOverlay(kind: .eyeCare)
     }
 
     /// Schedule system notification
@@ -249,7 +253,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
 
     /// Cleanup resources
     func cleanup() {
-        timer?.invalidate()
+        environment.cancel(timer)
         timer = nil
     }
 
@@ -260,7 +264,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
         var intervals = Self.commonIntervals
         
         // Load custom intervals from UserDefaults
-        if let customMinutesArray = UserDefaults.standard.array(forKey: customIntervalsKey) as? [Int] {
+        if let customMinutesArray = environment.savedCustomIntervals(forKey: customIntervalsKey) {
             let customOptions = customMinutesArray.map { IntervalOption.minutes($0) }
             // Add custom options if not already present
             for option in customOptions {
@@ -288,7 +292,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
             }
         }
         
-        UserDefaults.standard.set(customMinutesArray, forKey: customIntervalsKey)
+        environment.saveCustomIntervals(customMinutesArray, forKey: customIntervalsKey)
     }
 }
 

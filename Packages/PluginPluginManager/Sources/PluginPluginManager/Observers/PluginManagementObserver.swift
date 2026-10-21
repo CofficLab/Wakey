@@ -9,7 +9,8 @@ final class PluginManagementObserver: SuperLog {
         subsystem: "com.coffic.wakey.plugin.plugin-manager",
         category: "PluginManagementObserver"
     )
-    nonisolated static let verbose = false
+    /// 详细日志开关。生产环境保持关闭，测试中可临时打开以覆盖日志分支。
+    static var verbose = false
 
     private let capability: any PluginManagementCapability
     private weak var viewModel: PluginManagementViewModel?

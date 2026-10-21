@@ -22,6 +22,10 @@ let package = Package(
 
 
             ]
-        )
+        ),
+        .testTarget(
+            name: "PluginPosterStretchTests",
+            dependencies: ["PluginPosterStretch"]
+        ),
     ]
 )

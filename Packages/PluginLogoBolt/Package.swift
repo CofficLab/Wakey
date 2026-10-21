@@ -9,7 +9,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
-        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.5.0"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.12.0"),
     ],
     targets: [
         .target(
@@ -19,6 +19,13 @@ let package = Package(
                 .product(name: "KernelCore", package: "LumiKernel"),
 
             ]
-        )
+        ),
+        .testTarget(
+            name: "PluginLogoBoltTests",
+            dependencies: [
+                "PluginLogoBolt",
+                .product(name: "ProviderLogo", package: "LumiProviders"),
+            ]
+        ),
     ]
 )

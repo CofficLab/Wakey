@@ -11,5 +11,9 @@ let package = Package(
     ],
     targets: [
         .target(name: "KitLayout"),
+        .testTarget(
+            name: "KitLayoutTests",
+            dependencies: ["KitLayout"]
+        ),
     ]
 )
