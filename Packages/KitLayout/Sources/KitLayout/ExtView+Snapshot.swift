@@ -57,7 +57,11 @@ public extension View {
 
         // 使用 ImageRenderer 以支持缩放渲染
         let renderer = ImageRenderer(content: self)
-        renderer.scale = scale
+        // scale <= 0 时保留 ImageRenderer 的默认缩放（显示器原生缩放因子）；
+        // 直接写入 0 会让渲染器产出 nil，进而导致快照永远失败。
+        if scale > 0 {
+            renderer.scale = scale
+        }
 
         guard let cgImage = renderer.cgImage else {
             throw SnapshotError.imageRenderFailed
