@@ -25,7 +25,7 @@ let package = Package(
         .package(path: "../KitLogging"),
         .package(path: "../KitLayout"),
         .package(path: "../PluginRootView"),
-        .package(url: "https://github.com/CofficLab/LumiPluginThemePack.git", from: "1.2.0"),
+        .package(url: "https://github.com/CofficLab/LumiPluginThemePack.git", from: "1.2.1"),
         // Logo plugins (1)
         .package(path: "../PluginLogoBolt"),
         // Poster plugins (6)

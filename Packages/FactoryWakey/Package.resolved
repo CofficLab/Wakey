@@ -1,5 +1,5 @@
 {
-  "originHash" : "0c08be90acd088921e6cc8980cf511477bf0ff2ab2ee0718f2e0c3adf25e97c3",
+  "originHash" : "ca27e71d19599b43c5d2f3e754abde44c06004f0e0f9bf52c85921c1f4df864c",
   "pins" : [
     {
       "identity" : "lumikernel",
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiPluginThemePack.git",
       "state" : {
-        "revision" : "d1309c02faffc9910189557972bc87a120391721",
-        "version" : "1.2.0"
+        "revision" : "edbea8d186f804b1ffb6a2569fd2a00a074d7dfc",
+        "version" : "1.2.1"
       }
     },
     {
