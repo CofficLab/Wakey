@@ -14,7 +14,7 @@ let package = Package(
         .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.12.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginStorage.git", from: "1.1.1"),
         .package(url: "https://github.com/CofficLab/LumiPluginToast.git", from: "1.2.1"),
-        .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.7"),
+        .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.8"),
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginSettingView.git", from: "1.0.3"),
         .package(path: "../ProviderPoster"),
@@ -25,7 +25,7 @@ let package = Package(
         .package(path: "../KitLogging"),
         .package(path: "../KitLayout"),
         .package(path: "../PluginRootView"),
-        .package(url: "https://github.com/CofficLab/LumiPluginThemePack.git", from: "1.1.2"),
+        .package(url: "https://github.com/CofficLab/LumiPluginThemePack.git", from: "1.2.0"),
         // Logo plugins (1)
         .package(path: "../PluginLogoBolt"),
         // Poster plugins (6)
