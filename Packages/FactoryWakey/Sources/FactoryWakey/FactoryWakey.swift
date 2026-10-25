@@ -62,6 +62,20 @@ import ProviderToast
 public enum FactoryWakey {
     nonisolated static let logger = Logger(subsystem: "com.coffic.wakey.factory", category: "FactoryWakey")
 
+    // MARK: - Theme Configuration
+
+    /// 共享目录主题白名单：只加载品牌主题 `lumi`。
+    ///
+    /// `LumiThemePack` 的目录还包含 VS Code / GitHub / Dracula 等 IDE 场景配色
+    /// 与四季主题，与专注类应用无关，不再注册 —— `themeIDs` 传 `nil` 会全量加载。
+    nonisolated static let catalogThemeIDs = ["lumi"]
+
+    /// 内置主题白名单：品牌主题 + 跟随系统 / 固定暗色 / 固定亮色。
+    ///
+    /// `DefaultThemeProviding` 构造时默认预注册 `BuiltinThemes.all`；这里按 id
+    /// 过滤，保证「内置主题」与「目录主题」两路都收敛到同一组外观。
+    nonisolated static let builtinThemeIDs = ["lumi", "lumi-system", "lumi-dark", "lumi-light"]
+
     // MARK: - Kernel Assembly
 
     /// 创建并启动生产内核：注册 Host Provider → 设置状态持久化 → 启动全部插件。
@@ -75,7 +89,10 @@ public enum FactoryWakey {
         try kernel.registerHostProvider(LogoProviding.self, DefaultLogoProviding())
         try kernel.registerHostProvider(
             ProviderTheme.ThemeProviding.self,
-            ProviderTheme.DefaultThemeProviding(defaultStorageDirectoryName: "com.coffic.lumi.plugin.theme-manager")
+            ProviderTheme.DefaultThemeProviding(
+                builtinThemes: ProviderTheme.BuiltinThemes.all.filter { builtinThemeIDs.contains($0.id) },
+                defaultStorageDirectoryName: "com.coffic.lumi.plugin.theme-manager"
+            )
         )
         try kernel.registerHostProvider(CopilotNavigationProviding.self, DefaultCopilotNavigationProviding())
 
@@ -157,7 +174,12 @@ public enum FactoryWakey {
             // order 15
             PluginPosterPreview(),
             // order 79
-            ThemePackPlugin(id: "com.coffic.wakey.plugin.theme-pack", order: 79, policy: .alwaysOn),
+            ThemePackPlugin(
+                id: "com.coffic.wakey.plugin.theme-pack",
+                order: 79,
+                policy: .alwaysOn,
+                themeIDs: catalogThemeIDs
+            ),
             // order 90: 插件管理（对齐 Lumi 的 PluginPluginManager）
             PluginPluginManager(),
             // order 100: 设置-通用（对齐 Lumi 的 PluginSettingGeneral）

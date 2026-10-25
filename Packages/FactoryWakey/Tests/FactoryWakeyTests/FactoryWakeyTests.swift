@@ -7,13 +7,18 @@ import Testing
 
 @MainActor
 struct FactoryWakeyTests {
-    @Test("Wakey uses the canonical remote theme catalog")
-    func remoteThemeCatalogHasCanonicalCount() throws {
+    /// 主题集合：Wakey 只暴露品牌主题 + 跟随系统 / 固定暗色 / 固定亮色。
+    ///
+    /// 共享目录（`LumiThemePack`）里还有 VS Code / GitHub / Dracula 等 IDE 场景
+    /// 配色与四季主题，与专注类应用无关，不注册。白名单见 `FactoryWakey` 的
+    /// `catalogThemeIDs` / `builtinThemeIDs`。
+    @Test("Wakey exposes only its curated theme set")
+    func curatedThemeCatalogIsScoped() throws {
         let kernel = try FactoryWakey.makeKernel()
         let theme = try #require(kernel.resolveProvider((any ThemeProviding).self))
 
-        #expect(theme.themes.count == 22)
-        #expect(Set(theme.themes.map(\.id)).count == 22)
+        #expect(theme.themes.count == 4)
+        #expect(Set(theme.themes.map(\.id)) == ["lumi", "lumi-system", "lumi-dark", "lumi-light"])
     }
 
     @Test("Wakey starts the shared Toast plugin")

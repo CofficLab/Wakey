@@ -106,6 +106,8 @@ let package = Package(
             dependencies: [
                 "FactoryWakey",
                 .product(name: "ProviderSettingView", package: "LumiSettings"),
+                .product(name: "LumiThemePack", package: "LumiThemePack"),
+                .product(name: "ProviderTheme", package: "LumiProviders"),
             ]
         )
     ]

@@ -137,6 +137,27 @@ final class WakeySettingsUITests: WakeyUITestBase {
     func testThemeDetailPaneIsVerticallyScrollable() {
         openSettingsPage("Appearance")
 
+        // 主题数量：Wakey 只加载品牌 + 三个基础外观，共 4 个主题。
+        // 白名单见 FactoryWakey.catalogThemeIDs / builtinThemeIDs。
+        // 详情区的文本暴露为 AX value（侧边栏按钮才是 label），两者都要匹配。
+        let themeCount = textContaining("4 Themes")
+        XCTAssertTrue(
+            themeCount.waitForExistence(timeout: 5),
+            "外观页主题数量不是 4。页面可见文本：\(visibleTextsOnAppearancePage())"
+        )
+
+        // 白名单之外的目录主题（IDE 配色 / 四季主题）不应出现在外观页。
+        // 这条比数量标签更直接地证明「只加载部分主题」生效。
+        // 顺序有意为之：列表按 sortOrder 排列，AX 树只物化靠前的主题，
+        // 所以把最靠前的排除项放第一位——它才是真正能兜住回归的那一个
+        // （变异验证：去掉白名单后本页显示 22 个主题，此处即变红）。
+        for excluded in ["GitHub", "VS Code Dark", "One Dark", "Dracula", "Midnight Blue"] {
+            XCTAssertFalse(
+                textContaining(excluded).exists,
+                "外观页不应出现白名单之外的主题：\(excluded)。页面可见文本：\(visibleTextsOnAppearancePage())"
+            )
+        }
+
         // 验证筛选控件存在（All / Dark / Light / Follow System）
         let filterAll = element("All")
         let filterDark = element("Dark")
@@ -152,5 +173,32 @@ final class WakeySettingsUITests: WakeyUITestBase {
 
         // 验证设置窗口仍然正常
         XCTAssertTrue(element("wakey.settings.window").exists, "Settings window closed unexpectedly")
+    }
+
+    // MARK: - 辅助
+
+    /// 按可见文本查找元素。
+    ///
+    /// 设置窗口详情区里的 StaticText 把文本暴露为 AX **value**，侧边栏条目
+    /// 才是 **label**（见 `testSettingsDefaultsToGeneralPageOnFreshLaunch`），
+    /// 所以两种属性都要匹配，否则详情页文本永远查不到。
+    private func textContaining(_ text: String) -> XCUIElement {
+        app.descendants(matching: .any)
+            .matching(NSPredicate(format: "label CONTAINS %@ OR value CONTAINS %@", text, text))
+            .firstMatch
+    }
+
+    /// 诊断用：列出当前窗口里所有可见文本。
+    ///
+    /// 断言失败时把这段打进消息，避免只能靠猜。
+    private func visibleTextsOnAppearancePage() -> String {
+        let texts = app.descendants(matching: .staticText)
+            .allElementsBoundByIndex
+            .map { element -> String in
+                let value = element.value as? String ?? ""
+                return element.label.isEmpty ? value : element.label
+            }
+            .filter { !$0.isEmpty }
+        return texts.isEmpty ? "<空>" : texts.joined(separator: " | ")
     }
 }
