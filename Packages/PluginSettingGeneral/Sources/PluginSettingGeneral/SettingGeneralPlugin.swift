@@ -2,7 +2,9 @@ import KernelCore
 import LumiUI
 import ProviderCommand
 import ProviderAppUpdate
+import ProviderDiagnostics
 import ProviderDocsView
+import ProviderOnboarding
 import ProviderStorage
 import ProviderAppUninstall
 import ProviderSettingView
@@ -27,7 +29,7 @@ public final class SettingGeneralPlugin: SuperPlugin, SuperLog {
     public let metadata = PluginMetadata(
         id: "com.coffic.wakey.plugin.setting-general",
         name: pluginLocalization.string("General Settings"),
-        description: pluginLocalization.string("Registers the General settings entry with app info, website and updates."),
+        description: pluginLocalization.string("Registers the General settings entry with onboarding, app info, website and updates."),
         category: .system,
         stage: .stable,
         policy: .alwaysOn
@@ -75,6 +77,8 @@ public final class SettingGeneralPlugin: SuperPlugin, SuperLog {
 
         // 捕获 docs provider 引用，供详情视图读取。
         let docsProvider = kernel.resolveProvider((any DocsViewProviding).self)
+        let diagnosticsProvider = kernel.resolveProvider((any DiagnosticsProviding).self)
+        let onboardingProvider = kernel.resolveProvider((any OnboardingProviding).self)
         let storageProvider = kernel.resolveProvider((any StorageProviding).self)
         let uninstallProvider = self.uninstallProvider
         let prepareForUninstall: @MainActor () async -> Void = {
@@ -86,19 +90,34 @@ public final class SettingGeneralPlugin: SuperPlugin, SuperLog {
             title: pluginLocalization.string("General"),
             systemImage: "gearshape",
             order: 1
-        ) { [versionProvider, docsProvider, storageProvider, uninstallProvider, prepareForUninstall, kernel] in
+        ) { [versionProvider, docsProvider, diagnosticsProvider, onboardingProvider, storageProvider, uninstallProvider, prepareForUninstall, kernel] in
             // AppUpdateBootstrap is host-owned and may register after
             // plugin boot. Resolve it when the entry is materialized so
             // settings sees the provider in both Debug and Release.
-            let capability = GeneralSettingsCapabilityAdapter(
-                docsProvider: docsProvider,
-                updateProvider: kernel.resolveProvider((any AppUpdateChannelProviding).self),
-                storageProvider: storageProvider,
+            let docsCapability = GeneralSettingsDocsCapabilityAdapter(docsProvider: docsProvider)
+            let updateChannelCapability = GeneralSettingsUpdateChannelCapabilityAdapter(
+                updateProvider: kernel.resolveProvider((any AppUpdateChannelProviding).self)
+            )
+            let onboardingCapability = GeneralSettingsOnboardingCapabilityAdapter(
+                onboardingProvider: onboardingProvider
+            )
+            let diagnosticsCapability = GeneralSettingsDiagnosticsCapabilityAdapter(
+                diagnosticsProvider: diagnosticsProvider
+            )
+            let storageCapability = GeneralSettingsStorageCapabilityAdapter(storageProvider: storageProvider)
+            let uninstallCapability = GeneralSettingsUninstallCapabilityAdapter(
                 uninstallProvider: uninstallProvider,
                 prepareForUninstall: prepareForUninstall
             )
-            let viewModel = GeneralSettingsViewModel(capability: capability)
-            let observer = GeneralSettingsObserver(capability: capability, viewModel: viewModel)
+            let viewModel = GeneralSettingsViewModel(
+                docsCapability: docsCapability,
+                updateChannelCapability: updateChannelCapability,
+                onboardingCapability: onboardingCapability,
+                diagnosticsCapability: diagnosticsCapability,
+                storageCapability: storageCapability,
+                uninstallCapability: uninstallCapability
+            )
+            let observer = GeneralSettingsObserver(docsCapability: docsCapability, viewModel: viewModel)
             self.generalObserver?.cancel()
             self.generalObserver = observer
 

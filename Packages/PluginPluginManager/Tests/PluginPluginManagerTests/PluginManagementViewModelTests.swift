@@ -15,7 +15,7 @@ struct PluginManagementViewModelListTests {
     ) -> (PluginManagementViewModel, FakePluginManagementCapability) {
         let capability = FakePluginManagementCapability(plugins: plugins)
         capability.enabledIDs = enabled
-        let viewModel = PluginManagementViewModel(capability: capability, docsProvider: docsProvider)
+        let viewModel = PluginManagementViewModel(capability: capability, docsCapability: PluginManagerDocsCapabilityAdapter(docs: docsProvider))
         viewModel.refresh()
         return (viewModel, capability)
     }
@@ -114,7 +114,7 @@ struct PluginManagementViewModelSelectionTests {
     ) -> (PluginManagementViewModel, FakePluginManagementCapability) {
         let capability = FakePluginManagementCapability(plugins: plugins)
         capability.enabledIDs = enabled
-        let viewModel = PluginManagementViewModel(capability: capability, docsProvider: docsProvider)
+        let viewModel = PluginManagementViewModel(capability: capability, docsCapability: PluginManagerDocsCapabilityAdapter(docs: docsProvider))
         viewModel.refresh()
         return (viewModel, capability)
     }

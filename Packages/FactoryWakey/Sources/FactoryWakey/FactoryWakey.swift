@@ -41,6 +41,7 @@ import PluginWelcome
 // Plugin imports — Theme
 import PluginThemePack
 import PluginRootView
+import PluginFileLog
 // Plugin imports — Shared infrastructure
 import PluginToast
 import PluginStorage
@@ -125,6 +126,8 @@ public enum FactoryWakey {
         [
             // order 1: shared storage infrastructure
             try! StorageSuperPlugin(),
+            // order 1: 磁盘日志（对齐 Lumi 的 PluginFileLog，为设置页提供诊断导出）
+            FileLogPlugin(),
             // order -1: shared root-view contract registration
             WakeyRootViewPlugin(),
             // order 0

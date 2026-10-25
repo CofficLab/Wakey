@@ -1,13 +1,13 @@
 {
-  "originHash" : "ca27e71d19599b43c5d2f3e754abde44c06004f0e0f9bf52c85921c1f4df864c",
+  "originHash" : "1e1fbf9417661041cc35fc17724489fecd51fe9f08e91614bb2c8df8c069435a",
   "pins" : [
     {
       "identity" : "lumikernel",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiKernel.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "b1a0e8028b40777cce0c9ee71ba7728350d9a52b"
+        "revision" : "b1a0e8028b40777cce0c9ee71ba7728350d9a52b",
+        "version" : "1.1.0"
       }
     },
     {
@@ -87,8 +87,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiThemePack.git",
       "state" : {
-        "revision" : "dd9d2e5dfc37d2b0b836fb51e921bb0e2db05525",
-        "version" : "1.0.10"
+        "revision" : "7024a835a4ff46b9b2eaef82529f9c0b06070d37",
+        "version" : "1.0.12"
       }
     },
     {

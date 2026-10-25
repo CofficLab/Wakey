@@ -143,9 +143,12 @@ final class WakeySettingsUITests: WakeyUITestBase {
         XCTAssertTrue(filterAll.waitForExistence(timeout: 5), "Theme filter 'All' not found")
         XCTAssertTrue(filterDark.exists, "Theme filter 'Dark' not found")
 
-        // 验证搜索栏存在
-        let searchField = element("Search")
-        XCTAssertTrue(searchField.waitForExistence(timeout: 5), "Theme search field not found")
+        // 主题搜索已移除（LumiThemePack 1.0.10 起外观页不再提供搜索入口）：
+        // 外观页不应再出现主题搜索框。
+        let searchField = app.textFields.matching(
+            NSPredicate(format: "placeholderValue IN %@", ["Search Themes", "搜索主题"])
+        ).firstMatch
+        XCTAssertFalse(searchField.exists, "外观页不应再提供主题搜索入口")
 
         // 验证设置窗口仍然正常
         XCTAssertTrue(element("wakey.settings.window").exists, "Settings window closed unexpectedly")

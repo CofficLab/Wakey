@@ -1,5 +1,6 @@
 import Foundation
 import ProviderAppUpdate
+import ProviderDiagnostics
 import ProviderDocsView
 import ProviderAppUninstall
 import SwiftUI
@@ -7,11 +8,21 @@ import Testing
 @testable import PluginSettingGeneral
 
 /// 完全可控的 capability 替身，避免依赖真实 Provider 与磁盘。
+///
+/// 同一替身同时实现六个细分能力，便于按 Lumi 的能力拆分结构注入。
 @MainActor
-private final class StubCapability: GeneralSettingsCapability {
+private final class StubCapability: GeneralSettingsDocsCapability,
+    GeneralSettingsUpdateChannelCapability,
+    GeneralSettingsOnboardingCapability,
+    GeneralSettingsDiagnosticsCapability,
+    GeneralSettingsStorageCapability,
+    GeneralSettingsUninstallCapability
+{
     var manuals: [DocsEntry]
     var updateChannel: AppUpdateChannel
     var isUpdateChannelAvailable: Bool
+    var isOnboardingAvailable: Bool
+    var isDiagnosticsAvailable: Bool
     var isUninstallAvailable: Bool
     var isStorageAvailable: Bool
     var storageSize: Int64?
@@ -22,11 +33,16 @@ private final class StubCapability: GeneralSettingsCapability {
     var lastUninstallOptions: UninstallOptions?
     var setUpdateChannelCalls: [AppUpdateChannel] = []
     var uninstallError: Error?
+    var replayOnboardingCalls = 0
+    var makeDiagnosticsArchiveCalls = 0
+    var diagnosticsError: Error?
 
     init(
         manuals: [DocsEntry] = [],
         updateChannel: AppUpdateChannel = .stable,
         isUpdateChannelAvailable: Bool = true,
+        isOnboardingAvailable: Bool = true,
+        isDiagnosticsAvailable: Bool = true,
         isUninstallAvailable: Bool = true,
         isStorageAvailable: Bool = true,
         storageSize: Int64? = nil
@@ -34,6 +50,8 @@ private final class StubCapability: GeneralSettingsCapability {
         self.manuals = manuals
         self.updateChannel = updateChannel
         self.isUpdateChannelAvailable = isUpdateChannelAvailable
+        self.isOnboardingAvailable = isOnboardingAvailable
+        self.isDiagnosticsAvailable = isDiagnosticsAvailable
         self.isUninstallAvailable = isUninstallAvailable
         self.isStorageAvailable = isStorageAvailable
         self.storageSize = storageSize
@@ -42,6 +60,18 @@ private final class StubCapability: GeneralSettingsCapability {
     func setUpdateChannel(_ channel: AppUpdateChannel) {
         setUpdateChannelCalls.append(channel)
         updateChannel = channel
+    }
+
+    func replayOnboarding() {
+        replayOnboardingCalls += 1
+    }
+
+    func makeDiagnosticsArchive() async throws -> DiagnosticsArchive {
+        makeDiagnosticsArchiveCalls += 1
+        if let diagnosticsError { throw diagnosticsError }
+        let url = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent("wakey-diagnostics-\(UUID().uuidString).zip")
+        return DiagnosticsArchive(url: url, filename: url.lastPathComponent)
     }
 
     func scanUninstall() async -> UninstallScan {
@@ -78,13 +108,26 @@ private final class StubCapability: GeneralSettingsCapability {
     }
 }
 
+/// 用同一个替身填充六个能力入口，保持 ViewModel 构造调用简洁。
+@MainActor
+private func makeViewModel(_ capability: StubCapability) -> GeneralSettingsViewModel {
+    GeneralSettingsViewModel(
+        docsCapability: capability,
+        updateChannelCapability: capability,
+        onboardingCapability: capability,
+        diagnosticsCapability: capability,
+        storageCapability: capability,
+        uninstallCapability: capability
+    )
+}
+
 @Suite("GeneralSettingsViewModel 初始化")
 @MainActor
 struct GeneralSettingsViewModelInitTests {
     @Test("从 capability 同步说明书与更新通道")
     func syncsInitialState() {
         let capability = StubCapability(updateChannel: .preview)
-        let model = GeneralSettingsViewModel(capability: capability)
+        let model = makeViewModel(capability)
 
         #expect(model.selectedUpdateChannel == .preview)
         #expect(model.manuals.isEmpty)
@@ -93,7 +136,7 @@ struct GeneralSettingsViewModelInitTests {
     @Test("变更更新通道会透传到 capability")
     func updateChannelWritesThrough() {
         let capability = StubCapability()
-        let model = GeneralSettingsViewModel(capability: capability)
+        let model = makeViewModel(capability)
 
         model.selectedUpdateChannel = .preview
         #expect(capability.setUpdateChannelCalls == [.preview])
@@ -102,7 +145,7 @@ struct GeneralSettingsViewModelInitTests {
     @Test("重复设置同一通道不重复透传")
     func sameChannelIsNotReposted() {
         let capability = StubCapability()
-        let model = GeneralSettingsViewModel(capability: capability)
+        let model = makeViewModel(capability)
 
         model.selectedUpdateChannel = .stable
         #expect(capability.setUpdateChannelCalls.isEmpty)
@@ -115,7 +158,7 @@ struct GeneralSettingsViewModelInitTests {
             isUninstallAvailable: false,
             isStorageAvailable: false
         )
-        let model = GeneralSettingsViewModel(capability: capability)
+        let model = makeViewModel(capability)
 
         #expect(!model.isUpdateChannelAvailable)
         #expect(!model.isUninstallAvailable)
@@ -128,13 +171,13 @@ struct GeneralSettingsViewModelInitTests {
 struct GeneralSettingsViewModelStorageTests {
     @Test("存储不可用时给出不可用提示")
     func storageUnavailableDescription() {
-        let model = GeneralSettingsViewModel(capability: StubCapability(isStorageAvailable: false))
+        let model = makeViewModel(StubCapability(isStorageAvailable: false))
         #expect(model.storageSizeDescription == "存储服务暂不可用")
     }
 
     @Test("尚未计算出容量时给出计算中提示")
     func storagePendingDescription() async {
-        let model = GeneralSettingsViewModel(capability: StubCapability(storageSize: nil))
+        let model = makeViewModel(StubCapability(storageSize: nil))
         #expect(model.storageSizeDescription == "正在计算…")
 
         // 等待 init 中的异步刷新落地
@@ -145,7 +188,7 @@ struct GeneralSettingsViewModelStorageTests {
     @Test("refreshStorageUsage 会重置并重新拉取容量")
     func refreshStorageUsageResets() async {
         let capability = StubCapability(storageSize: 1024)
-        let model = GeneralSettingsViewModel(capability: capability)
+        let model = makeViewModel(capability)
 
         try? await Task.sleep(for: .milliseconds(50))
         #expect(model.storageSizeInBytes == 1024)
@@ -162,7 +205,7 @@ struct GeneralSettingsViewModelStorageTests {
     @Test("openStorageDirectory 透传给 capability")
     func opensStorageDirectory() {
         let capability = StubCapability()
-        let model = GeneralSettingsViewModel(capability: capability)
+        let model = makeViewModel(capability)
 
         model.openStorageDirectory()
         #expect(capability.openStorageDirectoryCalls == 1)
@@ -171,7 +214,7 @@ struct GeneralSettingsViewModelStorageTests {
     @Test("刷新说明书读取 capability 最新值")
     func refreshManualsReadsLatest() {
         let capability = StubCapability()
-        let model = GeneralSettingsViewModel(capability: capability)
+        let model = makeViewModel(capability)
         #expect(model.manuals.isEmpty)
 
         capability.manuals = [DocsEntry(id: "manual", name: "使用手册") { Text("使用手册") }]
@@ -185,7 +228,7 @@ struct GeneralSettingsViewModelStorageTests {
 struct GeneralSettingsViewModelUninstallTests {
     @Test("卸载服务不可用时给出警告反馈")
     func beginUninstallUnavailable() {
-        let model = GeneralSettingsViewModel(capability: StubCapability(isUninstallAvailable: false))
+        let model = makeViewModel(StubCapability(isUninstallAvailable: false))
 
         model.beginUninstall()
 
@@ -197,7 +240,7 @@ struct GeneralSettingsViewModelUninstallTests {
     @Test("beginUninstall 重置选项并进入扫描态")
     func beginUninstallResetsOptions() async {
         let capability = StubCapability()
-        let model = GeneralSettingsViewModel(capability: capability)
+        let model = makeViewModel(capability)
         model.removeKeychainCredentials = false
         model.removeApplication = false
 
@@ -217,7 +260,7 @@ struct GeneralSettingsViewModelUninstallTests {
     @Test("performUninstall 在服务不可用时不执行")
     func performUninstallUnavailable() {
         let capability = StubCapability(isUninstallAvailable: false)
-        let model = GeneralSettingsViewModel(capability: capability)
+        let model = makeViewModel(capability)
 
         model.performUninstall()
 
@@ -231,6 +274,44 @@ struct GeneralSettingsViewModelUninstallTests {
         #expect(GeneralSettingsViewModel.UninstallFeedbackKind.success.bannerKind == .success)
         #expect(GeneralSettingsViewModel.UninstallFeedbackKind.warning.bannerKind == .warning)
         #expect(GeneralSettingsViewModel.UninstallFeedbackKind.error.bannerKind == .error)
+    }
+}
+
+@Suite("GeneralSettingsViewModel 新手引导与诊断")
+@MainActor
+struct GeneralSettingsViewModelOnboardingDiagnosticsTests {
+    @Test("新手引导可用性透传 capability")
+    func exposesOnboardingAvailability() {
+        let model = makeViewModel(StubCapability(isOnboardingAvailable: false))
+        #expect(!model.isOnboardingAvailable)
+    }
+
+    @Test("replayOnboarding 透传给 capability")
+    func replaysOnboarding() {
+        let capability = StubCapability()
+        let model = makeViewModel(capability)
+
+        model.replayOnboarding()
+
+        #expect(capability.replayOnboardingCalls == 1)
+    }
+
+    @Test("诊断可用性透传 capability")
+    func exposesDiagnosticsAvailability() {
+        let model = makeViewModel(StubCapability(isDiagnosticsAvailable: false))
+        #expect(!model.isDiagnosticsAvailable)
+    }
+
+    @Test("诊断不可用时导出给出提示且不调用服务")
+    func exportDiagnosticsUnavailable() {
+        let capability = StubCapability(isDiagnosticsAvailable: false)
+        let model = makeViewModel(capability)
+
+        model.exportDiagnostics()
+
+        #expect(model.diagnosticsFeedback == "日志服务暂不可用。")
+        #expect(capability.makeDiagnosticsArchiveCalls == 0)
+        #expect(!model.isExportingDiagnostics)
     }
 }
 

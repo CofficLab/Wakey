@@ -9,12 +9,12 @@ let package = Package(
         .library(name: "FactoryWakey", targets: ["FactoryWakey"])
     ],
     dependencies: [
-        .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
+        .package(url: "https://github.com/CofficLab/LumiKernel.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.11.1"),
         .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.12.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginStorage.git", from: "1.1.1"),
         .package(url: "https://github.com/CofficLab/LumiPluginToast.git", from: "1.2.1"),
-        .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.10"),
+        .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.12"),
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginSettingView.git", from: "1.0.3"),
         .package(path: "../ProviderPoster"),
@@ -25,6 +25,7 @@ let package = Package(
         .package(path: "../KitLogging"),
         .package(path: "../KitLayout"),
         .package(path: "../PluginRootView"),
+        .package(path: "../PluginFileLog"),
         .package(url: "https://github.com/CofficLab/LumiPluginThemePack.git", from: "1.2.1"),
         // Logo plugins (1)
         .package(path: "../PluginLogoBolt"),
@@ -76,7 +77,8 @@ let package = Package(
                 .product(name: "ProviderStorage", package: "LumiProviders"),
                 .product(name: "PluginToast", package: "LumiPluginToast"),
                 .product(name: "PluginStorage", package: "LumiPluginStorage"),
-                                "PluginRootView",
+                "PluginRootView",
+                "PluginFileLog",
                 .product(name: "PluginThemePack", package: "LumiPluginThemePack"),
                                 // Logo
                 "PluginLogoBolt",

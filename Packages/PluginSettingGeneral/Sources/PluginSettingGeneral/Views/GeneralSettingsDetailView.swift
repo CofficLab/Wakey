@@ -5,10 +5,10 @@ import ProviderAppUninstall
 import SwiftUI
 import UniformTypeIdentifiers
 
-/// 通用设置详情视图 —— 设置窗口「通用」标签页：四个分组卡片。
+/// 通用设置详情视图 —— 设置窗口「通用」标签页：六个分组卡片。
 ///
 /// 只依赖 `GeneralSettingsViewModel`；诊断导出、更新通道、卸载扫描等
-/// 业务状态全部由 ViewModel 提供，外部操作经 Capability 收敛。
+/// 业务状态全部由 ViewModel 提供，外部操作经各 `GeneralSettings*Capability` 收敛。
 struct GeneralSettingsDetailView: View {
     let version: String?
     @ObservedObject var viewModel: GeneralSettingsViewModel
@@ -24,11 +24,11 @@ struct GeneralSettingsDetailView: View {
     var body: some View {
         AppSettingsContentScaffold(maxContentWidth: nil) {
             VStack(alignment: .leading, spacing: 24) {
+                onboardingSection
                 lumiSection
                 websiteSection
-                if viewModel.isUpdateChannelAvailable {
-                    updatesSection
-                }
+                updatesSection
+                diagnosticsSection
                 uninstallSection
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -43,11 +43,58 @@ struct GeneralSettingsDetailView: View {
         }
     }
 
+    // MARK: - 新手引导
+
+    private var onboardingSection: some View {
+        AppSettingSection(
+            title: "新手引导",
+            titleAlignment: .leading
+        ) {
+            VStack(spacing: 0) {
+                AppSettingRow(
+                    title: "重新查看新手引导",
+                    description: "重放首次启动引导流程。",
+                    icon: "graduationcap"
+                ) {
+                    AppButton(
+                        "开始",
+                        systemImage: "arrow.right",
+                        style: .secondary,
+                        size: .small
+                    ) {
+                        viewModel.replayOnboarding()
+                    }
+                    .disabled(!viewModel.isOnboardingAvailable)
+                }
+
+                if !viewModel.manuals.isEmpty {
+                    Divider()
+                        .padding(.vertical, 8)
+
+                    AppSettingRow(
+                        title: "说明书",
+                        description: "各功能的使用指南。",
+                        icon: "book"
+                    ) {
+                        AppButton(
+                            "打开",
+                            systemImage: "book.pages",
+                            style: .secondary,
+                            size: .small
+                        ) {
+                            isPresentingManuals = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     // MARK: - Wakey（应用信息）
 
     private var lumiSection: some View {
         AppSettingSection(
-            title: "基本信息",
+            title: pluginLocalization.string("Wakey"),
             titleAlignment: .leading
         ) {
             VStack(spacing: 0) {
@@ -184,6 +231,43 @@ struct GeneralSettingsDetailView: View {
         }
     }
 
+    // MARK: - 诊断日志
+
+    private var diagnosticsSection: some View {
+        AppSettingSection(
+            title: "诊断日志",
+            titleAlignment: .leading
+        ) {
+            VStack(spacing: 0) {
+                AppSettingRow(
+                    title: "导出日志",
+                    description: "打包最近的运行日志，便于提交问题反馈。",
+                    icon: "doc.badge.arrow.up"
+                ) {
+                    AppButton(
+                        viewModel.isExportingDiagnostics ? "导出中…" : "导出",
+                        systemImage: viewModel.isExportingDiagnostics ? "hourglass" : "square.and.arrow.up",
+                        style: .secondary,
+                        size: .small
+                    ) {
+                        viewModel.exportDiagnostics()
+                    }
+                    .disabled(viewModel.isExportingDiagnostics || !viewModel.isDiagnosticsAvailable)
+                }
+
+                if let diagnosticsFeedback = viewModel.diagnosticsFeedback {
+                    Divider()
+                        .padding(.vertical, 8)
+                    Text(diagnosticsFeedback)
+                        .font(.appCaption)
+                        .foregroundStyle(.secondary)
+                        .textSelection(.enabled)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+        }
+    }
+
     // MARK: - 卸载 Wakey
 
     private var uninstallSection: some View {
@@ -232,16 +316,16 @@ struct GeneralSettingsDetailView: View {
             AppDivider()
 
             VStack(spacing: 0) {
-                AppSettingsToggleRow(
+                AppSettingToggleRow(
                     "同时将 Wakey 应用移到废纸篓",
-                    systemImage: "trash",
+                    icon: "trash",
                     isOn: $viewModel.removeApplication
                 )
 
                 if let uninstallScan = viewModel.uninstallScan, uninstallScan.keychainTargetCount > 0 {
-                    AppSettingsToggleRow(
+                    AppSettingToggleRow(
                         "同时删除 Keychain 中的 API Key、密码和凭据",
-                        systemImage: "key.fill",
+                        icon: "key.fill",
                         isOn: $viewModel.removeKeychainCredentials
                     )
                 }

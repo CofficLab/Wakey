@@ -1,13 +1,13 @@
 {
-  "originHash" : "5c61cdd3cc35e74324000862bd6a7acaf7a34d7b8a506b1bd03a7062f9fbb351",
+  "originHash" : "086404bbab403931fc1595083d2ae0cd0113ec01c1a8006dc2a74c2c635aee35",
   "pins" : [
     {
       "identity" : "lumikernel",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiKernel.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "b1a0e8028b40777cce0c9ee71ba7728350d9a52b"
+        "revision" : "b1a0e8028b40777cce0c9ee71ba7728350d9a52b",
+        "version" : "1.1.0"
       }
     }
   ],

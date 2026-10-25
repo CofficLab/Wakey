@@ -13,7 +13,7 @@ struct PluginManagementObserverTests {
         capability: FakePluginManagementCapability
     ) {
         let capability = FakePluginManagementCapability(plugins: [StubPlugin(id: "a")])
-        let viewModel = PluginManagementViewModel(capability: capability, docsProvider: nil)
+        let viewModel = PluginManagementViewModel(capability: capability, docsCapability: PluginManagerDocsCapabilityAdapter(docs: nil))
         let observer = PluginManagementObserver(capability: capability, viewModel: viewModel)
         return (observer, viewModel, capability)
     }
