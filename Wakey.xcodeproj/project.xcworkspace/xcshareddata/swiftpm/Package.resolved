@@ -29,6 +29,15 @@
       }
     },
     {
+      "identity" : "lumipluginpluginmanager",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CofficLab/LumiPluginPluginManager.git",
+      "state" : {
+        "revision" : "7ba4cd3d0b6ed6ed841f79cfbd8bdf1baae6f85e",
+        "version" : "1.3.0"
+      }
+    },
+    {
       "identity" : "lumipluginsettingview",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiPluginSettingView.git",
@@ -69,8 +78,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiProviders.git",
       "state" : {
-        "revision" : "db6f0874337e01df039ef54c774803f1c737bc8d",
-        "version" : "1.12.0"
+        "revision" : "52c05931d1d455670075437853786137250d6dcc",
+        "version" : "1.13.0"
       }
     },
     {

@@ -92,17 +92,17 @@ Sources/
 
 ```
 Sources/
-  PluginPluginManager/
-    PluginPluginManager.swift
+  PluginSettingGeneral/
+    SettingGeneralPlugin.swift
     Capabilities/
-    Models/
     Observers/
     Support/
     ViewModels/
     Views/
-      List/                      # 按功能分组
-      Detail/
 ```
+
+> 注：插件管理页（`PluginManagementView`）的源码已迁到远程包
+> `LumiPluginPluginManager`，不再位于本仓库 `Packages/` 下。
 
 ### 2.3 目录职责说明
 
@@ -253,7 +253,7 @@ struct CaffeinatePluginTests {
 
 | 包 | 复杂度 | 分层方式 |
 |----|--------|---------|
-| `PluginPluginManager` | 标准 | Capabilities / Models / Observers / Support / ViewModels / Views |
+| `PluginSettingGeneral` | 标准 | Capabilities / Observers / Support / ViewModels / Views |
 | `PluginCaffeinate` | 标准 | Models / Observers / Support / ViewModels / Views |
 | `KitBackground` | 框架 | 按架构分层 |
 | `ProviderPoster` | 简单 | 平铺在包裹目录下 |

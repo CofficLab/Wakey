@@ -180,8 +180,8 @@ public enum FactoryWakey {
                 policy: .alwaysOn,
                 themeIDs: catalogThemeIDs
             ),
-            // order 90: 插件管理（对齐 Lumi 的 PluginPluginManager）
-            PluginPluginManager(),
+            // order 90: 插件管理（远程包 LumiPluginPluginManager，传入 Wakey 品牌 id）
+            PluginPluginManager(id: "com.coffic.wakey.plugin.plugin-manager"),
             // order 100: 设置-通用（对齐 Lumi 的 PluginSettingGeneral）
             SettingGeneralPlugin(),
             // order 100
