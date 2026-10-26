@@ -35,6 +35,54 @@
         }
       }
     },
+    "1 hr": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 小时"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 小時"
+          }
+        }
+      }
+    },
+    "2 hr": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 小时"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 小時"
+          }
+        }
+      }
+    },
+    "30 min": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30 分钟"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30 分鐘"
+          }
+        }
+      }
+    },
     "Actions": {
       "localizations": {
         "zh-Hans": {
@@ -51,6 +99,22 @@
         }
       }
     },
+    "Actions: three anti-sleep modes, each with an icon and a selection checkmark.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作：三种防休眠模式，每项配一个图标，选中时显示对勾。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "操作：三種防休眠模式，每項配一個圖示，選中時顯示打勾。"
+          }
+        }
+      }
+    },
     "Add Custom (minutes):": {
       "localizations": {
         "zh-Hans": {
@@ -63,6 +127,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "添加自訂(分鐘):"
+          }
+        }
+      }
+    },
+    "Add a duration for manual activation.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加自定义防休眠时长。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增自訂防休眠時長。"
+          }
+        }
+      }
+    },
+    "Anti-Sleep Durations": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "防睡眠时长"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "防睡眠時長"
           }
         }
       }
@@ -84,18 +180,18 @@
         }
       }
     },
-    "Anti-Sleep Durations": {
+    "Anti-sleep Modes": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "防睡眠时长"
+            "value": "防休眠模式"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "防睡眠時長"
+            "value": "防休眠模式"
           }
         }
       }
@@ -134,6 +230,22 @@
         }
       }
     },
+    "Basic Operations": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "基本操作"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "基本操作"
+          }
+        }
+      }
+    },
     "Caffeinate": {
       "comment": "Name of the anti-sleep plugin",
       "localizations": {
@@ -168,6 +280,70 @@
         }
       }
     },
+    "Choose a mode under Actions to start anti-sleep; the checkmark marks the active mode.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在「操作」区选择一种模式即可开启防休眠，对勾标识当前生效的模式。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在「操作」區選擇一種模式即可開啟防休眠，打勾標示目前生效的模式。"
+          }
+        }
+      }
+    },
+    "Click Reset to restore the built-in durations and drop all custom ones.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击「重置」可恢复内置时长，并清除所有自定义时长。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點擊「重設」可恢復內建時長，並清除所有自訂時長。"
+          }
+        }
+      }
+    },
+    "Click the active mode again to stop anti-sleep and release the power assertion.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再次点击当前生效的模式可停止防休眠，并释放电源断言。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再次點擊目前生效的模式可停止防休眠，並釋放電源斷言。"
+          }
+        }
+      }
+    },
+    "Click the delete button next to a custom duration to remove it. Built-in durations cannot be deleted.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击自定义时长旁的删除按钮即可移除。内置时长不可删除。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點擊自訂時長旁的刪除按鈕即可移除。內建時長不可刪除。"
+          }
+        }
+      }
+    },
     "Click to prevent system from entering sleep mode": {
       "comment": "Feature description",
       "localizations": {
@@ -181,6 +357,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "點擊即可阻止系統進入睡眠模式"
+          }
+        }
+      }
+    },
+    "Custom Durations": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义时长"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自訂時長"
+          }
+        }
+      }
+    },
+    "Custom duration": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义时长"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自訂時長"
+          }
+        }
+      }
+    },
+    "Custom interval": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义时长"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自訂時長"
           }
         }
       }
@@ -217,6 +441,22 @@
         }
       }
     },
+    "Duration: a horizontal strip of duration buttons. The selected button is highlighted; the strip scrolls sideways when there are many durations.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "时长：一排横向排列的时长按钮。选中的按钮会高亮；时长较多时可横向滚动查看。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "時長：一排橫向排列的時長按鈕。選中的按鈕會高亮；時長較多時可橫向捲動檢視。"
+          }
+        }
+      }
+    },
     "Ensure screen stays on during presentations or work": {
       "comment": "Feature description",
       "localizations": {
@@ -230,6 +470,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "確保演示或工作時螢幕不熄滅"
+          }
+        }
+      }
+    },
+    "Enter a positive number of minutes in the Add Custom field and click the add button, or press Return.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在「添加自定义(分钟)」输入框中填入大于 0 的分钟数，点击添加按钮或按回车键。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在「新增自訂(分鐘)」輸入框中填入大於 0 的分鐘數，點擊新增按鈕或按回車鍵。"
+          }
+        }
+      }
+    },
+    "Figure 1: Status-bar popover layout": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图 1：状态栏弹窗布局"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圖 1：狀態列彈出視窗版面"
           }
         }
       }
@@ -251,6 +523,22 @@
         }
       }
     },
+    "Interface": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "界面说明"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "介面說明"
+          }
+        }
+      }
+    },
     "Keep Awake & Allow Display Sleep": {
       "comment": "Option to keep system awake but allow display to sleep",
       "localizations": {
@@ -264,6 +552,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "阻止休眠並允許螢幕關閉"
+          }
+        }
+      }
+    },
+    "Keep Awake & Allow Display Sleep: prevents system sleep but lets the display turn off. Use it when you only need the computer to keep running.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠并允许屏幕关闭：阻止系统休眠，但允许屏幕自动熄灭。只需要电脑保持运行时适用。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠並允許螢幕關閉：阻止系統休眠，但允許螢幕自動熄滅。只需要電腦保持執行時適用。"
           }
         }
       }
@@ -285,6 +589,22 @@
         }
       }
     },
+    "Keep Awake & Display On: prevents both system sleep and display sleep. Use it for presentations or long reading sessions.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠并保持屏幕常亮：同时阻止系统休眠与屏幕休眠。适合演示演示或长时间阅读时使用。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠並保持螢幕常亮：同時阻止系統休眠與螢幕休眠。適合簡報演示或長時間閱讀時使用。"
+          }
+        }
+      }
+    },
     "Keep Awake & Turn Off Display Now": {
       "comment": "Option to keep system awake and turn off display immediately",
       "localizations": {
@@ -298,6 +618,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "阻止休眠並立即關閉螢幕"
+          }
+        }
+      }
+    },
+    "Keep Awake & Turn Off Display Now: turns the display off immediately and keeps the system awake.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠并立即关闭屏幕：立刻关闭屏幕，同时保持系统唤醒。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阻止休眠並立即關閉螢幕：立刻關閉螢幕，同時保持系統喚醒。"
           }
         }
       }
@@ -402,6 +738,22 @@
         }
       }
     },
+    "Notes": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "注意事项"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "注意事項"
+          }
+        }
+      }
+    },
     "One-click Anti-sleep": {
       "comment": "Feature title",
       "localizations": {
@@ -415,6 +767,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "一鍵防休眠"
+          }
+        }
+      }
+    },
+    "Open Settings and go to the Caffeinate page.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开设置，进入「防休眠」页面。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟設定，進入「防休眠」頁面。"
+          }
+        }
+      }
+    },
+    "Open the menu-bar popover and pick a duration under Duration.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开菜单栏弹窗，在「时长」区选择一个时长。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟選單列彈出視窗，在「時長」區選擇一個時長。"
+          }
+        }
+      }
+    },
+    "Overview": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "概述"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "概述"
           }
         }
       }
@@ -487,6 +887,22 @@
         }
       }
     },
+    "Reset": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重設"
+          }
+        }
+      }
+    },
     "Reset to Default Durations": {
       "localizations": {
         "zh-Hans": {
@@ -499,6 +915,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "恢復預設時長"
+          }
+        }
+      }
+    },
+    "Restore the built-in anti-sleep durations.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复内置防休眠时长。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢復內建防休眠時長。"
           }
         }
       }
@@ -520,6 +952,86 @@
         }
       }
     },
+    "Settings page: under Anti-Sleep Durations, the built-in durations, the add-custom field, and the reset button.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置页：在「防睡眠时长」分组下，包含内置时长、添加自定义时长输入框和重置按钮。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定頁：在「防睡眠時長」分組下，包含內建時長、新增自訂時長輸入框和重設按鈕。"
+          }
+        }
+      }
+    },
+    "The Indefinite duration keeps the system awake until you stop it manually.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「永久」时长会一直保持系统唤醒，直到你手动停止。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「永久」時長會一直保持系統喚醒，直到你手動停止。"
+          }
+        }
+      }
+    },
+    "The new duration appears in the list and is marked as a custom duration.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新时长会出现在列表中，并标记为自定义时长。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新時長會出現在列表中，並標記為自訂時長。"
+          }
+        }
+      }
+    },
+    "This manual covers the interface and basic operations of Anti-sleep: choosing a duration, switching between anti-sleep modes, and managing custom durations.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本手册介绍防休眠功能的界面与基本操作：选择时长、切换防休眠模式，以及管理自定义时长。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本手冊介紹防休眠功能的介面與基本操作：選擇時長、切換防休眠模式，以及管理自訂時長。"
+          }
+        }
+      }
+    },
+    "To change the duration while anti-sleep is running, pick another duration; the timer restarts with the new value.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "防休眠运行期间若要更改时长，直接选择其他时长，计时器会以新值重新开始。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "防休眠執行期間若要變更時長，直接選擇其他時長，計時器會以新值重新開始。"
+          }
+        }
+      }
+    },
     "Ultra Lightweight": {
       "comment": "Feature title",
       "localizations": {
@@ -537,82 +1049,50 @@
         }
       }
     },
-    "Custom interval": {
+    "Uninstalling or disabling the plugin while anti-sleep is active releases the power assertion immediately.": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "自定义时长"
+            "value": "防休眠生效期间卸载或停用插件，会立即释放电源断言。"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "自訂時長"
+            "value": "防休眠生效期間卸載或停用外掛，會立即釋放電源斷言。"
           }
         }
       }
     },
-    "Reset": {
+    "User Manual": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "重置"
+            "value": "使用手册"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "重設"
+            "value": "使用手冊"
           }
         }
       }
     },
-    "Restore the built-in anti-sleep durations.": {
+    "When anti-sleep is running, the system power assertion and the timer are released automatically at the end of the selected duration.": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "恢复内置防休眠时长。"
+            "value": "防休眠运行期间，到所选时长结束时，系统电源断言与计时器会自动释放。"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "恢復內建防休眠時長。"
-          }
-        }
-      }
-    },
-    "Add a duration for manual activation.": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "添加自定义防休眠时长。"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "新增自訂防休眠時長。"
-          }
-        }
-      }
-    },
-    "Custom duration": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "自定义时长"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "自訂時長"
+            "value": "防休眠執行期間，到所選時長結束時，系統電源斷言與計時器會自動釋放。"
           }
         }
       }

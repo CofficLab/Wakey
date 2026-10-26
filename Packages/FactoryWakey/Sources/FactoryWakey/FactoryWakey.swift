@@ -10,6 +10,7 @@ import ProviderPluginControl
 import ProviderPluginManaging
 import ProviderStorage
 import ProviderCopilotNavigation
+import ProviderDocsView
 import SwiftUI
 
 // Plugin imports — Settings shell (Lumi 同款设置外壳：左上角 App 图标 + 名称/版本)
@@ -92,6 +93,10 @@ public enum FactoryWakey {
             )
         )
         try kernel.registerHostProvider(CopilotNavigationProviding.self, DefaultCopilotNavigationProviding())
+
+        // 文档条目：各插件通过 addManual / addAbout 贡献说明书与关于页，
+        // 由设置页「通用 → 说明书」统一展示（对齐 Lumi 的 ProviderFactory）。
+        try kernel.registerProvider((any DocsViewProviding).self, DefaultDocsViewProviding())
 
         // 数据存储：为插件启用状态提供持久化目录（对齐 Lumi 的 ProviderStorage 体系）
         try kernel.registerProvider((any StorageProviding).self, DefaultStorageProvider())

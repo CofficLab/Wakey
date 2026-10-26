@@ -13,6 +13,7 @@ let package = Package(
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiKernel.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.11.1"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.13.0"),
     ],
     targets: [
         .target(
@@ -23,14 +24,16 @@ let package = Package(
                 .product(name: "ProviderSettingView", package: "LumiSettings"),
                 .product(name: "KernelCore", package: "LumiKernel"),
                 .product(name: "LumiUI", package: "LumiUI"),
-
-
+                .product(name: "ProviderDocsView", package: "LumiProviders"),
             ],
             resources: [.process("Caffeinate.xcstrings")]
         ),
         .testTarget(
             name: "PluginCaffeinateTests",
-            dependencies: ["PluginCaffeinate"]
+            dependencies: [
+                "PluginCaffeinate",
+                .product(name: "ProviderDocsView", package: "LumiProviders"),
+            ]
         ),
     ]
 )

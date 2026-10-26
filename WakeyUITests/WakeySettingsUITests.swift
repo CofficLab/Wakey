@@ -126,6 +126,50 @@ final class WakeySettingsUITests: WakeyUITestBase {
         XCTAssertTrue(element("wakey.settings.window").exists, "Appearance page did not open")
     }
 
+    /// 设置 → 通用 → 说明书：验证说明书入口可用，且能列出各插件贡献的说明书。
+    ///
+    /// 说明书条目由各业务插件通过 `DocsViewProviding.addManual` 贡献，
+    /// 宿主必须注册 provider，否则这里会是空的。
+    func testGeneralManualsBrowserListsPluginManuals() {
+        openSettingsPage("General")
+
+        // 「说明书」行的打开按钮。通用页文案目前是硬编码中文
+        // （见 GeneralSettingsDetailView），不随启动语言切换，
+        // 因此这里按中英文两种 label 匹配。
+        let openButton = app.buttons.matching(
+            NSPredicate(format: "label == %@ OR label == %@", "打开", "Open")
+        ).firstMatch
+        XCTAssertTrue(
+            openButton.waitForExistence(timeout: 5),
+            "General page should expose a manuals entry. Buttons: \(allButtonLabels())"
+        )
+        XCTAssertTrue(openButton.isEnabled, "Manuals entry should be enabled when manuals exist")
+
+        openButton.click()
+
+        // 浏览器侧边栏列出各插件的说明书名称
+        for manual in ["Caffeinate", "Eye Care", "Stretch", "Hydration"] {
+            XCTAssertTrue(
+                element(manual).waitForExistence(timeout: 5),
+                "Manuals browser is missing: \(manual)"
+            )
+        }
+
+        // 选中后右侧展示说明书内容（章节标题）
+        XCTAssertTrue(
+            textContaining("Overview").waitForExistence(timeout: 5),
+            "Manual content did not render"
+        )
+    }
+
+    /// 诊断用：列出当前窗口里所有按钮的 label。
+    private func allButtonLabels() -> String {
+        let labels = app.buttons.allElementsBoundByIndex
+            .map { $0.label }
+            .filter { !$0.isEmpty }
+        return labels.isEmpty ? "<空>" : labels.joined(separator: " | ")
+    }
+
     /// 验证外观设置页的主题列表和筛选控件可以正常交互。
     ///
     /// `ThemeSettingsDetailView` 根据 `horizontalSizeClass` 切换布局：

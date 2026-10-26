@@ -1,5 +1,6 @@
 import FactoryWakey
 import PluginToast
+import ProviderDocsView
 import ProviderSettingView
 import ProviderToast
 import ProviderTheme
@@ -81,5 +82,32 @@ struct FactoryWakeyTests {
 
         let plugin = try #require(kernel.resolvePlugin(id: "com.coffic.wakey.plugin.plugin-manager"))
         #expect(plugin.metadata.id == "com.coffic.wakey.plugin.plugin-manager")
+    }
+
+    /// 说明书链路：宿主注册 `DocsViewProviding`，各业务插件通过
+    /// `addManual` 贡献说明书条目，设置页「通用 → 说明书」据此展示。
+    ///
+    /// 这条守卫盯住「宿主漏注册 provider」这个坑：缺失时
+    /// `GeneralSettingsDocsCapability` 会静默降级为空列表，
+    /// 说明书入口看起来存在却永远打不开内容。
+    @Test("宿主注册 DocsViewProviding 并收到插件贡献的说明书条目")
+    func docsViewProviderCollectsManualEntries() throws {
+        let kernel = try FactoryWakey.makeKernel()
+        let docs = try #require(kernel.resolveProvider((any DocsViewProviding).self))
+
+        // 四个核心业务插件 + 远程插件管理包各贡献一条
+        let manualIDs = Set(docs.manualEntries.map(\.id))
+        #expect(manualIDs.isSuperset(of: [
+            "CaffeinatePlugin",
+            "EyeCareReminderPlugin",
+            "StretchReminderPlugin",
+            "HydrationReminderPlugin",
+        ]))
+
+        // 每条说明书都要有可展示的名字与可渲染的视图
+        for entry in docs.manualEntries {
+            #expect(!entry.name.isEmpty)
+            _ = entry.makeView()
+        }
     }
 }
