@@ -45,7 +45,7 @@ let package = Package(
         .package(path: "../PluginAppInfo"),
         .package(path: "../PluginPurchase"),
         // Plugin management (remote package, aligned to Lumi)
-        .package(url: "https://github.com/CofficLab/LumiPluginPluginManager.git", from: "1.3.0"),
+        .package(url: "https://github.com/CofficLab/LumiPluginPluginManager.git", from: "1.5.0"),
         // Settings - General (aligned to Lumi)
         .package(path: "../PluginSettingGeneral"),
     ],

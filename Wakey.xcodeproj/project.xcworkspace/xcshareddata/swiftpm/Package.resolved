@@ -1,5 +1,5 @@
 {
-  "originHash" : "a73f182ae9205695bc848ce073cba630f38745930f3379ce33179f69cca3a846",
+  "originHash" : "c08a49b90d70df19ef3f738ff5f5530b2402810887dc26052bb2254a1db0ba9c",
   "pins" : [
     {
       "identity" : "lumikernel",
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiPluginPluginManager.git",
       "state" : {
-        "revision" : "7ba4cd3d0b6ed6ed841f79cfbd8bdf1baae6f85e",
-        "version" : "1.3.0"
+        "revision" : "27c804c4f76178524ed1124add0b745511430f34",
+        "version" : "1.5.0"
       }
     },
     {
