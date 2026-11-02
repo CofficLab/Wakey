@@ -13,7 +13,7 @@ let package = Package(
         .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.11.1"),
         .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.13.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginStorage.git", from: "1.1.1"),
-        .package(url: "https://github.com/CofficLab/LumiPluginToast.git", from: "1.2.1"),
+        .package(url: "https://github.com/CofficLab/LumiPluginToast.git", from: "1.2.2"),
         .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.12"),
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginSettingView.git", from: "1.0.3"),

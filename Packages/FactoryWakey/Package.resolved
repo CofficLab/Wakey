@@ -1,5 +1,5 @@
 {
-  "originHash" : "fde85140be4ac66bc680796380053ada9a7fc4e600cfdfb0b0c3bc1a1185a2c6",
+  "originHash" : "34f134748c5298930f1c0ddac802c01d438cc1431522105e922c5c1fbaf0c92b",
   "pins" : [
     {
       "identity" : "lumikernel",
@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiPluginToast.git",
       "state" : {
-        "revision" : "72b6380e3076c077f162258935979bcc218ba6db",
-        "version" : "1.2.1"
+        "revision" : "923f9a84262958b3cc1fde33bfb0bd53cc38b401",
+        "version" : "1.2.2"
       }
     },
     {
