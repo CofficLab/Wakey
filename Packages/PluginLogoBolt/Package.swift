@@ -18,7 +18,8 @@ let package = Package(
                 .product(name: "ProviderLogo", package: "LumiProviders"),
                 .product(name: "KernelCore", package: "LumiKernel"),
 
-            ]
+            ],
+            resources: [.process("Logo.xcstrings")]
         ),
         .testTarget(
             name: "PluginLogoBoltTests",

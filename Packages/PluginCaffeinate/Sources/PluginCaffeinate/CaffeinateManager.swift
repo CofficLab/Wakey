@@ -329,9 +329,9 @@ extension CaffeinateManager {
             case .indefinite:
                 return String(localized: "Indefinite", table: "Caffeinate", bundle: .module, comment: "Label for infinite duration")
             case let .minutes(m):
-                return String(localized: "\(m) minutes", table: "Caffeinate", bundle: .module, comment: "Label for duration in minutes")
+                return String(format: String(localized: "%lld minutes", table: "Caffeinate", bundle: .module, comment: "Label for duration in minutes"), m)
             case let .hours(h):
-                return String(localized: "\(h) hours", table: "Caffeinate", bundle: .module, comment: "Label for duration in hours")
+                return String(format: String(localized: "%lld hours", table: "Caffeinate", bundle: .module, comment: "Label for duration in hours"), h)
             }
         }
 

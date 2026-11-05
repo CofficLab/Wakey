@@ -12,8 +12,8 @@ public final class PluginPosterCaffeinate: SuperPlugin {
     public let order = 1
     public let metadata = PluginMetadata(
         id: "CaffeinatePosterPlugin",
-        name: String(localized: "Caffeinate Poster", table: "Caffeinate", comment: "Name of the caffeinate poster plugin"),
-        description: String(localized: "Provide anti-sleep related poster views", table: "Caffeinate", comment: "Description of what the Caffeinate Poster plugin does"),
+        name: String(localized: "Caffeinate Poster", table: "CaffeinatePoster", comment: "Name of the caffeinate poster plugin"),
+        description: String(localized: "Provide anti-sleep related poster views", table: "CaffeinatePoster", comment: "Description of what the Caffeinate Poster plugin does"),
         policy: .alwaysOn
     )
 
@@ -24,8 +24,8 @@ public final class PluginPosterCaffeinate: SuperPlugin {
             ownerID: id,
             PosterViewConfiguration(
                 id: "caffeinate.features",
-                title: String(localized: "Anti-sleep", table: "Caffeinate"),
-                subtitle: String(localized: "Key Features", table: "Caffeinate"),
+                title: String(localized: "Anti-sleep", table: "CaffeinatePoster"),
+                subtitle: String(localized: "Key Features", table: "CaffeinatePoster"),
                 order: 2
             ) {
                 CaffeinatePosterFeatures()

@@ -213,7 +213,18 @@ public enum FactoryWakey {
     /// 「插件管理」入口由 PluginPluginManager 插件注册（order 3），后续页是各插件贡献的设置页。
     public static func makeSettingsView(kernel: KernelCoreContainer) -> AnyView {
         let settings = kernel.resolveProvider((any SettingViewProviding).self)
-        let view = settings.map { $0.makeSettingView() } ?? AnyView(AppEmptyState(icon: "gearshape", title: "No settings"))
+        let view = settings.map { $0.makeSettingView() }
+            ?? AnyView(
+                AppEmptyState(
+                    icon: "gearshape",
+                    title: String(
+                        localized: "No settings",
+                        table: "Core",
+                        bundle: .module,
+                        comment: "Fallback shown when the settings provider is unavailable"
+                    )
+                )
+            )
         // 稳定的窗口内容标识符，供 UI 测试等待设置窗口出现（侧边栏条目本身
         // 由 LumiSettings 渲染、不带 accessibility identifier，不能依赖其 id）。
         let identified = AnyView(view.accessibilityIdentifier("wakey.settings.window"))
@@ -283,7 +294,12 @@ struct StatusBarHostView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Wakey", tableName: "Core")
                         .font(.system(size: 15, weight: .semibold))
-                    Text("v\(appVersion)", tableName: "Core")
+                    Text(
+                        String(
+                            format: String(localized: "v%@", table: "Core", bundle: .module),
+                            appVersion
+                        )
+                    )
                         .font(.system(size: 10))
                         .foregroundColor(.secondary)
                 }

@@ -108,8 +108,8 @@ final class GeneralSettingsViewModel: ObservableObject {
     }
 
     var storageSizeDescription: String {
-        guard isStorageAvailable else { return "存储服务暂不可用" }
-        guard let storageSizeInBytes else { return "正在计算…" }
+        guard isStorageAvailable else { return pluginLocalization.string("Storage service is unavailable.") }
+        guard let storageSizeInBytes else { return pluginLocalization.string("Calculating...") }
         return ByteCountFormatter.string(fromByteCount: storageSizeInBytes, countStyle: .file)
     }
 
@@ -146,7 +146,7 @@ final class GeneralSettingsViewModel: ObservableObject {
 
     func exportDiagnostics() {
         guard isDiagnosticsAvailable else {
-            diagnosticsFeedback = "日志服务暂不可用。"
+            diagnosticsFeedback = pluginLocalization.string("Log service is unavailable.")
             return
         }
 
@@ -163,10 +163,10 @@ final class GeneralSettingsViewModel: ObservableObject {
                 panel.allowedContentTypes = [.zip]
                 panel.canCreateDirectories = true
                 panel.nameFieldStringValue = archive.filename
-                panel.message = "选择诊断日志保存位置"
+                panel.message = pluginLocalization.string("Choose where to save the diagnostics log")
 
                 guard panel.runModal() == .OK, let destination = panel.url else {
-                    diagnosticsFeedback = "已取消导出。"
+                    diagnosticsFeedback = pluginLocalization.string("Export cancelled.")
                     return
                 }
 
@@ -174,16 +174,22 @@ final class GeneralSettingsViewModel: ObservableObject {
                     try FileManager.default.removeItem(at: destination)
                 }
                 try FileManager.default.copyItem(at: archive.url, to: destination)
-                diagnosticsFeedback = "日志已导出：\(destination.lastPathComponent)"
+                diagnosticsFeedback = pluginLocalization.string(
+                    "Logs exported: %@",
+                    destination.lastPathComponent
+                )
             } catch {
-                diagnosticsFeedback = "导出失败：\(error.localizedDescription)"
+                diagnosticsFeedback = pluginLocalization.string(
+                    "Export failed: %@",
+                    error.localizedDescription
+                )
             }
         }
     }
 
     func beginUninstall() {
         guard isUninstallAvailable else {
-            uninstallFeedback = "卸载服务暂不可用。"
+            uninstallFeedback = pluginLocalization.string("Uninstall service is unavailable.")
             uninstallFeedbackKind = .warning
             return
         }
@@ -203,7 +209,7 @@ final class GeneralSettingsViewModel: ObservableObject {
 
     func performUninstall() {
         guard isUninstallAvailable else {
-            uninstallFeedback = "卸载服务暂不可用。"
+            uninstallFeedback = pluginLocalization.string("Uninstall service is unavailable.")
             uninstallFeedbackKind = .warning
             return
         }
@@ -240,16 +246,28 @@ final class GeneralSettingsViewModel: ObservableObject {
                         phase: .succeeded(applicationMovedToTrash: result.applicationMovedToTrash)
                     )
                 } else {
+                    // 明细行来自系统错误（`error.localizedDescription`），随系统语言变化，
+                    // 因此只本地化引导句，保留原始明细以免丢失排查线索。
+                    let details = result.failures
+                        .map { "\($0.location)：\($0.message)" }
+                        .joined(separator: "\n")
                     UninstallOverlayWindowController.shared.update(
                         phase: .failed(
-                            detail: "部分数据未能清除，应用未移除：\n"
-                                + result.failures.map { "\($0.location)：\($0.message)" }.joined(separator: "\n")
+                            detail: pluginLocalization.string(
+                                "Some data could not be cleared. The app was not removed:\n%@",
+                                details
+                            )
                         )
                     )
                 }
             } catch {
                 UninstallOverlayWindowController.shared.update(
-                    phase: .failed(detail: "卸载失败：\(error.localizedDescription)")
+                    phase: .failed(
+                        detail: pluginLocalization.string(
+                            "Uninstall failed: %@",
+                            error.localizedDescription
+                        )
+                    )
                 )
             }
         }

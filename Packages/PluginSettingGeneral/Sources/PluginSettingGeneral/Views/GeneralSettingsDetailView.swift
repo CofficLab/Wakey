@@ -47,17 +47,17 @@ struct GeneralSettingsDetailView: View {
 
     private var onboardingSection: some View {
         AppSettingSection(
-            title: "新手引导",
+            title: pluginLocalization.string("Onboarding"),
             titleAlignment: .leading
         ) {
             VStack(spacing: 0) {
                 AppSettingRow(
-                    title: "重新查看新手引导",
-                    description: "重放首次启动引导流程。",
+                    title: pluginLocalization.string("Replay Onboarding"),
+                    description: pluginLocalization.string("Replay the first-launch onboarding flow."),
                     icon: "graduationcap"
                 ) {
                     AppButton(
-                        "开始",
+                        pluginLocalization.string("Start"),
                         systemImage: "arrow.right",
                         style: .secondary,
                         size: .small
@@ -72,12 +72,12 @@ struct GeneralSettingsDetailView: View {
                         .padding(.vertical, 8)
 
                     AppSettingRow(
-                        title: "说明书",
-                        description: "各功能的使用指南。",
+                        title: pluginLocalization.string("User Manual"),
+                        description: pluginLocalization.string("Usage guides for every feature."),
                         icon: "book"
                     ) {
                         AppButton(
-                            "打开",
+                            pluginLocalization.string("Open"),
                             systemImage: "book.pages",
                             style: .secondary,
                             size: .small
@@ -108,7 +108,7 @@ struct GeneralSettingsDetailView: View {
                 Divider()
                     .padding(.vertical, 8)
                 AppSettingRow(
-                    title: "Bundle ID",
+                    title: pluginLocalization.string("Bundle ID"),
                     description: bundleInfo.bundleIdentifier,
                     icon: "number"
                 ) {
@@ -118,7 +118,7 @@ struct GeneralSettingsDetailView: View {
                     .padding(.vertical, 8)
                 AppSettingRow(
                     title: pluginLocalization.string("Version"),
-                    description: bundleInfo.version ?? "Not Set",
+                    description: bundleInfo.version ?? pluginLocalization.string("Not Set"),
                     icon: "info.circle"
                 ) {
                     EmptyView()
@@ -127,7 +127,7 @@ struct GeneralSettingsDetailView: View {
                     .padding(.vertical, 8)
                 AppSettingRow(
                     title: pluginLocalization.string("Build"),
-                    description: bundleInfo.build ?? "Not Set",
+                    description: bundleInfo.build ?? pluginLocalization.string("Not Set"),
                     icon: "hammer"
                 ) {
                     EmptyView()
@@ -135,12 +135,12 @@ struct GeneralSettingsDetailView: View {
                 Divider()
                     .padding(.vertical, 8)
                 AppSettingRow(
-                    title: "占用空间",
+                    title: pluginLocalization.string("Storage"),
                     description: viewModel.storageSizeDescription,
                     icon: "internaldrive"
                 ) {
                     AppButton(
-                        "打开数据库目录",
+                        pluginLocalization.string("Open Database Folder"),
                         systemImage: "folder",
                         style: .secondary,
                         size: .small
@@ -157,16 +157,16 @@ struct GeneralSettingsDetailView: View {
 
     private var websiteSection: some View {
         AppSettingSection(
-            title: "网站",
+            title: pluginLocalization.string("Website"),
             titleAlignment: .leading
         ) {
             AppSettingRow(
-                title: "官方网站",
-                description: "coffic.cn/wakey",
+                title: pluginLocalization.string("Official Website"),
+                description: pluginLocalization.string("The official website of Wakey."),
                 icon: "globe"
             ) {
                 AppButton(
-                    "访问",
+                    pluginLocalization.string("Visit"),
                     systemImage: "arrow.up.forward.square",
                     style: .secondary,
                     size: .small
@@ -195,7 +195,7 @@ struct GeneralSettingsDetailView: View {
             VStack(spacing: 0) {
                 AppSettingRow(
                     title: pluginLocalization.string("Check for Updates"),
-                    description: "Check whether a newer version of Wakey is available.",
+                    description: pluginLocalization.string("Check whether a newer version of Wakey is available."),
                     icon: "arrow.down.circle"
                 ) {
                     AppButton(
@@ -213,15 +213,22 @@ struct GeneralSettingsDetailView: View {
                         .padding(.vertical, 8)
 
                     AppSettingRow(
-                        title: "更新通道",
+                        title: pluginLocalization.string("Update Channel"),
                         description: viewModel.selectedUpdateChannel == .preview
-                            ? "获取 pre 分支发布的预览版本，可能包含未修复的问题。"
-                            : "获取 main 分支发布的稳定版本。",
+                            ? pluginLocalization.string(
+                                "Getting the preview release published on the pre branch, which may contain unresolved issues."
+                            )
+                            : pluginLocalization.string(
+                                "Getting the stable release published on the main branch."
+                            ),
                         icon: viewModel.selectedUpdateChannel == .preview ? "flask" : "checkmark.seal"
                     ) {
-                        Picker("更新通道", selection: $viewModel.selectedUpdateChannel) {
-                            Text("稳定版").tag(AppUpdateChannel.stable)
-                            Text("预览版").tag(AppUpdateChannel.preview)
+                        Picker(
+                            pluginLocalization.string("Update Channel"),
+                            selection: $viewModel.selectedUpdateChannel
+                        ) {
+                            Text(pluginLocalization.string("Stable")).tag(AppUpdateChannel.stable)
+                            Text(pluginLocalization.string("Preview")).tag(AppUpdateChannel.preview)
                         }
                         .labelsHidden()
                         .pickerStyle(.menu)
@@ -235,17 +242,19 @@ struct GeneralSettingsDetailView: View {
 
     private var diagnosticsSection: some View {
         AppSettingSection(
-            title: "诊断日志",
+            title: pluginLocalization.string("Diagnostics"),
             titleAlignment: .leading
         ) {
             VStack(spacing: 0) {
                 AppSettingRow(
-                    title: "导出日志",
-                    description: "打包最近的运行日志，便于提交问题反馈。",
+                    title: pluginLocalization.string("Export Logs"),
+                    description: pluginLocalization.string("Pack the recent runtime log for easier issue reporting."),
                     icon: "doc.badge.arrow.up"
                 ) {
                     AppButton(
-                        viewModel.isExportingDiagnostics ? "导出中…" : "导出",
+                        viewModel.isExportingDiagnostics
+                            ? pluginLocalization.string("Exporting...")
+                            : pluginLocalization.string("Export"),
                         systemImage: viewModel.isExportingDiagnostics ? "hourglass" : "square.and.arrow.up",
                         style: .secondary,
                         size: .small
@@ -272,16 +281,18 @@ struct GeneralSettingsDetailView: View {
 
     private var uninstallSection: some View {
         AppSettingSection(
-            title: "卸载",
+            title: pluginLocalization.string("Uninstall"),
             titleAlignment: .leading
         ) {
             AppSettingRow(
-                title: "彻底卸载 Wakey",
-                description: "清除 Wakey 的插件数据、偏好设置、扩展数据和可选凭据。",
+                title: pluginLocalization.string("Completely Uninstall Wakey"),
+                description: pluginLocalization.string(
+                    "Clears Wakey's plugin data, preferences, extension data, and optional credentials."
+                ),
                 icon: "trash"
             ) {
                 AppButton(
-                    "卸载…",
+                    pluginLocalization.string("Uninstall..."),
                     systemImage: "trash",
                     style: .destructive,
                     size: .small
@@ -295,15 +306,20 @@ struct GeneralSettingsDetailView: View {
 
     private var uninstallSheet: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("彻底卸载 Wakey")
+            Text(pluginLocalization.string("Completely Uninstall Wakey"))
                 .font(.appTitle)
 
-            Text("此操作会永久删除 Wakey 自己保存的数据。用户自己的数据、偏好和文件不会被删除。")
+            Text(pluginLocalization.string(
+                "This will permanently delete data saved by Wakey. Your own data, preferences, and files will not be deleted."
+            ))
                 .font(.appBody)
                 .foregroundStyle(.secondary)
 
             if viewModel.isScanningUninstall {
-                AppStatusBanner(kind: .loading, title: "正在检查 Wakey 数据…")
+                AppStatusBanner(
+                    kind: .loading,
+                    title: pluginLocalization.string("Scanning Wakey data...")
+                )
             } else if let uninstallScan = viewModel.uninstallScan {
                 uninstallSummary(scan: uninstallScan)
             }
@@ -317,14 +333,14 @@ struct GeneralSettingsDetailView: View {
 
             VStack(spacing: 0) {
                 AppSettingToggleRow(
-                    "同时将 Wakey 应用移到废纸篓",
+                    pluginLocalization.string("Also move the Wakey app to Trash"),
                     icon: "trash",
                     isOn: $viewModel.removeApplication
                 )
 
                 if let uninstallScan = viewModel.uninstallScan, uninstallScan.keychainTargetCount > 0 {
                     AppSettingToggleRow(
-                        "同时删除 Keychain 中的 API Key、密码和凭据",
+                        pluginLocalization.string("Also delete API Keys, passwords, and credentials from Keychain"),
                         icon: "key.fill",
                         isOn: $viewModel.removeKeychainCredentials
                     )
@@ -333,13 +349,15 @@ struct GeneralSettingsDetailView: View {
 
             HStack {
                 Spacer()
-                AppButton("取消", style: .ghost, size: .small) {
+                AppButton(pluginLocalization.string("Cancel"), style: .ghost, size: .small) {
                     isPresentingUninstall = false
                 }
                 AppButton(
                     viewModel.isUninstalling
-                        ? "卸载中…"
-                        : (viewModel.removeApplication ? "永久删除并卸载" : "清除数据并退出"),
+                        ? pluginLocalization.string("Uninstalling...")
+                        : (viewModel.removeApplication
+                            ? pluginLocalization.string("Permanent Delete and Uninstall")
+                            : pluginLocalization.string("Clear Data and Quit")),
                     systemImage: viewModel.isUninstalling ? "hourglass" : "trash.fill",
                     style: .destructive,
                     size: .small
@@ -360,7 +378,11 @@ struct GeneralSettingsDetailView: View {
     @ViewBuilder
     private func uninstallSummary(scan: UninstallScan) -> some View {
         AppSettingSection(
-            title: "将处理 \(scan.targets.count) 项 Wakey 数据，总计 \(formattedBytes(scan.totalSizeInBytes))。",
+            title: pluginLocalization.string(
+                "Will process %lld items of Wakey data, %@ in total.",
+                scan.targets.count,
+                formattedBytes(scan.totalSizeInBytes)
+            ),
             titleAlignment: .leading
         ) {
             VStack(spacing: 0) {
@@ -380,7 +402,10 @@ struct GeneralSettingsDetailView: View {
                 }
 
                 if scan.targets.count > 8 {
-                    Text("还有 \(scan.targets.count - 8) 项，将在确认后一起处理。")
+                    Text(pluginLocalization.string(
+                        "%lld more items will be processed after confirmation.",
+                        scan.targets.count - 8
+                    ))
                         .font(.appCaption)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)

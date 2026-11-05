@@ -204,6 +204,52 @@
           }
         }
       }
+    },
+    "Onboarding": {
+      "comment": "Plugin metadata shown in the plugin manager",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onboarding"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新手引导"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新手引導"
+          }
+        }
+      }
+    },
+    "First-run welcome and AI setup guide.": {
+      "comment": "Plugin metadata shown in the plugin manager",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First-run welcome and AI setup guide."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首次启动的欢迎与 AI 配置指南。"
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首次啟動的歡迎與 AI 設定指南。"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

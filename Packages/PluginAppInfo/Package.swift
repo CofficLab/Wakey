@@ -18,7 +18,8 @@ let package = Package(
                 "ProviderCopilotNavigation",
                 .product(name: "KernelCore", package: "LumiKernel"),
 
-            ]
+            ],
+            resources: [.process("AppInfo.xcstrings")]
         ),
         .testTarget(
             name: "PluginAppInfoTests",

@@ -221,8 +221,8 @@ extension StretchReminderManager {
 
         var displayName: String {
             switch self {
-            case let .minutes(m): return String(localized: "\(m) min", table: "StretchReminder", bundle: .module, comment: "Label for duration in minutes")
-            case let .hours(h): return String(localized: "\(h) hr", table: "StretchReminder", bundle: .module, comment: "Label for duration in hours")
+            case let .minutes(m): return String(format: String(localized: "%lld min", table: "StretchReminder", bundle: .module, comment: "Label for duration in minutes"), m)
+            case let .hours(h): return String(format: String(localized: "%lld hr", table: "StretchReminder", bundle: .module, comment: "Label for duration in hours"), h)
             }
         }
 

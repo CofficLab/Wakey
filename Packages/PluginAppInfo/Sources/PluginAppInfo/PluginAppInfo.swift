@@ -12,8 +12,8 @@ public final class PluginAppInfo: SuperPlugin {
     public let order = 10
     public let metadata = PluginMetadata(
         id: "AppInfoPlugin",
-        name: "应用信息",
-        description: "显示应用的基本信息和配置",
+        name: String(localized: "App Info", table: "AppInfo", comment: "Name of the app info plugin"),
+        description: String(localized: "Shows basic information and configuration of the app", table: "AppInfo", comment: "Description of what the App Info plugin does"),
         policy: .alwaysOn
     )
 
@@ -24,7 +24,7 @@ public final class PluginAppInfo: SuperPlugin {
             ownerID: id,
             CopilotNavigationItem(
                 id: id,
-                displayName: "应用信息",
+                displayName: String(localized: "App Info", table: "AppInfo", comment: "Name of the app info plugin"),
                 iconName: "info.circle",
                 view: AnyView(AppInfoNavigationView()),
                 children: nil
@@ -42,29 +42,55 @@ public final class PluginAppInfo: SuperPlugin {
 struct AppInfoNavigationView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("应用信息")
+            Text(String(localized: "App Info", table: "AppInfo", comment: "Title of the app info page"))
                 .font(.title)
                 .fontWeight(.bold)
 
             Divider()
 
-            AppInfoRow(label: "应用名称", value: "Wakey", systemImage: "app")
-            AppInfoRow(label: "Bundle ID", value: "com.cofficlab.Wakey", systemImage: "doc.text")
-            AppInfoRow(label: "版本", value: getAppVersion(), systemImage: "number")
-            AppInfoRow(label: "构建版本", value: getBuildVersion(), systemImage: "hammer")
-            AppInfoRow(label: "最低系统版本", value: "macOS 14.0", systemImage: "cpu")
-            AppInfoRow(label: "架构", value: "Universal", systemImage: "scale.3d")
+            AppInfoRow(
+                label: String(localized: "App Name", table: "AppInfo", comment: "Row label showing the app name"),
+                value: "Wakey",
+                systemImage: "app"
+            )
+            AppInfoRow(
+                label: String(localized: "Bundle ID", table: "AppInfo", comment: "Row label showing the bundle identifier"),
+                value: "com.cofficlab.Wakey",
+                systemImage: "doc.text"
+            )
+            AppInfoRow(
+                label: String(localized: "Version", table: "AppInfo", comment: "Row label showing the marketing version"),
+                value: getAppVersion(),
+                systemImage: "number"
+            )
+            AppInfoRow(
+                label: String(localized: "Build Version", table: "AppInfo", comment: "Row label showing the build number"),
+                value: getBuildVersion(),
+                systemImage: "hammer"
+            )
+            AppInfoRow(
+                label: String(localized: "Minimum System Version", table: "AppInfo", comment: "Row label showing the minimum supported macOS version"),
+                value: "macOS 14.0",
+                systemImage: "cpu"
+            )
+            AppInfoRow(
+                label: String(localized: "Architecture", table: "AppInfo", comment: "Row label showing the binary architecture"),
+                value: "Universal",
+                systemImage: "scale.3d"
+            )
         }
         .padding()
         .frame(maxWidth: 500, alignment: .leading)
     }
 
     private func getAppVersion() -> String {
-        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+            ?? String(localized: "Unknown", table: "AppInfo", comment: "Placeholder when a bundle metadata value is missing")
     }
 
     private func getBuildVersion() -> String {
-        Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "Unknown"
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
+            ?? String(localized: "Unknown", table: "AppInfo", comment: "Placeholder when a bundle metadata value is missing")
     }
 }
 

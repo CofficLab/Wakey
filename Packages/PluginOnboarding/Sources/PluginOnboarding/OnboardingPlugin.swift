@@ -20,8 +20,8 @@ public final class OnboardingPlugin: SuperPlugin, SuperLog {
     public let order = 10
     public let metadata = PluginMetadata(
         id: "com.coffic.wakey.plugin.onboarding",
-        name: "Onboarding",
-        description: "First-run welcome and AI setup guide.",
+        name: pluginLocalization.string("Onboarding"),
+        description: pluginLocalization.string("First-run welcome and AI setup guide."),
         category: .system,
         stage: .stable,
         policy: .alwaysOn

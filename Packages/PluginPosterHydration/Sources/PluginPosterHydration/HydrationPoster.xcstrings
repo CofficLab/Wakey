@@ -15,6 +15,12 @@
             "state": "translated",
             "value": "自定義提醒間隔等參數"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Customize reminder intervals and other parameters"
+          }
         }
       }
     },
@@ -31,6 +37,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "靈活配置"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flexible Configuration"
           }
         }
       }
@@ -49,6 +61,12 @@
             "state": "translated",
             "value": "補水提醒海報"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hydration Poster"
+          }
         }
       }
     },
@@ -65,6 +83,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "補水提醒"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hydration Reminder"
           }
         }
       }
@@ -83,6 +107,12 @@
             "state": "translated",
             "value": "保持身心最佳狀態"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep your body and mind in top condition"
+          }
         }
       }
     },
@@ -98,6 +128,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "核心功能"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key Features"
           }
         }
       }
@@ -116,6 +152,12 @@
             "state": "translated",
             "value": "提供補水相關的海報視圖"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Provide hydration related poster views"
+          }
         }
       }
     },
@@ -132,6 +174,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "定時提醒你喝水"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remind you to drink water regularly"
           }
         }
       }
@@ -150,6 +198,12 @@
             "state": "translated",
             "value": "定時提醒"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scheduled Reminder"
+          }
         }
       }
     },
@@ -166,6 +220,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "保持水分"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stay Hydrated"
           }
         }
       }

@@ -21,7 +21,7 @@ struct HydrationReminderStatusInfo: View {
                                 } else if minutes == 1 {
                                     Text("Next break: 1 min", tableName: "HydrationReminder", bundle: .module)
                                 } else {
-                                    Text("Next break: \(minutes) mins", tableName: "HydrationReminder", bundle: .module)
+                                    Text(String(format: String(localized: "Next break: %lld mins", table: "HydrationReminder", bundle: .module), minutes))
                                 }
                             }
                             .font(.system(size: 10))
@@ -32,7 +32,7 @@ struct HydrationReminderStatusInfo: View {
                 }
                 HStack {
                     Image(systemName: "checkmark.circle.fill").font(.system(size: 9)).foregroundColor(.green)
-                    Text("Today: \(manager.todayBreakCount) breaks", tableName: "HydrationReminder", bundle: .module).font(.system(size: 10)).foregroundColor(.secondary)
+                    Text(String(format: String(localized: "Today: %lld breaks", table: "HydrationReminder", bundle: .module), manager.todayBreakCount)).font(.system(size: 10)).foregroundColor(.secondary)
                     Spacer()
                 }
             } else {

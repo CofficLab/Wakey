@@ -39,7 +39,10 @@ struct WakeyApp: App {
     var body: some Scene {
         // 对齐 Lumi：设置窗口用 `Window` 场景（`Settings` 场景的系统偏好设置风格
         // 默认不允许用户缩放窗口；`Window` 默认可调节大小）。
-        Window("设置", id: "wakey.settings") {
+        Window(
+            String(localized: "Settings", table: "Localizable", comment: "Title of the settings window"),
+            id: "wakey.settings"
+        ) {
             if let kernel {
                 FactoryWakey.makeSettingsView(kernel: kernel)
                     .inRootView()
@@ -59,7 +62,9 @@ struct WakeyApp: App {
             // Settings 场景换成 Window 场景后，系统不再自动把 Cmd+, 绑定到设置窗口，
             // 这里等价补回「设置…」命令（对齐 Lumi 的 CommandItem "Settings..."）。
             CommandGroup(replacing: .appSettings) {
-                Button("设置…") { openWindow(id: "wakey.settings") }
+                Button(
+                    String(localized: "Settings...", table: "Localizable", comment: "Menu item that opens the settings window")
+                ) { openWindow(id: "wakey.settings") }
                     .keyboardShortcut(",", modifiers: .command)
             }
         }
@@ -78,10 +83,22 @@ struct BootstrapFailureView: View {
                 .font(.system(size: 48))
                 .foregroundColor(.orange)
 
-            Text("Failed to Start", tableName: "Core")
+            Text(
+                String(
+                    localized: "Failed to Start",
+                    table: "Localizable",
+                    comment: "Title shown when the kernel fails to assemble"
+                )
+            )
                 .font(.title2.bold())
 
-            Text(verbatim: error?.localizedDescription ?? "Unknown error")
+            Text(verbatim: error?.localizedDescription
+                ?? String(
+                    localized: "Unknown error",
+                    table: "Localizable",
+                    comment: "Fallback text when the bootstrap error carries no description"
+                )
+            )
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)

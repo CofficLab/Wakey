@@ -220,8 +220,8 @@ extension HydrationReminderManager {
         }
         var displayName: String {
             switch self {
-            case .minutes(let m): return String(localized: "\(m) min", table: "HydrationReminder", bundle: .module, comment: "Label for duration in minutes")
-            case .hours(let h): return String(localized: "\(h) hr", table: "HydrationReminder", bundle: .module, comment: "Label for duration in hours")
+            case .minutes(let m): return String(format: String(localized: "%lld min", table: "HydrationReminder", bundle: .module, comment: "Label for duration in minutes"), m)
+            case .hours(let h): return String(format: String(localized: "%lld hr", table: "HydrationReminder", bundle: .module, comment: "Label for duration in hours"), h)
             }
         }
         var timeInterval: TimeInterval {

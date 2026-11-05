@@ -7,13 +7,19 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lld 小时"
+            "value": "%1$lld 小时"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lld 小時"
+            "value": "%1$lld 小時"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld hr"
           }
         }
       }
@@ -24,13 +30,19 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lld 分钟"
+            "value": "%1$lld 分钟"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lld 分鐘"
+            "value": "%1$lld 分鐘"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld min"
           }
         }
       }
@@ -48,6 +60,12 @@
             "state": "translated",
             "value": "添加自訂(分鐘):"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Custom (minutes):"
+          }
         }
       }
     },
@@ -63,6 +81,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "補水提醒已關閉"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Break reminder is off"
           }
         }
       }
@@ -80,6 +104,12 @@
             "state": "translated",
             "value": "刪除"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
         }
       }
     },
@@ -95,6 +125,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "別忘記喝點水！"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Don't forget to drink some water!"
           }
         }
       }
@@ -113,6 +149,12 @@
             "state": "translated",
             "value": "補水"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hydration"
+          }
         }
       }
     },
@@ -128,6 +170,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "提醒間隔"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interval"
           }
         }
       }
@@ -145,6 +193,12 @@
             "state": "translated",
             "value": "管理您的自訂提醒時長。點擊刪除按鈕可刪除自定義時長。"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manage your custom reminder intervals. Click the delete button to remove custom intervals."
+          }
         }
       }
     },
@@ -153,13 +207,19 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "下次休息：%lld 分钟"
+            "value": "下次休息：%1$lld 分钟"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "下次休息：%lld 分鐘"
+            "value": "下次休息：%1$lld 分鐘"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next break: %1$lld mins"
           }
         }
       }
@@ -177,6 +237,12 @@
             "state": "translated",
             "value": "下次休息：1分鐘"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next break: 1 min"
+          }
         }
       }
     },
@@ -192,6 +258,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "下次休息：不到1分鐘"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next break: less than 1 min"
           }
         }
       }
@@ -209,6 +281,12 @@
             "state": "translated",
             "value": "通知已禁用"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications Disabled"
+          }
         }
       }
     },
@@ -225,6 +303,12 @@
             "state": "translated",
             "value": "開啟設定"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Settings"
+          }
         }
       }
     },
@@ -240,6 +324,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "請在系統設定中啟用通知，以便接收休息提醒。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Please enable notifications in System Settings to receive break reminders."
           }
         }
       }
@@ -258,6 +348,12 @@
             "state": "translated",
             "value": "每2小時提醒你補水"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remind you to stay hydrated every 2 hours"
+          }
         }
       }
     },
@@ -274,6 +370,12 @@
             "state": "translated",
             "value": "提醒間隔"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reminder Intervals"
+          }
         }
       }
     },
@@ -289,6 +391,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "恢復預設時長"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset to Default Intervals"
           }
         }
       }
@@ -307,6 +415,12 @@
             "state": "translated",
             "value": "開始"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start"
+          }
         }
       }
     },
@@ -322,6 +436,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "狀態"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status"
           }
         }
       }
@@ -340,6 +460,12 @@
             "state": "translated",
             "value": "停止"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop"
+          }
         }
       }
     },
@@ -348,13 +474,19 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "今日：%lld 次休息"
+            "value": "今日：%1$lld 次休息"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "今日：%lld 次休息"
+            "value": "今日：%1$lld 次休息"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today: %1$lld breaks"
           }
         }
       }
@@ -372,6 +504,12 @@
             "state": "translated",
             "value": "自訂時長"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom interval"
+          }
         }
       }
     },
@@ -387,6 +525,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "重設"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset"
           }
         }
       }
@@ -404,6 +548,12 @@
             "state": "translated",
             "value": "恢復內建提醒時長。"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore the built-in reminder intervals."
+          }
         }
       }
     },
@@ -419,6 +569,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "新增自訂補水提醒時長。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a custom hydration reminder interval."
           }
         }
       }

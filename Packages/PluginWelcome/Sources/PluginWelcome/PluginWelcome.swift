@@ -13,8 +13,8 @@ public final class PluginWelcome: SuperPlugin {
     public let order = 20
     public let metadata = PluginMetadata(
         id: "com.coffic.wakey.plugin.welcome",
-        name: "Welcome",
-        description: "First-run welcome onboarding page.",
+        name: pluginLocalization.string("Welcome"),
+        description: pluginLocalization.string("First-run welcome onboarding page."),
         category: .system,
         stage: .stable,
         policy: .alwaysOn

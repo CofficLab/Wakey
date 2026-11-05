@@ -14,20 +14,20 @@ struct CaffeinatePosterFeatures: View {
                     VStack(spacing: 16) {
                         AppStoreFeatureItem(
                             icon: "cup.and.saucer.fill",
-                            title: String(localized: "One-click Anti-sleep", table: "Caffeinate", comment: "Feature title"),
-                            description: String(localized: "Click to prevent system from entering sleep mode", table: "Caffeinate", comment: "Feature description"),
+                            title: String(localized: "One-click Anti-sleep", table: "CaffeinatePoster", comment: "Feature title"),
+                            description: String(localized: "Click to prevent system from entering sleep mode", table: "CaffeinatePoster", comment: "Feature description"),
                             baseSize: geo.size.width * 0.5
                         )
                         AppStoreFeatureItem(
                             icon: "sun.max.fill",
-                            title: String(localized: "Keep Screen On", table: "Caffeinate", comment: "Feature title"),
-                            description: String(localized: "Ensure screen stays on during presentations or work", table: "Caffeinate", comment: "Feature description"),
+                            title: String(localized: "Keep Screen On", table: "CaffeinatePoster", comment: "Feature title"),
+                            description: String(localized: "Ensure screen stays on during presentations or work", table: "CaffeinatePoster", comment: "Feature description"),
                             baseSize: geo.size.width * 0.5
                         )
                         AppStoreFeatureItem(
                             icon: "timer",
-                            title: String(localized: "Auto-restore Timer", table: "Caffeinate", comment: "Feature title"),
-                            description: String(localized: "Set a specific duration, system restores sleep after time ends", table: "Caffeinate", comment: "Feature description"),
+                            title: String(localized: "Auto-restore Timer", table: "CaffeinatePoster", comment: "Feature title"),
+                            description: String(localized: "Set a specific duration, system restores sleep after time ends", table: "CaffeinatePoster", comment: "Feature description"),
                             baseSize: geo.size.width * 0.5
                         )
                     }

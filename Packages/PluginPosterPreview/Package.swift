@@ -23,7 +23,8 @@ let package = Package(
                 "KitLogging",
                 "KitLayout",
                 .product(name: "KernelCore", package: "LumiKernel"),
-            ]
+            ],
+            resources: [.process("PosterPreview.xcstrings")]
         ),
         .testTarget(
             name: "PluginPosterPreviewTests",

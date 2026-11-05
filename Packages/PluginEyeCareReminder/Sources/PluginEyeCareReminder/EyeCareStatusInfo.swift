@@ -25,7 +25,7 @@ struct EyeCareReminderStatusInfo: View {
                             } else if minutes == 1 {
                                 Text("Next break: 1 min", tableName: "EyeCareReminder", bundle: .module)
                             } else {
-                                Text("Next break: \(minutes) mins", tableName: "EyeCareReminder", bundle: .module)
+                                Text(String(format: String(localized: "Next break: %lld mins", table: "EyeCareReminder", bundle: .module), minutes))
                             }
                         }
                         .font(.system(size: 10))
@@ -41,7 +41,7 @@ struct EyeCareReminderStatusInfo: View {
                         .font(.system(size: 9))
                         .foregroundColor(.green)
 
-                    Text("Today: \(manager.todayBreakCount) breaks", tableName: "EyeCareReminder", bundle: .module)
+                    Text(String(format: String(localized: "Today: %lld breaks", table: "EyeCareReminder", bundle: .module), manager.todayBreakCount))
                         .font(.system(size: 10))
                         .foregroundColor(.secondary)
 

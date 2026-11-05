@@ -27,9 +27,9 @@ private struct StretchIntervalButton: View {
             Group {
                 switch interval {
                 case let .minutes(m):
-                    Text("\(m) min", tableName: "StretchReminder", bundle: .module)
+                    Text(String(format: String(localized: "%lld min", table: "StretchReminder", bundle: .module), m))
                 case let .hours(h):
-                    Text("\(h) hr", tableName: "StretchReminder", bundle: .module)
+                    Text(String(format: String(localized: "%lld hr", table: "StretchReminder", bundle: .module), h))
                 }
             }
             .font(.system(size: 10))
