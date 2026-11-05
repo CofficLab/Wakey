@@ -11,9 +11,9 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/CofficLab/LumiKernel.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.11.1"),
-        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.13.0"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.18.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginStorage.git", from: "1.1.1"),
-        .package(url: "https://github.com/CofficLab/LumiPluginToast.git", from: "1.2.2"),
+        .package(url: "https://github.com/CofficLab/LumiPluginToast.git", from: "1.2.3"),
         .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.12"),
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginSettingView.git", from: "1.0.3"),
@@ -45,7 +45,7 @@ let package = Package(
         .package(path: "../PluginAppInfo"),
         .package(path: "../PluginPurchase"),
         // Plugin management (remote package, aligned to Lumi)
-        .package(url: "https://github.com/CofficLab/LumiPluginPluginManager.git", from: "1.3.0"),
+        .package(url: "https://github.com/CofficLab/LumiPluginPluginManager.git", from: "1.7.0"),
         // Settings - General (aligned to Lumi)
         .package(path: "../PluginSettingGeneral"),
         // Onboarding (aligned to Lumi)
