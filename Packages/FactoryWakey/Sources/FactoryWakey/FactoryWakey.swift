@@ -10,6 +10,7 @@ import ProviderPluginControl
 import ProviderPluginManaging
 import ProviderStorage
 import ProviderCopilotNavigation
+import ProviderDocsView
 import SwiftUI
 
 // Plugin imports — Settings shell (Lumi 同款设置外壳：左上角 App 图标 + 名称/版本)
@@ -35,9 +36,6 @@ import PluginPurchase
 import PluginPluginManager
 // Plugin imports — Settings-General (aligned to Lumi)
 import PluginSettingGeneral
-// Plugin imports — Onboarding (aligned to Lumi)
-import PluginOnboarding
-import PluginWelcome
 // Plugin imports — Theme
 import PluginThemePack
 import PluginRootView
@@ -95,6 +93,10 @@ public enum FactoryWakey {
             )
         )
         try kernel.registerHostProvider(CopilotNavigationProviding.self, DefaultCopilotNavigationProviding())
+
+        // 文档条目：各插件通过 addManual / addAbout 贡献说明书与关于页，
+        // 由设置页「通用 → 说明书」统一展示（对齐 Lumi 的 ProviderFactory）。
+        try kernel.registerProvider((any DocsViewProviding).self, DefaultDocsViewProviding())
 
         // 数据存储：为插件启用状态提供持久化目录（对齐 Lumi 的 ProviderStorage 体系）
         try kernel.registerProvider((any StorageProviding).self, DefaultStorageProvider())
@@ -186,9 +188,6 @@ public enum FactoryWakey {
             SettingGeneralPlugin(),
             // order 100
             PluginPurchase(),
-            // order 10/20: 首次启动引导（对齐 Lumi 的 PluginOnboarding/PluginWelcome）
-            OnboardingPlugin(),
-            PluginWelcome(),
         ]
     }
 
@@ -202,9 +201,8 @@ public enum FactoryWakey {
             return themed(view, kernel: kernel)
         }
         rootView.setView(view, for: .statusBar)
-        // 状态栏 popover 组合 RootView overlay：欢迎卡片（OnboardingOverlay）
-        // 在未激活时直通内容（ViewBuilder 分支，无 ZStack/Group 包装），避免
-        // popover 场景的 AX 崩溃；激活时卡片显示在 popup（菜单栏 app 无主窗口）。
+        // 状态栏 popover 通过 RootView 呈现内容（ViewBuilder 分支，无 ZStack/Group
+        // 包装），避免 popover 场景的 AX 崩溃。
         rootView.setContentView(view)
         return themed(rootView.makeRootView(), kernel: kernel)
     }
@@ -230,7 +228,7 @@ public enum FactoryWakey {
         let identified = AnyView(view.accessibilityIdentifier("wakey.settings.window"))
         // 设置窗口直接返回（不组合 RootView overlay）：菜单栏 app 的 Window
         // 场景下，overlay 的 ZStack/包装层会让详情区 AX 的 hit point 不稳定
-        // （XCTest 随机失败）。欢迎卡片由状态栏 popup 的 RootView overlay 呈现。
+        // （XCTest 随机失败）。
         return themed(identified, kernel: kernel)
     }
 

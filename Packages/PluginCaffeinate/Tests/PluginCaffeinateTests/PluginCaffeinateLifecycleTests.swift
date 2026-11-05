@@ -1,4 +1,5 @@
 import KernelCore
+import ProviderDocsView
 import ProviderSettingView
 import ProviderStatusBarPopup
 import SwiftUI
@@ -99,6 +100,54 @@ struct PluginCaffeinateLifecycleTests {
         PluginCaffeinate.logger.info("PluginCaffeinate metadata test")
         #expect(plugin.metadata.id == plugin.id)
         #expect(plugin.order == 7)
+    }
+}
+
+/// 说明书条目由插件通过 `DocsViewProviding.addManual` 贡献，
+/// 由设置页「通用 → 说明书」统一展示。
+@Suite("PluginCaffeinate 说明书贡献")
+@MainActor
+struct PluginCaffeinateManualContributionTests {
+    @Test("onBoot 贡献一条说明书条目")
+    func onBootContributesManual() throws {
+        let kernel = KernelCoreContainer()
+        let docs = DefaultDocsViewProviding()
+        try kernel.registerProvider((any DocsViewProviding).self, docs)
+
+        let plugin = PluginCaffeinate()
+        try kernel.start(plugins: [plugin])
+
+        #expect(docs.manualEntries.count == 1)
+        #expect(docs.manualEntries.first?.id == plugin.id)
+        #expect(docs.manualEntries.first?.name == plugin.metadata.name)
+    }
+
+    @Test("说明书视图可渲染")
+    func manualViewRenders() throws {
+        let kernel = KernelCoreContainer()
+        let docs = DefaultDocsViewProviding()
+        try kernel.registerProvider((any DocsViewProviding).self, docs)
+
+        let plugin = PluginCaffeinate()
+        try kernel.start(plugins: [plugin])
+
+        let entry = try #require(docs.manualEntries.first)
+        _ = entry.makeView()
+    }
+
+    @Test("onShutdown 撤回本插件的说明书条目")
+    func onShutdownRemovesManual() throws {
+        let kernel = KernelCoreContainer()
+        let docs = DefaultDocsViewProviding()
+        try kernel.registerProvider((any DocsViewProviding).self, docs)
+
+        let plugin = PluginCaffeinate()
+        try kernel.start(plugins: [plugin])
+        #expect(docs.manualEntries.count == 1)
+
+        try kernel.stop()
+
+        #expect(docs.manualEntries.isEmpty)
     }
 }
 

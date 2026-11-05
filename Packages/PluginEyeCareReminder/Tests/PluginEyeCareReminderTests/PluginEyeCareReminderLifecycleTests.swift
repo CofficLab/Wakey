@@ -1,4 +1,5 @@
 import KernelCore
+import ProviderDocsView
 import ProviderSettingView
 import ProviderStatusBarPopup
 import SwiftUI
@@ -111,5 +112,53 @@ struct PluginEyeCareReminderLifecycleTests {
         #expect(shared.nextBreakTime == nil)
         #expect(shared.startTime == nil)
         #expect(shared.timeUntilNextBreak() == nil)
+    }
+}
+
+/// 说明书条目由插件通过 `DocsViewProviding.addManual` 贡献，
+/// 由设置页「通用 → 说明书」统一展示。
+@Suite("PluginEyeCareReminder 说明书贡献")
+@MainActor
+struct PluginEyeCareReminderManualContributionTests {
+    @Test("onBoot 贡献一条说明书条目")
+    func onBootContributesManual() throws {
+        let kernel = KernelCoreContainer()
+        let docs = DefaultDocsViewProviding()
+        try kernel.registerProvider((any DocsViewProviding).self, docs)
+
+        let plugin = PluginEyeCareReminder()
+        try kernel.start(plugins: [plugin])
+
+        #expect(docs.manualEntries.count == 1)
+        #expect(docs.manualEntries.first?.id == plugin.id)
+        #expect(docs.manualEntries.first?.name == plugin.metadata.name)
+    }
+
+    @Test("说明书视图可渲染")
+    func manualViewRenders() throws {
+        let kernel = KernelCoreContainer()
+        let docs = DefaultDocsViewProviding()
+        try kernel.registerProvider((any DocsViewProviding).self, docs)
+
+        let plugin = PluginEyeCareReminder()
+        try kernel.start(plugins: [plugin])
+
+        let entry = try #require(docs.manualEntries.first)
+        _ = entry.makeView()
+    }
+
+    @Test("onShutdown 撤回本插件的说明书条目")
+    func onShutdownRemovesManual() throws {
+        let kernel = KernelCoreContainer()
+        let docs = DefaultDocsViewProviding()
+        try kernel.registerProvider((any DocsViewProviding).self, docs)
+
+        let plugin = PluginEyeCareReminder()
+        try kernel.start(plugins: [plugin])
+        #expect(docs.manualEntries.count == 1)
+
+        try kernel.stop()
+
+        #expect(docs.manualEntries.isEmpty)
     }
 }

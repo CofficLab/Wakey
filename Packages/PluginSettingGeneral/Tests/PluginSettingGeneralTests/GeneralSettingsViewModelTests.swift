@@ -9,11 +9,10 @@ import Testing
 
 /// 完全可控的 capability 替身，避免依赖真实 Provider 与磁盘。
 ///
-/// 同一替身同时实现六个细分能力，便于按 Lumi 的能力拆分结构注入。
+/// 同一替身同时实现五个细分能力，便于按 Lumi 的能力拆分结构注入。
 @MainActor
 private final class StubCapability: GeneralSettingsDocsCapability,
     GeneralSettingsUpdateChannelCapability,
-    GeneralSettingsOnboardingCapability,
     GeneralSettingsDiagnosticsCapability,
     GeneralSettingsStorageCapability,
     GeneralSettingsUninstallCapability
@@ -21,7 +20,6 @@ private final class StubCapability: GeneralSettingsDocsCapability,
     var manuals: [DocsEntry]
     var updateChannel: AppUpdateChannel
     var isUpdateChannelAvailable: Bool
-    var isOnboardingAvailable: Bool
     var isDiagnosticsAvailable: Bool
     var isUninstallAvailable: Bool
     var isStorageAvailable: Bool
@@ -33,7 +31,6 @@ private final class StubCapability: GeneralSettingsDocsCapability,
     var lastUninstallOptions: UninstallOptions?
     var setUpdateChannelCalls: [AppUpdateChannel] = []
     var uninstallError: Error?
-    var replayOnboardingCalls = 0
     var makeDiagnosticsArchiveCalls = 0
     var diagnosticsError: Error?
 
@@ -41,7 +38,6 @@ private final class StubCapability: GeneralSettingsDocsCapability,
         manuals: [DocsEntry] = [],
         updateChannel: AppUpdateChannel = .stable,
         isUpdateChannelAvailable: Bool = true,
-        isOnboardingAvailable: Bool = true,
         isDiagnosticsAvailable: Bool = true,
         isUninstallAvailable: Bool = true,
         isStorageAvailable: Bool = true,
@@ -50,7 +46,6 @@ private final class StubCapability: GeneralSettingsDocsCapability,
         self.manuals = manuals
         self.updateChannel = updateChannel
         self.isUpdateChannelAvailable = isUpdateChannelAvailable
-        self.isOnboardingAvailable = isOnboardingAvailable
         self.isDiagnosticsAvailable = isDiagnosticsAvailable
         self.isUninstallAvailable = isUninstallAvailable
         self.isStorageAvailable = isStorageAvailable
@@ -60,10 +55,6 @@ private final class StubCapability: GeneralSettingsDocsCapability,
     func setUpdateChannel(_ channel: AppUpdateChannel) {
         setUpdateChannelCalls.append(channel)
         updateChannel = channel
-    }
-
-    func replayOnboarding() {
-        replayOnboardingCalls += 1
     }
 
     func makeDiagnosticsArchive() async throws -> DiagnosticsArchive {
@@ -108,13 +99,12 @@ private final class StubCapability: GeneralSettingsDocsCapability,
     }
 }
 
-/// 用同一个替身填充六个能力入口，保持 ViewModel 构造调用简洁。
+/// 用同一个替身填充五个能力入口，保持 ViewModel 构造调用简洁。
 @MainActor
 private func makeViewModel(_ capability: StubCapability) -> GeneralSettingsViewModel {
     GeneralSettingsViewModel(
         docsCapability: capability,
         updateChannelCapability: capability,
-        onboardingCapability: capability,
         diagnosticsCapability: capability,
         storageCapability: capability,
         uninstallCapability: capability
@@ -277,25 +267,9 @@ struct GeneralSettingsViewModelUninstallTests {
     }
 }
 
-@Suite("GeneralSettingsViewModel 新手引导与诊断")
+@Suite("GeneralSettingsViewModel 诊断")
 @MainActor
-struct GeneralSettingsViewModelOnboardingDiagnosticsTests {
-    @Test("新手引导可用性透传 capability")
-    func exposesOnboardingAvailability() {
-        let model = makeViewModel(StubCapability(isOnboardingAvailable: false))
-        #expect(!model.isOnboardingAvailable)
-    }
-
-    @Test("replayOnboarding 透传给 capability")
-    func replaysOnboarding() {
-        let capability = StubCapability()
-        let model = makeViewModel(capability)
-
-        model.replayOnboarding()
-
-        #expect(capability.replayOnboardingCalls == 1)
-    }
-
+struct GeneralSettingsViewModelDiagnosticsTests {
     @Test("诊断可用性透传 capability")
     func exposesDiagnosticsAvailability() {
         let model = makeViewModel(StubCapability(isDiagnosticsAvailable: false))

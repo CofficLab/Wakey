@@ -24,7 +24,7 @@ struct GeneralSettingsDetailView: View {
     var body: some View {
         AppSettingsContentScaffold(maxContentWidth: nil) {
             VStack(alignment: .leading, spacing: 24) {
-                onboardingSection
+                manualsSection
                 lumiSection
                 websiteSection
                 updatesSection
@@ -43,49 +43,27 @@ struct GeneralSettingsDetailView: View {
         }
     }
 
-    // MARK: - 新手引导
+    // MARK: - 说明书
 
-    private var onboardingSection: some View {
+    private var manualsSection: some View {
         AppSettingSection(
-            title: pluginLocalization.string("Onboarding"),
+            title: pluginLocalization.string("User Manual"),
             titleAlignment: .leading
         ) {
-            VStack(spacing: 0) {
-                AppSettingRow(
-                    title: pluginLocalization.string("Replay Onboarding"),
-                    description: pluginLocalization.string("Replay the first-launch onboarding flow."),
-                    icon: "graduationcap"
+            AppSettingRow(
+                title: pluginLocalization.string("User Manual"),
+                description: pluginLocalization.string("Usage guides for every feature."),
+                icon: "book"
+            ) {
+                AppButton(
+                    pluginLocalization.string("Open"),
+                    systemImage: "book.pages",
+                    style: .secondary,
+                    size: .small
                 ) {
-                    AppButton(
-                        pluginLocalization.string("Start"),
-                        systemImage: "arrow.right",
-                        style: .secondary,
-                        size: .small
-                    ) {
-                        viewModel.replayOnboarding()
-                    }
-                    .disabled(!viewModel.isOnboardingAvailable)
+                    isPresentingManuals = true
                 }
-
-                if !viewModel.manuals.isEmpty {
-                    Divider()
-                        .padding(.vertical, 8)
-
-                    AppSettingRow(
-                        title: pluginLocalization.string("User Manual"),
-                        description: pluginLocalization.string("Usage guides for every feature."),
-                        icon: "book"
-                    ) {
-                        AppButton(
-                            pluginLocalization.string("Open"),
-                            systemImage: "book.pages",
-                            style: .secondary,
-                            size: .small
-                        ) {
-                            isPresentingManuals = true
-                        }
-                    }
-                }
+                .disabled(viewModel.manuals.isEmpty)
             }
         }
     }

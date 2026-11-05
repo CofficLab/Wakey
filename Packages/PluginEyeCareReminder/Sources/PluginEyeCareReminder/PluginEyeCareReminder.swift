@@ -1,5 +1,6 @@
 import KernelCore
 import OSLog
+import ProviderDocsView
 import ProviderStatusBarPopup
 import ProviderSettingView
 import SwiftUI
@@ -21,6 +22,12 @@ public final class PluginEyeCareReminder: SuperPlugin {
     public init() {}
 
     public func onBoot(kernel: KernelCoreContainer) throws {
+        // 说明书条目：设置页「通用 → 说明书」中展示
+        kernel.resolveProvider((any DocsViewProviding).self)?
+            .addManual(DocsEntry(id: id, name: metadata.name) {
+                EyeCareManualView()
+            })
+
         // 状态栏弹窗
         kernel.resolveProvider(StatusBarPopupProviding.self)?
             .addPopupView(ownerID: id, AnyView(EyeCareReminderPopupView()))
@@ -38,6 +45,7 @@ public final class PluginEyeCareReminder: SuperPlugin {
     }
 
     public func onShutdown(kernel: KernelCoreContainer) throws {
+        kernel.resolveProvider((any DocsViewProviding).self)?.removeEntries(id: id)
         kernel.resolveProvider(StatusBarPopupProviding.self)?.removePopupViews(ownerID: id)
         kernel.resolveProvider((any SettingViewProviding).self)?.removeEntries(ids: [id])
 
