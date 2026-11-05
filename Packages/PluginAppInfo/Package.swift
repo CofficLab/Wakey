@@ -9,7 +9,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../ProviderCopilotNavigation"),
-        .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
+        .package(url: "https://github.com/CofficLab/LumiKernel.git", from: "1.1.0"),
     ],
     targets: [
         .target(
@@ -18,7 +18,12 @@ let package = Package(
                 "ProviderCopilotNavigation",
                 .product(name: "KernelCore", package: "LumiKernel"),
 
-            ]
-        )
+            ],
+            resources: [.process("AppInfo.xcstrings")]
+        ),
+        .testTarget(
+            name: "PluginAppInfoTests",
+            dependencies: ["PluginAppInfo"]
+        ),
     ]
 )

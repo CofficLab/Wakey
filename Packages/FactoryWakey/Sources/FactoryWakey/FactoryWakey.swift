@@ -41,6 +41,7 @@ import PluginWelcome
 // Plugin imports — Theme
 import PluginThemePack
 import PluginRootView
+import PluginFileLog
 // Plugin imports — Shared infrastructure
 import PluginToast
 import PluginStorage
@@ -61,6 +62,20 @@ import ProviderToast
 public enum FactoryWakey {
     nonisolated static let logger = Logger(subsystem: "com.coffic.wakey.factory", category: "FactoryWakey")
 
+    // MARK: - Theme Configuration
+
+    /// 共享目录主题白名单：只加载品牌主题 `lumi`。
+    ///
+    /// `LumiThemePack` 的目录还包含 VS Code / GitHub / Dracula 等 IDE 场景配色
+    /// 与四季主题，与专注类应用无关，不再注册 —— `themeIDs` 传 `nil` 会全量加载。
+    nonisolated static let catalogThemeIDs = ["lumi"]
+
+    /// 内置主题白名单：品牌主题 + 跟随系统 / 固定暗色 / 固定亮色。
+    ///
+    /// `DefaultThemeProviding` 构造时默认预注册 `BuiltinThemes.all`；这里按 id
+    /// 过滤，保证「内置主题」与「目录主题」两路都收敛到同一组外观。
+    nonisolated static let builtinThemeIDs = ["lumi", "lumi-system", "lumi-dark", "lumi-light"]
+
     // MARK: - Kernel Assembly
 
     /// 创建并启动生产内核：注册 Host Provider → 设置状态持久化 → 启动全部插件。
@@ -74,7 +89,10 @@ public enum FactoryWakey {
         try kernel.registerHostProvider(LogoProviding.self, DefaultLogoProviding())
         try kernel.registerHostProvider(
             ProviderTheme.ThemeProviding.self,
-            ProviderTheme.DefaultThemeProviding(defaultStorageDirectoryName: "com.coffic.lumi.plugin.theme-manager")
+            ProviderTheme.DefaultThemeProviding(
+                builtinThemes: ProviderTheme.BuiltinThemes.all.filter { builtinThemeIDs.contains($0.id) },
+                defaultStorageDirectoryName: "com.coffic.lumi.plugin.theme-manager"
+            )
         )
         try kernel.registerHostProvider(CopilotNavigationProviding.self, DefaultCopilotNavigationProviding())
 
@@ -125,6 +143,8 @@ public enum FactoryWakey {
         [
             // order 1: shared storage infrastructure
             try! StorageSuperPlugin(),
+            // order 1: 磁盘日志（对齐 Lumi 的 PluginFileLog，为设置页提供诊断导出）
+            FileLogPlugin(),
             // order -1: shared root-view contract registration
             WakeyRootViewPlugin(),
             // order 0
@@ -154,9 +174,14 @@ public enum FactoryWakey {
             // order 15
             PluginPosterPreview(),
             // order 79
-            ThemePackPlugin(id: "com.coffic.wakey.plugin.theme-pack", order: 79, policy: .alwaysOn),
-            // order 90: 插件管理（对齐 Lumi 的 PluginPluginManager）
-            PluginPluginManager(),
+            ThemePackPlugin(
+                id: "com.coffic.wakey.plugin.theme-pack",
+                order: 79,
+                policy: .alwaysOn,
+                themeIDs: catalogThemeIDs
+            ),
+            // order 90: 插件管理（远程包 LumiPluginPluginManager，传入 Wakey 品牌 id）
+            PluginPluginManager(id: "com.coffic.wakey.plugin.plugin-manager"),
             // order 100: 设置-通用（对齐 Lumi 的 PluginSettingGeneral）
             SettingGeneralPlugin(),
             // order 100
@@ -188,7 +213,18 @@ public enum FactoryWakey {
     /// 「插件管理」入口由 PluginPluginManager 插件注册（order 3），后续页是各插件贡献的设置页。
     public static func makeSettingsView(kernel: KernelCoreContainer) -> AnyView {
         let settings = kernel.resolveProvider((any SettingViewProviding).self)
-        let view = settings.map { $0.makeSettingView() } ?? AnyView(AppEmptyState(icon: "gearshape", title: "No settings"))
+        let view = settings.map { $0.makeSettingView() }
+            ?? AnyView(
+                AppEmptyState(
+                    icon: "gearshape",
+                    title: String(
+                        localized: "No settings",
+                        table: "Core",
+                        bundle: .module,
+                        comment: "Fallback shown when the settings provider is unavailable"
+                    )
+                )
+            )
         // 稳定的窗口内容标识符，供 UI 测试等待设置窗口出现（侧边栏条目本身
         // 由 LumiSettings 渲染、不带 accessibility identifier，不能依赖其 id）。
         let identified = AnyView(view.accessibilityIdentifier("wakey.settings.window"))
@@ -258,7 +294,12 @@ struct StatusBarHostView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Wakey", tableName: "Core")
                         .font(.system(size: 15, weight: .semibold))
-                    Text("v\(appVersion)", tableName: "Core")
+                    Text(
+                        String(
+                            format: String(localized: "v%@", table: "Core", bundle: .module),
+                            appVersion
+                        )
+                    )
                         .font(.system(size: 10))
                         .foregroundColor(.secondary)
                 }

@@ -17,14 +17,14 @@ struct WakeyIntroPoster: View {
                     VStack(spacing: 16) {
                         AppStoreFeatureItem(
                             icon: "menubar.arrow.up.rectangle",
-                            title: String(localized: "Quick Menu", table: "Caffeinate", comment: "Feature title"),
-                            description: String(localized: "Quickly switch different anti-sleep modes via status bar menu", table: "Caffeinate", comment: "Feature description"),
+                            title: String(localized: "Quick Menu", table: "WakeyIntro", comment: "Feature title"),
+                            description: String(localized: "Quickly switch different anti-sleep modes via status bar menu", table: "WakeyIntro", comment: "Feature description"),
                             baseSize: geo.size.width * 0.5
                         )
                         AppStoreFeatureItem(
                             icon: "bolt.fill",
-                            title: String(localized: "Ultra Lightweight", table: "Caffeinate", comment: "Feature title"),
-                            description: String(localized: "Low resource usage, runs silently without interruption", table: "Caffeinate", comment: "Feature description"),
+                            title: String(localized: "Ultra Lightweight", table: "WakeyIntro", comment: "Feature title"),
+                            description: String(localized: "Low resource usage, runs silently without interruption", table: "WakeyIntro", comment: "Feature description"),
                             baseSize: geo.size.width * 0.5
                         )
                     }

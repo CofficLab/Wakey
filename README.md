@@ -8,7 +8,7 @@ Wakey is a lightweight macOS status bar assistant.
 [![macOS](https://img.shields.io/badge/macOS-14.0+-blue.svg)](https://developer.apple.com/macos/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-![Hero](./docs/wakey.intro.png)
+![Hero](./docs/wakey.intro.webp)
 
 ## ✨ Features
 

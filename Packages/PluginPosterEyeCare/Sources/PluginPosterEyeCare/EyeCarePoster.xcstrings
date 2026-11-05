@@ -15,6 +15,12 @@
             "state": "translated",
             "value": "自動提醒你休息眼睛"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatically remind you to rest your eyes"
+          }
         }
       }
     },
@@ -31,6 +37,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "自定義提醒間隔等參數"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Customize reminder intervals and other parameters"
           }
         }
       }
@@ -49,6 +61,12 @@
             "state": "translated",
             "value": "護眼海報"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eye Care Poster"
+          }
         }
       }
     },
@@ -65,6 +83,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "護眼提醒"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eye Care Reminder"
           }
         }
       }
@@ -83,6 +107,12 @@
             "state": "translated",
             "value": "靈活配置"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flexible Configuration"
+          }
         }
       }
     },
@@ -100,6 +130,12 @@
             "state": "translated",
             "value": "遵循20-20-20法則保護視力"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Follow the 20-20-20 rule to protect your vision"
+          }
         }
       }
     },
@@ -115,6 +151,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "核心功能"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key Features"
           }
         }
       }
@@ -133,6 +175,12 @@
             "state": "translated",
             "value": "提供護眼相關的海報視圖"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Provide eye care related poster views"
+          }
         }
       }
     },
@@ -150,6 +198,12 @@
             "state": "translated",
             "value": "定時提醒"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scheduled Reminder"
+          }
         }
       }
     },
@@ -166,6 +220,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "科學方法"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scientific Method"
           }
         }
       }

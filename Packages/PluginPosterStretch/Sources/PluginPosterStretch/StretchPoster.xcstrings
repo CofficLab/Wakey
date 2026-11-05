@@ -15,6 +15,12 @@
             "state": "translated",
             "value": "自定義提醒間隔等參數"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Customize reminder intervals and other parameters"
+          }
         }
       }
     },
@@ -31,6 +37,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "靈活配置"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flexible Configuration"
           }
         }
       }
@@ -49,6 +61,12 @@
             "state": "translated",
             "value": "幫助減少久坐的風險"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Help reduce the risks of long-time sitting"
+          }
         }
       }
     },
@@ -64,6 +82,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "核心功能"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key Features"
           }
         }
       }
@@ -82,6 +106,12 @@
             "state": "translated",
             "value": "活動身體"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move Your Body"
+          }
         }
       }
     },
@@ -98,6 +128,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "提供活動相關的海報視圖"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Provide stretch related poster views"
           }
         }
       }
@@ -116,6 +152,12 @@
             "state": "translated",
             "value": "每小時提醒你站起來活動"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remind you to stand up every hour"
+          }
         }
       }
     },
@@ -132,6 +174,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "定時提醒"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scheduled Reminder"
           }
         }
       }
@@ -150,6 +198,12 @@
             "state": "translated",
             "value": "活動提醒海報"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stretch Poster"
+          }
         }
       }
     },
@@ -166,6 +220,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "活動提醒"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stretch Reminder"
           }
         }
       }

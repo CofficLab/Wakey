@@ -7,13 +7,18 @@ import Testing
 
 @MainActor
 struct FactoryWakeyTests {
-    @Test("Wakey uses the canonical remote theme catalog")
-    func remoteThemeCatalogHasCanonicalCount() throws {
+    /// 主题集合：Wakey 只暴露品牌主题 + 跟随系统 / 固定暗色 / 固定亮色。
+    ///
+    /// 共享目录（`LumiThemePack`）里还有 VS Code / GitHub / Dracula 等 IDE 场景
+    /// 配色与四季主题，与专注类应用无关，不注册。白名单见 `FactoryWakey` 的
+    /// `catalogThemeIDs` / `builtinThemeIDs`。
+    @Test("Wakey exposes only its curated theme set")
+    func curatedThemeCatalogIsScoped() throws {
         let kernel = try FactoryWakey.makeKernel()
         let theme = try #require(kernel.resolveProvider((any ThemeProviding).self))
 
-        #expect(theme.themes.count == 22)
-        #expect(Set(theme.themes.map(\.id)).count == 22)
+        #expect(theme.themes.count == 4)
+        #expect(Set(theme.themes.map(\.id)) == ["lumi", "lumi-system", "lumi-dark", "lumi-light"])
     }
 
     @Test("Wakey starts the shared Toast plugin")
@@ -61,5 +66,20 @@ struct FactoryWakeyTests {
         settings.selectEntry(id: "appearance")
         settings.removeEntries(ids: ["appearance"])
         #expect(settings.selectedEntryID == "general")
+    }
+
+    /// 插件管理来自远程包 `LumiPluginPluginManager`，Wakey 注入自己的品牌 id。
+    ///
+    /// 这条守卫盯住「远程包默认 id 是 Lumi 品牌」这个坑：一旦漏传 id，
+    /// Wakey 界面上的插件标识就会变成 `com.coffic.lumi.*`。
+    @Test("插件管理插件使用 Wakey 品牌 id")
+    func pluginManagerUsesWakeyBrandID() throws {
+        let kernel = try FactoryWakey.makeKernel()
+
+        #expect(kernel.isPluginRegistered(id: "com.coffic.wakey.plugin.plugin-manager"))
+        #expect(!kernel.isPluginRegistered(id: "com.coffic.lumi.plugin.plugin-manager"))
+
+        let plugin = try #require(kernel.resolvePlugin(id: "com.coffic.wakey.plugin.plugin-manager"))
+        #expect(plugin.metadata.id == "com.coffic.wakey.plugin.plugin-manager")
     }
 }

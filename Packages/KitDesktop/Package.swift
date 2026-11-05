@@ -18,5 +18,9 @@ let package = Package(
             dependencies: ["KitBackground"],
             resources: [.process("Icons.xcassets")],
         ),
+        .testTarget(
+            name: "KitDesktopTests",
+            dependencies: ["KitDesktop"]
+        ),
     ]
 )

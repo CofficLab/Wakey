@@ -12,7 +12,7 @@ let package = Package(
         .package(path: "../ProviderCopilotNavigation"),
         .package(path: "../KitLogging"),
         .package(path: "../KitLayout"),
-        .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
+        .package(url: "https://github.com/CofficLab/LumiKernel.git", from: "1.1.0"),
     ],
     targets: [
         .target(
@@ -23,7 +23,12 @@ let package = Package(
                 "KitLogging",
                 "KitLayout",
                 .product(name: "KernelCore", package: "LumiKernel"),
-            ]
-        )
+            ],
+            resources: [.process("PosterPreview.xcstrings")]
+        ),
+        .testTarget(
+            name: "PluginPosterPreviewTests",
+            dependencies: ["PluginPosterPreview"]
+        ),
     ]
 )

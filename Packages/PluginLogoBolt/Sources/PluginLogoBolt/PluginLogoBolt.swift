@@ -12,7 +12,7 @@ public final class PluginLogoBolt: SuperPlugin {
     public let order = 0
     public let metadata = PluginMetadata(
         id: "LogoBoltPlugin",
-        name: String(localized: "能量闪电", table: "Logo", comment: "Name of the logo plugin"),
+        name: String(localized: "Bolt", table: "Logo", comment: "Name of the logo plugin"),
         description: String(localized: "Provide bolt logo variant", table: "Logo", comment: "Description of what the Logo plugin does"),
         policy: .alwaysOn
     )

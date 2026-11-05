@@ -8,8 +8,8 @@ let package = Package(
         .library(name: "PluginLogoBolt", targets: ["PluginLogoBolt"])
     ],
     dependencies: [
-        .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
-        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.5.0"),
+        .package(url: "https://github.com/CofficLab/LumiKernel.git", from: "1.1.0"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.18.0"),
     ],
     targets: [
         .target(
@@ -18,7 +18,15 @@ let package = Package(
                 .product(name: "ProviderLogo", package: "LumiProviders"),
                 .product(name: "KernelCore", package: "LumiKernel"),
 
+            ],
+            resources: [.process("Logo.xcstrings")]
+        ),
+        .testTarget(
+            name: "PluginLogoBoltTests",
+            dependencies: [
+                "PluginLogoBolt",
+                .product(name: "ProviderLogo", package: "LumiProviders"),
             ]
-        )
+        ),
     ]
 )

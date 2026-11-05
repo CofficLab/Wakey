@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Defines all available MagicBackground styles for type-safe selection
-public enum MagicBackgroundStyle {
+public enum MagicBackgroundStyle: CaseIterable {
     case frost, gradient, aurora, ocean, sunset, forest, lavender, desert, midnight
     case cherry, mint, twilight, rose, emerald, amethyst, coral, slate, sage
     case dusk, serenity, sunnyBeach, tropicalSunset, palmBeach, candyLand

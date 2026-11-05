@@ -15,8 +15,8 @@ public final class PluginPosterPreview: SuperPlugin {
     public let order = 15
     public let metadata = PluginMetadata(
         id: "PosterPreviewPlugin",
-        name: "海报预览",
-        description: "预览所有插件提供的海报，并支持生成 App Store 截图",
+        name: String(localized: "Poster Preview", table: "PosterPreview", comment: "Name of the poster preview plugin"),
+        description: String(localized: "Previews all posters provided by plugins and generates App Store screenshots", table: "PosterPreview", comment: "Description of what the Poster Preview plugin does"),
         policy: .alwaysOn
     )
 
@@ -32,7 +32,7 @@ public final class PluginPosterPreview: SuperPlugin {
             ownerID: id,
             CopilotNavigationItem(
                 id: id,
-                displayName: "海报预览",
+                displayName: String(localized: "Poster Preview", table: "PosterPreview", comment: "Title of the poster preview page"),
                 iconName: "photo.on.rectangle.angled",
                 view: AnyView(PosterPreviewNavigationView(provider: posterProvider)),
                 children: nil
@@ -57,14 +57,14 @@ struct PosterPreviewNavigationView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("海报预览")
+            Text(String(localized: "Poster Preview", table: "PosterPreview", comment: "Title of the poster preview page"))
                 .font(.title)
                 .fontWeight(.bold)
 
             Divider()
 
             HStack {
-                Text("共 \(posterConfigurations.count) 个海报配置")
+                Text(String(format: String(localized: "%lld poster configurations in total", table: "PosterPreview", comment: "Count of poster configurations"), posterConfigurations.count))
                     .foregroundColor(.secondary)
 
                 Spacer()
@@ -89,7 +89,7 @@ struct PosterPreviewNavigationView: View {
                             Image(systemName: "square.and.arrow.down.on.square")
                         }
 
-                        Text("生成 App Store 截图")
+                        Text(String(localized: "Generate App Store Screenshots", table: "PosterPreview", comment: "Button label that generates App Store screenshots"))
                     }
                 }
                 .buttonStyle(.bordered)
@@ -103,10 +103,10 @@ struct PosterPreviewNavigationView: View {
             Image(systemName: "photo.on.rectangle.angled")
                 .font(.system(size: 60))
                 .foregroundColor(.secondary)
-            Text("暂无海报")
+            Text(String(localized: "No posters yet", table: "PosterPreview", comment: "Empty state title in the poster preview"))
                 .font(.title2)
                 .foregroundColor(.secondary)
-            Text("请确保至少有一个插件提供了海报配置")
+            Text(String(localized: "Make sure at least one plugin provides a poster configuration", table: "PosterPreview", comment: "Empty state hint in the poster preview"))
                 .font(.caption)
                 .foregroundColor(.secondary)
         }

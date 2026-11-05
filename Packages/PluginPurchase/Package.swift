@@ -11,7 +11,7 @@ let package = Package(
         .package(path: "../ProviderCopilotNavigation"),
         .package(path: "../KitDesktop"),
         .package(path: "../KitLayout"),
-        .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
+        .package(url: "https://github.com/CofficLab/LumiKernel.git", from: "1.1.0"),
     ],
     targets: [
         .target(
@@ -22,6 +22,10 @@ let package = Package(
                 "KitLayout",
                 .product(name: "KernelCore", package: "LumiKernel"),
             ]
-        )
+        ),
+        .testTarget(
+            name: "PluginPurchaseTests",
+            dependencies: ["PluginPurchase"]
+        ),
     ]
 )

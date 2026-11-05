@@ -11,5 +11,9 @@ let package = Package(
     ],
     targets: [
         .target(name: "ProviderCopilotNavigation"),
+        .testTarget(
+            name: "ProviderCopilotNavigationTests",
+            dependencies: ["ProviderCopilotNavigation"]
+        ),
     ]
 )

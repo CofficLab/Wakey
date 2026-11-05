@@ -72,6 +72,7 @@ extension String {
     }
 }
 
+#if DEBUG
 struct StringEmojiPreview: View {
     let examples = [
         // 错误和警告
@@ -129,7 +130,6 @@ struct StringEmojiPreview: View {
     }
 }
 
-#if DEBUG
     #Preview {
         StringEmojiPreview()
     }

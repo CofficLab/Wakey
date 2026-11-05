@@ -12,9 +12,9 @@ public extension Image {
     /// - Parameter view: 需要转换的 SwiftUI 视图
     /// - Returns: 转换后的 SwiftUI Image 对象
     /// - Note: 此方法必须在主线程上调用
-    ///        返回的 Image 对象比例因子为 1，标签文本为"目标图像"
+    ///        返回的 Image 对象比例因子为 1，标签文本为 "Rendered Image"
     @MainActor static func fromView(_ view: some View) -> Image {
-        Image(Image.makeCGImage(from: view), scale: 1, label: Text("目标图像"))
+        Image(Image.makeCGImage(from: view), scale: 1, label: Text("Rendered Image"))
     }
     
     /// 将 SwiftUI 视图转换为 CGImage

@@ -7,13 +7,19 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lld 小时"
+            "value": "%1$lld 小时"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lld 小時"
+            "value": "%1$lld 小時"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld hours"
           }
         }
       }
@@ -24,13 +30,19 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lld 分钟"
+            "value": "%1$lld 分钟"
           }
         },
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lld 分鐘"
+            "value": "%1$lld 分鐘"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld minutes"
           }
         }
       }
@@ -48,6 +60,12 @@
             "state": "translated",
             "value": "操作"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actions"
+          }
         }
       }
     },
@@ -63,6 +81,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "添加自訂(分鐘):"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Custom (minutes):"
           }
         }
       }
@@ -81,6 +105,12 @@
             "state": "translated",
             "value": "防休眠"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anti-sleep"
+          }
         }
       }
     },
@@ -96,6 +126,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "防睡眠時長"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anti-Sleep Durations"
           }
         }
       }
@@ -114,6 +150,12 @@
             "state": "translated",
             "value": "用戶通過 Wakey 開啟了防休眠模式"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anti-sleep mode enabled via Wakey"
+          }
         }
       }
     },
@@ -130,6 +172,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "定時自動恢復"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-restore Timer"
           }
         }
       }
@@ -148,6 +196,12 @@
             "state": "translated",
             "value": "防休眠"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caffeinate"
+          }
         }
       }
     },
@@ -164,6 +218,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "防休眠海報"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caffeinate Poster"
           }
         }
       }
@@ -182,6 +242,12 @@
             "state": "translated",
             "value": "點擊即可阻止系統進入睡眠模式"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Click to prevent system from entering sleep mode"
+          }
         }
       }
     },
@@ -198,6 +264,12 @@
             "state": "translated",
             "value": "刪除"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
         }
       }
     },
@@ -213,6 +285,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "時長"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duration"
           }
         }
       }
@@ -231,6 +309,12 @@
             "state": "translated",
             "value": "確保演示或工作時螢幕不熄滅"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ensure screen stays on during presentations or work"
+          }
         }
       }
     },
@@ -247,6 +331,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "永久"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indefinite"
           }
         }
       }
@@ -265,6 +355,12 @@
             "state": "translated",
             "value": "阻止休眠並允許螢幕關閉"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep Awake & Allow Display Sleep"
+          }
         }
       }
     },
@@ -281,6 +377,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "阻止休眠並保持螢幕常亮"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep Awake & Display On"
           }
         }
       }
@@ -299,6 +401,12 @@
             "state": "translated",
             "value": "阻止休眠並立即關閉螢幕"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep Awake & Turn Off Display Now"
+          }
         }
       }
     },
@@ -315,6 +423,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "保持螢幕常亮"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep Screen On"
           }
         }
       }
@@ -333,6 +447,12 @@
             "state": "translated",
             "value": "阻止休眠，允許關閉螢幕"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep system awake, allow display sleep"
+          }
         }
       }
     },
@@ -350,6 +470,12 @@
             "state": "translated",
             "value": "阻止休眠，禁止關閉螢幕"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep system awake, prevent display sleep"
+          }
         }
       }
     },
@@ -365,6 +491,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "核心功能"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key Features"
           }
         }
       }
@@ -383,21 +515,11 @@
             "state": "translated",
             "value": "低資源佔用，靜默運行，不打擾工作"
           }
-        }
-      }
-    },
-    "Manage your custom anti-sleep durations. Click the delete button to remove custom durations.": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "管理您的自定义防睡眠时长。点击删除按钮可删除自定义时长。"
-          }
         },
-        "zh-HK": {
+        "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "管理您的自訂防睡眠時長。點擊刪除按鈕可刪除自定義時長。"
+            "value": "Low resource usage, runs silently without interruption"
           }
         }
       }
@@ -416,6 +538,12 @@
             "state": "translated",
             "value": "一鍵防休眠"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One-click Anti-sleep"
+          }
         }
       }
     },
@@ -432,6 +560,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "阻止系統休眠，支援定時和手動控制"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prevent system sleep, supporting scheduled and manual control"
           }
         }
       }
@@ -450,6 +584,12 @@
             "state": "translated",
             "value": "提供防休眠相關的海報視圖"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Provide anti-sleep related poster views"
+          }
         }
       }
     },
@@ -466,6 +606,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "快捷菜單"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Menu"
           }
         }
       }
@@ -484,6 +630,12 @@
             "state": "translated",
             "value": "通過狀態欄菜單快速切換不同的防休眠模式"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quickly switch different anti-sleep modes via status bar menu"
+          }
         }
       }
     },
@@ -499,6 +651,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "恢復預設時長"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset to Default Durations"
           }
         }
       }
@@ -517,6 +675,12 @@
             "state": "translated",
             "value": "設置特定時長，結束後自動恢復系統休眠"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set a specific duration, system restores sleep after time ends"
+          }
         }
       }
     },
@@ -534,6 +698,12 @@
             "state": "translated",
             "value": "極致輕量"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ultra Lightweight"
+          }
         }
       }
     },
@@ -549,6 +719,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "自訂時長"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom interval"
           }
         }
       }
@@ -566,6 +742,12 @@
             "state": "translated",
             "value": "重設"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset"
+          }
         }
       }
     },
@@ -581,6 +763,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "恢復內建防休眠時長。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore the built-in anti-sleep durations."
           }
         }
       }
@@ -598,6 +786,12 @@
             "state": "translated",
             "value": "新增自訂防休眠時長。"
           }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a duration for manual activation."
+          }
         }
       }
     },
@@ -613,6 +807,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "自訂時長"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom duration"
           }
         }
       }

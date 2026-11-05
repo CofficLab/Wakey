@@ -10,7 +10,7 @@ struct PurchaseNavigationView: View {
         PurchasePosterPro()
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            .navigationTitle("购买海报")
+            .navigationTitle(String(localized: "Purchase Poster", table: "Purchase", comment: "Title of the purchase poster page"))
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
                     Button(action: captureAppStoreScreenshots) {
@@ -22,7 +22,7 @@ struct PurchaseNavigationView: View {
                                 Image(systemName: "square.and.arrow.down.on.square")
                             }
 
-                            Text("截图")
+                            Text(String(localized: "Screenshot", table: "Purchase", comment: "Button label that captures a screenshot"))
                         }
                     }
                     .disabled(isGenerating)

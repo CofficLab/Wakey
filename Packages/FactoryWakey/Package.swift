@@ -9,14 +9,14 @@ let package = Package(
         .library(name: "FactoryWakey", targets: ["FactoryWakey"])
     ],
     dependencies: [
-        .package(url: "https://github.com/CofficLab/LumiKernel.git", branch: "main"),
-        .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.7.0"),
-        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.5.0"),
-        .package(url: "https://github.com/CofficLab/LumiPluginStorage.git", from: "1.0.0"),
-        .package(url: "https://github.com/CofficLab/LumiPluginToast.git", from: "1.0.1"),
-        .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.5"),
-        .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.0.1"),
-        .package(url: "https://github.com/CofficLab/LumiPluginSettingView.git", from: "1.0.2"),
+        .package(url: "https://github.com/CofficLab/LumiKernel.git", from: "1.1.0"),
+        .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.11.1"),
+        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.18.0"),
+        .package(url: "https://github.com/CofficLab/LumiPluginStorage.git", from: "1.1.1"),
+        .package(url: "https://github.com/CofficLab/LumiPluginToast.git", from: "1.2.3"),
+        .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.12"),
+        .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
+        .package(url: "https://github.com/CofficLab/LumiPluginSettingView.git", from: "1.0.3"),
         .package(path: "../ProviderPoster"),
         .package(path: "../ProviderStatusBarPopup"),
         .package(path: "../ProviderCopilotNavigation"),
@@ -25,7 +25,8 @@ let package = Package(
         .package(path: "../KitLogging"),
         .package(path: "../KitLayout"),
         .package(path: "../PluginRootView"),
-        .package(url: "https://github.com/CofficLab/LumiPluginThemePack.git", from: "1.1.0"),
+        .package(path: "../PluginFileLog"),
+        .package(url: "https://github.com/CofficLab/LumiPluginThemePack.git", from: "1.2.1"),
         // Logo plugins (1)
         .package(path: "../PluginLogoBolt"),
         // Poster plugins (6)
@@ -43,8 +44,8 @@ let package = Package(
         // Other plugins (2)
         .package(path: "../PluginAppInfo"),
         .package(path: "../PluginPurchase"),
-        // Plugin management (aligned to Lumi)
-        .package(path: "../PluginPluginManager"),
+        // Plugin management (remote package, aligned to Lumi)
+        .package(url: "https://github.com/CofficLab/LumiPluginPluginManager.git", from: "1.7.0"),
         // Settings - General (aligned to Lumi)
         .package(path: "../PluginSettingGeneral"),
         // Onboarding (aligned to Lumi)
@@ -76,7 +77,8 @@ let package = Package(
                 .product(name: "ProviderStorage", package: "LumiProviders"),
                 .product(name: "PluginToast", package: "LumiPluginToast"),
                 .product(name: "PluginStorage", package: "LumiPluginStorage"),
-                                "PluginRootView",
+                "PluginRootView",
+                "PluginFileLog",
                 .product(name: "PluginThemePack", package: "LumiPluginThemePack"),
                                 // Logo
                 "PluginLogoBolt",
@@ -88,8 +90,8 @@ let package = Package(
                 "PluginStretchReminder", "PluginHydrationReminder",
                 // Other
                 "PluginAppInfo", "PluginPurchase",
-                // Plugin management (aligned to Lumi)
-                "PluginPluginManager",
+                // Plugin management (remote package, aligned to Lumi)
+                .product(name: "PluginPluginManager", package: "LumiPluginPluginManager"),
                 // Settings - General (aligned to Lumi)
                 "PluginSettingGeneral",
                 // Onboarding (aligned to Lumi)
@@ -104,6 +106,8 @@ let package = Package(
             dependencies: [
                 "FactoryWakey",
                 .product(name: "ProviderSettingView", package: "LumiSettings"),
+                .product(name: "LumiThemePack", package: "LumiThemePack"),
+                .product(name: "ProviderTheme", package: "LumiProviders"),
             ]
         )
     ]
