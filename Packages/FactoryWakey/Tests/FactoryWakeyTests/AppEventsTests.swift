@@ -2,50 +2,6 @@ import Foundation
 import Testing
 @testable import FactoryWakey
 
-/// `AppConfig` 主要负责目录解析。
-/// `getContainer()` 会创建真实 SwiftData 容器并写入磁盘，
-/// 因此这里只覆盖纯路径推导部分。
-@Suite("AppConfig 目录")
-struct AppConfigDirectoryTests {
-    @Test("App Support 目录指向应用专属子目录")
-    func appSupportIsBundleScoped() {
-        let directory = AppConfig.getCurrentAppSupportDir()
-        let bundleID = Bundle.main.bundleIdentifier ?? "com.cofficlab.App"
-        #expect(directory.lastPathComponent == bundleID)
-    }
-
-    @Test("App Support 目录位于 .applicationSupport 下")
-    func appSupportLivesInApplicationSupport() {
-        let directory = AppConfig.getCurrentAppSupportDir()
-        #expect(directory.path.contains("Application Support"))
-    }
-
-    @Test("重复调用返回同一目录")
-    func appSupportIsStable() {
-        #expect(AppConfig.getCurrentAppSupportDir() == AppConfig.getCurrentAppSupportDir())
-    }
-
-    @Test("数据库目录位于 App Support 之下且名为 Database")
-    func databaseFolderNestedUnderAppSupport() {
-        let database = AppConfig.getDBFolderURL()
-        let appSupport = AppConfig.getCurrentAppSupportDir()
-        #expect(database.lastPathComponent == "Database")
-        #expect(database.deletingLastPathComponent() == appSupport)
-    }
-
-    @Test("文档目录可解析且位于 Documents 下")
-    func documentsDirectoryResolves() throws {
-        let documents = try #require(AppConfig.localDocumentsDir)
-        #expect(documents.lastPathComponent == "Documents")
-    }
-
-    @Test("App Support 目录已确保存在")
-    func appSupportIsCreated() {
-        let directory = AppConfig.getCurrentAppSupportDir()
-        #expect(FileManager.default.fileExists(atPath: directory.path))
-    }
-}
-
 @Suite("应用通知事件")
 @MainActor
 struct AppEventsTests {

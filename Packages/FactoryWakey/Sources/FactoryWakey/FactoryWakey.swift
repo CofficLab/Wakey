@@ -33,7 +33,6 @@ import PluginRootView
 import PluginFileLog
 // Plugin imports — Shared infrastructure
 import PluginToast
-import PluginStorage
 import ProviderRootView
 import ProviderToast
 
@@ -128,8 +127,6 @@ public enum FactoryWakey {
     /// 顺序约定：order 值越小越先启动。
     public static func makePlugins() -> [any SuperPlugin] {
         [
-            // order 1: shared storage infrastructure
-            try! StorageSuperPlugin(),
             // order 1: 磁盘日志（对齐 Lumi 的 PluginFileLog，为设置页提供诊断导出）
             FileLogPlugin(),
             // order -1: shared root-view contract registration
