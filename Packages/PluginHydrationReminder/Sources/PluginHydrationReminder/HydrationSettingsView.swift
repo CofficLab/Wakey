@@ -9,7 +9,10 @@ struct HydrationSettingsView: View {
         AppSettingsContentScaffold(maxContentWidth: nil) {
             AppSettingSection(title: String(localized: "Reminder Intervals", table: "HydrationReminder", bundle: .module)) {
                 VStack(spacing: 0) {
-                    ForEach(Array(manager.availableIntervals.enumerated()), id: \.offset) { index, option in
+                    // 用选项自身的稳定 id 标识行，而不是数组下标——
+                    // 列表会被增删并重新排序，下标变化会让 SwiftUI 把旧行
+                    // 的状态套用到别的行上。
+                    ForEach(manager.availableIntervals) { option in
                         AppSettingRow(
                             title: option.displayName,
                             description: HydrationReminderManager.commonIntervals.contains(option)
@@ -25,7 +28,7 @@ struct HydrationSettingsView: View {
                                 .accessibilityIdentifier("wakey.hydration.interval.remove.\(Int(option.timeInterval))")
                             }
                         }
-                        if index < manager.availableIntervals.count - 1 {
+                        if option != manager.availableIntervals.last {
                             Divider().padding(.vertical, 8)
                         }
                     }

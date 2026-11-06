@@ -9,7 +9,10 @@ struct CaffeinateSettingsView: View {
         AppSettingsContentScaffold(maxContentWidth: nil) {
             AppSettingSection(title: String(localized: "Anti-Sleep Durations", table: "Caffeinate", bundle: .module)) {
                 VStack(spacing: 0) {
-                    ForEach(Array(manager.availableDurations.enumerated()), id: \.offset) { index, option in
+                    // 用选项自身的稳定 id 标识行，而不是数组下标——
+                    // 列表会被增删并重新排序，下标变化会让 SwiftUI 把旧行
+                    // 的状态套用到别的行上。
+                    ForEach(manager.availableDurations) { option in
                         AppSettingRow(
                             title: option.displayName,
                             description: CaffeinateManager.commonDurations.contains(option)
@@ -25,7 +28,7 @@ struct CaffeinateSettingsView: View {
                                 .accessibilityIdentifier("wakey.caffeinate.duration.remove.\(Int(option.timeInterval))")
                             }
                         }
-                        if index < manager.availableDurations.count - 1 {
+                        if option != manager.availableDurations.last {
                             Divider().padding(.vertical, 8)
                         }
                     }

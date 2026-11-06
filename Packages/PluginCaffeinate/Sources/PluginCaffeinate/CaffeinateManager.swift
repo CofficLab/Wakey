@@ -354,10 +354,22 @@ extension CaffeinateManager {
     }
 
     /// 预设持续时间选项
-    enum DurationOption: Hashable, Equatable {
+    enum DurationOption: Hashable, Equatable, Identifiable {
         case indefinite
         case minutes(Int)
         case hours(Int)
+
+        /// 稳定的行标识。
+        ///
+        /// 列表会被增删并重新排序，标识必须跟随选项本身而非数组位置，
+        /// 否则 SwiftUI 会把旧行的状态套用到新行上。
+        var id: String {
+            switch self {
+            case .indefinite: return "indefinite"
+            case let .minutes(m): return "m\(m)"
+            case let .hours(h): return "h\(h)"
+            }
+        }
 
         /// 获取持续时间的显示名称
         var displayName: String {
