@@ -507,29 +507,6 @@
         }
       }
     },
-    "Registers the General settings entry with onboarding, app info and website." : {
-      "comment" : "Description of the general settings plugin",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Registers the General settings entry with onboarding, app info and website."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在设置视图中注册「通用」入口，包含新手引导、应用信息与网站。"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在設定中註冊「一般」入口，包含新手引導、應用程式資訊與網站。"
-          }
-        }
-      }
-    },
     "Replay the first-launch onboarding flow." : {
       "comment" : "Description under the replay onboarding row",
       "localizations" : {
@@ -875,29 +852,6 @@
         }
       }
     },
-    "Visit" : {
-      "comment" : "Button label that opens the official website",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Visit"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "访问"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "瀏覽"
-          }
-        }
-      }
-    },
     "Wakey" : {
       "comment" : "Section title for the app information section",
       "localizations" : {
@@ -963,29 +917,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wakey 已從你的 Mac 移除，應用程式已移至垃圾桶。"
-          }
-        }
-      }
-    },
-    "Website" : {
-      "comment" : "Section title for the website section",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Website"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "网站"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "網站"
           }
         }
       }
@@ -1473,25 +1404,140 @@
         }
       }
     },
-    "coffic.cn/wakey" : {
-      "comment" : "Official website address",
+    "About Us" : {
+      "comment" : "Section title for the about us section",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "coffic.cn/wakey"
+            "value" : "About Us"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "coffic.cn/wakey"
+            "value" : "关于我们"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "coffic.cn/wakey"
+            "value" : "關於我們"
+          }
+        }
+      }
+    },
+    "Privacy Policy" : {
+      "comment" : "Row title linking to the privacy policy",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐私政策"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隱私政策"
+          }
+        }
+      }
+    },
+    "Terms of Service" : {
+      "comment" : "Row title linking to the terms of service",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of Service"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服务条款"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服務條款"
+          }
+        }
+      }
+    },
+    "How Wakey handles your data." : {
+      "comment" : "Description under the privacy policy row",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How Wakey handles your data."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wakey 如何处理你的数据。"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wakey 如何處理你的資料。"
+          }
+        }
+      }
+    },
+    "The terms you agree to when using Wakey." : {
+      "comment" : "Description under the terms of service row",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The terms you agree to when using Wakey."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 Wakey 时你同意的条款。"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 Wakey 時你同意的條款。"
+          }
+        }
+      }
+    },
+    "Registers the General settings entry with onboarding, app info and about us." : {
+      "comment" : "Description of the general settings plugin",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registers the General settings entry with onboarding, app info and about us."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在设置视图中注册「通用」入口，包含新手引导、应用信息与关于我们。"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在設定中註冊「一般」入口，包含新手引導、應用程式資訊與關於我們。"
           }
         }
       }
