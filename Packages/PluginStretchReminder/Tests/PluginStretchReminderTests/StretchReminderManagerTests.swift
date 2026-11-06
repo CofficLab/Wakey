@@ -74,8 +74,23 @@ final class FakeReminderEnvironment: ReminderEnvironment {
     /// 状态存储：测试用内存实现，不落盘。
     var stateStore: ReminderStateStore = .inMemory()
 
+    /// 状态存储目录（测试用临时目录）。
+    let stateStoreDirectory: URL = FileManager.default.temporaryDirectory
+        .appendingPathComponent("ReminderState-\(UUID().uuidString)", isDirectory: true)
+
     func attachStateStore(directory: URL) {
         stateStore = ReminderStateStore(directory: directory)
+    }
+
+    /// 已持久化的「运行中」状态。
+    var storedActiveStates: [String: Bool] = [:]
+
+    func savedActiveState(forKey key: String) -> Bool {
+        storedActiveStates[key] ?? false
+    }
+
+    func saveActiveState(_ isActive: Bool, forKey key: String) {
+        storedActiveStates[key] = isActive
     }
 
     // MARK: - 测试控制
@@ -542,5 +557,65 @@ struct StretchReminderManagerTodayCountTests {
         let reloaded = StretchReminderManager(environment: env)
 
         #expect(reloaded.todayBreakCount == 1, "重启后今日计数应保留")
+    }
+}
+
+@Suite("StretchReminderManager 运行态持久化")
+@MainActor
+struct StretchReminderManagerActiveStateTests {
+    @Test("start 后运行态被持久化")
+    func startPersistsActiveState() {
+        let env = FakeReminderEnvironment()
+        let manager = StretchReminderManager(environment: env)
+
+        manager.start()
+
+        #expect(
+            env.storedActiveStates.values.contains(true),
+            "开启提醒后应记录运行态，以便重启后恢复"
+        )
+    }
+
+    @Test("stop 后运行态被清除")
+    func stopClearsActiveState() {
+        let env = FakeReminderEnvironment()
+        let manager = StretchReminderManager(environment: env)
+        manager.start()
+
+        manager.stop()
+
+        #expect(
+            env.storedActiveStates.values.contains(false),
+            "关闭提醒后应清除运行态"
+        )
+    }
+
+    @Test("重启后提醒恢复运行")
+    func restoresRunningStateAfterRelaunch() {
+        // 第一次运行：用户开启提醒
+        let env = FakeReminderEnvironment()
+        let first = StretchReminderManager(environment: env)
+        first.start()
+        #expect(first.isActive)
+
+        // 模拟重启：新建 manager，共享同一个状态存储
+        let relaunched = StretchReminderManager(environment: env)
+        relaunched.attachStateStore(directory: env.stateStoreDirectory)
+
+        #expect(
+            relaunched.isActive,
+            "重启后提醒应继续工作，否则会静默失效"
+        )
+        #expect(relaunched.nextBreakTime != nil, "恢复后应重新排定下一次提醒")
+    }
+
+    @Test("重启前未开启提醒则不恢复")
+    func doesNotRestoreWhenNeverStarted() {
+        let env = FakeReminderEnvironment()
+        let manager = StretchReminderManager(environment: env)
+
+        manager.attachStateStore(directory: env.stateStoreDirectory)
+
+        #expect(!manager.isActive, "首次启动不应自动开启提醒")
     }
 }

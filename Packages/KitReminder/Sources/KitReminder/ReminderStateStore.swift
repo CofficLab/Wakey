@@ -50,6 +50,20 @@ public final class ReminderStateStore: @unchecked Sendable {
         }
     }
 
+    /// 读取一个布尔值；键不存在或类型不匹配时返回 nil。
+    public func bool(forKey key: String) -> Bool? {
+        queue.sync { readDict()[key] as? Bool }
+    }
+
+    /// 写入一个布尔值。
+    public func setBool(_ value: Bool, forKey key: String) {
+        queue.sync {
+            var dict = readDict()
+            dict[key] = value
+            writeDict(dict)
+        }
+    }
+
     /// 移除一个键。
     public func removeValue(forKey key: String) {
         queue.sync {

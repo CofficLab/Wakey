@@ -27,6 +27,8 @@ class EyeCareReminderManager: NSObject, SuperLog {
 
     private let userDefaultsKey = "EyeCareReminderInterval"
     private let customIntervalsKey = "EyeCareCustomIntervals"
+    /// 运行态的持久化键：提醒开启后需跨重启保留。
+    private let activeStateKey = "EyeCareReminderActive"
 
     /// 时间 / 持久化 / 计时来源，生产环境为系统实现，测试可注入可控实现。
     private let environment: any ReminderEnvironment
@@ -87,6 +89,21 @@ class EyeCareReminderManager: NSObject, SuperLog {
     /// - Parameter directory: 插件数据目录（`StorageProviding.pluginDataDirectory(for:)`）。
     func attachStateStore(directory: URL) {
         environment.attachStateStore(directory: directory)
+        restoreRunningStateIfNeeded()
+    }
+
+    /// 若上次退出时提醒处于运行中，则恢复它。
+    ///
+    /// 用户开启了提醒，重启 App 后提醒应继续工作——否则提醒会**静默停止**，
+    /// 用户既看不到提示也无法察觉提醒已经失效。
+    private func restoreRunningStateIfNeeded() {
+        guard environment.savedActiveState(forKey: activeStateKey) else { return }
+        guard !isActive else { return }
+
+        if Self.verbose {
+            os_log("\(self.t)恢复上次退出前的运行状态")
+        }
+        start()
     }
 
     // MARK: - Public Methods
@@ -97,6 +114,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
         guard !isActive else { return }
 
         self.isActive = true
+        environment.saveActiveState(true, forKey: activeStateKey)
         self.startTime = environment.now()
         scheduleNextBreak()
 
@@ -116,6 +134,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
         environment.cancel(timer)
         timer = nil
         isActive = false
+        environment.saveActiveState(false, forKey: activeStateKey)
         nextBreakTime = nil
         startTime = nil
 

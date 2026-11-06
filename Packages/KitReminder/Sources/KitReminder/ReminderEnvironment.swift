@@ -43,6 +43,16 @@ public protocol ReminderEnvironment: AnyObject {
     /// 写入自定义间隔（分钟）
     func saveCustomIntervals(_ minutes: [Int], forKey key: String)
 
+    /// 读取已持久化的「运行中」状态。
+    ///
+    /// 提醒的运行态需要跨重启保留：用户开启了护眼提醒，重启 App 后
+    /// 提醒应继续工作，而不是静默停止。
+    /// 键不存在时返回 false（首次启动即为未运行）。
+    func savedActiveState(forKey key: String) -> Bool
+
+    /// 写入「运行中」状态。
+    func saveActiveState(_ isActive: Bool, forKey key: String)
+
     /// 在指定延迟后触发回调；返回的 token 用于取消
     func schedule(after delay: TimeInterval, handler: @escaping () -> Void) -> ReminderTimerToken
 
@@ -139,6 +149,14 @@ public final class SystemReminderEnvironment: ReminderEnvironment {
 
     public func saveCustomIntervals(_ minutes: [Int], forKey key: String) {
         UserDefaults.standard.set(minutes, forKey: key)
+    }
+
+    public func savedActiveState(forKey key: String) -> Bool {
+        stateStore.bool(forKey: key) ?? false
+    }
+
+    public func saveActiveState(_ isActive: Bool, forKey key: String) {
+        stateStore.setBool(isActive, forKey: key)
     }
 
     public func schedule(after delay: TimeInterval, handler: @escaping () -> Void) -> ReminderTimerToken {
