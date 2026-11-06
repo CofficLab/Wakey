@@ -273,16 +273,19 @@ class CaffeinateManager: SuperLog {
     /// - Parameter minutes: Duration in minutes
     func addCustomDuration(minutes: Int) {
         let option = DurationOption.minutes(minutes)
-        if !availableDurations.contains(option) {
-            availableDurations.append(option)
-            // Re-sort
-            availableDurations.sort {
-                if $0.timeInterval == 0 { return true }
-                if $1.timeInterval == 0 { return false }
-                return $0.timeInterval < $1.timeInterval
-            }
-            saveCustomDurations()
+        // 按时长（秒）判重：自定义 60 分钟与预设 1 小时是同一时长，
+        // 同时存在会让选择器渲染出两个按钮且同时高亮。
+        guard !availableDurations.contains(where: { $0.timeInterval == option.timeInterval }) else {
+            return
         }
+        availableDurations.append(option)
+        // Re-sort
+        availableDurations.sort {
+            if $0.timeInterval == 0 { return true }
+            if $1.timeInterval == 0 { return false }
+            return $0.timeInterval < $1.timeInterval
+        }
+        saveCustomDurations()
     }
     
     /// Remove a duration option
@@ -293,12 +296,24 @@ class CaffeinateManager: SuperLog {
 
         availableDurations.removeAll { $0 == option }
         saveCustomDurations()
+
+        // If the selected duration no longer exists, fall back to a valid
+        // option — otherwise the picker shows nothing highlighted and the
+        // next activation silently uses a value the user can no longer select.
+        if !availableDurations.contains(where: { $0.timeInterval == selectedDuration }) {
+            selectedDuration = Self.commonDurations[0].timeInterval
+        }
     }
 
     /// Reset durations to default
     func resetDurations() {
         availableDurations = Self.commonDurations
         saveCustomDurations()
+
+        // The selected duration may no longer exist after the reset.
+        if !availableDurations.contains(where: { $0.timeInterval == selectedDuration }) {
+            selectedDuration = Self.commonDurations[0].timeInterval
+        }
     }
     
     private func saveCustomDurations() {

@@ -328,6 +328,19 @@ struct CaffeinateManagerDurationTests {
         #expect(matches.count == 1)
     }
 
+    @Test("新增与预设等长的自定义时长不会并存")
+    func addCustomDurationMatchingPresetDoesNotDuplicate() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        // 60 分钟与预设「1 小时」是同一时长
+        manager.addCustomDuration(minutes: 60)
+
+        let seconds = manager.availableDurations.map(\.timeInterval)
+        #expect(Set(seconds).count == seconds.count, "同一时长不应出现两次，否则选择器会渲染出两个同时高亮的按钮")
+        #expect(!manager.availableDurations.contains(.minutes(60)))
+    }
+
     @Test("addCustomDuration 之后仍按时间排序")
     func addCustomDurationKeepsSorting() {
         let manager = CaffeinateManager(environment: FakeCaffeinateEnvironment())
@@ -384,6 +397,59 @@ struct CaffeinateManagerDurationTests {
         manager.loadAvailableDurations()
 
         #expect(manager.availableDurations.contains(.minutes(20)))
+    }
+
+    @Test("移除当前选中的自定义时长会回退到有效时长")
+    func removingSelectedDurationFallsBack() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.addCustomDuration(minutes: 45)
+        manager.selectedDuration = 45 * 60
+        manager.removeDuration(.minutes(45))
+
+        // 选中值必须仍存在于列表中，否则选择器没有任何按钮高亮
+        #expect(manager.availableDurations.contains(where: { $0.timeInterval == manager.selectedDuration }))
+        #expect(manager.selectedDuration == CaffeinateManager.commonDurations[0].timeInterval)
+    }
+
+    @Test("移除未选中的自定义时长不改变选中值")
+    func removingOtherDurationKeepsSelection() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.addCustomDuration(minutes: 45)
+        manager.addCustomDuration(minutes: 20)
+        manager.selectedDuration = 20 * 60
+
+        manager.removeDuration(.minutes(45))
+
+        #expect(manager.selectedDuration == 20 * 60)
+    }
+
+    @Test("重置时长后选中值仍存在于列表中")
+    func resetDurationsKeepsSelectionValid() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.addCustomDuration(minutes: 45)
+        manager.selectedDuration = 45 * 60
+        manager.resetDurations()
+
+        #expect(manager.availableDurations.contains(where: { $0.timeInterval == manager.selectedDuration }))
+        #expect(manager.selectedDuration == CaffeinateManager.commonDurations[0].timeInterval)
+    }
+
+    @Test("重置时长时若选中项仍存在则保持不变")
+    func resetDurationsKeepsExistingSelection() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.addCustomDuration(minutes: 45)
+        manager.selectedDuration = CaffeinateManager.commonDurations[2].timeInterval
+        manager.resetDurations()
+
+        #expect(manager.selectedDuration == CaffeinateManager.commonDurations[2].timeInterval)
     }
 }
 
