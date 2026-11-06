@@ -2,18 +2,41 @@ import SwiftUI
 
 struct HydrationIntervalPicker: View {
     @State private var manager = HydrationReminderManager.shared
+
     var body: some View {
-        HStack(spacing: 4) {
-            ForEach(HydrationReminderManager.commonIntervals) { interval in
-                HydrationIntervalButton(
-                    interval: interval,
-                    isSelected: manager.selectedInterval == interval.timeInterval,
-                    action: { manager.updateInterval(interval.timeInterval) }
-                )
+        // 弹窗宽度固定（300pt），自定义间隔多时按钮会溢出，
+        // 因此用横向滚动承载完整列表。
+        ScrollViewReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 4) {
+                    ForEach(manager.availableIntervals) { interval in
+                        HydrationIntervalButton(
+                            interval: interval,
+                            isSelected: manager.selectedInterval == interval.timeInterval
+                        ) {
+                            manager.updateInterval(interval.timeInterval)
+                        }
+                        .id(interval.id)
+                    }
+                }
+                .padding(.vertical, 4)
+                .padding(.horizontal, 12)
+            }
+            .onChange(of: manager.selectedInterval) { _, newValue in
+                // 选中的自定义间隔可能在可视区之外，滚动到可见处，
+                // 否则用户会看不到自己选中了什么。
+                let target = manager.availableIntervals.first { $0.timeInterval == newValue }
+                if let target {
+                    withAnimation { proxy.scrollTo(target.id, anchor: .center) }
+                }
+            }
+            .onAppear {
+                let target = manager.availableIntervals.first { $0.timeInterval == manager.selectedInterval }
+                if let target {
+                    proxy.scrollTo(target.id, anchor: .center)
+                }
             }
         }
-        .padding(.vertical, 4)
-        .padding(.horizontal, 12)
     }
 }
 

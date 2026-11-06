@@ -321,6 +321,30 @@ struct StretchReminderManagerIntervalTests {
         #expect(manager.availableIntervals.count == count)
     }
 
+    @Test("新增与预设等长的自定义间隔不会并存")
+    func addCustomIntervalMatchingPresetDoesNotDuplicate() {
+        let env = FakeReminderEnvironment()
+        let manager = StretchReminderManager(environment: env)
+
+        // 60 分钟与预设「1 小时」是同一时长
+        manager.addCustomInterval(minutes: 60)
+
+        let seconds = manager.availableIntervals.map(\.timeInterval)
+        #expect(Set(seconds).count == seconds.count, "同一时长不应出现两次，否则选择器会渲染出两个同时高亮的按钮")
+        #expect(!manager.availableIntervals.contains(.minutes(60)))
+    }
+
+    @Test("间隔列表中不存在重复时长")
+    func availableIntervalsHaveNoDuplicateDurations() {
+        let env = FakeReminderEnvironment()
+        env.seed(customIntervals: [20, 45, 60, 120])
+        let manager = StretchReminderManager(environment: env)
+
+        let seconds = manager.availableIntervals.map(\.timeInterval)
+        #expect(Set(seconds).count == seconds.count)
+        #expect(seconds == seconds.sorted(), "间隔列表应保持升序")
+    }
+
     @Test("移除默认间隔被忽略")
     func cannotRemoveDefaultInterval() {
         let env = FakeReminderEnvironment()

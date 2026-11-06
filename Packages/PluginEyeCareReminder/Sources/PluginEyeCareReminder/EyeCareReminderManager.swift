@@ -148,14 +148,17 @@ class EyeCareReminderManager: NSObject, SuperLog {
     /// - Parameter minutes: Duration in minutes
     func addCustomInterval(minutes: Int) {
         let option = IntervalOption.minutes(minutes)
-        if !availableIntervals.contains(option) {
-            availableIntervals.append(option)
-            availableIntervals.sort { $0.timeInterval < $1.timeInterval }
-            saveCustomIntervals()
-            
-            // Auto select the newly added interval
-            updateInterval(option.timeInterval)
+        // 按时长（秒）判重：自定义 60 分钟与预设 1 小时是同一时长，
+        // 同时存在会让选择器渲染出两个按钮且同时高亮。
+        guard !availableIntervals.contains(where: { $0.timeInterval == option.timeInterval }) else {
+            return
         }
+        availableIntervals.append(option)
+        availableIntervals.sort { $0.timeInterval < $1.timeInterval }
+        saveCustomIntervals()
+
+        // Auto select the newly added interval
+        updateInterval(option.timeInterval)
     }
     
     /// Remove an interval
@@ -263,7 +266,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
     private func loadAvailableIntervals() {
         // Start with default intervals
         var intervals = Self.commonIntervals
-        
+
         // Load custom intervals from UserDefaults
         if let customMinutesArray = environment.savedCustomIntervals(forKey: customIntervalsKey) {
             let customOptions = customMinutesArray.map { IntervalOption.minutes($0) }
@@ -274,10 +277,11 @@ class EyeCareReminderManager: NSObject, SuperLog {
                 }
             }
         }
-        
-        // Sort by duration
-        intervals.sort { $0.timeInterval < $1.timeInterval }
-        
+
+        // 按时长（秒）去重：自定义 60 分钟不应与预设 1 小时并存，
+        // 否则选择器会渲染出两个按钮且同时高亮。
+        intervals = ReminderIntervalList.deduped(intervals) { $0.timeInterval }
+
         self.availableIntervals = intervals
     }
     
