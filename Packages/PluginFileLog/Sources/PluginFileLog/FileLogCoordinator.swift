@@ -55,7 +55,9 @@ final class FileLogCoordinator: @unchecked Sendable, SuperLog, DiagnosticsProvid
     private var lastPolledDate = Date.distantPast
     private var pollTimer: DispatchSourceTimer?
     private var pendingRecords: [LogRecord] = []
-    private var seenRecordKeys: Set<String> = []
+    /// 采集水位线：记录已消费到的位置，避免重叠轮询重复写入，
+    /// 同时不像「已见 key 集合」那样无限增长。
+    private var watermark = LogWatermark()
     private var pollInFlight = false
 
     /// 心跳节流计数：每次 OSLog 轮询 tick 自增，每 N 次打一条日志。
@@ -110,7 +112,7 @@ final class FileLogCoordinator: @unchecked Sendable, SuperLog, DiagnosticsProvid
             isFileLoggingDisabled = false
             lastPolledDate = Date().addingTimeInterval(-writeDelay)
             pendingRecords = []
-            seenRecordKeys = []
+            watermark.reset()
             if Self.verbose { Self.logger.info("\(Self.t)启动 OSLog 轮询(间隔 \(self.pollInterval)s)，写入 \(self.logsDirectory.path)") }
             purgeExpiredLogs()
             purgeOversizedLogs()
@@ -255,8 +257,23 @@ final class FileLogCoordinator: @unchecked Sendable, SuperLog, DiagnosticsProvid
                 guard let records else { return }
 
                 self.lastPolledDate = pollDate.addingTimeInterval(-self.writeDelay)
-                for record in records where !self.seenRecordKeys.contains(record.key) {
-                    self.seenRecordKeys.insert(record.key)
+
+                // 按时间顺序消费，用水位线跳过重叠窗口里已写过的条目。
+                // 位置由「时间戳 + 同刻序号」构成，因此内容相同的两条
+                // 消息不会被误当成一条而丢掉。
+                //
+                // 同刻序号是该时间戳内条目的累计序号（而非本轮数组下标），
+                // 这样重叠轮询读到的同一条目在两轮中位置相同，
+                // 水位线判断才可靠。
+                var ordinalsByTime: [TimeInterval: Int] = [:]
+                for record in records {
+                    let time = record.date.timeIntervalSinceReferenceDate
+                    let ordinal = ordinalsByTime[time, default: 0]
+                    ordinalsByTime[time] = ordinal + 1
+
+                    let position = LogWatermark.Position(time: time, ordinal: ordinal)
+                    guard !self.watermark.isConsumed(position) else { continue }
+                    self.watermark.advance(to: position)
                     self.pendingRecords.append(record)
                 }
 
@@ -296,7 +313,6 @@ final class FileLogCoordinator: @unchecked Sendable, SuperLog, DiagnosticsProvid
         let records = entries.map { entry in
             LogRecord(
                 date: entry.date,
-                key: Self.recordKey(for: entry),
                 line: Self.formatEntry(entry, formatter: formatter)
             )
         }
@@ -315,12 +331,10 @@ final class FileLogCoordinator: @unchecked Sendable, SuperLog, DiagnosticsProvid
 
     struct LogRecord {
         let date: Date
-        let key: String
         let line: String
 
-        init(date: Date, key: String? = nil, line: String) {
+        init(date: Date, line: String) {
             self.date = date
-            self.key = key ?? "\(date.timeIntervalSinceReferenceDate)|\(line)"
             self.line = line
         }
     }
@@ -349,11 +363,6 @@ final class FileLogCoordinator: @unchecked Sendable, SuperLog, DiagnosticsProvid
         }
 
         return (ready, pending)
-    }
-
-    static func recordKey(for entry: OSLogEntry) -> String {
-        let category = (entry as? OSLogEntryLog)?.category ?? ""
-        return "\(entry.date.timeIntervalSinceReferenceDate)|\(category)|\(entry.composedMessage)"
     }
 
     static func subsystemPredicate(for rootSubsystem: String) -> NSPredicate {
@@ -446,6 +455,14 @@ final class FileLogCoordinator: @unchecked Sendable, SuperLog, DiagnosticsProvid
 
     private func purgeOversizedLogs() {
         var files = logFiles(in: logsDirectory)
+
+        // 当前正在写入的文件不能删：删掉后 FileHandle 仍指向已删除的
+        // inode，后续日志会静默丢失。跳过它，只清理历史文件。
+        let currentPath = currentFilePath?.standardizedFileURL
+        files.removeAll { file in
+            currentPath != nil && file.standardizedFileURL == currentPath
+        }
+
         var totalSize = files.reduce(0) { total, file in
             total + ((try? file.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0)
         }

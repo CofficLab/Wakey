@@ -37,10 +37,10 @@ struct FileLogCoordinatorTests {
     @Test func recordsReadyToWriteAreChronologicalStableAndRespectCutoff() {
         let cutoff = Date(timeIntervalSince1970: 20)
         let records = [
-            FileLogCoordinator.LogRecord(date: Date(timeIntervalSince1970: 30), key: "late", line: "late"),
-            FileLogCoordinator.LogRecord(date: Date(timeIntervalSince1970: 10), key: "early", line: "early"),
-            FileLogCoordinator.LogRecord(date: cutoff, key: "equal-a", line: "equal-a"),
-            FileLogCoordinator.LogRecord(date: cutoff, key: "equal-b", line: "equal-b"),
+            FileLogCoordinator.LogRecord(date: Date(timeIntervalSince1970: 30), line: "late"),
+            FileLogCoordinator.LogRecord(date: Date(timeIntervalSince1970: 10), line: "early"),
+            FileLogCoordinator.LogRecord(date: cutoff, line: "equal-a"),
+            FileLogCoordinator.LogRecord(date: cutoff, line: "equal-b"),
         ]
 
         let result = FileLogCoordinator.recordsReadyToWrite(records, upTo: cutoff)
