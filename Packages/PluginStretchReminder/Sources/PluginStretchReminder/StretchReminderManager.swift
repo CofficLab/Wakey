@@ -28,7 +28,7 @@ class StretchReminderManager: NSObject, SuperLog {
     private let environment: any ReminderEnvironment
 
     private(set) var isActive: Bool = false
-    private(set) var selectedInterval: TimeInterval = 60 * 60 // Default 1 hour
+    private(set) var selectedInterval: TimeInterval = StretchReminderManager.defaultInterval.timeInterval
     private(set) var availableIntervals: [IntervalOption] = []
     private(set) var nextBreakTime: Date?
     private(set) var startTime: Date?
@@ -118,9 +118,9 @@ class StretchReminderManager: NSObject, SuperLog {
         availableIntervals.removeAll { $0 == option }
         saveCustomIntervals()
 
-        // If currently selected interval was removed, revert to default
-        if selectedInterval == option.timeInterval {
-            updateInterval(Self.commonIntervals[2].timeInterval) // Default to 1 hour
+        // If the selected interval no longer exists, fall back to the default.
+        if !availableIntervals.contains(where: { $0.timeInterval == selectedInterval }) {
+            updateInterval(Self.defaultInterval.timeInterval)
         }
     }
 
@@ -128,7 +128,7 @@ class StretchReminderManager: NSObject, SuperLog {
     func resetIntervals() {
         availableIntervals = Self.commonIntervals
         saveCustomIntervals()
-        updateInterval(Self.commonIntervals[2].timeInterval) // Default to 1 hour
+        updateInterval(Self.defaultInterval.timeInterval)
     }
 
     func updateInterval(_ interval: TimeInterval) {
@@ -247,6 +247,12 @@ extension StretchReminderManager {
         .hours(2),
         .hours(3),
     ]
+
+    /// 拉伸提醒的默认间隔。
+    ///
+    /// 首次启动、移除当前选中项、恢复默认时都回退到该值；
+    /// 插件描述中的「每小时」也对应它。
+    static let defaultInterval: IntervalOption = .hours(1)
 }
 
 // extension StretchReminderManager: UNUserNotificationCenterDelegate {

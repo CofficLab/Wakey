@@ -35,7 +35,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
     private(set) var isActive: Bool = false
 
     /// Selected break interval in seconds
-    private(set) var selectedInterval: TimeInterval = 60 * 60 // Default 60 minutes
+    private(set) var selectedInterval: TimeInterval = EyeCareReminderManager.defaultInterval.timeInterval
     
     /// Available intervals (including defaults and custom ones)
     private(set) var availableIntervals: [IntervalOption] = []
@@ -170,9 +170,9 @@ class EyeCareReminderManager: NSObject, SuperLog {
         availableIntervals.removeAll { $0 == option }
         saveCustomIntervals()
 
-        // If currently selected interval was removed, revert to default
-        if selectedInterval == option.timeInterval {
-            updateInterval(Self.commonIntervals[0].timeInterval)
+        // If the selected interval no longer exists, fall back to the default.
+        if !availableIntervals.contains(where: { $0.timeInterval == selectedInterval }) {
+            updateInterval(Self.defaultInterval.timeInterval)
         }
     }
 
@@ -180,7 +180,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
     func resetIntervals() {
         availableIntervals = Self.commonIntervals
         saveCustomIntervals()
-        updateInterval(Self.commonIntervals[0].timeInterval)
+        updateInterval(Self.defaultInterval.timeInterval)
     }
 
     /// Update break interval
@@ -330,11 +330,23 @@ extension EyeCareReminderManager {
         }
     }
 
+    /// 护眼提醒的预设间隔。
+    ///
+    /// 护眼使用独立于另外两个提醒的一套预设：20 分钟是护眼场景的推荐
+    /// 节奏（也正是插件描述对外承诺的间隔），把它放进预设才能让
+    /// 「描述 = 默认值 = 可选项」三者一致。
     static let commonIntervals: [IntervalOption] = [
         .minutes(10),
+        .minutes(20),
         .minutes(30),
         .hours(1),
         .hours(2),
         .hours(3),
     ]
+
+    /// 护眼提醒的默认间隔。
+    ///
+    /// 首次启动、移除当前选中项、恢复默认时都回退到该值；
+    /// 插件描述中的「每 20 分钟」也对应它。
+    static let defaultInterval: IntervalOption = .minutes(20)
 }

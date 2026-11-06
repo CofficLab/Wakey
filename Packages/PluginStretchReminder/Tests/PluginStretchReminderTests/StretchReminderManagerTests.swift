@@ -366,7 +366,7 @@ struct StretchReminderManagerIntervalTests {
         manager.removeInterval(.minutes(45))
 
         #expect(!manager.availableIntervals.contains(.minutes(45)))
-        #expect(manager.selectedInterval == StretchReminderManager.commonIntervals[2].timeInterval)
+        #expect(manager.selectedInterval == StretchReminderManager.defaultInterval.timeInterval)
     }
 
     @Test("移除未选中的自定义间隔不改变选中值")
@@ -392,7 +392,7 @@ struct StretchReminderManagerIntervalTests {
         manager.resetIntervals()
 
         #expect(manager.availableIntervals == StretchReminderManager.commonIntervals)
-        #expect(manager.selectedInterval == StretchReminderManager.commonIntervals[2].timeInterval)
+        #expect(manager.selectedInterval == StretchReminderManager.defaultInterval.timeInterval)
     }
 }
 

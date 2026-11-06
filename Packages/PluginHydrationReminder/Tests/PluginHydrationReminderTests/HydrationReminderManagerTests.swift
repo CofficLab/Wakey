@@ -356,7 +356,7 @@ struct HydrationReminderManagerIntervalTests {
         #expect(manager.availableIntervals == before)
     }
 
-    @Test("移除当前选中的自定义间隔会回退到 1 小时")
+    @Test("移除当前选中的自定义间隔会回退到默认间隔")
     func removingSelectedCustomIntervalFallsBack() {
         let env = FakeReminderEnvironment()
         let manager = HydrationReminderManager(environment: env)
@@ -366,7 +366,7 @@ struct HydrationReminderManagerIntervalTests {
         manager.removeInterval(.minutes(45))
 
         #expect(!manager.availableIntervals.contains(.minutes(45)))
-        #expect(manager.selectedInterval == HydrationReminderManager.commonIntervals[2].timeInterval)
+        #expect(manager.selectedInterval == HydrationReminderManager.defaultInterval.timeInterval)
     }
 
     @Test("移除未选中的自定义间隔不改变选中值")
@@ -383,7 +383,7 @@ struct HydrationReminderManagerIntervalTests {
         #expect(manager.selectedInterval == selected)
     }
 
-    @Test("重置恢复默认间隔并选中 1 小时")
+    @Test("重置恢复默认间隔并选中默认间隔")
     func resetRestoresDefaults() {
         let env = FakeReminderEnvironment()
         let manager = HydrationReminderManager(environment: env)
@@ -392,7 +392,7 @@ struct HydrationReminderManagerIntervalTests {
         manager.resetIntervals()
 
         #expect(manager.availableIntervals == HydrationReminderManager.commonIntervals)
-        #expect(manager.selectedInterval == HydrationReminderManager.commonIntervals[2].timeInterval)
+        #expect(manager.selectedInterval == HydrationReminderManager.defaultInterval.timeInterval)
     }
 }
 
