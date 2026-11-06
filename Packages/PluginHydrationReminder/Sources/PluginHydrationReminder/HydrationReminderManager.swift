@@ -42,15 +42,6 @@ class HydrationReminderManager: NSObject, SuperLog {
     /// 状态落在插件专属目录的 Binary Plist（见 `ReminderStateStore`）。
     var todayBreakCount: Int { dailyCounter.todayCount }
 
-    enum PermissionStatus {
-        case notDetermined
-        case authorized
-        case denied
-    }
-
-    private(set) var permissionStatus: PermissionStatus = .notDetermined
-    private(set) var notificationPermissionGranted: Bool = false
-
     init(environment: any ReminderEnvironment) {
         self.environment = environment
         self.dailyCounter = DailyCounter(
@@ -71,17 +62,6 @@ class HydrationReminderManager: NSObject, SuperLog {
         if Self.verbose {
             os_log("\(self.t)HydrationReminderManager initialized")
         }
-        checkNotificationPermission()
-    }
-
-    func checkNotificationPermission() {
-        // No longer need system notification permission
-        self.permissionStatus = .authorized
-        self.notificationPermissionGranted = true
-    }
-
-    func openNotificationSettings() {
-        // No longer need to open system settings
     }
 
     /// 宿主在 `onBoot` 阶段注入插件专属的状态存储目录。
@@ -172,7 +152,6 @@ class HydrationReminderManager: NSObject, SuperLog {
         timer = environment.schedule(after: interval) { [weak self] in
             self?.fireBreakReminder()
         }
-        scheduleNotification(in: interval)
     }
 
     private func fireBreakReminder() {
@@ -184,16 +163,6 @@ class HydrationReminderManager: NSObject, SuperLog {
 
     private func showDesktopGradient() {
         environment.presentReminderOverlay(kind: .hydration)
-    }
-
-    private func scheduleNotification(in interval: TimeInterval) {
-        // No system notification needed
-    }
-
-    private func requestNotificationPermission() {
-        // No longer need to request permission
-        self.notificationPermissionGranted = true
-        self.permissionStatus = .authorized
     }
 
     func cleanup() {

@@ -502,26 +502,7 @@ struct HydrationReminderManagerPersistenceTests {
 @Suite("HydrationReminderManager 权限与清理")
 @MainActor
 struct HydrationReminderManagerMiscTests {
-    @Test("初始化即视为已授权（不再使用系统通知）")
-    func permissionIsGrantedOnInit() {
-        let env = FakeReminderEnvironment()
 
-        let manager = HydrationReminderManager(environment: env)
-
-        #expect(manager.notificationPermissionGranted)
-        #expect(manager.permissionStatus == .authorized)
-    }
-
-    @Test("openNotificationSettings 不改变状态")
-    func openNotificationSettingsIsNoOp() {
-        let env = FakeReminderEnvironment()
-        let manager = HydrationReminderManager(environment: env)
-
-        manager.openNotificationSettings()
-
-        #expect(manager.notificationPermissionGranted)
-        #expect(manager.permissionStatus == .authorized)
-    }
 
     @Test("cleanup 取消待触发计时")
     func cleanupCancelsTimers() {

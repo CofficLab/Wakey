@@ -58,19 +58,6 @@ class EyeCareReminderManager: NSObject, SuperLog {
     /// 状态落在插件专属目录的 Binary Plist（见 `ReminderStateStore`）。
     var todayBreakCount: Int { dailyCounter.todayCount }
 
-    /// Notification permission status
-    enum PermissionStatus {
-        case notDetermined
-        case authorized
-        case denied
-    }
-
-    /// Current notification permission status
-    private(set) var permissionStatus: PermissionStatus = .notDetermined
-
-    /// Notification permission granted
-    private(set) var notificationPermissionGranted: Bool = false
-
     // MARK: - Initialization
 
     init(environment: any ReminderEnvironment) {
@@ -93,7 +80,6 @@ class EyeCareReminderManager: NSObject, SuperLog {
         if Self.verbose {
             os_log("\(self.t)EyeCareReminderManager initialized")
         }
-        checkNotificationPermission()
     }
 
     /// 宿主在 `onBoot` 阶段注入插件专属的状态存储目录。
@@ -105,18 +91,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
 
     // MARK: - Public Methods
 
-    /// Check and request notification permission
-    func checkNotificationPermission() {
-        // No longer need system notification permission
-        self.permissionStatus = .authorized
-        self.notificationPermissionGranted = true
-    }
-
     /// Open System Settings for Notifications
-    func openNotificationSettings() {
-        // No longer need to open system settings
-    }
-
     /// Start break reminder
     func start() {
         guard !isActive else { return }
@@ -238,7 +213,6 @@ class EyeCareReminderManager: NSObject, SuperLog {
         timer = environment.schedule(after: interval) { [weak self] in
             self?.fireBreakReminder()
         }
-        scheduleNotification(in: interval)
     }
 
     /// Fire break reminder
@@ -257,19 +231,6 @@ class EyeCareReminderManager: NSObject, SuperLog {
     /// Show desktop gradient animation
     private func showDesktopGradient() {
         environment.presentReminderOverlay(kind: .eyeCare)
-    }
-
-    /// Schedule system notification
-    /// - Parameter interval: Interval in seconds
-    private func scheduleNotification(in interval: TimeInterval) {
-        // No system notification needed
-    }
-
-    /// Request notification permission
-    private func requestNotificationPermission() {
-        // No longer need to request permission
-        self.notificationPermissionGranted = true
-        self.permissionStatus = .authorized
     }
 
     /// Cleanup resources
