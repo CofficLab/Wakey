@@ -36,20 +36,29 @@ public extension Image {
         }
     }
     
-    /// 将 CGImage 转换为 JPEG 格式并保存到下载目录
-    /// 
-    /// - Parameter image: 需要转换和保存的 CGImage 对象
-    /// - Note: 图像将以 'c.jpeg' 的文件名保存到用户的下载目录中
-    ///        如果操作失败，错误信息将打印到控制台
-    static func saveAsJpeg(_ image: CGImage) {
-        guard let downloadsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first else {
-            print("Failed to access downloads folder.")
-            return
+    /// 将 CGImage 转换为 JPEG 格式并保存到指定位置
+    ///
+    /// - Parameters:
+    ///   - image: 需要转换和保存的 CGImage 对象
+    ///   - saveTo: 保存文件的目标 URL。为 `nil` 时通过保存面板让用户选择位置。
+    /// - Note: 沙盒应用不能静默写入「下载」目录（需要额外 entitlement，
+    ///        且用户未必期望文件自动出现在那里），因此未指定路径时
+    ///        交由用户在保存面板中决定。
+    @MainActor static func saveAsJpeg(_ image: CGImage, saveTo: URL? = nil) {
+        let targetURL: URL
+        if let saveTo {
+            targetURL = saveTo
+        } else {
+            guard let chosen = ExportDestinationPicker.chooseFile(
+                suggestedName: "image.jpeg",
+                message: "Choose where to save the image."
+            ) else {
+                return
+            }
+            targetURL = chosen
         }
 
-        let path = downloadsURL.appendingPathComponent("c.jpeg")
-
-        guard let destination = CGImageDestinationCreateWithURL(path as CFURL, UTType.jpeg.identifier as CFString, 1, nil) else {
+        guard let destination = CGImageDestinationCreateWithURL(targetURL as CFURL, UTType.jpeg.identifier as CFString, 1, nil) else {
             print("创建图像目标失败")
             return
         }
@@ -119,11 +128,13 @@ public extension Image {
 
 // MARK: - CGImage Extensions
 public extension CGImage {
-    /// 将 CGImage 转换为 JPEG 格式并保存到下载目录
-    /// 
-    /// - Note: 图像将以 'c.jpeg' 的文件名保存到用户的下载目录中
-    ///        如果操作失败，错误信息将打印到控制台
-    func saveAsJpeg() {
-        Image.saveAsJpeg(self)
+    /// 将 CGImage 转换为 JPEG 格式并保存
+    ///
+    /// - Parameter saveTo: 保存文件的目标 URL。为 `nil` 时通过保存面板让用户选择位置。
+    /// - Note: 沙盒应用不能静默写入「下载」目录（需要额外 entitlement，
+    ///        且用户未必期望文件自动出现在那里），因此未指定路径时
+    ///        交由用户在保存面板中决定。
+    @MainActor func saveAsJpeg(saveTo: URL? = nil) {
+        Image.saveAsJpeg(self, saveTo: saveTo)
     }
 }

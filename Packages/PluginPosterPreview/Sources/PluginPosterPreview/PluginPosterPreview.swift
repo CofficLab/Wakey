@@ -50,6 +50,10 @@ public final class PluginPosterPreview: SuperPlugin {
 struct PosterPreviewNavigationView: View {
     let provider: PosterProviding?
     @State private var isGenerating = false
+    /// 导出结果反馈（成功给出位置，失败给出原因）。
+    @State private var exportFeedback: String?
+    /// 最近一次导出的目录，供「在 Finder 中显示」使用。
+    @State private var lastExportDirectory: URL?
 
     private var posterConfigurations: [PosterViewConfiguration] {
         provider?.posters ?? []
@@ -68,6 +72,24 @@ struct PosterPreviewNavigationView: View {
                     .foregroundColor(.secondary)
 
                 Spacer()
+            }
+
+            if let exportFeedback {
+                HStack(spacing: 8) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(.green)
+                    Text(exportFeedback)
+                        .font(.callout)
+                        .foregroundColor(.secondary)
+
+                    if let lastExportDirectory {
+                        Button(String(localized: "Show in Finder", table: "PosterPreview", bundle: .module, comment: "Button that reveals the exported screenshots in Finder")) {
+                            ExportDestinationPicker.revealInFinder(lastExportDirectory)
+                        }
+                        .buttonStyle(.link)
+                    }
+                }
+                .padding(.vertical, 4)
             }
 
             if posterConfigurations.isEmpty {
@@ -128,7 +150,11 @@ struct PosterPreviewNavigationView: View {
         }
     }
 
-    /// 生成 App Store 截图
+    /// 导出 App Store 截图
+    ///
+    /// 先让用户选择保存位置，再逐张渲染写入。
+    /// 沙盒应用不能静默写入「下载」目录（需要额外 entitlement，
+    /// 且用户未必期望文件自动出现在那里），因此交由用户在保存面板中决定。
     private func captureAppStoreScreenshots() {
         guard !posterConfigurations.isEmpty else { return }
 
@@ -139,21 +165,40 @@ struct PosterPreviewNavigationView: View {
         let timestamp = Date().compactDateTime
         let folderName = "AppStoreScreenshots_\(timestamp)"
 
-        guard let downloadsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first else {
+        let message = String(
+            localized: "Choose where to save the App Store screenshots.",
+            table: "PosterPreview",
+            bundle: .module,
+            comment: "Prompt shown when choosing where to export App Store screenshots"
+        )
+
+        guard let chosenDirectory = ExportDestinationPicker.chooseDirectory(
+            suggestedName: folderName,
+            message: message
+        ) else {
             return
         }
 
-        let folderURL = downloadsURL.appendingPathComponent(folderName)
+        let folderURL = chosenDirectory.appendingPathComponent(folderName, isDirectory: true)
 
         do {
             try FileManager.default.createDirectory(at: folderURL, withIntermediateDirectories: true)
         } catch {
+            exportFeedback = String(
+                localized: "Failed to create the export folder.",
+                table: "PosterPreview",
+                bundle: .module,
+                comment: "Shown when the export folder could not be created"
+            )
             return
         }
 
         isGenerating = true
+        exportFeedback = nil
+        lastExportDirectory = folderURL
 
         DispatchQueue.main.async {
+            var failures = 0
             for config in configs {
                 for (sizeName, size) in macOSSizes {
                     let posterContent = config.content()
@@ -165,11 +210,37 @@ struct PosterPreviewNavigationView: View {
                     let fileName = "\(config.id)_\(sizeName).png"
                     let fileURL = folderURL.appendingPathComponent(fileName)
 
-                    try? posterContent.snapshot(path: fileURL, scale: 1.0)
+                    do {
+                        try posterContent.snapshot(path: fileURL, scale: 1.0)
+                    } catch {
+                        failures += 1
+                    }
                 }
             }
 
             isGenerating = false
+
+            if failures > 0 {
+                exportFeedback = String(
+                    format: String(
+                        localized: "Exported with %lld failure(s).",
+                        table: "PosterPreview",
+                        bundle: .module,
+                        comment: "Shown when some screenshots failed to export"
+                    ),
+                    failures
+                )
+            } else {
+                exportFeedback = String(
+                    format: String(
+                        localized: "Exported to %@.",
+                        table: "PosterPreview",
+                        bundle: .module,
+                        comment: "Shown after screenshots are exported successfully"
+                    ),
+                    folderURL.lastPathComponent
+                )
+            }
         }
     }
 }

@@ -11,28 +11,18 @@ import UniformTypeIdentifiers
 struct ImageSaveJpegTests {
     // MARK: - CGImage
 
-    @Test("saveAsJpeg 把 CGImage 写到下载目录的 c.jpeg")
-    func savesCGImageToDownloads() throws {
-        guard let downloads = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first else {
-            return
-        }
-        let target = downloads.appendingPathComponent("c.jpeg")
+    @Test("saveAsJpeg 按指定路径写入 CGImage")
+    func savesCGImageToGivenURL() throws {
+        // 沙盒应用不能静默写入「下载」目录（需要额外 entitlement），
+        // 因此导出必须显式指定目标路径。
+        let directory = try makeTemporaryDirectory("KitLayoutSave")
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let target = directory.appendingPathComponent("c.jpeg")
 
-        // 若用户已有同名文件，先备份，测试结束后还原。
-        let backup = FileManager.default.temporaryDirectory
-            .appendingPathComponent("c.jpeg-\(UUID().uuidString)")
-        let existed = FileManager.default.fileExists(atPath: target.path)
-        if existed {
-            try FileManager.default.moveItem(at: target, to: backup)
-        }
-        defer {
-            try? FileManager.default.removeItem(at: target)
-            if existed {
-                try? FileManager.default.moveItem(at: backup, to: target)
-            }
-        }
-
-        Image.saveAsJpeg(renderedImage(of: Color.red.frame(width: 8, height: 8)))
+        Image.saveAsJpeg(
+            renderedImage(of: Color.red.frame(width: 8, height: 8)),
+            saveTo: target
+        )
 
         #expect(FileManager.default.fileExists(atPath: target.path))
         let source = CGImageSourceCreateWithURL(target as CFURL, nil)
@@ -41,26 +31,13 @@ struct ImageSaveJpegTests {
         #expect(decoded != nil)
     }
 
-    @Test("CGImage.saveAsJpeg 与 Image.saveAsJpeg 行为一致")
+    @Test("CGImage.saveAsJpeg 按指定路径写入")
     func cgImageSaveAsJpegExtension() throws {
-        guard let downloads = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first else {
-            return
-        }
-        let target = downloads.appendingPathComponent("c.jpeg")
-        let backup = FileManager.default.temporaryDirectory
-            .appendingPathComponent("c.jpeg-\(UUID().uuidString)")
-        let existed = FileManager.default.fileExists(atPath: target.path)
-        if existed {
-            try FileManager.default.moveItem(at: target, to: backup)
-        }
-        defer {
-            try? FileManager.default.removeItem(at: target)
-            if existed {
-                try? FileManager.default.moveItem(at: backup, to: target)
-            }
-        }
+        let directory = try makeTemporaryDirectory("KitLayoutSave")
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let target = directory.appendingPathComponent("c.jpeg")
 
-        renderedImage(of: Color.blue.frame(width: 8, height: 8)).saveAsJpeg()
+        renderedImage(of: Color.blue.frame(width: 8, height: 8)).saveAsJpeg(saveTo: target)
 
         #expect(FileManager.default.fileExists(atPath: target.path))
         let source = CGImageSourceCreateWithURL(target as CFURL, nil)
