@@ -44,9 +44,6 @@ class WakeyUITestBase: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
         app = XCUIApplication()
-        // 关闭首次自动呈现的欢迎卡片：避免卡片初始覆盖 popup 导致 AX 快照
-        // 崩溃。Onboarding UI 测试通过设置-通用「重新查看新手引导」重放验证。
-        app.launchArguments.append("-disable-auto-onboarding")
         if openSettingsOnLaunch {
             app.launchArguments.append("-wakey-open-settings")
         }
@@ -130,9 +127,8 @@ class WakeyUITestBase: XCTestCase {
             }
         }
         XCTAssertTrue(element("wakey.statusbar.settings").exists, "Status-bar popup did not open")
-        // 注意：不做「跳过」卡片等全量 AX 查询——popup 组合 RootView overlay
-        // 后大范围枚举会触发 XCTest 与被测 app 的 AX 快照崩溃。欢迎卡片在
-        // UI 测试中通过 -disable-auto-onboarding 关闭自动呈现，不影响本流程。
+        // 注意：不做全量 AX 查询——popup 组合 RootView overlay 后大范围枚举
+        // 会触发 XCTest 与被测 app 的 AX 快照崩溃。
     }
 
     func openSettings() {

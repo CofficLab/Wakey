@@ -8,16 +8,14 @@ import Testing
 
 /// 完全可控的 capability 替身，避免依赖真实 Provider 与磁盘。
 ///
-/// 同一替身同时实现六个细分能力，便于按 Lumi 的能力拆分结构注入。
+/// 同一替身同时实现五个细分能力，便于按 Lumi 的能力拆分结构注入。
 @MainActor
 private final class StubCapability: GeneralSettingsDocsCapability,
-    GeneralSettingsOnboardingCapability,
     GeneralSettingsDiagnosticsCapability,
     GeneralSettingsStorageCapability,
     GeneralSettingsUninstallCapability
 {
     var manuals: [DocsEntry]
-    var isOnboardingAvailable: Bool
     var isDiagnosticsAvailable: Bool
     var isUninstallAvailable: Bool
     var isStorageAvailable: Bool
@@ -28,28 +26,21 @@ private final class StubCapability: GeneralSettingsDocsCapability,
     var prepareCalls = 0
     var lastUninstallOptions: UninstallOptions?
     var uninstallError: Error?
-    var replayOnboardingCalls = 0
     var makeDiagnosticsArchiveCalls = 0
     var diagnosticsError: Error?
 
     init(
         manuals: [DocsEntry] = [],
-        isOnboardingAvailable: Bool = true,
         isDiagnosticsAvailable: Bool = true,
         isUninstallAvailable: Bool = true,
         isStorageAvailable: Bool = true,
         storageSize: Int64? = nil
     ) {
         self.manuals = manuals
-        self.isOnboardingAvailable = isOnboardingAvailable
         self.isDiagnosticsAvailable = isDiagnosticsAvailable
         self.isUninstallAvailable = isUninstallAvailable
         self.isStorageAvailable = isStorageAvailable
         self.storageSize = storageSize
-    }
-
-    func replayOnboarding() {
-        replayOnboardingCalls += 1
     }
 
     func makeDiagnosticsArchive() async throws -> DiagnosticsArchive {
@@ -99,7 +90,6 @@ private final class StubCapability: GeneralSettingsDocsCapability,
 private func makeViewModel(_ capability: StubCapability) -> GeneralSettingsViewModel {
     GeneralSettingsViewModel(
         docsCapability: capability,
-        onboardingCapability: capability,
         diagnosticsCapability: capability,
         storageCapability: capability,
         uninstallCapability: capability
@@ -241,25 +231,9 @@ struct GeneralSettingsViewModelUninstallTests {
     }
 }
 
-@Suite("GeneralSettingsViewModel 新手引导与诊断")
+@Suite("GeneralSettingsViewModel 诊断")
 @MainActor
-struct GeneralSettingsViewModelOnboardingDiagnosticsTests {
-    @Test("新手引导可用性透传 capability")
-    func exposesOnboardingAvailability() {
-        let model = makeViewModel(StubCapability(isOnboardingAvailable: false))
-        #expect(!model.isOnboardingAvailable)
-    }
-
-    @Test("replayOnboarding 透传给 capability")
-    func replaysOnboarding() {
-        let capability = StubCapability()
-        let model = makeViewModel(capability)
-
-        model.replayOnboarding()
-
-        #expect(capability.replayOnboardingCalls == 1)
-    }
-
+struct GeneralSettingsViewModelDiagnosticsTests {
     @Test("诊断可用性透传 capability")
     func exposesDiagnosticsAvailability() {
         let model = makeViewModel(StubCapability(isDiagnosticsAvailable: false))

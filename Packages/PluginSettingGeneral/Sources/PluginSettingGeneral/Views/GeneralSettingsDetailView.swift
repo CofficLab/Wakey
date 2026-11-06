@@ -39,7 +39,7 @@ struct GeneralSettingsDetailView: View {
     var body: some View {
         AppSettingsContentScaffold(maxContentWidth: nil) {
             VStack(alignment: .leading, spacing: 24) {
-                onboardingSection
+                manualSection
                 lumiSection
                 aboutSection
                 diagnosticsSection
@@ -57,47 +57,28 @@ struct GeneralSettingsDetailView: View {
         }
     }
 
-    // MARK: - 新手引导
+    // MARK: - 使用手册
 
-    private var onboardingSection: some View {
-        AppSettingSection(
-            title: pluginLocalization.string("Onboarding"),
-            titleAlignment: .leading
-        ) {
-            VStack(spacing: 0) {
+    /// 「使用手册」分组：仅在有插件提供说明书时展示入口，否则整组隐藏。
+    @ViewBuilder
+    private var manualSection: some View {
+        if !viewModel.manuals.isEmpty {
+            AppSettingSection(
+                title: pluginLocalization.string("User Manual"),
+                titleAlignment: .leading
+            ) {
                 AppSettingRow(
-                    title: pluginLocalization.string("Replay Onboarding"),
-                    description: pluginLocalization.string("Replay the first-launch onboarding flow."),
-                    icon: "graduationcap"
+                    title: pluginLocalization.string("Browse Manuals"),
+                    description: pluginLocalization.string("Usage guides for every feature."),
+                    icon: "book"
                 ) {
                     AppButton(
-                        pluginLocalization.string("Start"),
-                        systemImage: "arrow.right",
+                        pluginLocalization.string("Open"),
+                        systemImage: "book.pages",
                         style: .secondary,
                         size: .small
                     ) {
-                        viewModel.replayOnboarding()
-                    }
-                    .disabled(!viewModel.isOnboardingAvailable)
-                }
-
-                if !viewModel.manuals.isEmpty {
-                    Divider()
-                        .padding(.vertical, 8)
-
-                    AppSettingRow(
-                        title: pluginLocalization.string("User Manual"),
-                        description: pluginLocalization.string("Usage guides for every feature."),
-                        icon: "book"
-                    ) {
-                        AppButton(
-                            pluginLocalization.string("Open"),
-                            systemImage: "book.pages",
-                            style: .secondary,
-                            size: .small
-                        ) {
-                            isPresentingManuals = true
-                        }
+                        isPresentingManuals = true
                     }
                 }
             }

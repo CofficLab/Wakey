@@ -70,6 +70,29 @@
         }
       }
     },
+    "Browse Manuals" : {
+      "comment" : "Row title that opens the user manual browser",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Browse Manuals"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浏览说明书"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "瀏覽使用手冊"
+          }
+        }
+      }
+    },
     "Bundle ID" : {
       "comment" : "Row title showing the app bundle identifier",
       "localizations" : {
@@ -415,29 +438,6 @@
         }
       }
     },
-    "Onboarding" : {
-      "comment" : "Section title for the onboarding section",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Onboarding"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新手引导"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新手引導"
-          }
-        }
-      }
-    },
     "Open" : {
       "comment" : "Button label that opens the user manual",
       "localizations" : {
@@ -507,52 +507,6 @@
         }
       }
     },
-    "Replay the first-launch onboarding flow." : {
-      "comment" : "Description under the replay onboarding row",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Replay the first-launch onboarding flow."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重放首次启动引导流程。"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重播首次啟動引導流程。"
-          }
-        }
-      }
-    },
-    "Replay Onboarding" : {
-      "comment" : "Row title that replays the onboarding flow",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Replay Onboarding"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重新查看新手引导"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重新檢視新手引導"
-          }
-        }
-      }
-    },
     "Settings..." : {
       "comment" : "Menu item that opens the settings window",
       "localizations" : {
@@ -595,29 +549,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "部分資料未能清除，應用程式未移除。"
-          }
-        }
-      }
-    },
-    "Start" : {
-      "comment" : "Button label that starts the onboarding flow",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "开始"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "開始"
           }
         }
       }
@@ -1519,25 +1450,25 @@
         }
       }
     },
-    "Registers the General settings entry with onboarding, app info and about us." : {
+    "Registers the General settings entry with app info, manuals and about us." : {
       "comment" : "Description of the general settings plugin",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registers the General settings entry with onboarding, app info and about us."
+            "value" : "Registers the General settings entry with app info, manuals and about us."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在设置视图中注册「通用」入口，包含新手引导、应用信息与关于我们。"
+            "value" : "在设置视图中注册「通用」入口，包含应用信息、使用说明书与关于我们。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在設定中註冊「一般」入口，包含新手引導、應用程式資訊與關於我們。"
+            "value" : "在設定中註冊「一般」入口，包含應用程式資訊、使用手冊與關於我們。"
           }
         }
       }
