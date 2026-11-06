@@ -229,6 +229,49 @@ struct CaffeinateManagerFailureTests {
 
         #expect(fake.scheduledDelays.isEmpty)
     }
+
+    @Test("activate 返回是否成功激活")
+    func activateReportsSuccess() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        #expect(manager.activate(mode: .systemAndDisplay) == true)
+
+        fake.systemAssertionResult = CaffeinateAssertionResult(code: kIOReturnError, id: 0)
+        let failing = CaffeinateManager(environment: fake)
+        #expect(failing.activate(mode: .systemOnly) == false)
+    }
+
+    @Test("断言失败时不关闭显示器，也不改写激活状态")
+    func turnOffDisplaySkippedWhenAssertionFails() {
+        let fake = FakeCaffeinateEnvironment()
+        fake.systemAssertionResult = CaffeinateAssertionResult(code: kIOReturnNotPermitted, id: 0)
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.activateAndTurnOffDisplay(duration: 300)
+
+        #expect(fake.turnOffDisplayCount == 0)
+        #expect(manager.isActive == false)
+        #expect(manager.activeAction == nil)
+        #expect(manager.selectedDuration == 0)
+    }
+
+    @Test("已有会话时关屏会先释放旧会话再重新激活")
+    func turnOffDisplayReplacesRunningSession() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.activate(mode: .systemAndDisplay, duration: 600)
+        manager.activateAndTurnOffDisplay(duration: 1800)
+
+        // 旧会话的断言已释放；新的会话只持有系统断言
+        #expect(fake.releasedAssertionIDs == [101, 202])
+        #expect(fake.createdAssertions.map(\.kind) == [.system, .display, .system])
+        #expect(fake.turnOffDisplayCount == 1)
+        #expect(manager.activeAction == .systemOnly)
+        #expect(manager.selectedDuration == 1800)
+        #expect(manager.duration == 1800)
+    }
 }
 
 @Suite("CaffeinateManager 自定义时长")

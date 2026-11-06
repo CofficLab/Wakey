@@ -66,21 +66,30 @@ class CaffeinateManager: SuperLog {
 
     /// 激活防休眠模式
     /// - Parameter duration: 持续时间（秒），0 表示永久
-    func activate(duration: TimeInterval = 0) {
+    @discardableResult
+    func activate(duration: TimeInterval = 0) -> Bool {
         activate(mode: .systemAndDisplay, duration: duration)
     }
 
     /// 激活防休眠模式并立即关闭显示器
+    ///
+    /// 仅在防休眠确实激活成功后才关闭显示器——断言创建失败时不应让用户
+    /// 看到「屏幕黑了但系统仍会休眠」的状态。
+    ///
     /// - Parameter duration: 持续时间（秒），0 表示永久
     func activateAndTurnOffDisplay(duration: TimeInterval = 0) {
-        // 1. 激活防休眠（仅系统，允许显示器休眠）
-        activate(mode: .systemOnly, duration: duration)
+        // 若已有会话在运行，先停掉旧的：否则 activate 会因 isActive 直接返回，
+        // 且旧的显示器断言会继续阻止屏幕熄灭。
+        if isActive {
+            deactivate()
+        }
 
-        // 2. 更新状态
-        self.activeAction = .systemOnly
-        self.selectedDuration = duration
+        guard activate(mode: .systemOnly, duration: duration) else {
+            os_log(.error, "\(self.t)Cannot turn off display: anti-sleep assertion failed")
+            return
+        }
 
-        // 3. 关闭显示器
+        // activeAction / selectedDuration 已由 activate 成功路径写入。
         turnOffDisplay()
     }
 
@@ -114,12 +123,14 @@ class CaffeinateManager: SuperLog {
     /// - Parameters:
     ///   - mode: 休眠模式（仅系统或系统与显示器）
     ///   - duration: 持续时间（秒），0 表示永久
-    func activate(mode: SleepMode, duration: TimeInterval = 0) {
+    /// - Returns: 是否成功激活（断言创建成功且会话已进入运行状态）
+    @discardableResult
+    func activate(mode: SleepMode, duration: TimeInterval = 0) -> Bool {
         guard !isActive else {
             if Self.verbose {
                 os_log("\(self.t)Anti-sleep already active, ignoring duplicate request")
             }
-            return
+            return false
         }
 
         self.mode = mode
@@ -151,6 +162,8 @@ class CaffeinateManager: SuperLog {
             if duration > 0 {
                 startTimer(duration: duration)
             }
+
+            return true
         } else {
             if !systemResult.isSuccess {
                 os_log(.error, "\(self.t)Failed to create system sleep assertion: \(systemResult.code)")
@@ -166,6 +179,8 @@ class CaffeinateManager: SuperLog {
                 environment.releaseAssertion(id: displayAssertionID)
                 displayAssertionID = 0
             }
+
+            return false
         }
     }
 
