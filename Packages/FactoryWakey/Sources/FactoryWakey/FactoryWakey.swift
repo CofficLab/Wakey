@@ -8,6 +8,7 @@ import ProviderSettingView
 import ProviderPluginControl
 import ProviderPluginManaging
 import ProviderStorage
+import ProviderDocsView
 import SwiftUI
 
 // Plugin imports — Settings shell (Lumi 同款设置外壳：左上角 App 图标 + 名称/版本)
@@ -78,6 +79,10 @@ public enum FactoryWakey {
                 defaultStorageDirectoryName: "com.coffic.lumi.plugin.theme-manager"
             )
         )
+
+        // 文档条目：各插件通过 addManual / addAbout 贡献说明书与关于页，
+        // 由设置页「通用 → 说明书」统一展示（对齐 Lumi 的 ProviderFactory）。
+        try kernel.registerProvider((any DocsViewProviding).self, DefaultDocsViewProviding())
 
         // 数据存储：为插件启用状态提供持久化目录（对齐 Lumi 的 ProviderStorage 体系）
         try kernel.registerProvider((any StorageProviding).self, DefaultStorageProvider())
@@ -171,8 +176,8 @@ public enum FactoryWakey {
             return themed(view, kernel: kernel)
         }
         rootView.setView(view, for: .statusBar)
-        // 在未激活时直通内容（ViewBuilder 分支，无 ZStack/Group 包装），避免
-        // popover 场景的 AX 崩溃（菜单栏 app 无主窗口）。
+        // 状态栏 popover 通过 RootView 呈现内容（ViewBuilder 分支，无 ZStack/Group
+        // 包装），避免 popover 场景的 AX 崩溃（菜单栏 app 无主窗口）。
         rootView.setContentView(view)
         return themed(rootView.makeRootView(), kernel: kernel)
     }

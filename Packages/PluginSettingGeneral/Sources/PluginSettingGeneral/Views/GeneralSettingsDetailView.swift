@@ -81,6 +81,7 @@ struct GeneralSettingsDetailView: View {
                         isPresentingManuals = true
                     }
                 }
+                .disabled(viewModel.manuals.isEmpty)
             }
         }
     }

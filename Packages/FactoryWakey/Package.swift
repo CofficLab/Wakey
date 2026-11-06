@@ -52,6 +52,7 @@ let package = Package(
                 .product(name: "LumiThemePack", package: "LumiThemePack"),
                 .product(name: "ProviderTheme", package: "LumiProviders"),
                 .product(name: "ProviderRootView", package: "LumiProviders"),
+                .product(name: "ProviderDocsView", package: "LumiProviders"),
                 .product(name: "ProviderToast", package: "LumiProviders"),
                 .product(name: "ProviderSettingView", package: "LumiSettings"),
                 .product(name: "PluginSettingView", package: "LumiPluginSettingView"),
@@ -82,6 +83,7 @@ let package = Package(
             dependencies: [
                 "FactoryWakey",
                 .product(name: "ProviderSettingView", package: "LumiSettings"),
+                .product(name: "ProviderDocsView", package: "LumiProviders"),
                 .product(name: "LumiThemePack", package: "LumiThemePack"),
                 .product(name: "ProviderTheme", package: "LumiProviders"),
             ]

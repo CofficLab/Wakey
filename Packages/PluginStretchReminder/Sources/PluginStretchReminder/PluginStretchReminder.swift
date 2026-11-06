@@ -1,5 +1,6 @@
 import KernelCore
 import OSLog
+import ProviderDocsView
 import ProviderStatusBarPopup
 import ProviderStorage
 import ProviderSettingView
@@ -22,6 +23,12 @@ public final class PluginStretchReminder: SuperPlugin {
     public init() {}
 
     public func onBoot(kernel: KernelCoreContainer) throws {
+        // 说明书条目：设置页「通用 → 说明书」中展示
+        kernel.resolveProvider((any DocsViewProviding).self)?
+            .addManual(DocsEntry(id: id, name: metadata.name) {
+                StretchManualView()
+            })
+
         // 按 CofficLab 存储规范，插件状态落盘在宿主分配的插件专属目录
         // （Binary Plist），而不是 UserDefaults。
         if let storage = kernel.resolveProvider((any StorageProviding).self) {
@@ -45,6 +52,7 @@ public final class PluginStretchReminder: SuperPlugin {
     }
 
     public func onShutdown(kernel: KernelCoreContainer) throws {
+        kernel.resolveProvider((any DocsViewProviding).self)?.removeEntries(id: id)
         kernel.resolveProvider(StatusBarPopupProviding.self)?.removePopupViews(ownerID: id)
         kernel.resolveProvider((any SettingViewProviding).self)?.removeEntries(ids: [id])
 

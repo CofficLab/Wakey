@@ -27,14 +27,17 @@ let package = Package(
                 .product(name: "KernelCore", package: "LumiKernel"),
                 .product(name: "ProviderStorage", package: "LumiProviders"),
                 .product(name: "LumiUI", package: "LumiUI"),
-
-
+                .product(name: "ProviderDocsView", package: "LumiProviders"),
             ],
             resources: [.process("EyeCareReminder.xcstrings")]
         ),
         .testTarget(
             name: "PluginEyeCareReminderTests",
-            dependencies: ["PluginEyeCareReminder", "KitReminder"]
+            dependencies: [
+                "PluginEyeCareReminder",
+                "KitReminder",
+                .product(name: "ProviderDocsView", package: "LumiProviders"),
+            ]
         ),
     ]
 )

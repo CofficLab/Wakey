@@ -21,20 +21,22 @@ let package = Package(
             name: "PluginStretchReminder",
             dependencies: [
                 "ProviderStatusBarPopup",
-                                "KitLogging",
+                "KitLogging",
                 "KitReminder",
                 .product(name: "ProviderSettingView", package: "LumiSettings"),
                 .product(name: "KernelCore", package: "LumiKernel"),
                 .product(name: "ProviderStorage", package: "LumiProviders"),
                 .product(name: "LumiUI", package: "LumiUI"),
-
-
+                .product(name: "ProviderDocsView", package: "LumiProviders"),
             ],
             resources: [.process("StretchReminder.xcstrings")]
         ),
         .testTarget(
             name: "PluginStretchReminderTests",
-            dependencies: ["PluginStretchReminder"]
+            dependencies: [
+                "PluginStretchReminder",
+                .product(name: "ProviderDocsView", package: "LumiProviders"),
+            ]
         ),
     ]
 )

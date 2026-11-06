@@ -21,20 +21,22 @@ let package = Package(
             name: "PluginHydrationReminder",
             dependencies: [
                 "ProviderStatusBarPopup",
-                                "KitLogging",
+                "KitLogging",
                 "KitReminder",
                 .product(name: "ProviderSettingView", package: "LumiSettings"),
                 .product(name: "KernelCore", package: "LumiKernel"),
                 .product(name: "ProviderStorage", package: "LumiProviders"),
                 .product(name: "LumiUI", package: "LumiUI"),
-
-
+                .product(name: "ProviderDocsView", package: "LumiProviders"),
             ],
             resources: [.process("HydrationReminder.xcstrings")]
         ),
         .testTarget(
             name: "PluginHydrationReminderTests",
-            dependencies: ["PluginHydrationReminder"]
+            dependencies: [
+                "PluginHydrationReminder",
+                .product(name: "ProviderDocsView", package: "LumiProviders"),
+            ]
         ),
     ]
 )
