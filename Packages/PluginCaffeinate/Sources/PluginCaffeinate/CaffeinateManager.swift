@@ -84,6 +84,27 @@ class CaffeinateManager: SuperLog {
         turnOffDisplay()
     }
 
+    /// 切换到指定的防休眠动作。
+    ///
+    /// 若已有会话在运行，先释放旧的电源断言再激活新的模式——否则
+    /// `activate(mode:duration:)` 会因 `isActive` 为真直接返回，新模式不生效。
+    ///
+    /// - Parameter action: 目标动作
+    func switchAction(_ action: QuickActionType) {
+        if isActive {
+            deactivate()
+        }
+
+        switch action {
+        case .systemAndDisplay:
+            activate(mode: .systemAndDisplay, duration: selectedDuration)
+        case .systemOnly:
+            activate(mode: .systemOnly, duration: selectedDuration)
+        case .turnOffDisplay:
+            activateAndTurnOffDisplay(duration: selectedDuration)
+        }
+    }
+
     /// 立即关闭显示器
     private func turnOffDisplay() {
         environment.turnOffDisplay()

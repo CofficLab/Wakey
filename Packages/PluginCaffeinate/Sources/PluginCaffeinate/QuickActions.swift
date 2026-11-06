@@ -58,21 +58,8 @@ struct CaffeinateQuickActions: View {
             // 点击已选中的项将其停用
             manager.deactivate()
         } else {
-            // 选择新项并激活
-            activateAction(action)
-        }
-    }
-
-    /// 激活指定的防休眠动作
-    /// - Parameter action: 要激活的动作类型
-    private func activateAction(_ action: CaffeinateManager.QuickActionType) {
-        switch action {
-        case .systemAndDisplay:
-            manager.activate(mode: .systemAndDisplay, duration: manager.selectedDuration)
-        case .systemOnly:
-            manager.activate(mode: .systemOnly, duration: manager.selectedDuration)
-        case .turnOffDisplay:
-            manager.activateAndTurnOffDisplay(duration: manager.selectedDuration)
+            // 选择新项并激活（切换模式时由 manager 先停掉旧会话）
+            manager.switchAction(action)
         }
     }
 }

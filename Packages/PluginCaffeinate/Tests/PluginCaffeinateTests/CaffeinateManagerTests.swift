@@ -368,3 +368,72 @@ struct CaffeinateManagerVerboseTests {
         #expect(manager.isActive == false)
     }
 }
+
+@Suite("CaffeinateManager 模式切换")
+@MainActor
+struct CaffeinateManagerSwitchActionTests {
+    @Test("运行时切换到另一模式会先释放旧断言再激活新模式")
+    func switchActionReplacesRunningSession() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.activate(mode: .systemAndDisplay, duration: 0)
+        manager.switchAction(.systemOnly)
+
+        // 旧会话的断言被释放，新的会话只创建系统断言
+        #expect(fake.releasedAssertionIDs == [101, 202])
+        #expect(fake.createdAssertions.map(\.kind) == [.system, .display, .system])
+        #expect(manager.isActive)
+        #expect(manager.activeAction == .systemOnly)
+    }
+
+    @Test("运行时切换模式会取消旧会话的计时器")
+    func switchActionCancelsOldTimer() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.activate(mode: .systemAndDisplay, duration: 60)
+        manager.switchAction(.systemOnly)
+
+        #expect(fake.cancelledTimerCount == 1)
+        #expect(fake.scheduledDelays == [60, 60])
+    }
+
+    @Test("未运行时切换模式直接激活，不释放任何断言")
+    func switchActionWithoutRunningSession() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.switchAction(.systemAndDisplay)
+
+        #expect(fake.releasedAssertionIDs.isEmpty)
+        #expect(fake.createdAssertions.map(\.kind) == [.system, .display])
+        #expect(manager.activeAction == .systemAndDisplay)
+    }
+
+    @Test("切换到 turnOffDisplay 会关闭显示器")
+    func switchActionToTurnOffDisplay() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.activate(mode: .systemAndDisplay, duration: 0)
+        manager.switchAction(.turnOffDisplay)
+
+        #expect(fake.turnOffDisplayCount == 1)
+        #expect(manager.activeAction == .systemOnly)
+        #expect(manager.isActive)
+    }
+
+    @Test("切换模式沿用当前选择的时长")
+    func switchActionKeepsSelectedDuration() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.selectedDuration = 1800
+        manager.activate(mode: .systemAndDisplay, duration: 1800)
+        manager.switchAction(.systemOnly)
+
+        #expect(manager.selectedDuration == 1800)
+        #expect(manager.duration == 1800)
+    }
+}
