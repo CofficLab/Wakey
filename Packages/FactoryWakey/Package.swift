@@ -17,9 +17,7 @@ let package = Package(
         .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.12"),
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginSettingView.git", from: "1.0.3"),
-        .package(path: "../ProviderPoster"),
         .package(path: "../ProviderStatusBarPopup"),
-        .package(path: "../ProviderCopilotNavigation"),
         .package(path: "../KitBackground"),
         .package(path: "../KitDesktop"),
         .package(path: "../KitLogging"),
@@ -29,21 +27,12 @@ let package = Package(
         .package(url: "https://github.com/CofficLab/LumiPluginThemePack.git", from: "1.2.1"),
         // Logo plugins (1)
         .package(path: "../PluginLogoBolt"),
-        // Poster plugins (6)
-        .package(path: "../PluginPosterWakey"),
-        .package(path: "../PluginPosterCaffeinate"),
-        .package(path: "../PluginPosterEyeCare"),
-        .package(path: "../PluginPosterStretch"),
-        .package(path: "../PluginPosterHydration"),
-        .package(path: "../PluginPosterPreview"),
         // Business plugins (4)
         .package(path: "../PluginCaffeinate"),
         .package(path: "../PluginEyeCareReminder"),
         .package(path: "../PluginStretchReminder"),
         .package(path: "../PluginHydrationReminder"),
         // Other plugins (2)
-        .package(path: "../PluginAppInfo"),
-        .package(path: "../PluginPurchase"),
         // Plugin management (remote package, aligned to Lumi)
         .package(url: "https://github.com/CofficLab/LumiPluginPluginManager.git", from: "1.7.0"),
         // Settings - General (aligned to Lumi)
@@ -57,9 +46,7 @@ let package = Package(
             name: "FactoryWakey",
             dependencies: [
                 .product(name: "ProviderLogo", package: "LumiProviders"),
-                "ProviderPoster",
                 "ProviderStatusBarPopup",
-                "ProviderCopilotNavigation",
                 "KitBackground",
                 "KitDesktop",
                 "KitLogging",
@@ -82,14 +69,10 @@ let package = Package(
                 .product(name: "PluginThemePack", package: "LumiPluginThemePack"),
                                 // Logo
                 "PluginLogoBolt",
-                // Poster
-                "PluginPosterWakey", "PluginPosterCaffeinate", "PluginPosterEyeCare",
-                "PluginPosterStretch", "PluginPosterHydration", "PluginPosterPreview",
                 // Business
                 "PluginCaffeinate", "PluginEyeCareReminder",
                 "PluginStretchReminder", "PluginHydrationReminder",
                 // Other
-                "PluginAppInfo", "PluginPurchase",
                 // Plugin management (remote package, aligned to Lumi)
                 .product(name: "PluginPluginManager", package: "LumiPluginPluginManager"),
                 // Settings - General (aligned to Lumi)

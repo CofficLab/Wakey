@@ -3,34 +3,23 @@ import LumiUI
 import OSLog
 import ProviderTheme
 import ProviderLogo
-import ProviderPoster
 import ProviderStatusBarPopup
 import ProviderSettingView
 import ProviderPluginControl
 import ProviderPluginManaging
 import ProviderStorage
-import ProviderCopilotNavigation
 import SwiftUI
 
 // Plugin imports — Settings shell (Lumi 同款设置外壳：左上角 App 图标 + 名称/版本)
 import PluginSettingView
 // Plugin imports — Logo (1)
 import PluginLogoBolt
-// Plugin imports — Poster (6)
-import PluginPosterWakey
-import PluginPosterCaffeinate
-import PluginPosterEyeCare
-import PluginPosterStretch
-import PluginPosterHydration
-import PluginPosterPreview
 // Plugin imports — Business (4)
 import PluginCaffeinate
 import PluginEyeCareReminder
 import PluginStretchReminder
 import PluginHydrationReminder
 // Plugin imports — Other (2)
-import PluginAppInfo
-import PluginPurchase
 // Plugin imports — Plugin management (aligned to Lumi)
 import PluginPluginManager
 // Plugin imports — Settings-General (aligned to Lumi)
@@ -85,7 +74,6 @@ public enum FactoryWakey {
         // 注册共享 Host Provider（由 Factory 持有，插件向其贡献 UI）
         try kernel.registerHostProvider(StatusBarPopupProviding.self, DefaultStatusBarPopupProviding())
         try kernel.registerHostProvider((any SettingViewProviding).self, DefaultSettingViewProviding())
-        try kernel.registerHostProvider(PosterProviding.self, DefaultPosterProviding())
         try kernel.registerHostProvider(LogoProviding.self, DefaultLogoProviding())
         try kernel.registerHostProvider(
             ProviderTheme.ThemeProviding.self,
@@ -94,7 +82,6 @@ public enum FactoryWakey {
                 defaultStorageDirectoryName: "com.coffic.lumi.plugin.theme-manager"
             )
         )
-        try kernel.registerHostProvider(CopilotNavigationProviding.self, DefaultCopilotNavigationProviding())
 
         // 数据存储：为插件启用状态提供持久化目录（对齐 Lumi 的 ProviderStorage 体系）
         try kernel.registerProvider((any StorageProviding).self, DefaultStorageProvider())
@@ -149,17 +136,12 @@ public enum FactoryWakey {
             WakeyRootViewPlugin(),
             // order 0
             PluginLogoBolt(),
-            PluginPosterWakey(),
             // order 10
             ToastSuperPlugin(),
             // order 1
-            PluginPosterCaffeinate(),
             // order 2
-            PluginPosterEyeCare(),
             // order 3
-            PluginPosterStretch(),
             // order 4
-            PluginPosterHydration(),
             // order 5: 设置外壳（替换 DefaultSettingViewProviding，渲染 App 图标头部）
             PluginSettingView(id: "com.coffic.wakey.plugin.setting-view"),
             // order 7
@@ -169,10 +151,8 @@ public enum FactoryWakey {
             // order 9
             PluginStretchReminder(),
             // order 10
-            PluginAppInfo(),
             PluginHydrationReminder(),
             // order 15
-            PluginPosterPreview(),
             // order 79
             ThemePackPlugin(
                 id: "com.coffic.wakey.plugin.theme-pack",
@@ -185,7 +165,6 @@ public enum FactoryWakey {
             // order 100: 设置-通用（对齐 Lumi 的 PluginSettingGeneral）
             SettingGeneralPlugin(),
             // order 100
-            PluginPurchase(),
             // order 10/20: 首次启动引导（对齐 Lumi 的 PluginOnboarding/PluginWelcome）
             OnboardingPlugin(),
             PluginWelcome(),
