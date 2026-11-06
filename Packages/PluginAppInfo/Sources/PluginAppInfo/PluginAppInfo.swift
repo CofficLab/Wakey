@@ -55,7 +55,7 @@ struct AppInfoNavigationView: View {
             )
             AppInfoRow(
                 label: String(localized: "Bundle ID", table: "AppInfo", comment: "Row label showing the bundle identifier"),
-                value: "com.cofficlab.Wakey",
+                value: Bundle.main.bundleIdentifier ?? "com.coffic.wakey",
                 systemImage: "doc.text"
             )
             AppInfoRow(
