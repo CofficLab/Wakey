@@ -53,6 +53,13 @@ public protocol ReminderEnvironment: AnyObject {
     /// 测试中可替换为仅计数的实现，避免无窗口进程崩溃。
     func presentReminderOverlay(kind: ReminderOverlayKind)
 
+    /// 系统从睡眠中唤醒时调用。
+    ///
+    /// `Timer` 在睡眠期间不会触发，醒来后若原本的到期时间已过，
+    /// 应当立即补触发，而不是静默推迟到下一个间隔。
+    /// 实现可自行判断是否有到期项；默认实现为空操作（测试环境无需响应）。
+    func didWakeFromSleep()
+
     /// 插件状态存储。
     ///
     /// 按 CofficLab 兄弟项目的存储规范，插件状态落盘在宿主分配的
@@ -72,6 +79,9 @@ public extension ReminderEnvironment {
     func attachStateStore(directory: URL) {
         stateStore = ReminderStateStore(directory: directory)
     }
+
+    /// 默认实现为空操作：测试环境不需要响应系统唤醒。
+    func didWakeFromSleep() {}
 }
 
 /// 生产环境实现：直接使用系统 API，行为与抽象前一致。
@@ -89,7 +99,7 @@ public final class SystemReminderEnvironment: ReminderEnvironment {
     public var stateStore: ReminderStateStore
 
     private var nextToken: UInt64 = 0
-    private var timers: [UInt64: Timer] = [:]
+    private var timers: [UInt64: ScheduledTimer] = [:]
 
     public init(
         overlayPresenter: @escaping @MainActor (ReminderOverlayKind) -> Void = { _ in },
@@ -97,7 +107,14 @@ public final class SystemReminderEnvironment: ReminderEnvironment {
     ) {
         self.overlayPresenter = overlayPresenter
         self.stateStore = stateStore
+        // 订阅系统唤醒：睡眠期间到期的提醒在醒来后立即补触发。
+        wakeSubscription = SystemWakeObserver.shared.subscribe { [weak self] in
+            self?.didWakeFromSleep()
+        }
     }
+
+    /// 系统唤醒订阅标识。
+    private var wakeSubscription: UUID?
 
     /// 由宿主在 `onBoot` 阶段注入插件专属的状态存储目录。
     ///
@@ -127,21 +144,76 @@ public final class SystemReminderEnvironment: ReminderEnvironment {
     public func schedule(after delay: TimeInterval, handler: @escaping () -> Void) -> ReminderTimerToken {
         nextToken += 1
         let token = ReminderTimerToken(id: nextToken)
-        let timer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false) { [weak self] _ in
+        let deadline = Date().addingTimeInterval(delay)
+        let timer = Timer(timeInterval: delay, repeats: false) { [weak self] _ in
             self?.timers[token.id] = nil
             handler()
         }
-        timers[token.id] = timer
+        // 装入 `.common` 模式而非默认的 `.default`：
+        // AppKit 事件跟踪期间（拖菜单、滑块、缩放窗口）default 模式的 timer
+        // 不触发，提醒会被推迟到交互结束——而界面上的倒计时早已归零。
+        RunLoop.main.add(timer, forMode: .common)
+        timers[token.id] = ScheduledTimer(timer: timer, deadline: deadline, handler: handler)
         return token
     }
 
     public func cancel(_ token: ReminderTimerToken?) {
         guard let token else { return }
-        timers[token.id]?.invalidate()
+        timers[token.id]?.timer.invalidate()
         timers[token.id] = nil
     }
 
     public func presentReminderOverlay(kind: ReminderOverlayKind) {
         overlayPresenter(kind)
+    }
+
+    /// 响应系统唤醒：把睡眠期间已到期的计时立即触发。
+    ///
+    /// `Timer` 在系统睡眠期间不推进，醒来后原本到期的提醒会被静默推迟
+    /// （甚至直到下一个间隔才补上）。这里记录每个计时的**绝对到期时间**，
+    /// 醒来时检查哪些已过期并立即触发回调。
+    public func didWakeFromSleep() {
+        let now = Date()
+        let expired = Self.expiredTimerIDs(in: timers, now: now)
+
+        for id in expired {
+            // 先取出条目再移除：移除后 handlers 就取不到了。
+            guard let entry = timers.removeValue(forKey: id) else { continue }
+            entry.timer.invalidate()
+            entry.handler()
+        }
+    }
+
+    /// 找出已到期的计时（纯逻辑，便于测试）。
+    ///
+    /// - Parameters:
+    ///   - timers: 当前排定的计时。
+    ///   - now: 当前时间。
+    /// - Returns: 已到期的计时 id（升序）。
+    static func expiredTimerIDs(
+        in timers: [UInt64: ScheduledTimer],
+        now: Date
+    ) -> [UInt64] {
+        timers.filter { $0.value.deadline <= now }.keys.sorted()
+    }
+
+    /// 把某个计时的到期时间改到过去（测试辅助）。
+    ///
+    /// 真实场景中这由「系统睡眠期间时间流逝」自然造成；
+    /// 测试里显式改写，避免真的等待。
+    func markTimerExpired(_ token: ReminderTimerToken) {
+        guard var entry = timers[token.id] else { return }
+        timers[token.id] = ScheduledTimer(
+            timer: entry.timer,
+            deadline: Date().addingTimeInterval(-1),
+            handler: entry.handler
+        )
+    }
+
+    /// 记录一个计时及其绝对到期时间。
+    struct ScheduledTimer {
+        let timer: Timer
+        let deadline: Date
+        let handler: () -> Void
     }
 }
