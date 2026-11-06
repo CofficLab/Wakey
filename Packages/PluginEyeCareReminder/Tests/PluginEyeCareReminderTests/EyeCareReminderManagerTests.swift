@@ -80,6 +80,14 @@ final class FakeReminderEnvironment: ReminderEnvironment {
 
     // MARK: - 测试控制
 
+    /// 模拟系统从睡眠中唤醒。
+    ///
+    /// 睡眠期间计时器不会触发，但时间仍在流逝；醒来后已到期的计时
+    /// 应立即补触发（否则「稍后提醒」的意图会丢失）。
+    func simulateWakeFromSleep(afterSleeping seconds: TimeInterval) {
+        advance(by: seconds)
+    }
+
     /// 推进虚拟时钟，并触发所有到期回调。
     func advance(by seconds: TimeInterval) {
         currentTime = currentTime.addingTimeInterval(seconds)
@@ -278,6 +286,24 @@ struct EyeCareReminderManagerFiringTests {
 
         #expect(env.pendingTimers.count == 1, "snooze 应替换而非叠加计时")
         #expect(env.nextFireTime == env.currentTime.addingTimeInterval(600))
+    }
+
+    @Test("snooze 期间若发生睡眠，醒来后仍会补提醒")
+    func snoozeSurvivesSleep() {
+        let env = FakeReminderEnvironment()
+        let manager = EyeCareReminderManager(environment: env)
+        manager.start()
+
+        // 用户点了「稍后提醒 5 分钟」
+        manager.snooze(minutes: 5)
+
+        // 期间系统睡眠了 10 分钟——醒来时早已过 snooze 的到期时间
+        env.simulateWakeFromSleep(afterSleeping: 600)
+
+        #expect(
+            env.presentedOverlays == [.eyeCare],
+            "用户明确要求的稍后提醒，不应因睡眠而丢失"
+        )
     }
 }
 
