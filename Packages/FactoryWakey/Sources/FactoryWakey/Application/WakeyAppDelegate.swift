@@ -26,6 +26,9 @@ public final class WakeyAppDelegate: NSObject, NSApplicationDelegate {
     /// 状态栏控制器
     private var statusBarController: StatusBarController?
 
+    /// 「打开设置窗口」请求的观察者。
+    private var openSettingsObserver: (any NSObjectProtocol)?
+
     // MARK: - Application Lifecycle
 
     public func applicationDidFinishLaunching(_ notification: Notification) {
@@ -40,6 +43,7 @@ public final class WakeyAppDelegate: NSObject, NSApplicationDelegate {
 
         setupControllers()
         prepareWindowAutoCloseIfNeeded()
+        observeOpenSettingsRequests()
         openSettingsWindowIfRequested()
         NotificationCenter.postApplicationDidFinishLaunching()
     }
@@ -135,6 +139,49 @@ public final class WakeyAppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    // MARK: - Open Settings Requests
+
+    /// 监听插件发来的「打开设置窗口」请求。
+    ///
+    /// 插件通过 LumiSettings 的标准契约（`SettingViewNavigation.openSettingsNotification`）
+    /// 请求打开设置窗口，但窗口由 App 层持有，插件无法直接开窗。
+    ///
+    /// 这里在 AppDelegate 中监听（而非设置窗口的内容视图）——菜单栏应用没有常驻
+    /// 窗口，若监听器挂在窗口内容上，窗口关闭时请求会被静默丢弃。
+    ///
+    /// 通知可携带目标入口 id，用于打开后直接深链到对应设置页。
+    private func observeOpenSettingsRequests() {
+        openSettingsObserver = NotificationCenter.default.addObserver(
+            forName: WakeySettingsNavigator.openSettingsNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            // `Notification` 不是 Sendable，先取出需要的值再跨隔离边界传递。
+            let entryID = WakeySettingsNavigator.targetEntryID(from: notification)
+            MainActor.assumeIsolated {
+                self?.handleOpenSettingsRequest(entryID: entryID)
+            }
+        }
+    }
+
+    /// 处理打开设置请求：先深链到目标入口，再打开窗口。
+    private func handleOpenSettingsRequest(entryID: String?) {
+        if let entryID {
+            FactoryWakey.selectSettingsEntry(kernel: kernel, entryID: entryID)
+        }
+
+        // 走菜单动作开窗：与 UI 测试路径一致，且 SwiftUI Window 场景在
+        // 菜单动作送达前未就绪时会静默丢弃，因此需要重试直到窗口真的出现。
+        Task { @MainActor [weak self] in
+            for _ in 0 ..< 12 {
+                if self?.isSettingsWindowVisible == true { return }
+                self?.performSettingsMenuCommand()
+                try? await Task.sleep(nanoseconds: 250_000_000)
+            }
+            Self.logger.error("🪟 打开设置窗口失败：重试后窗口仍未打开")
+        }
+    }
+
     /// 在主菜单中找到 Cmd+,（设置…）并执行；成功返回 true。
     /// 幂等：窗口未打开时会被反复调用，因此允许忽略返回值。
     @discardableResult
@@ -185,6 +232,10 @@ public final class WakeyAppDelegate: NSObject, NSApplicationDelegate {
 
     private func cleanupApplication() {
         statusBarController?.cleanup()
+        if let openSettingsObserver {
+            NotificationCenter.default.removeObserver(openSettingsObserver)
+        }
+        openSettingsObserver = nil
         NotificationCenter.default.removeObserver(self)
     }
 }

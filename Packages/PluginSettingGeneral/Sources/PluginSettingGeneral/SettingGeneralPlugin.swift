@@ -59,8 +59,10 @@ public final class SettingGeneralPlugin: SuperPlugin, SuperLog {
                         shortcut: ",",
                         modifiers: .command
                     ) {
+                        // 使用 LumiSettings 提供的跨层开窗契约：宿主监听该通知后
+                        // 打开设置窗口。插件与宿主因此无需互相依赖。
                         NotificationCenter.default.post(
-                            name: Notification.Name("wakey.openSettings"),
+                            name: SettingViewNavigation.openSettingsNotification,
                             object: nil
                         )
                     },

@@ -234,6 +234,21 @@ public enum FactoryWakey {
         return themed(identified, kernel: kernel)
     }
 
+    /// 选中指定设置入口（设置窗口深链）。
+    ///
+    /// - Parameters:
+    ///   - kernel: 内核容器。
+    ///   - entryID: 设置入口 id；入口不存在时不做任何事。
+    public static func selectSettingsEntry(kernel: KernelCoreContainer?, entryID: String) {
+        guard let kernel,
+              let settings = kernel.resolveProvider((any SettingViewProviding).self),
+              settings.entries.contains(where: { $0.id == entryID })
+        else {
+            return
+        }
+        settings.selectEntry(id: entryID)
+    }
+
     /// Logo 视图：从内核解析 LogoProviding，选中指定 logo 或默认最高优先级。
     public static func makeLogoView(
         kernel: KernelCoreContainer,
