@@ -1,7 +1,6 @@
 import KernelCore
 import LumiUI
 import ProviderCommand
-import ProviderAppUpdate
 import ProviderDiagnostics
 import ProviderDocsView
 import ProviderOnboarding
@@ -29,7 +28,7 @@ public final class SettingGeneralPlugin: SuperPlugin, SuperLog {
     public let metadata = PluginMetadata(
         id: "com.coffic.wakey.plugin.setting-general",
         name: pluginLocalization.string("General Settings"),
-        description: pluginLocalization.string("Registers the General settings entry with onboarding, app info, website and updates."),
+        description: pluginLocalization.string("Registers the General settings entry with onboarding, app info and website."),
         category: .system,
         stage: .stable,
         policy: .alwaysOn
@@ -90,14 +89,8 @@ public final class SettingGeneralPlugin: SuperPlugin, SuperLog {
             title: pluginLocalization.string("General"),
             systemImage: "gearshape",
             order: 1
-        ) { [versionProvider, docsProvider, diagnosticsProvider, onboardingProvider, storageProvider, uninstallProvider, prepareForUninstall, kernel] in
-            // AppUpdateBootstrap is host-owned and may register after
-            // plugin boot. Resolve it when the entry is materialized so
-            // settings sees the provider in both Debug and Release.
+        ) { [versionProvider, docsProvider, diagnosticsProvider, onboardingProvider, storageProvider, uninstallProvider, prepareForUninstall] in
             let docsCapability = GeneralSettingsDocsCapabilityAdapter(docsProvider: docsProvider)
-            let updateChannelCapability = GeneralSettingsUpdateChannelCapabilityAdapter(
-                updateProvider: kernel.resolveProvider((any AppUpdateChannelProviding).self)
-            )
             let onboardingCapability = GeneralSettingsOnboardingCapabilityAdapter(
                 onboardingProvider: onboardingProvider
             )
@@ -111,7 +104,6 @@ public final class SettingGeneralPlugin: SuperPlugin, SuperLog {
             )
             let viewModel = GeneralSettingsViewModel(
                 docsCapability: docsCapability,
-                updateChannelCapability: updateChannelCapability,
                 onboardingCapability: onboardingCapability,
                 diagnosticsCapability: diagnosticsCapability,
                 storageCapability: storageCapability,

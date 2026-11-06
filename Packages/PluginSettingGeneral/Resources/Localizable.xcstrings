@@ -139,75 +139,6 @@
         }
       }
     },
-    "Check for Updates" : {
-      "comment" : "Row title for the update check",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Check for Updates"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "检查更新"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "檢查更新"
-          }
-        }
-      }
-    },
-    "Check whether a newer version of Wakey is available." : {
-      "comment" : "Description under the update check row",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Check whether a newer version of Wakey is available."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "检查是否有可用的 Wakey 新版本。"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "檢查是否有可用的 Wakey 新版本。"
-          }
-        }
-      }
-    },
-    "Check..." : {
-      "comment" : "Button label that triggers an update check",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Check..."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "检查…"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "檢查…"
-          }
-        }
-      }
-    },
     "Clear Data and Quit" : {
       "comment" : "Button label in the uninstall sheet when the app is kept",
       "localizations" : {
@@ -438,52 +369,6 @@
         }
       }
     },
-    "Getting the stable release published on the main branch." : {
-      "comment" : "Description of the stable update channel",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Getting the stable release published on the main branch."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "获取 main 分支发布的稳定版本。"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "取得 main 分支發佈的穩定版本。"
-          }
-        }
-      }
-    },
-    "Getting the preview release published on the pre branch, which may contain unresolved issues." : {
-      "comment" : "Description of the preview update channel",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Getting the preview release published on the pre branch, which may contain unresolved issues."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "获取 pre 分支发布的预览版本，可能包含未修复的问题。"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "取得 pre 分支發佈的預覽版本，可能包含尚未修正的問題。"
-          }
-        }
-      }
-    },
     "Name" : {
       "comment" : "Row title showing the app name",
       "localizations" : {
@@ -622,48 +507,25 @@
         }
       }
     },
-    "Preview" : {
-      "comment" : "Option label of the preview update channel",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preview"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "预览版"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "預覽版"
-          }
-        }
-      }
-    },
-    "Registers the General settings entry with onboarding, app info, website and updates." : {
+    "Registers the General settings entry with onboarding, app info and website." : {
       "comment" : "Description of the general settings plugin",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registers the General settings entry with onboarding, app info, website and updates."
+            "value" : "Registers the General settings entry with onboarding, app info and website."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在设置视图中注册「通用」入口，包含新手引导、应用信息、网站与更新。"
+            "value" : "在设置视图中注册「通用」入口，包含新手引导、应用信息与网站。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在設定中註冊「一般」入口，包含新手引導、應用程式資訊、網站與更新。"
+            "value" : "在設定中註冊「一般」入口，包含新手引導、應用程式資訊與網站。"
           }
         }
       }
@@ -756,29 +618,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "部分資料未能清除，應用程式未移除。"
-          }
-        }
-      }
-    },
-    "Stable" : {
-      "comment" : "Option label of the stable update channel",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stable"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "稳定版"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "穩定版"
           }
         }
       }
@@ -986,52 +825,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在卸載 Wakey…"
-          }
-        }
-      }
-    },
-    "Update Channel" : {
-      "comment" : "Row title for the update channel picker",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Update Channel"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "更新通道"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "更新頻道"
-          }
-        }
-      }
-    },
-    "Updates" : {
-      "comment" : "Section title for the update section",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Updates"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "更新"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "更新"
           }
         }
       }

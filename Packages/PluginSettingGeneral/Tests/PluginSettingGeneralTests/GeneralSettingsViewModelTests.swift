@@ -1,5 +1,4 @@
 import Foundation
-import ProviderAppUpdate
 import ProviderDiagnostics
 import ProviderDocsView
 import ProviderAppUninstall
@@ -12,15 +11,12 @@ import Testing
 /// 同一替身同时实现六个细分能力，便于按 Lumi 的能力拆分结构注入。
 @MainActor
 private final class StubCapability: GeneralSettingsDocsCapability,
-    GeneralSettingsUpdateChannelCapability,
     GeneralSettingsOnboardingCapability,
     GeneralSettingsDiagnosticsCapability,
     GeneralSettingsStorageCapability,
     GeneralSettingsUninstallCapability
 {
     var manuals: [DocsEntry]
-    var updateChannel: AppUpdateChannel
-    var isUpdateChannelAvailable: Bool
     var isOnboardingAvailable: Bool
     var isDiagnosticsAvailable: Bool
     var isUninstallAvailable: Bool
@@ -31,7 +27,6 @@ private final class StubCapability: GeneralSettingsDocsCapability,
     var scanCalls = 0
     var prepareCalls = 0
     var lastUninstallOptions: UninstallOptions?
-    var setUpdateChannelCalls: [AppUpdateChannel] = []
     var uninstallError: Error?
     var replayOnboardingCalls = 0
     var makeDiagnosticsArchiveCalls = 0
@@ -39,8 +34,6 @@ private final class StubCapability: GeneralSettingsDocsCapability,
 
     init(
         manuals: [DocsEntry] = [],
-        updateChannel: AppUpdateChannel = .stable,
-        isUpdateChannelAvailable: Bool = true,
         isOnboardingAvailable: Bool = true,
         isDiagnosticsAvailable: Bool = true,
         isUninstallAvailable: Bool = true,
@@ -48,18 +41,11 @@ private final class StubCapability: GeneralSettingsDocsCapability,
         storageSize: Int64? = nil
     ) {
         self.manuals = manuals
-        self.updateChannel = updateChannel
-        self.isUpdateChannelAvailable = isUpdateChannelAvailable
         self.isOnboardingAvailable = isOnboardingAvailable
         self.isDiagnosticsAvailable = isDiagnosticsAvailable
         self.isUninstallAvailable = isUninstallAvailable
         self.isStorageAvailable = isStorageAvailable
         self.storageSize = storageSize
-    }
-
-    func setUpdateChannel(_ channel: AppUpdateChannel) {
-        setUpdateChannelCalls.append(channel)
-        updateChannel = channel
     }
 
     func replayOnboarding() {
@@ -108,12 +94,11 @@ private final class StubCapability: GeneralSettingsDocsCapability,
     }
 }
 
-/// 用同一个替身填充六个能力入口，保持 ViewModel 构造调用简洁。
+/// 用同一个替身填充各个能力入口，保持 ViewModel 构造调用简洁。
 @MainActor
 private func makeViewModel(_ capability: StubCapability) -> GeneralSettingsViewModel {
     GeneralSettingsViewModel(
         docsCapability: capability,
-        updateChannelCapability: capability,
         onboardingCapability: capability,
         diagnosticsCapability: capability,
         storageCapability: capability,
@@ -124,43 +109,22 @@ private func makeViewModel(_ capability: StubCapability) -> GeneralSettingsViewM
 @Suite("GeneralSettingsViewModel 初始化")
 @MainActor
 struct GeneralSettingsViewModelInitTests {
-    @Test("从 capability 同步说明书与更新通道")
+    @Test("从 capability 同步说明书")
     func syncsInitialState() {
-        let capability = StubCapability(updateChannel: .preview)
+        let capability = StubCapability()
         let model = makeViewModel(capability)
 
-        #expect(model.selectedUpdateChannel == .preview)
         #expect(model.manuals.isEmpty)
-    }
-
-    @Test("变更更新通道会透传到 capability")
-    func updateChannelWritesThrough() {
-        let capability = StubCapability()
-        let model = makeViewModel(capability)
-
-        model.selectedUpdateChannel = .preview
-        #expect(capability.setUpdateChannelCalls == [.preview])
-    }
-
-    @Test("重复设置同一通道不重复透传")
-    func sameChannelIsNotReposted() {
-        let capability = StubCapability()
-        let model = makeViewModel(capability)
-
-        model.selectedUpdateChannel = .stable
-        #expect(capability.setUpdateChannelCalls.isEmpty)
     }
 
     @Test("可用性透传 capability")
     func exposesAvailabilityFlags() {
         let capability = StubCapability(
-            isUpdateChannelAvailable: false,
             isUninstallAvailable: false,
             isStorageAvailable: false
         )
         let model = makeViewModel(capability)
 
-        #expect(!model.isUpdateChannelAvailable)
         #expect(!model.isUninstallAvailable)
         #expect(!model.isStorageAvailable)
     }

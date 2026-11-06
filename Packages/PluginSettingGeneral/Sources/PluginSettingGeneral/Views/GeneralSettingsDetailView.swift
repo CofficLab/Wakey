@@ -1,14 +1,16 @@
 import LumiUI
-import ProviderAppUpdate
 import ProviderDocsView
 import ProviderAppUninstall
 import SwiftUI
 import UniformTypeIdentifiers
 
-/// 通用设置详情视图 —— 设置窗口「通用」标签页：六个分组卡片。
+/// 通用设置详情视图 —— 设置窗口「通用」标签页：五个分组卡片。
 ///
-/// 只依赖 `GeneralSettingsViewModel`；诊断导出、更新通道、卸载扫描等
-/// 业务状态全部由 ViewModel 提供，外部操作经各 `GeneralSettings*Capability` 收敛。
+/// 只依赖 `GeneralSettingsViewModel`；诊断导出、卸载扫描等业务状态全部由
+/// ViewModel 提供，外部操作经各 `GeneralSettings*Capability` 收敛。
+///
+/// Wakey 通过 Mac App Store 分发，更新由系统与 App Store 负责，
+/// 因此这里不提供「检查更新」入口。
 struct GeneralSettingsDetailView: View {
     let version: String?
     @ObservedObject var viewModel: GeneralSettingsViewModel
@@ -27,7 +29,6 @@ struct GeneralSettingsDetailView: View {
                 onboardingSection
                 lumiSection
                 websiteSection
-                updatesSection
                 diagnosticsSection
                 uninstallSection
             }
@@ -177,61 +178,6 @@ struct GeneralSettingsDetailView: View {
                         #elseif canImport(UIKit)
                         UIApplication.shared.open(url)
                         #endif
-                    }
-                }
-            }
-        }
-    }
-
-    // MARK: - 更新
-
-    /// `allowsAppUpdates` 的宿主（Wakey 直营）展示「检查更新」行，
-    /// 点击广播 `checkForUpdates` 通知，由宿主（如 Sparkle 更新插件）消费。
-    private var updatesSection: some View {
-        AppSettingSection(
-            title: pluginLocalization.string("Updates"),
-            titleAlignment: .leading
-        ) {
-            VStack(spacing: 0) {
-                AppSettingRow(
-                    title: pluginLocalization.string("Check for Updates"),
-                    description: pluginLocalization.string("Check whether a newer version of Wakey is available."),
-                    icon: "arrow.down.circle"
-                ) {
-                    AppButton(
-                        pluginLocalization.string("Check..."),
-                        systemImage: "arrow.triangle.2.circlepath",
-                        style: .secondary,
-                        size: .small
-                    ) {
-                        viewModel.checkForUpdates()
-                    }
-                }
-
-                if viewModel.isUpdateChannelAvailable {
-                    Divider()
-                        .padding(.vertical, 8)
-
-                    AppSettingRow(
-                        title: pluginLocalization.string("Update Channel"),
-                        description: viewModel.selectedUpdateChannel == .preview
-                            ? pluginLocalization.string(
-                                "Getting the preview release published on the pre branch, which may contain unresolved issues."
-                            )
-                            : pluginLocalization.string(
-                                "Getting the stable release published on the main branch."
-                            ),
-                        icon: viewModel.selectedUpdateChannel == .preview ? "flask" : "checkmark.seal"
-                    ) {
-                        Picker(
-                            pluginLocalization.string("Update Channel"),
-                            selection: $viewModel.selectedUpdateChannel
-                        ) {
-                            Text(pluginLocalization.string("Stable")).tag(AppUpdateChannel.stable)
-                            Text(pluginLocalization.string("Preview")).tag(AppUpdateChannel.preview)
-                        }
-                        .labelsHidden()
-                        .pickerStyle(.menu)
                     }
                 }
             }
