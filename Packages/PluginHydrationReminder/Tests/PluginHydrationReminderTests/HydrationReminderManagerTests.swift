@@ -71,6 +71,13 @@ final class FakeReminderEnvironment: ReminderEnvironment {
         presentedOverlays.append(kind)
     }
 
+    /// 状态存储：测试用内存实现，不落盘。
+    var stateStore: ReminderStateStore = .inMemory()
+
+    func attachStateStore(directory: URL) {
+        stateStore = ReminderStateStore(directory: directory)
+    }
+
     // MARK: - 测试控制
 
     /// 推进虚拟时钟，并触发所有到期回调。
@@ -499,5 +506,34 @@ struct HydrationReminderManagerMiscTests {
         manager.cleanup()
 
         #expect(env.pendingTimers.isEmpty)
+    }
+}
+
+@Suite("HydrationReminderManager 今日计数")
+@MainActor
+struct HydrationReminderManagerTodayCountTests {
+    @Test("触发提醒后今日计数递增")
+    func countIncrementsOnFiring() {
+        let env = FakeReminderEnvironment()
+        let manager = HydrationReminderManager(environment: env)
+        manager.start()
+
+        env.advance(by: HydrationReminderManager.defaultInterval.timeInterval)
+
+        #expect(manager.todayBreakCount == 1)
+    }
+
+    @Test("重启后今日计数保留")
+    func countSurvivesRestart() {
+        let env = FakeReminderEnvironment()
+        let first = HydrationReminderManager(environment: env)
+        first.start()
+        env.advance(by: HydrationReminderManager.defaultInterval.timeInterval)
+        #expect(first.todayBreakCount == 1)
+
+        // 模拟重启：新建 manager，共享同一个状态存储
+        let reloaded = HydrationReminderManager(environment: env)
+
+        #expect(reloaded.todayBreakCount == 1, "重启后今日计数应保留")
     }
 }

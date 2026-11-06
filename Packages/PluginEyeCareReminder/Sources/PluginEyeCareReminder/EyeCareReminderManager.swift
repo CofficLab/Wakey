@@ -31,6 +31,9 @@ class EyeCareReminderManager: NSObject, SuperLog {
     /// 时间 / 持久化 / 计时来源，生产环境为系统实现，测试可注入可控实现。
     private let environment: any ReminderEnvironment
 
+    /// 「今日次数」计数器，状态落在插件专属目录。
+    private let dailyCounter: DailyCounter
+
     /// Whether break reminder is currently active
     private(set) var isActive: Bool = false
 
@@ -49,8 +52,11 @@ class EyeCareReminderManager: NSObject, SuperLog {
     /// Timer for scheduling breaks
     private var timer: ReminderTimerToken?
 
-    /// Today's break count
-    private(set) var todayBreakCount: Int = 0
+    /// 今日休息次数。
+    ///
+    /// 计数与所属日期一起持久化：跨零点后自动归零，重启 App 后仍在。
+    /// 状态落在插件专属目录的 Binary Plist（见 `ReminderStateStore`）。
+    var todayBreakCount: Int { dailyCounter.todayCount }
 
     /// Notification permission status
     enum PermissionStatus {
@@ -69,6 +75,10 @@ class EyeCareReminderManager: NSObject, SuperLog {
 
     init(environment: any ReminderEnvironment) {
         self.environment = environment
+        self.dailyCounter = DailyCounter(
+            store: environment.stateStore,
+            keyPrefix: "EyeCareReminder"
+        )
         super.init()
 
         // Load custom intervals
@@ -84,6 +94,13 @@ class EyeCareReminderManager: NSObject, SuperLog {
             os_log("\(self.t)EyeCareReminderManager initialized")
         }
         checkNotificationPermission()
+    }
+
+    /// 宿主在 `onBoot` 阶段注入插件专属的状态存储目录。
+    ///
+    /// - Parameter directory: 插件数据目录（`StorageProviding.pluginDataDirectory(for:)`）。
+    func attachStateStore(directory: URL) {
+        environment.attachStateStore(directory: directory)
     }
 
     // MARK: - Public Methods
@@ -233,7 +250,7 @@ class EyeCareReminderManager: NSObject, SuperLog {
         }
 
         showDesktopGradient()
-        todayBreakCount += 1
+        dailyCounter.increment()
         scheduleNextBreak()
     }
 

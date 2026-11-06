@@ -52,6 +52,26 @@ public protocol ReminderEnvironment: AnyObject {
     /// 展示休息提醒弹层。生产环境创建真实覆盖窗口；
     /// 测试中可替换为仅计数的实现，避免无窗口进程崩溃。
     func presentReminderOverlay(kind: ReminderOverlayKind)
+
+    /// 插件状态存储。
+    ///
+    /// 按 CofficLab 兄弟项目的存储规范，插件状态落盘在宿主分配的
+    /// 插件专属目录（Binary Plist），而不是 `UserDefaults.standard`。
+    ///
+    /// 宿主在 `onBoot(kernel:)` 解析出 `StorageProviding` 后注入；
+    /// 未注入时（测试环境）可退回到内存存储。
+    var stateStore: ReminderStateStore { get set }
+
+    /// 宿主在 `onBoot` 阶段注入插件专属的状态存储目录。
+    ///
+    /// - Parameter directory: 插件数据目录（`StorageProviding.pluginDataDirectory(for:)`）。
+    func attachStateStore(directory: URL)
+}
+
+public extension ReminderEnvironment {
+    func attachStateStore(directory: URL) {
+        stateStore = ReminderStateStore(directory: directory)
+    }
 }
 
 /// 生产环境实现：直接使用系统 API，行为与抽象前一致。
@@ -65,13 +85,25 @@ public final class SystemReminderEnvironment: ReminderEnvironment {
     /// 各插件注入自己的弹层构造函数（接收 nil 表示无需展示）。
     private let overlayPresenter: @MainActor (ReminderOverlayKind) -> Void
 
+    /// 插件状态存储；宿主注入目录后即落盘到插件专属目录。
+    public var stateStore: ReminderStateStore
+
     private var nextToken: UInt64 = 0
     private var timers: [UInt64: Timer] = [:]
 
     public init(
-        overlayPresenter: @escaping @MainActor (ReminderOverlayKind) -> Void = { _ in }
+        overlayPresenter: @escaping @MainActor (ReminderOverlayKind) -> Void = { _ in },
+        stateStore: ReminderStateStore = .inMemory()
     ) {
         self.overlayPresenter = overlayPresenter
+        self.stateStore = stateStore
+    }
+
+    /// 由宿主在 `onBoot` 阶段注入插件专属的状态存储目录。
+    ///
+    /// - Parameter directory: 插件数据目录（`StorageProviding.pluginDataDirectory(for:)`）。
+    public func attachStateStore(directory: URL) {
+        stateStore = ReminderStateStore(directory: directory)
     }
 
     public func now() -> Date { Date() }

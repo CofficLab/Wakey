@@ -27,13 +27,20 @@ class HydrationReminderManager: NSObject, SuperLog {
     /// 时间 / 持久化 / 计时来源，生产环境为系统实现，测试可注入可控实现。
     private let environment: any ReminderEnvironment
 
+    /// 「今日次数」计数器，状态落在插件专属目录。
+    private let dailyCounter: DailyCounter
+
     private(set) var isActive: Bool = false
     private(set) var selectedInterval: TimeInterval = HydrationReminderManager.defaultInterval.timeInterval
     private(set) var availableIntervals: [IntervalOption] = []
     private(set) var nextBreakTime: Date?
     private(set) var startTime: Date?
     private var timer: ReminderTimerToken?
-    private(set) var todayBreakCount: Int = 0
+    /// 今日休息次数。
+    ///
+    /// 计数与所属日期一起持久化：跨零点后自动归零，重启 App 后仍在。
+    /// 状态落在插件专属目录的 Binary Plist（见 `ReminderStateStore`）。
+    var todayBreakCount: Int { dailyCounter.todayCount }
 
     enum PermissionStatus {
         case notDetermined
@@ -46,6 +53,10 @@ class HydrationReminderManager: NSObject, SuperLog {
 
     init(environment: any ReminderEnvironment) {
         self.environment = environment
+        self.dailyCounter = DailyCounter(
+            store: environment.stateStore,
+            keyPrefix: "HydrationReminder"
+        )
         super.init()
         
         // Load custom intervals
@@ -71,6 +82,13 @@ class HydrationReminderManager: NSObject, SuperLog {
 
     func openNotificationSettings() {
         // No longer need to open system settings
+    }
+
+    /// 宿主在 `onBoot` 阶段注入插件专属的状态存储目录。
+    ///
+    /// - Parameter directory: 插件数据目录（`StorageProviding.pluginDataDirectory(for:)`）。
+    func attachStateStore(directory: URL) {
+        environment.attachStateStore(directory: directory)
     }
 
     func start() {
@@ -160,7 +178,7 @@ class HydrationReminderManager: NSObject, SuperLog {
     private func fireBreakReminder() {
         guard isActive else { return }
         showDesktopGradient()
-        todayBreakCount += 1
+        dailyCounter.increment()
         scheduleNextBreak()
     }
 
