@@ -11,7 +11,8 @@ import UserNotifications
 @Observable
 class StretchReminderManager: NSObject, SuperLog {
     nonisolated static let emoji = "🏃"
-    nonisolated static let verbose: Bool = true
+    /// 详细日志开关。生产环境保持关闭，测试中可临时打开以覆盖日志分支。
+    static var verbose: Bool = false
 
     static let shared = StretchReminderManager(
         environment: SystemReminderEnvironment { kind in
