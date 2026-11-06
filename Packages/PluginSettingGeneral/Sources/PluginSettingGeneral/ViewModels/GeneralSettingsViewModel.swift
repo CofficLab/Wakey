@@ -2,14 +2,13 @@ import AppKit
 import Darwin
 import Foundation
 import LumiUI
-import ProviderAppUpdate
 import ProviderDocsView
 import ProviderAppUninstall
 import SwiftUI
 
 /// 通用设置页的唯一数据来源。
 ///
-/// 负责诊断导出、更新通道、卸载扫描/执行等业务状态；所有外部操作
+/// 负责诊断导出、卸载扫描/执行等业务状态；所有外部操作
 /// 经各 `GeneralSettings*Capability` 收敛，View 只读取本 ViewModel。
 @MainActor
 final class GeneralSettingsViewModel: ObservableObject {
@@ -31,7 +30,6 @@ final class GeneralSettingsViewModel: ObservableObject {
     }
 
     private let docsCapability: any GeneralSettingsDocsCapability
-    private let updateChannelCapability: any GeneralSettingsUpdateChannelCapability
     private let diagnosticsCapability: any GeneralSettingsDiagnosticsCapability
     private let storageCapability: any GeneralSettingsStorageCapability
     private let uninstallCapability: any GeneralSettingsUninstallCapability
@@ -43,14 +41,6 @@ final class GeneralSettingsViewModel: ObservableObject {
 
     /// Wakey 数据根目录的实际磁盘占用；nil 表示仍在计算或存储服务不可用。
     @Published private(set) var storageSizeInBytes: Int64?
-
-    /// 当前更新通道（默认稳定版）。
-    @Published var selectedUpdateChannel: AppUpdateChannel = .stable {
-        didSet {
-            guard selectedUpdateChannel != oldValue else { return }
-            updateChannelCapability.setUpdateChannel(selectedUpdateChannel)
-        }
-    }
 
     // 诊断导出
     @Published private(set) var isExportingDiagnostics = false
@@ -67,26 +57,19 @@ final class GeneralSettingsViewModel: ObservableObject {
 
     init(
         docsCapability: any GeneralSettingsDocsCapability,
-        updateChannelCapability: any GeneralSettingsUpdateChannelCapability,
         diagnosticsCapability: any GeneralSettingsDiagnosticsCapability,
         storageCapability: any GeneralSettingsStorageCapability,
         uninstallCapability: any GeneralSettingsUninstallCapability
     ) {
         self.docsCapability = docsCapability
-        self.updateChannelCapability = updateChannelCapability
         self.diagnosticsCapability = diagnosticsCapability
         self.storageCapability = storageCapability
         self.uninstallCapability = uninstallCapability
         refreshManuals()
-        selectedUpdateChannel = updateChannelCapability.updateChannel
         refreshStorageUsage()
     }
 
     // MARK: - 派生状态
-
-    var isUpdateChannelAvailable: Bool {
-        updateChannelCapability.isUpdateChannelAvailable
-    }
 
     var isDiagnosticsAvailable: Bool {
         diagnosticsCapability.isDiagnosticsAvailable
@@ -123,14 +106,6 @@ final class GeneralSettingsViewModel: ObservableObject {
 
     func openStorageDirectory() {
         storageCapability.openStorageDirectory()
-    }
-
-    /// 检查更新：广播 `checkForUpdates` 通知，由宿主（如 Sparkle 更新插件）消费。
-    func checkForUpdates() {
-        NotificationCenter.default.post(
-            name: Notification.Name("checkForUpdates"),
-            object: nil
-        )
     }
 
     func exportDiagnostics() {

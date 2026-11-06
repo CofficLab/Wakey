@@ -66,22 +66,52 @@ class CaffeinateManager: SuperLog {
 
     /// 激活防休眠模式
     /// - Parameter duration: 持续时间（秒），0 表示永久
-    func activate(duration: TimeInterval = 0) {
+    @discardableResult
+    func activate(duration: TimeInterval = 0) -> Bool {
         activate(mode: .systemAndDisplay, duration: duration)
     }
 
     /// 激活防休眠模式并立即关闭显示器
+    ///
+    /// 仅在防休眠确实激活成功后才关闭显示器——断言创建失败时不应让用户
+    /// 看到「屏幕黑了但系统仍会休眠」的状态。
+    ///
     /// - Parameter duration: 持续时间（秒），0 表示永久
     func activateAndTurnOffDisplay(duration: TimeInterval = 0) {
-        // 1. 激活防休眠（仅系统，允许显示器休眠）
-        activate(mode: .systemOnly, duration: duration)
+        // 若已有会话在运行，先停掉旧的：否则 activate 会因 isActive 直接返回，
+        // 且旧的显示器断言会继续阻止屏幕熄灭。
+        if isActive {
+            deactivate()
+        }
 
-        // 2. 更新状态
-        self.activeAction = .systemOnly
-        self.selectedDuration = duration
+        guard activate(mode: .systemOnly, duration: duration) else {
+            os_log(.error, "\(self.t)Cannot turn off display: anti-sleep assertion failed")
+            return
+        }
 
-        // 3. 关闭显示器
+        // activeAction / selectedDuration 已由 activate 成功路径写入。
         turnOffDisplay()
+    }
+
+    /// 切换到指定的防休眠动作。
+    ///
+    /// 若已有会话在运行，先释放旧的电源断言再激活新的模式——否则
+    /// `activate(mode:duration:)` 会因 `isActive` 为真直接返回，新模式不生效。
+    ///
+    /// - Parameter action: 目标动作
+    func switchAction(_ action: QuickActionType) {
+        if isActive {
+            deactivate()
+        }
+
+        switch action {
+        case .systemAndDisplay:
+            activate(mode: .systemAndDisplay, duration: selectedDuration)
+        case .systemOnly:
+            activate(mode: .systemOnly, duration: selectedDuration)
+        case .turnOffDisplay:
+            activateAndTurnOffDisplay(duration: selectedDuration)
+        }
     }
 
     /// 立即关闭显示器
@@ -93,12 +123,14 @@ class CaffeinateManager: SuperLog {
     /// - Parameters:
     ///   - mode: 休眠模式（仅系统或系统与显示器）
     ///   - duration: 持续时间（秒），0 表示永久
-    func activate(mode: SleepMode, duration: TimeInterval = 0) {
+    /// - Returns: 是否成功激活（断言创建成功且会话已进入运行状态）
+    @discardableResult
+    func activate(mode: SleepMode, duration: TimeInterval = 0) -> Bool {
         guard !isActive else {
             if Self.verbose {
                 os_log("\(self.t)Anti-sleep already active, ignoring duplicate request")
             }
-            return
+            return false
         }
 
         self.mode = mode
@@ -130,6 +162,8 @@ class CaffeinateManager: SuperLog {
             if duration > 0 {
                 startTimer(duration: duration)
             }
+
+            return true
         } else {
             if !systemResult.isSuccess {
                 os_log(.error, "\(self.t)Failed to create system sleep assertion: \(systemResult.code)")
@@ -145,6 +179,8 @@ class CaffeinateManager: SuperLog {
                 environment.releaseAssertion(id: displayAssertionID)
                 displayAssertionID = 0
             }
+
+            return false
         }
     }
 
@@ -237,16 +273,19 @@ class CaffeinateManager: SuperLog {
     /// - Parameter minutes: Duration in minutes
     func addCustomDuration(minutes: Int) {
         let option = DurationOption.minutes(minutes)
-        if !availableDurations.contains(option) {
-            availableDurations.append(option)
-            // Re-sort
-            availableDurations.sort {
-                if $0.timeInterval == 0 { return true }
-                if $1.timeInterval == 0 { return false }
-                return $0.timeInterval < $1.timeInterval
-            }
-            saveCustomDurations()
+        // 按时长（秒）判重：自定义 60 分钟与预设 1 小时是同一时长，
+        // 同时存在会让选择器渲染出两个按钮且同时高亮。
+        guard !availableDurations.contains(where: { $0.timeInterval == option.timeInterval }) else {
+            return
         }
+        availableDurations.append(option)
+        // Re-sort
+        availableDurations.sort {
+            if $0.timeInterval == 0 { return true }
+            if $1.timeInterval == 0 { return false }
+            return $0.timeInterval < $1.timeInterval
+        }
+        saveCustomDurations()
     }
     
     /// Remove a duration option
@@ -257,12 +296,24 @@ class CaffeinateManager: SuperLog {
 
         availableDurations.removeAll { $0 == option }
         saveCustomDurations()
+
+        // If the selected duration no longer exists, fall back to a valid
+        // option — otherwise the picker shows nothing highlighted and the
+        // next activation silently uses a value the user can no longer select.
+        if !availableDurations.contains(where: { $0.timeInterval == selectedDuration }) {
+            selectedDuration = Self.commonDurations[0].timeInterval
+        }
     }
 
     /// Reset durations to default
     func resetDurations() {
         availableDurations = Self.commonDurations
         saveCustomDurations()
+
+        // The selected duration may no longer exist after the reset.
+        if !availableDurations.contains(where: { $0.timeInterval == selectedDuration }) {
+            selectedDuration = Self.commonDurations[0].timeInterval
+        }
     }
     
     private func saveCustomDurations() {
@@ -318,10 +369,22 @@ extension CaffeinateManager {
     }
 
     /// 预设持续时间选项
-    enum DurationOption: Hashable, Equatable {
+    enum DurationOption: Hashable, Equatable, Identifiable {
         case indefinite
         case minutes(Int)
         case hours(Int)
+
+        /// 稳定的行标识。
+        ///
+        /// 列表会被增删并重新排序，标识必须跟随选项本身而非数组位置，
+        /// 否则 SwiftUI 会把旧行的状态套用到新行上。
+        var id: String {
+            switch self {
+            case .indefinite: return "indefinite"
+            case let .minutes(m): return "m\(m)"
+            case let .hours(h): return "h\(h)"
+            }
+        }
 
         /// 获取持续时间的显示名称
         var displayName: String {

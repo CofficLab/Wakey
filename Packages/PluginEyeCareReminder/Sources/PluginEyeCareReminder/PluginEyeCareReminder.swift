@@ -2,6 +2,7 @@ import KernelCore
 import OSLog
 import ProviderDocsView
 import ProviderStatusBarPopup
+import ProviderStorage
 import ProviderSettingView
 import SwiftUI
 
@@ -27,6 +28,12 @@ public final class PluginEyeCareReminder: SuperPlugin {
             .addManual(DocsEntry(id: id, name: metadata.name) {
                 EyeCareManualView()
             })
+
+        // 按 CofficLab 存储规范，插件状态落盘在宿主分配的插件专属目录
+        // （Binary Plist），而不是 UserDefaults。
+        if let storage = kernel.resolveProvider((any StorageProviding).self) {
+            EyeCareReminderManager.shared.attachStateStore(directory: storage.pluginDataDirectory(for: id))
+        }
 
         // 状态栏弹窗
         kernel.resolveProvider(StatusBarPopupProviding.self)?

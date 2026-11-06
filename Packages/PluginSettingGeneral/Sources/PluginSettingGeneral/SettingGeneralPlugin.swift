@@ -1,7 +1,6 @@
 import KernelCore
 import LumiUI
 import ProviderCommand
-import ProviderAppUpdate
 import ProviderDiagnostics
 import ProviderDocsView
 import ProviderStorage
@@ -28,7 +27,7 @@ public final class SettingGeneralPlugin: SuperPlugin, SuperLog {
     public let metadata = PluginMetadata(
         id: "com.coffic.wakey.plugin.setting-general",
         name: pluginLocalization.string("General Settings"),
-        description: pluginLocalization.string("Registers the General settings entry with app info, website and updates."),
+        description: pluginLocalization.string("Registers the General settings entry with app info, manuals and about us."),
         category: .system,
         stage: .stable,
         policy: .alwaysOn
@@ -59,8 +58,10 @@ public final class SettingGeneralPlugin: SuperPlugin, SuperLog {
                         shortcut: ",",
                         modifiers: .command
                     ) {
+                        // 使用 LumiSettings 提供的跨层开窗契约：宿主监听该通知后
+                        // 打开设置窗口。插件与宿主因此无需互相依赖。
                         NotificationCenter.default.post(
-                            name: Notification.Name("wakey.openSettings"),
+                            name: SettingViewNavigation.openSettingsNotification,
                             object: nil
                         )
                     },
@@ -88,14 +89,8 @@ public final class SettingGeneralPlugin: SuperPlugin, SuperLog {
             title: pluginLocalization.string("General"),
             systemImage: "gearshape",
             order: 1
-        ) { [versionProvider, docsProvider, diagnosticsProvider, storageProvider, uninstallProvider, prepareForUninstall, kernel] in
-            // AppUpdateBootstrap is host-owned and may register after
-            // plugin boot. Resolve it when the entry is materialized so
-            // settings sees the provider in both Debug and Release.
+        ) { [versionProvider, docsProvider, diagnosticsProvider, storageProvider, uninstallProvider, prepareForUninstall] in
             let docsCapability = GeneralSettingsDocsCapabilityAdapter(docsProvider: docsProvider)
-            let updateChannelCapability = GeneralSettingsUpdateChannelCapabilityAdapter(
-                updateProvider: kernel.resolveProvider((any AppUpdateChannelProviding).self)
-            )
             let diagnosticsCapability = GeneralSettingsDiagnosticsCapabilityAdapter(
                 diagnosticsProvider: diagnosticsProvider
             )
@@ -106,7 +101,6 @@ public final class SettingGeneralPlugin: SuperPlugin, SuperLog {
             )
             let viewModel = GeneralSettingsViewModel(
                 docsCapability: docsCapability,
-                updateChannelCapability: updateChannelCapability,
                 diagnosticsCapability: diagnosticsCapability,
                 storageCapability: storageCapability,
                 uninstallCapability: uninstallCapability

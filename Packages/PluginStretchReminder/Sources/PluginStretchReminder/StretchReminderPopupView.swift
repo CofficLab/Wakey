@@ -35,9 +35,6 @@ struct StretchReminderPopupView: View {
                     .padding(.top, 4)
                 StretchIntervalPicker()
             }
-            if manager.permissionStatus == .denied {
-                StretchNotificationPermissionWarning(manager: manager).padding(.top, 8)
-            }
         }
         .padding(.bottom, 8)
         .background(
@@ -53,25 +50,5 @@ struct StretchReminderPopupView: View {
             }
         )
         .clipped()
-    }
-}
-
-struct StretchNotificationPermissionWarning: View {
-    let manager: StretchReminderManager
-    var body: some View {
-        VStack(spacing: 8) {
-            HStack(spacing: 8) {
-                Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.orange).font(.system(size: 14))
-                Text("Notifications Disabled", tableName: "StretchReminder", bundle: .module).font(.system(size: 11, weight: .medium)).foregroundColor(.primary)
-                Spacer()
-            }
-            Text("Please enable notifications in System Settings to receive break reminders.", tableName: "StretchReminder", bundle: .module)
-                .font(.system(size: 10)).foregroundColor(.secondary).fixedSize(horizontal: false, vertical: true).multilineTextAlignment(.leading)
-            Button(action: { manager.openNotificationSettings() }) {
-                Text("Open Settings", tableName: "StretchReminder", bundle: .module).font(.system(size: 10, weight: .medium)).padding(.horizontal, 8).padding(.vertical, 4).background(Color.accentColor.opacity(0.1)).cornerRadius(4)
-            }
-            .buttonStyle(.plain)
-        }
-        .padding(10).background(Color.orange.opacity(0.05)).cornerRadius(8).padding(.horizontal, 12)
     }
 }

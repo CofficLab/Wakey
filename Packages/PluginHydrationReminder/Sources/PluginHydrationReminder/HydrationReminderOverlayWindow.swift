@@ -1,46 +1,20 @@
 import AppKit
+import KitReminder
 import SwiftUI
 
-class HydrationReminderOverlayWindow: NSWindow {
-    private let fadeOutDuration: TimeInterval = 2.0
-    private let displayDuration: TimeInterval = 3.0
-
-    init() {
-        super.init(
-            contentRect: NSScreen.main?.visibleFrame ?? NSRect(x: 0, y: 0, width: 1920, height: 1080),
-            styleMask: [.borderless, .fullSizeContentView],
-            backing: .buffered,
-            defer: false
-        )
-        setupWindow()
+/// 喝水提醒的全屏遮罩。
+///
+/// 遮罩覆盖所有显示器（用外接大屏工作的用户正是最需要提醒的人），
+/// 具体实现见 `ReminderOverlayController`。
+@MainActor
+class HydrationReminderOverlayWindow {
+    private let controller = ReminderOverlayController {
+        AnyView(HydrationGradientView())
     }
 
-    private func setupWindow() {
-        isOpaque = false
-        backgroundColor = .clear
-        level = .floating
-        isReleasedWhenClosed = false
-        ignoresMouseEvents = true
-        collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
-        let gradientView = HydrationGradientView()
-        contentView = NSHostingView(rootView: gradientView)
-    }
-
+    /// 在所有屏幕上显示遮罩，动画淡入后自动淡出。
     func showAndFadeOut() {
-        alphaValue = 0
-        orderFrontRegardless()
-        NSAnimationContext.runAnimationGroup { context in
-            context.duration = 0.5
-            animator().alphaValue = 1.0
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + displayDuration) { [weak self] in
-            guard let self = self else { return }
-            NSAnimationContext.runAnimationGroup { context in
-                context.duration = self.fadeOutDuration
-                context.completionHandler = { self.close() }
-                self.animator().alphaValue = 0
-            }
-        }
+        controller.showAndFadeOut()
     }
 }
 

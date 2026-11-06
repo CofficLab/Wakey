@@ -3,13 +3,11 @@ import LumiUI
 import OSLog
 import ProviderTheme
 import ProviderLogo
-import ProviderPoster
 import ProviderStatusBarPopup
 import ProviderSettingView
 import ProviderPluginControl
 import ProviderPluginManaging
 import ProviderStorage
-import ProviderCopilotNavigation
 import ProviderDocsView
 import SwiftUI
 
@@ -17,21 +15,12 @@ import SwiftUI
 import PluginSettingView
 // Plugin imports — Logo (1)
 import PluginLogoBolt
-// Plugin imports — Poster (6)
-import PluginPosterWakey
-import PluginPosterCaffeinate
-import PluginPosterEyeCare
-import PluginPosterStretch
-import PluginPosterHydration
-import PluginPosterPreview
 // Plugin imports — Business (4)
 import PluginCaffeinate
 import PluginEyeCareReminder
 import PluginStretchReminder
 import PluginHydrationReminder
 // Plugin imports — Other (2)
-import PluginAppInfo
-import PluginPurchase
 // Plugin imports — Plugin management (aligned to Lumi)
 import PluginPluginManager
 // Plugin imports — Settings-General (aligned to Lumi)
@@ -42,7 +31,6 @@ import PluginRootView
 import PluginFileLog
 // Plugin imports — Shared infrastructure
 import PluginToast
-import PluginStorage
 import ProviderRootView
 import ProviderToast
 
@@ -83,7 +71,6 @@ public enum FactoryWakey {
         // 注册共享 Host Provider（由 Factory 持有，插件向其贡献 UI）
         try kernel.registerHostProvider(StatusBarPopupProviding.self, DefaultStatusBarPopupProviding())
         try kernel.registerHostProvider((any SettingViewProviding).self, DefaultSettingViewProviding())
-        try kernel.registerHostProvider(PosterProviding.self, DefaultPosterProviding())
         try kernel.registerHostProvider(LogoProviding.self, DefaultLogoProviding())
         try kernel.registerHostProvider(
             ProviderTheme.ThemeProviding.self,
@@ -92,7 +79,6 @@ public enum FactoryWakey {
                 defaultStorageDirectoryName: "com.coffic.lumi.plugin.theme-manager"
             )
         )
-        try kernel.registerHostProvider(CopilotNavigationProviding.self, DefaultCopilotNavigationProviding())
 
         // 文档条目：各插件通过 addManual / addAbout 贡献说明书与关于页，
         // 由设置页「通用 → 说明书」统一展示（对齐 Lumi 的 ProviderFactory）。
@@ -143,25 +129,18 @@ public enum FactoryWakey {
     /// 顺序约定：order 值越小越先启动。
     public static func makePlugins() -> [any SuperPlugin] {
         [
-            // order 1: shared storage infrastructure
-            try! StorageSuperPlugin(),
             // order 1: 磁盘日志（对齐 Lumi 的 PluginFileLog，为设置页提供诊断导出）
             FileLogPlugin(),
             // order -1: shared root-view contract registration
             WakeyRootViewPlugin(),
             // order 0
             PluginLogoBolt(),
-            PluginPosterWakey(),
             // order 10
             ToastSuperPlugin(),
             // order 1
-            PluginPosterCaffeinate(),
             // order 2
-            PluginPosterEyeCare(),
             // order 3
-            PluginPosterStretch(),
             // order 4
-            PluginPosterHydration(),
             // order 5: 设置外壳（替换 DefaultSettingViewProviding，渲染 App 图标头部）
             PluginSettingView(id: "com.coffic.wakey.plugin.setting-view"),
             // order 7
@@ -171,10 +150,8 @@ public enum FactoryWakey {
             // order 9
             PluginStretchReminder(),
             // order 10
-            PluginAppInfo(),
             PluginHydrationReminder(),
             // order 15
-            PluginPosterPreview(),
             // order 79
             ThemePackPlugin(
                 id: "com.coffic.wakey.plugin.theme-pack",
@@ -186,8 +163,6 @@ public enum FactoryWakey {
             PluginPluginManager(id: "com.coffic.wakey.plugin.plugin-manager"),
             // order 100: 设置-通用（对齐 Lumi 的 PluginSettingGeneral）
             SettingGeneralPlugin(),
-            // order 100
-            PluginPurchase(),
         ]
     }
 
@@ -202,7 +177,7 @@ public enum FactoryWakey {
         }
         rootView.setView(view, for: .statusBar)
         // 状态栏 popover 通过 RootView 呈现内容（ViewBuilder 分支，无 ZStack/Group
-        // 包装），避免 popover 场景的 AX 崩溃。
+        // 包装），避免 popover 场景的 AX 崩溃（菜单栏 app 无主窗口）。
         rootView.setContentView(view)
         return themed(rootView.makeRootView(), kernel: kernel)
     }
@@ -230,6 +205,21 @@ public enum FactoryWakey {
         // 场景下，overlay 的 ZStack/包装层会让详情区 AX 的 hit point 不稳定
         // （XCTest 随机失败）。
         return themed(identified, kernel: kernel)
+    }
+
+    /// 选中指定设置入口（设置窗口深链）。
+    ///
+    /// - Parameters:
+    ///   - kernel: 内核容器。
+    ///   - entryID: 设置入口 id；入口不存在时不做任何事。
+    public static func selectSettingsEntry(kernel: KernelCoreContainer?, entryID: String) {
+        guard let kernel,
+              let settings = kernel.resolveProvider((any SettingViewProviding).self),
+              settings.entries.contains(where: { $0.id == entryID })
+        else {
+            return
+        }
+        settings.selectEntry(id: entryID)
     }
 
     /// Logo 视图：从内核解析 LogoProviding，选中指定 logo 或默认最高优先级。

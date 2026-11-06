@@ -11,7 +11,8 @@ import SwiftUI
 @Observable
 class HydrationReminderManager: NSObject, SuperLog {
     nonisolated static let emoji = "💧"
-    nonisolated static let verbose: Bool = true
+    /// 详细日志开关。生产环境保持关闭，测试中可临时打开以覆盖日志分支。
+    static var verbose: Bool = false
 
     static let shared = HydrationReminderManager(
         environment: SystemReminderEnvironment { kind in
@@ -22,29 +23,33 @@ class HydrationReminderManager: NSObject, SuperLog {
     
     private let userDefaultsKey = "HydrationReminderInterval"
     private let customIntervalsKey = "HydrationCustomIntervals"
+    /// 运行态的持久化键：提醒开启后需跨重启保留。
+    private let activeStateKey = "HydrationReminderActive"
 
     /// 时间 / 持久化 / 计时来源，生产环境为系统实现，测试可注入可控实现。
     private let environment: any ReminderEnvironment
 
+    /// 「今日次数」计数器，状态落在插件专属目录。
+    private let dailyCounter: DailyCounter
+
     private(set) var isActive: Bool = false
-    private(set) var selectedInterval: TimeInterval = 2 * 60 * 60 // Default 2 hours
+    private(set) var selectedInterval: TimeInterval = HydrationReminderManager.defaultInterval.timeInterval
     private(set) var availableIntervals: [IntervalOption] = []
     private(set) var nextBreakTime: Date?
     private(set) var startTime: Date?
     private var timer: ReminderTimerToken?
-    private(set) var todayBreakCount: Int = 0
-
-    enum PermissionStatus {
-        case notDetermined
-        case authorized
-        case denied
-    }
-
-    private(set) var permissionStatus: PermissionStatus = .notDetermined
-    private(set) var notificationPermissionGranted: Bool = false
+    /// 今日休息次数。
+    ///
+    /// 计数与所属日期一起持久化：跨零点后自动归零，重启 App 后仍在。
+    /// 状态落在插件专属目录的 Binary Plist（见 `ReminderStateStore`）。
+    var todayBreakCount: Int { dailyCounter.todayCount }
 
     init(environment: any ReminderEnvironment) {
         self.environment = environment
+        self.dailyCounter = DailyCounter(
+            store: environment.stateStore,
+            keyPrefix: "HydrationReminder"
+        )
         super.init()
         
         // Load custom intervals
@@ -59,22 +64,30 @@ class HydrationReminderManager: NSObject, SuperLog {
         if Self.verbose {
             os_log("\(self.t)HydrationReminderManager initialized")
         }
-        checkNotificationPermission()
     }
 
-    func checkNotificationPermission() {
-        // No longer need system notification permission
-        self.permissionStatus = .authorized
-        self.notificationPermissionGranted = true
+    /// 宿主在 `onBoot` 阶段注入插件专属的状态存储目录。
+    ///
+    /// - Parameter directory: 插件数据目录（`StorageProviding.pluginDataDirectory(for:)`）。
+    func attachStateStore(directory: URL) {
+        environment.attachStateStore(directory: directory)
+        restoreRunningStateIfNeeded()
     }
 
-    func openNotificationSettings() {
-        // No longer need to open system settings
+    /// 若上次退出时提醒处于运行中，则恢复它。
+    ///
+    /// 用户开启了提醒，重启 App 后提醒应继续工作——否则提醒会**静默停止**，
+    /// 用户既看不到提示也无法察觉提醒已经失效。
+    private func restoreRunningStateIfNeeded() {
+        guard environment.savedActiveState(forKey: activeStateKey) else { return }
+        guard !isActive else { return }
+        start()
     }
 
     func start() {
         guard !isActive else { return }
         self.isActive = true
+        environment.saveActiveState(true, forKey: activeStateKey)
         self.startTime = environment.now()
         scheduleNextBreak()
     }
@@ -84,6 +97,7 @@ class HydrationReminderManager: NSObject, SuperLog {
         environment.cancel(timer)
         timer = nil
         isActive = false
+        environment.saveActiveState(false, forKey: activeStateKey)
         nextBreakTime = nil
         startTime = nil
         // UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
@@ -97,14 +111,17 @@ class HydrationReminderManager: NSObject, SuperLog {
 
     func addCustomInterval(minutes: Int) {
         let option = IntervalOption.minutes(minutes)
-        if !availableIntervals.contains(option) {
-            availableIntervals.append(option)
-            availableIntervals.sort { $0.timeInterval < $1.timeInterval }
-            saveCustomIntervals()
-            
-            // Auto select the newly added interval
-            updateInterval(option.timeInterval)
+        // 按时长（秒）判重：自定义 60 分钟与预设 1 小时是同一时长，
+        // 同时存在会让选择器渲染出两个按钮且同时高亮。
+        guard !availableIntervals.contains(where: { $0.timeInterval == option.timeInterval }) else {
+            return
         }
+        availableIntervals.append(option)
+        availableIntervals.sort { $0.timeInterval < $1.timeInterval }
+        saveCustomIntervals()
+
+        // Auto select the newly added interval
+        updateInterval(option.timeInterval)
     }
     
     func removeInterval(_ option: IntervalOption) {
@@ -114,9 +131,9 @@ class HydrationReminderManager: NSObject, SuperLog {
         availableIntervals.removeAll { $0 == option }
         saveCustomIntervals()
 
-        // If currently selected interval was removed, revert to default
-        if selectedInterval == option.timeInterval {
-            updateInterval(Self.commonIntervals[2].timeInterval) // Default to 1 hour
+        // If the selected interval no longer exists, fall back to the default.
+        if !availableIntervals.contains(where: { $0.timeInterval == selectedInterval }) {
+            updateInterval(Self.defaultInterval.timeInterval)
         }
     }
 
@@ -124,7 +141,7 @@ class HydrationReminderManager: NSObject, SuperLog {
     func resetIntervals() {
         availableIntervals = Self.commonIntervals
         saveCustomIntervals()
-        updateInterval(Self.commonIntervals[2].timeInterval) // Default to 1 hour
+        updateInterval(Self.defaultInterval.timeInterval)
     }
 
     func updateInterval(_ interval: TimeInterval) {
@@ -150,28 +167,17 @@ class HydrationReminderManager: NSObject, SuperLog {
         timer = environment.schedule(after: interval) { [weak self] in
             self?.fireBreakReminder()
         }
-        scheduleNotification(in: interval)
     }
 
     private func fireBreakReminder() {
         guard isActive else { return }
         showDesktopGradient()
-        todayBreakCount += 1
+        dailyCounter.increment()
         scheduleNextBreak()
     }
 
     private func showDesktopGradient() {
         environment.presentReminderOverlay(kind: .hydration)
-    }
-
-    private func scheduleNotification(in interval: TimeInterval) {
-        // No system notification needed
-    }
-
-    private func requestNotificationPermission() {
-        // No longer need to request permission
-        self.notificationPermissionGranted = true
-        self.permissionStatus = .authorized
     }
 
     func cleanup() {
@@ -192,7 +198,9 @@ class HydrationReminderManager: NSObject, SuperLog {
             }
         }
         
-        intervals.sort { $0.timeInterval < $1.timeInterval }
+        // 按时长（秒）去重：自定义 60 分钟不应与预设 1 小时并存，
+        // 否则选择器会渲染出两个按钮且同时高亮。
+        intervals = ReminderIntervalList.deduped(intervals) { $0.timeInterval }
         self.availableIntervals = intervals
     }
     
@@ -238,6 +246,12 @@ extension HydrationReminderManager {
         .hours(2),
         .hours(3),
     ]
+
+    /// 喝水提醒的默认间隔。
+    ///
+    /// 首次启动、移除当前选中项、恢复默认时都回退到该值；
+    /// 插件描述中的「每 2 小时」也对应它。
+    static let defaultInterval: IntervalOption = .hours(2)
 }
 
 // extension HydrationReminderManager: UNUserNotificationCenterDelegate {

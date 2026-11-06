@@ -41,7 +41,7 @@ Packages/<PackageName>/
 |------|------|------|
 | 插件包名 | `Plugin<Feature>` | `PluginCaffeinate`、`PluginHydrationReminder` |
 | 工具包名 | `Kit<Feature>` | `KitBackground`、`KitLayout` |
-| 提供者包名 | `Provider<Feature>` | `ProviderPoster`、`ProviderOnboarding` |
+| 提供者包名 | `Provider<Feature>` | `ProviderPoster`、`ProviderStatusBarPopup` |
 | 工厂包名 | `Factory<App>` | `FactoryWakey` |
 | 测试目录 | `<PackageName>Tests` | `PluginCaffeinateTests` |
 
@@ -55,12 +55,12 @@ Packages/<PackageName>/
 
 ```
 Sources/
-  PluginWelcome/                 ← ✅ 包裹目录
-    PluginWelcome.swift
+  PluginSettingGeneral/          ← ✅ 包裹目录
+    SettingGeneralPlugin.swift
     Support/
 
 Sources/
-  WelcomePlugin.swift            ← ❌ 禁止：缺少包裹目录
+  SettingGeneralPlugin.swift     ← ❌ 禁止：缺少包裹目录
 ```
 
 ### 2.2 Plugin 类包分层
@@ -69,10 +69,9 @@ Sources/
 
 ```
 Sources/
-  PluginWelcome/
-    PluginWelcome.swift          # 入口
-    Support/
-      PluginLocalization.swift
+  PluginLogoBolt/
+    PluginLogoBolt.swift         # 入口
+    LogoBolt.swift
 ```
 
 #### 标准插件（4 ~ 10 个源文件）
@@ -257,7 +256,7 @@ struct CaffeinatePluginTests {
 | `PluginCaffeinate` | 标准 | Models / Observers / Support / ViewModels / Views |
 | `KitBackground` | 框架 | 按架构分层 |
 | `ProviderPoster` | 简单 | 平铺在包裹目录下 |
-| `PluginWelcome` | 极简 | 入口 + Support/ |
+| `PluginLogoBolt` | 极简 | 入口 + 同级视图文件 |
 
 ---
 

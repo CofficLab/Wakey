@@ -51,10 +51,6 @@ public extension View {
     ///     - `> 1.0`: 高分辨率。对于矢量图形（如 SVG），应使用高值（如 4.0 或 8.0）以确保导出图像的清晰度。
     /// - Throws: `SnapshotError` 如果在任何步骤中失败。
     @MainActor func snapshot(path: URL? = nil, title: String? = nil, scale: CGFloat = 0.0) throws {
-        guard let downloadsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first else {
-            throw SnapshotError.failedToAccessDownloads
-        }
-
         // 使用 ImageRenderer 以支持缩放渲染
         let renderer = ImageRenderer(content: self)
         // scale <= 0 时保留 ImageRenderer 的默认缩放（显示器原生缩放因子）；
@@ -70,8 +66,19 @@ public extension View {
         let width = cgImage.width
         let height = cgImage.height
         let fileName = title != nil ? "\(title!).png" : "\(Image.getTimeString())-\(width)x\(height).png"
-        let defaultPath = downloadsURL.appendingPathComponent(fileName)
-        let finalPath = path ?? defaultPath
+
+        // 目标路径：优先用调用方给定的路径。
+        // 只有在调用方未指定时才需要下载目录——沙盒应用直接写下载目录
+        // 需要额外的 entitlement，而且用户也未必期望文件自动出现在那里。
+        let finalPath: URL
+        if let path {
+            finalPath = path
+        } else {
+            guard let downloadsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first else {
+                throw SnapshotError.failedToAccessDownloads
+            }
+            finalPath = downloadsURL.appendingPathComponent(fileName)
+        }
 
         guard let destination = CGImageDestinationCreateWithURL(finalPath as CFURL, UTType.png.identifier as CFString, 1, nil) else {
             throw SnapshotError.destinationCreateFailed

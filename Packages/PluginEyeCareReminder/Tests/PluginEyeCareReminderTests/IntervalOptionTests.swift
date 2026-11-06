@@ -66,15 +66,16 @@ struct IntervalOptionTests {
 @Suite("commonIntervals 预设")
 @MainActor
 struct CommonIntervalsTests {
-    @Test("包含 5 个预设间隔")
-    func hasFivePresets() {
-        #expect(EyeCareReminderManager.commonIntervals.count == 5)
+    @Test("包含 6 个预设间隔")
+    func hasSixPresets() {
+        #expect(EyeCareReminderManager.commonIntervals.count == 6)
     }
 
     @Test("预设覆盖分钟与小时两种单位")
     func coversBothUnits() {
         let intervals = EyeCareReminderManager.commonIntervals
         #expect(intervals.contains(.minutes(10)))
+        #expect(intervals.contains(.minutes(20)))
         #expect(intervals.contains(.minutes(30)))
         #expect(intervals.contains(.hours(1)))
         #expect(intervals.contains(.hours(2)))
@@ -93,10 +94,38 @@ struct CommonIntervalsTests {
         #expect(Set(intervals).count == intervals.count)
     }
 
-    @Test("index 2（默认回退目标）为 1 小时")
-    func defaultFallbackIndex() {
-        // removeInterval / resetIntervals 在移除当前选中项时回退到 commonIntervals[2]
-        #expect(EyeCareReminderManager.commonIntervals[2] == .hours(1))
-        #expect(EyeCareReminderManager.commonIntervals[2].timeInterval == 3600)
+    @Test("预设中包含默认间隔 20 分钟")
+    func defaultFallbackIsAPreset() {
+        // removeInterval / resetIntervals 在移除当前选中项时回退到 defaultInterval
+        #expect(EyeCareReminderManager.commonIntervals.contains(EyeCareReminderManager.defaultInterval))
+    }
+}
+
+@Suite("defaultInterval 与预设的一致性")
+@MainActor
+struct DefaultIntervalTests {
+    @Test("默认间隔为 20 分钟")
+    func defaultIsTwentyMinutes() {
+        #expect(EyeCareReminderManager.defaultInterval == .minutes(20))
+        #expect(EyeCareReminderManager.defaultInterval.timeInterval == 1200)
+    }
+
+    @Test("默认间隔包含在预设列表中")
+    func defaultIsAPreset() {
+        #expect(EyeCareReminderManager.commonIntervals.contains(EyeCareReminderManager.defaultInterval))
+    }
+
+    @Test("未持久化时首次启动使用默认间隔")
+    func firstLaunchUsesDefault() {
+        let env = FakeReminderEnvironment()
+        let manager = EyeCareReminderManager(environment: env)
+
+        #expect(manager.selectedInterval == EyeCareReminderManager.defaultInterval.timeInterval)
+    }
+
+    @Test("插件描述承诺的 20 分钟与默认间隔一致")
+    func descriptionMatchesDefault() {
+        // 描述写的是「每 20 分钟」，默认值必须与之相同
+        #expect(EyeCareReminderManager.defaultInterval.timeInterval == 20 * 60)
     }
 }

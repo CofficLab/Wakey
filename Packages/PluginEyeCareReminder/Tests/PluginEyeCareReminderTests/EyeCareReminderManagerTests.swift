@@ -71,7 +71,37 @@ final class FakeReminderEnvironment: ReminderEnvironment {
         presentedOverlays.append(kind)
     }
 
+    /// 状态存储：测试用内存实现，不落盘。
+    var stateStore: ReminderStateStore = .inMemory()
+
+    /// 状态存储目录（测试用临时目录）。
+    let stateStoreDirectory: URL = FileManager.default.temporaryDirectory
+        .appendingPathComponent("ReminderState-\(UUID().uuidString)", isDirectory: true)
+
+    func attachStateStore(directory: URL) {
+        stateStore = ReminderStateStore(directory: directory)
+    }
+
+    /// 已持久化的「运行中」状态。
+    var storedActiveStates: [String: Bool] = [:]
+
+    func savedActiveState(forKey key: String) -> Bool {
+        storedActiveStates[key] ?? false
+    }
+
+    func saveActiveState(_ isActive: Bool, forKey key: String) {
+        storedActiveStates[key] = isActive
+    }
+
     // MARK: - 测试控制
+
+    /// 模拟系统从睡眠中唤醒。
+    ///
+    /// 睡眠期间计时器不会触发，但时间仍在流逝；醒来后已到期的计时
+    /// 应立即补触发（否则「稍后提醒」的意图会丢失）。
+    func simulateWakeFromSleep(afterSleeping seconds: TimeInterval) {
+        advance(by: seconds)
+    }
 
     /// 推进虚拟时钟，并触发所有到期回调。
     func advance(by seconds: TimeInterval) {
@@ -109,15 +139,16 @@ struct EyeCareReminderManagerLifecycleTests {
     func startSchedulesNextBreak() {
         let env = FakeReminderEnvironment()
         let manager = EyeCareReminderManager(environment: env)
-        // 默认选中 1 小时
-        #expect(manager.selectedInterval == 3600)
+        // 默认选中默认间隔
+        let defaultSeconds = EyeCareReminderManager.defaultInterval.timeInterval
+        #expect(manager.selectedInterval == defaultSeconds)
 
         manager.start()
 
         #expect(manager.isActive)
         #expect(manager.startTime == env.currentTime)
-        #expect(manager.nextBreakTime == env.currentTime.addingTimeInterval(3600))
-        #expect(manager.timeUntilNextBreak() == 3600)
+        #expect(manager.nextBreakTime == env.currentTime.addingTimeInterval(defaultSeconds))
+        #expect(manager.timeUntilNextBreak() == defaultSeconds)
         #expect(env.pendingTimers.count == 1)
     }
 
@@ -172,7 +203,7 @@ struct EyeCareReminderManagerLifecycleTests {
 
         #expect(manager.isActive)
         #expect(manager.startTime == env.currentTime)
-        #expect(manager.nextBreakTime == env.currentTime.addingTimeInterval(3600))
+        #expect(manager.nextBreakTime == env.currentTime.addingTimeInterval(EyeCareReminderManager.defaultInterval.timeInterval))
     }
 }
 
@@ -185,7 +216,7 @@ struct EyeCareReminderManagerFiringTests {
         let manager = EyeCareReminderManager(environment: env)
         manager.start()
 
-        env.advance(by: 3600)
+        env.advance(by: EyeCareReminderManager.defaultInterval.timeInterval)
 
         #expect(manager.todayBreakCount == 1)
         #expect(env.presentedOverlays == [.eyeCare])
@@ -197,11 +228,12 @@ struct EyeCareReminderManagerFiringTests {
         let manager = EyeCareReminderManager(environment: env)
         manager.start()
         let firstFire = env.nextFireTime
+        let defaultSeconds = EyeCareReminderManager.defaultInterval.timeInterval
 
-        env.advance(by: 3600)
+        env.advance(by: defaultSeconds)
 
         #expect(env.nextFireTime != firstFire, "应排定新的下次提醒")
-        #expect(env.nextFireTime == env.currentTime.addingTimeInterval(3600))
+        #expect(env.nextFireTime == env.currentTime.addingTimeInterval(defaultSeconds))
         #expect(manager.nextBreakTime == env.nextFireTime)
     }
 
@@ -211,9 +243,10 @@ struct EyeCareReminderManagerFiringTests {
         let manager = EyeCareReminderManager(environment: env)
         manager.start()
 
-        env.advance(by: 3600)
-        env.advance(by: 3600)
-        env.advance(by: 3600)
+        let defaultSeconds = EyeCareReminderManager.defaultInterval.timeInterval
+        env.advance(by: defaultSeconds)
+        env.advance(by: defaultSeconds)
+        env.advance(by: defaultSeconds)
 
         #expect(manager.todayBreakCount == 3)
         #expect(env.presentedOverlays.count == 3)
@@ -269,6 +302,24 @@ struct EyeCareReminderManagerFiringTests {
         #expect(env.pendingTimers.count == 1, "snooze 应替换而非叠加计时")
         #expect(env.nextFireTime == env.currentTime.addingTimeInterval(600))
     }
+
+    @Test("snooze 期间若发生睡眠，醒来后仍会补提醒")
+    func snoozeSurvivesSleep() {
+        let env = FakeReminderEnvironment()
+        let manager = EyeCareReminderManager(environment: env)
+        manager.start()
+
+        // 用户点了「稍后提醒 5 分钟」
+        manager.snooze(minutes: 5)
+
+        // 期间系统睡眠了 10 分钟——醒来时早已过 snooze 的到期时间
+        env.simulateWakeFromSleep(afterSleeping: 600)
+
+        #expect(
+            env.presentedOverlays == [.eyeCare],
+            "用户明确要求的稍后提醒，不应因睡眠而丢失"
+        )
+    }
 }
 
 @Suite("EyeCareReminderManager 间隔调整")
@@ -323,6 +374,30 @@ struct EyeCareReminderManagerIntervalTests {
         #expect(manager.availableIntervals.count == count)
     }
 
+    @Test("新增与预设等长的自定义间隔不会并存")
+    func addCustomIntervalMatchingPresetDoesNotDuplicate() {
+        let env = FakeReminderEnvironment()
+        let manager = EyeCareReminderManager(environment: env)
+
+        // 60 分钟与预设「1 小时」是同一时长
+        manager.addCustomInterval(minutes: 60)
+
+        let seconds = manager.availableIntervals.map(\.timeInterval)
+        #expect(Set(seconds).count == seconds.count, "同一时长不应出现两次，否则选择器会渲染出两个同时高亮的按钮")
+        #expect(!manager.availableIntervals.contains(.minutes(60)))
+    }
+
+    @Test("间隔列表中不存在重复时长")
+    func availableIntervalsHaveNoDuplicateDurations() {
+        let env = FakeReminderEnvironment()
+        env.seed(customIntervals: [20, 45, 60, 120])
+        let manager = EyeCareReminderManager(environment: env)
+
+        let seconds = manager.availableIntervals.map(\.timeInterval)
+        #expect(Set(seconds).count == seconds.count)
+        #expect(seconds == seconds.sorted(), "间隔列表应保持升序")
+    }
+
     @Test("移除默认间隔被忽略")
     func cannotRemoveDefaultInterval() {
         let env = FakeReminderEnvironment()
@@ -344,7 +419,7 @@ struct EyeCareReminderManagerIntervalTests {
         manager.removeInterval(.minutes(45))
 
         #expect(!manager.availableIntervals.contains(.minutes(45)))
-        #expect(manager.selectedInterval == EyeCareReminderManager.commonIntervals[0].timeInterval)
+        #expect(manager.selectedInterval == EyeCareReminderManager.defaultInterval.timeInterval)
     }
 
     @Test("移除未选中的自定义间隔不改变选中值")
@@ -352,8 +427,10 @@ struct EyeCareReminderManagerIntervalTests {
         let env = FakeReminderEnvironment()
         let manager = EyeCareReminderManager(environment: env)
         manager.addCustomInterval(minutes: 45)
-        manager.addCustomInterval(minutes: 20)
+        // 新增第二个自定义间隔（50 分钟不是预设），它会成为选中项
+        manager.addCustomInterval(minutes: 50)
         let selected = manager.selectedInterval
+        #expect(selected == 50 * 60)
 
         manager.removeInterval(.minutes(45))
 
@@ -370,7 +447,7 @@ struct EyeCareReminderManagerIntervalTests {
         manager.resetIntervals()
 
         #expect(manager.availableIntervals == EyeCareReminderManager.commonIntervals)
-        #expect(manager.selectedInterval == EyeCareReminderManager.commonIntervals[0].timeInterval)
+        #expect(manager.selectedInterval == EyeCareReminderManager.defaultInterval.timeInterval)
     }
 }
 
@@ -387,24 +464,25 @@ struct EyeCareReminderManagerPersistenceTests {
         #expect(manager.selectedInterval == 2700)
     }
 
-    @Test("无持久化记录时使用默认 1 小时")
+    @Test("无持久化记录时使用默认间隔")
     func fallsBackToDefaultInterval() {
         let env = FakeReminderEnvironment()
 
         let manager = EyeCareReminderManager(environment: env)
 
-        #expect(manager.selectedInterval == 3600)
+        #expect(manager.selectedInterval == EyeCareReminderManager.defaultInterval.timeInterval)
     }
 
     @Test("构造时读取已持久化的自定义间隔")
     func loadsPersistedCustomIntervals() {
         let env = FakeReminderEnvironment()
-        env.seed(customIntervals: [45, 20])
+        // 45 / 50 分钟都不是预设间隔，属于真正的自定义项
+        env.seed(customIntervals: [45, 50])
 
         let manager = EyeCareReminderManager(environment: env)
 
         #expect(manager.availableIntervals.contains(.minutes(45)))
-        #expect(manager.availableIntervals.contains(.minutes(20)))
+        #expect(manager.availableIntervals.contains(.minutes(50)))
         let times = manager.availableIntervals.map(\.timeInterval)
         #expect(times == times.sorted(), "合并自定义间隔后仍应保持升序")
     }
@@ -447,26 +525,7 @@ struct EyeCareReminderManagerPersistenceTests {
 @Suite("EyeCareReminderManager 权限与清理")
 @MainActor
 struct EyeCareReminderManagerMiscTests {
-    @Test("初始化即视为已授权（不再使用系统通知）")
-    func permissionIsGrantedOnInit() {
-        let env = FakeReminderEnvironment()
 
-        let manager = EyeCareReminderManager(environment: env)
-
-        #expect(manager.notificationPermissionGranted)
-        #expect(manager.permissionStatus == .authorized)
-    }
-
-    @Test("openNotificationSettings 不改变状态")
-    func openNotificationSettingsIsNoOp() {
-        let env = FakeReminderEnvironment()
-        let manager = EyeCareReminderManager(environment: env)
-
-        manager.openNotificationSettings()
-
-        #expect(manager.notificationPermissionGranted)
-        #expect(manager.permissionStatus == .authorized)
-    }
 
     @Test("cleanup 取消待触发计时")
     func cleanupCancelsTimers() {
@@ -477,5 +536,94 @@ struct EyeCareReminderManagerMiscTests {
         manager.cleanup()
 
         #expect(env.pendingTimers.isEmpty)
+    }
+}
+
+@Suite("EyeCareReminderManager 今日计数")
+@MainActor
+struct EyeCareReminderManagerTodayCountTests {
+    @Test("触发提醒后今日计数递增")
+    func countIncrementsOnFiring() {
+        let env = FakeReminderEnvironment()
+        let manager = EyeCareReminderManager(environment: env)
+        manager.start()
+
+        env.advance(by: EyeCareReminderManager.defaultInterval.timeInterval)
+
+        #expect(manager.todayBreakCount == 1)
+    }
+
+    @Test("重启后今日计数保留")
+    func countSurvivesRestart() {
+        let env = FakeReminderEnvironment()
+        let first = EyeCareReminderManager(environment: env)
+        first.start()
+        env.advance(by: EyeCareReminderManager.defaultInterval.timeInterval)
+        #expect(first.todayBreakCount == 1)
+
+        // 模拟重启：新建 manager，共享同一个状态存储
+        let reloaded = EyeCareReminderManager(environment: env)
+
+        #expect(reloaded.todayBreakCount == 1, "重启后今日计数应保留")
+    }
+}
+
+@Suite("EyeCareReminderManager 运行态持久化")
+@MainActor
+struct EyeCareReminderManagerActiveStateTests {
+    @Test("start 后运行态被持久化")
+    func startPersistsActiveState() {
+        let env = FakeReminderEnvironment()
+        let manager = EyeCareReminderManager(environment: env)
+
+        manager.start()
+
+        #expect(
+            env.storedActiveStates.values.contains(true),
+            "开启提醒后应记录运行态，以便重启后恢复"
+        )
+    }
+
+    @Test("stop 后运行态被清除")
+    func stopClearsActiveState() {
+        let env = FakeReminderEnvironment()
+        let manager = EyeCareReminderManager(environment: env)
+        manager.start()
+
+        manager.stop()
+
+        #expect(
+            env.storedActiveStates.values.contains(false),
+            "关闭提醒后应清除运行态"
+        )
+    }
+
+    @Test("重启后提醒恢复运行")
+    func restoresRunningStateAfterRelaunch() {
+        // 第一次运行：用户开启提醒
+        let env = FakeReminderEnvironment()
+        let first = EyeCareReminderManager(environment: env)
+        first.start()
+        #expect(first.isActive)
+
+        // 模拟重启：新建 manager，共享同一个状态存储
+        let relaunched = EyeCareReminderManager(environment: env)
+        relaunched.attachStateStore(directory: env.stateStoreDirectory)
+
+        #expect(
+            relaunched.isActive,
+            "重启后提醒应继续工作，否则会静默失效"
+        )
+        #expect(relaunched.nextBreakTime != nil, "恢复后应重新排定下一次提醒")
+    }
+
+    @Test("重启前未开启提醒则不恢复")
+    func doesNotRestoreWhenNeverStarted() {
+        let env = FakeReminderEnvironment()
+        let manager = EyeCareReminderManager(environment: env)
+
+        manager.attachStateStore(directory: env.stateStoreDirectory)
+
+        #expect(!manager.isActive, "首次启动不应自动开启提醒")
     }
 }

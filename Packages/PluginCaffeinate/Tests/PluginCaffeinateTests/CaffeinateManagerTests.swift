@@ -229,6 +229,49 @@ struct CaffeinateManagerFailureTests {
 
         #expect(fake.scheduledDelays.isEmpty)
     }
+
+    @Test("activate 返回是否成功激活")
+    func activateReportsSuccess() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        #expect(manager.activate(mode: .systemAndDisplay) == true)
+
+        fake.systemAssertionResult = CaffeinateAssertionResult(code: kIOReturnError, id: 0)
+        let failing = CaffeinateManager(environment: fake)
+        #expect(failing.activate(mode: .systemOnly) == false)
+    }
+
+    @Test("断言失败时不关闭显示器，也不改写激活状态")
+    func turnOffDisplaySkippedWhenAssertionFails() {
+        let fake = FakeCaffeinateEnvironment()
+        fake.systemAssertionResult = CaffeinateAssertionResult(code: kIOReturnNotPermitted, id: 0)
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.activateAndTurnOffDisplay(duration: 300)
+
+        #expect(fake.turnOffDisplayCount == 0)
+        #expect(manager.isActive == false)
+        #expect(manager.activeAction == nil)
+        #expect(manager.selectedDuration == 0)
+    }
+
+    @Test("已有会话时关屏会先释放旧会话再重新激活")
+    func turnOffDisplayReplacesRunningSession() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.activate(mode: .systemAndDisplay, duration: 600)
+        manager.activateAndTurnOffDisplay(duration: 1800)
+
+        // 旧会话的断言已释放；新的会话只持有系统断言
+        #expect(fake.releasedAssertionIDs == [101, 202])
+        #expect(fake.createdAssertions.map(\.kind) == [.system, .display, .system])
+        #expect(fake.turnOffDisplayCount == 1)
+        #expect(manager.activeAction == .systemOnly)
+        #expect(manager.selectedDuration == 1800)
+        #expect(manager.duration == 1800)
+    }
 }
 
 @Suite("CaffeinateManager 自定义时长")
@@ -283,6 +326,19 @@ struct CaffeinateManagerDurationTests {
 
         let matches = manager.availableDurations.filter { $0 == .minutes(45) }
         #expect(matches.count == 1)
+    }
+
+    @Test("新增与预设等长的自定义时长不会并存")
+    func addCustomDurationMatchingPresetDoesNotDuplicate() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        // 60 分钟与预设「1 小时」是同一时长
+        manager.addCustomDuration(minutes: 60)
+
+        let seconds = manager.availableDurations.map(\.timeInterval)
+        #expect(Set(seconds).count == seconds.count, "同一时长不应出现两次，否则选择器会渲染出两个同时高亮的按钮")
+        #expect(!manager.availableDurations.contains(.minutes(60)))
     }
 
     @Test("addCustomDuration 之后仍按时间排序")
@@ -342,6 +398,59 @@ struct CaffeinateManagerDurationTests {
 
         #expect(manager.availableDurations.contains(.minutes(20)))
     }
+
+    @Test("移除当前选中的自定义时长会回退到有效时长")
+    func removingSelectedDurationFallsBack() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.addCustomDuration(minutes: 45)
+        manager.selectedDuration = 45 * 60
+        manager.removeDuration(.minutes(45))
+
+        // 选中值必须仍存在于列表中，否则选择器没有任何按钮高亮
+        #expect(manager.availableDurations.contains(where: { $0.timeInterval == manager.selectedDuration }))
+        #expect(manager.selectedDuration == CaffeinateManager.commonDurations[0].timeInterval)
+    }
+
+    @Test("移除未选中的自定义时长不改变选中值")
+    func removingOtherDurationKeepsSelection() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.addCustomDuration(minutes: 45)
+        manager.addCustomDuration(minutes: 20)
+        manager.selectedDuration = 20 * 60
+
+        manager.removeDuration(.minutes(45))
+
+        #expect(manager.selectedDuration == 20 * 60)
+    }
+
+    @Test("重置时长后选中值仍存在于列表中")
+    func resetDurationsKeepsSelectionValid() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.addCustomDuration(minutes: 45)
+        manager.selectedDuration = 45 * 60
+        manager.resetDurations()
+
+        #expect(manager.availableDurations.contains(where: { $0.timeInterval == manager.selectedDuration }))
+        #expect(manager.selectedDuration == CaffeinateManager.commonDurations[0].timeInterval)
+    }
+
+    @Test("重置时长时若选中项仍存在则保持不变")
+    func resetDurationsKeepsExistingSelection() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.addCustomDuration(minutes: 45)
+        manager.selectedDuration = CaffeinateManager.commonDurations[2].timeInterval
+        manager.resetDurations()
+
+        #expect(manager.selectedDuration == CaffeinateManager.commonDurations[2].timeInterval)
+    }
 }
 
 @Suite("CaffeinateManager 详细日志", .serialized)
@@ -366,5 +475,74 @@ struct CaffeinateManagerVerboseTests {
 
         manager.deactivate()
         #expect(manager.isActive == false)
+    }
+}
+
+@Suite("CaffeinateManager 模式切换")
+@MainActor
+struct CaffeinateManagerSwitchActionTests {
+    @Test("运行时切换到另一模式会先释放旧断言再激活新模式")
+    func switchActionReplacesRunningSession() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.activate(mode: .systemAndDisplay, duration: 0)
+        manager.switchAction(.systemOnly)
+
+        // 旧会话的断言被释放，新的会话只创建系统断言
+        #expect(fake.releasedAssertionIDs == [101, 202])
+        #expect(fake.createdAssertions.map(\.kind) == [.system, .display, .system])
+        #expect(manager.isActive)
+        #expect(manager.activeAction == .systemOnly)
+    }
+
+    @Test("运行时切换模式会取消旧会话的计时器")
+    func switchActionCancelsOldTimer() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.activate(mode: .systemAndDisplay, duration: 60)
+        manager.switchAction(.systemOnly)
+
+        #expect(fake.cancelledTimerCount == 1)
+        #expect(fake.scheduledDelays == [60, 60])
+    }
+
+    @Test("未运行时切换模式直接激活，不释放任何断言")
+    func switchActionWithoutRunningSession() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.switchAction(.systemAndDisplay)
+
+        #expect(fake.releasedAssertionIDs.isEmpty)
+        #expect(fake.createdAssertions.map(\.kind) == [.system, .display])
+        #expect(manager.activeAction == .systemAndDisplay)
+    }
+
+    @Test("切换到 turnOffDisplay 会关闭显示器")
+    func switchActionToTurnOffDisplay() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.activate(mode: .systemAndDisplay, duration: 0)
+        manager.switchAction(.turnOffDisplay)
+
+        #expect(fake.turnOffDisplayCount == 1)
+        #expect(manager.activeAction == .systemOnly)
+        #expect(manager.isActive)
+    }
+
+    @Test("切换模式沿用当前选择的时长")
+    func switchActionKeepsSelectedDuration() {
+        let fake = FakeCaffeinateEnvironment()
+        let manager = CaffeinateManager(environment: fake)
+
+        manager.selectedDuration = 1800
+        manager.activate(mode: .systemAndDisplay, duration: 1800)
+        manager.switchAction(.systemOnly)
+
+        #expect(manager.selectedDuration == 1800)
+        #expect(manager.duration == 1800)
     }
 }
