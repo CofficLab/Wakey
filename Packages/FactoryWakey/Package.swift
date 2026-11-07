@@ -37,7 +37,7 @@ let package = Package(
         // Settings - General (aligned to Lumi)
         .package(path: "../PluginSettingGeneral"),
         // About page (remote package, shared with CofficLab sibling apps)
-        .package(url: "https://github.com/CofficLab/LumiPluginAbout.git", from: "2.0.0"),
+        .package(url: "https://github.com/CofficLab/LumiPluginAbout.git", from: "3.0.0"),
     ],
     targets: [
         .target(
