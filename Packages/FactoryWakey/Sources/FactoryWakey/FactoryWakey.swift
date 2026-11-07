@@ -25,6 +25,7 @@ import PluginHydrationReminder
 import PluginPluginManager
 // Plugin imports — Settings-General (aligned to Lumi)
 import PluginSettingGeneral
+import PluginAbout
 // Plugin imports — Theme
 import PluginThemePack
 import PluginRootView
@@ -163,6 +164,15 @@ public enum FactoryWakey {
             PluginPluginManager(id: "com.coffic.wakey.plugin.plugin-manager"),
             // order 100: 设置-通用（对齐 Lumi 的 PluginSettingGeneral）
             SettingGeneralPlugin(),
+            // order 95: 关于（共享远程包 LumiPluginAbout，注入 Wakey 品牌配置）
+            AboutPlugin(
+                id: "com.coffic.wakey.plugin.about",
+                configuration: AboutConfiguration(
+                    officialWebsiteURLString: "https://coffic.cn/wakey",
+                    privacyPolicyURLString: "https://coffic.cn/privacy",
+                    termsOfServiceURLString: "https://coffic.cn/terms"
+                )
+            ),
         ]
     }
 
