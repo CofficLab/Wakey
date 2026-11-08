@@ -15,7 +15,24 @@ env:
   SCHEME: Wakey
 
 jobs:
+  verify:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: 验证各 Swift 包测试
+        run: ./scripts/test-all-packages.sh
+      - name: 验证 App 构建
+        run: |
+          xcodebuild build \
+            -project "${{ env.PROJECT }}" \
+            -scheme "${{ env.SCHEME }}" \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO
+
   bump:
+    needs: verify
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
