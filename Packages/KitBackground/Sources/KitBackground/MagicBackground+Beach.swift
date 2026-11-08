@@ -143,12 +143,13 @@ private struct PalmTree: View {
 
             // 树叶
             for i in 0 ..< 5 {
+                var rng = SeededGenerator(seed: UInt64(i) &+ 17086143069)
                 let angle = Double(i) * .pi / 6 - .pi / 3
-                let length = CGFloat.random(in: 40 ... 60)
-                path.move(to: CGPoint(x: baseX + 10, y: baseY - CGFloat.random(in: 40 ... 90)))
+                let length = CGFloat.random(in: 40 ... 60, using: &rng)
+                path.move(to: CGPoint(x: baseX + 10, y: baseY - CGFloat.random(in: 40 ... 90, using: &rng)))
                 path.addLine(to: CGPoint(
                     x: baseX + 10 + length * cos(angle),
-                    y: baseY - CGFloat.random(in: 40 ... 90) - length * sin(angle)
+                    y: baseY - CGFloat.random(in: 40 ... 90, using: &rng) - length * sin(angle)
                 ))
             }
         }

@@ -3,12 +3,12 @@ import SwiftUI
 extension MagicBackground {
     public static var cosmicDust: some View {
         ZStack {
-            Color("13111C").opacity(0.7)
+            Color(hex: "13111C").opacity(0.7)
 
             LinearGradient(
                 gradient: Gradient(colors: [
-                    Color("642B73").opacity(0.6),
-                    Color("C6426E").opacity(0.4),
+                    Color(hex: "642B73").opacity(0.6),
+                    Color(hex: "C6426E").opacity(0.4),
                 ]),
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -16,13 +16,14 @@ extension MagicBackground {
 
             // 星尘效果
             GeometryReader { geometry in
-                ForEach(0 ..< 30) { _ in
+                ForEach(0 ..< 30) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 2654435761)
                     Circle()
-                        .fill(Color.white.opacity(Double.random(in: 0.1 ... 0.3)))
-                        .frame(width: CGFloat.random(in: 2 ... 4))
+                        .fill(Color.white.opacity(Double.random(in: 0.1 ... 0.3, using: &rng)))
+                        .frame(width: CGFloat.random(in: 2 ... 4, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0 ... geometry.size.width),
-                            y: CGFloat.random(in: 0 ... geometry.size.height)
+                            x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                         )
                         .blur(radius: 1)
                 }
@@ -35,14 +36,14 @@ extension MagicBackground {
     public static var galaxySpiral: some View {
         ZStack {
             // 深空背景
-            Color("0B0B1A").opacity(0.9)
+            Color(hex: "0B0B1A").opacity(0.9)
 
             // 星云效果
             RadialGradient(
                 gradient: Gradient(colors: [
-                    Color("4B0082").opacity(0.4), // 深紫
-                    Color("800080").opacity(0.3), // 紫
-                    Color("9400D3").opacity(0.2), // 紫罗兰
+                    Color(hex: "4B0082").opacity(0.4), // 深紫
+                    Color(hex: "800080").opacity(0.3), // 紫
+                    Color(hex: "9400D3").opacity(0.2), // 紫罗兰
                 ]),
                 center: .center,
                 startRadius: 100,
@@ -54,25 +55,27 @@ extension MagicBackground {
             GeometryReader { geometry in
                 ZStack {
                     // 小星星
-                    ForEach(0 ..< 50) { _ in
+                    ForEach(0 ..< 50) { i in
+                        var rng = SeededGenerator(seed: UInt64(i) &+ 5308871522)
                         Circle()
                             .fill(Color.white)
-                            .frame(width: CGFloat.random(in: 1 ... 2))
+                            .frame(width: CGFloat.random(in: 1 ... 2, using: &rng))
                             .position(
-                                x: CGFloat.random(in: 0 ... geometry.size.width),
-                                y: CGFloat.random(in: 0 ... geometry.size.height)
+                                x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                                y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                             )
                     }
 
                     // 亮星
-                    ForEach(0 ..< 10) { _ in
+                    ForEach(0 ..< 10) { i in
+                        var rng = SeededGenerator(seed: UInt64(i) &+ 7963307283)
                         Circle()
                             .fill(Color.white)
-                            .frame(width: CGFloat.random(in: 2 ... 3))
+                            .frame(width: CGFloat.random(in: 2 ... 3, using: &rng))
                             .blur(radius: 0.5)
                             .position(
-                                x: CGFloat.random(in: 0 ... geometry.size.width),
-                                y: CGFloat.random(in: 0 ... geometry.size.height)
+                                x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                                y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                             )
                     }
                 }
@@ -85,15 +88,15 @@ extension MagicBackground {
     public static var nebulaMist: some View {
         ZStack {
             // 基础背景
-            Color("090418").opacity(0.95)
+            Color(hex: "090418").opacity(0.95)
 
             // 星云效果
             ZStack {
                 // 蓝色星云
                 RadialGradient(
                     gradient: Gradient(colors: [
-                        Color("00BFFF").opacity(0.2),
-                        Color("1E90FF").opacity(0.1),
+                        Color(hex: "00BFFF").opacity(0.2),
+                        Color(hex: "1E90FF").opacity(0.1),
                         Color.clear,
                     ]),
                     center: .topLeading,
@@ -118,14 +121,15 @@ extension MagicBackground {
 
             // 星尘效果
             GeometryReader { geometry in
-                ForEach(0 ..< 40) { _ in
+                ForEach(0 ..< 40) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 10617743044)
                     Circle()
-                        .fill(Color.white.opacity(Double.random(in: 0.3 ... 0.7)))
-                        .frame(width: CGFloat.random(in: 1 ... 3))
-                        .blur(radius: CGFloat.random(in: 0 ... 0.5))
+                        .fill(Color.white.opacity(Double.random(in: 0.3 ... 0.7, using: &rng)))
+                        .frame(width: CGFloat.random(in: 1 ... 3, using: &rng))
+                        .blur(radius: CGFloat.random(in: 0 ... 0.5, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0 ... geometry.size.width),
-                            y: CGFloat.random(in: 0 ... geometry.size.height)
+                            x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                         )
                 }
             }
@@ -137,18 +141,19 @@ extension MagicBackground {
     public static var darkMatter: some View {
         ZStack {
             // 深空背景
-            Color("000000").opacity(0.95)
+            Color(hex: "000000").opacity(0.95)
 
             // 暗物质效果
             GeometryReader { geometry in
                 ZStack {
                     // 神秘光晕
-                    ForEach(0 ..< 5) { _ in
+                    ForEach(0 ..< 5) { i in
+                        var rng = SeededGenerator(seed: UInt64(i) &+ 13272178805)
                         Circle()
                             .fill(
                                 RadialGradient(
                                     gradient: Gradient(colors: [
-                                        Color("4B0082").opacity(0.2),
+                                        Color(hex: "4B0082").opacity(0.2),
                                         Color.clear,
                                     ]),
                                     center: .center,
@@ -156,22 +161,23 @@ extension MagicBackground {
                                     endRadius: 150
                                 )
                             )
-                            .frame(width: CGFloat.random(in: 200 ... 300))
+                            .frame(width: CGFloat.random(in: 200 ... 300, using: &rng))
                             .position(
-                                x: CGFloat.random(in: 0 ... geometry.size.width),
-                                y: CGFloat.random(in: 0 ... geometry.size.height)
+                                x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                                y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                             )
                             .blur(radius: 30)
                     }
 
                     // 微弱星光
-                    ForEach(0 ..< 30) { _ in
+                    ForEach(0 ..< 30) { i in
+                        var rng = SeededGenerator(seed: UInt64(i) &+ 15926614566)
                         Circle()
-                            .fill(Color.white.opacity(Double.random(in: 0.1 ... 0.3)))
-                            .frame(width: CGFloat.random(in: 1 ... 2))
+                            .fill(Color.white.opacity(Double.random(in: 0.1 ... 0.3, using: &rng)))
+                            .frame(width: CGFloat.random(in: 1 ... 2, using: &rng))
                             .position(
-                                x: CGFloat.random(in: 0 ... geometry.size.width),
-                                y: CGFloat.random(in: 0 ... geometry.size.height)
+                                x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                                y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                             )
                     }
                 }
@@ -184,7 +190,7 @@ extension MagicBackground {
     public static var cosmicPortal: some View {
         ZStack {
             // 深空背景
-            Color("0A0A2A").opacity(0.95)
+            Color(hex: "0A0A2A").opacity(0.95)
 
             // 漩涡效果
             GeometryReader { geometry in

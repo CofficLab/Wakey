@@ -53,8 +53,6 @@ struct DateFormattingTests {
 
     @Test("静态 now 形式等价于对当前时间取实例属性")
     func staticNowMatchesInstanceFormatters() {
-        // KitLogging 声明的 Date.now: String 与 Foundation.Date.now: Date 同名，
-        // 因此这里改为校验两者等价的实例形式（static 版本即 Date() 的别名）。
         // 注意不能断言两个不同 `Date()` 实例的格式化结果相等——
         // 两次取值可能跨秒，字符串就会不同。
         let now = Date()
@@ -65,6 +63,29 @@ struct DateFormattingTests {
     @Test("Date.toString(nil) 返回占位符")
     func toStringHandlesNil() {
         #expect(Date.toString(nil) == "-")
+    }
+
+    /// 固定格式字符串用于文件名和日志键，不能跟随用户的历法/区域：
+    /// 佛历会把 2026 写成 2569，阿拉伯语区域会输出阿拉伯数字。
+    @Test("所有格式化器都固定 en_US_POSIX 与公历")
+    func formattersUseFixedLocaleAndCalendar() {
+        let formatters = [
+            DateFormatters.fullDateTime,
+            DateFormatters.compactDateTime,
+            DateFormatters.logTime,
+            DateFormatters.shortDate,
+        ]
+        for formatter in formatters {
+            #expect(formatter.locale.identifier == "en_US_POSIX")
+            #expect(formatter.calendar.identifier == .gregorian)
+        }
+    }
+
+    /// 同一个 formatter 实例应被复用，而不是每次调用都重新创建。
+    @Test("格式化器是缓存的单例")
+    func formattersAreCached() {
+        #expect(DateFormatters.fullDateTime === DateFormatters.fullDateTime)
+        #expect(DateFormatters.compactDateTime === DateFormatters.compactDateTime)
     }
 
     @Test("Date.toString 有值时复用 fullDateTime")

@@ -22,9 +22,10 @@ extension MagicBackground {
 
             // 光线穿透效果
             GeometryReader { geometry in
-                ForEach(0 ..< 3) { _ in
+                ForEach(0 ..< 3) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 5308871522)
                     Path { path in
-                        let startX = CGFloat.random(in: 0 ... geometry.size.width)
+                        let startX = CGFloat.random(in: 0 ... geometry.size.width, using: &rng)
                         path.move(to: CGPoint(x: startX, y: 0))
                         path.addLine(to: CGPoint(x: startX + 100, y: geometry.size.height))
                     }
@@ -52,13 +53,14 @@ extension MagicBackground {
 
             // 波光效果
             GeometryReader { geometry in
-                ForEach(0 ..< 30) { _ in
+                ForEach(0 ..< 30) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 7963307283)
                     Circle()
                         .fill(Color.white.opacity(0.2))
-                        .frame(width: CGFloat.random(in: 5 ... 15))
+                        .frame(width: CGFloat.random(in: 5 ... 15, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0 ... geometry.size.width),
-                            y: CGFloat.random(in: 0 ... geometry.size.height)
+                            x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                         )
                         .blur(radius: 5)
                 }
@@ -90,24 +92,25 @@ extension MagicBackground {
 
             // 珊瑚效果
             GeometryReader { geometry in
-                ForEach(0 ..< 15) { _ in
+                ForEach(0 ..< 15) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 13272178805)
                     Path { path in
-                        let startX = CGFloat.random(in: 0 ... geometry.size.width)
-                        let startY = geometry.size.height - CGFloat.random(in: 0 ... 100)
+                        let startX = CGFloat.random(in: 0 ... geometry.size.width, using: &rng)
+                        let startY = geometry.size.height - CGFloat.random(in: 0 ... 100, using: &rng)
                         path.move(to: CGPoint(x: startX, y: startY))
 
                         for _ in 0 ..< 3 {
                             let controlPoint1 = CGPoint(
-                                x: startX + CGFloat.random(in: -30 ... 30),
-                                y: startY - CGFloat.random(in: 20 ... 40)
+                                x: startX + CGFloat.random(in: -30 ... 30, using: &rng),
+                                y: startY - CGFloat.random(in: 20 ... 40, using: &rng)
                             )
                             let controlPoint2 = CGPoint(
-                                x: startX + CGFloat.random(in: -30 ... 30),
-                                y: startY - CGFloat.random(in: 40 ... 60)
+                                x: startX + CGFloat.random(in: -30 ... 30, using: &rng),
+                                y: startY - CGFloat.random(in: 40 ... 60, using: &rng)
                             )
                             let endPoint = CGPoint(
-                                x: startX + CGFloat.random(in: -20 ... 20),
-                                y: startY - CGFloat.random(in: 60 ... 80)
+                                x: startX + CGFloat.random(in: -20 ... 20, using: &rng),
+                                y: startY - CGFloat.random(in: 60 ... 80, using: &rng)
                             )
                             path.addCurve(to: endPoint,
                                           control1: controlPoint1,
@@ -116,19 +119,20 @@ extension MagicBackground {
                     }
                     .stroke(
                         Color(hex: "FF69B4").opacity(0.3), // 珊瑚粉
-                        lineWidth: CGFloat.random(in: 2 ... 5)
+                        lineWidth: CGFloat.random(in: 2 ... 5, using: &rng)
                     )
                     .blur(radius: 3)
                 }
 
                 // 气泡效果
-                ForEach(0 ..< 20) { _ in
+                ForEach(0 ..< 20) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 15926614566)
                     Circle()
                         .fill(Color.white.opacity(0.2))
-                        .frame(width: CGFloat.random(in: 4 ... 12))
+                        .frame(width: CGFloat.random(in: 4 ... 12, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0 ... geometry.size.width),
-                            y: CGFloat.random(in: 0 ... geometry.size.height)
+                            x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                         )
                         .blur(radius: 2)
                 }

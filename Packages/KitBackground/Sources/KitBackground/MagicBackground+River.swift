@@ -17,14 +17,15 @@ extension MagicBackground {
             // 流水纹理
             GeometryReader { geometry in
                 ForEach(0 ..< 5) { index in
+                    var rng = SeededGenerator(seed: UInt64(index) &+ 2654435761)
                     Path { path in
                         var x: CGFloat = 0
-                        var y = CGFloat.random(in: 0 ... geometry.size.height)
+                        var y = CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                         path.move(to: CGPoint(x: x, y: y))
 
                         while x < geometry.size.width {
-                            x += CGFloat.random(in: 30 ... 50)
-                            y += CGFloat.random(in: -20 ... 20)
+                            x += CGFloat.random(in: 30 ... 50, using: &rng)
+                            y += CGFloat.random(in: -20 ... 20, using: &rng)
                             path.addLine(to: CGPoint(x: x, y: y))
                         }
                     }
@@ -34,13 +35,14 @@ extension MagicBackground {
                 }
 
                 // 水花效果
-                ForEach(0 ..< 20) { _ in
+                ForEach(0 ..< 20) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 5308871522)
                     Circle()
                         .fill(Color.white.opacity(0.3))
-                        .frame(width: CGFloat.random(in: 2 ... 6))
+                        .frame(width: CGFloat.random(in: 2 ... 6, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0 ... geometry.size.width),
-                            y: CGFloat.random(in: 0 ... geometry.size.height)
+                            x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                         )
                         .blur(radius: 1)
                 }
@@ -65,30 +67,32 @@ extension MagicBackground {
 
             // 倒影效果
             GeometryReader { geometry in
-                ForEach(0 ..< 8) { _ in
+                ForEach(0 ..< 8) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 7963307283)
                     Path { path in
-                        let startX = CGFloat.random(in: 0 ... geometry.size.width)
-                        let startY = CGFloat.random(in: 0 ... geometry.size.height / 3)
+                        let startX = CGFloat.random(in: 0 ... geometry.size.width, using: &rng)
+                        let startY = CGFloat.random(in: 0 ... geometry.size.height / 3, using: &rng)
                         path.move(to: CGPoint(x: startX, y: startY))
 
-                        let endY = startY + CGFloat.random(in: 50 ... 100)
+                        let endY = startY + CGFloat.random(in: 50 ... 100, using: &rng)
                         path.addLine(to: CGPoint(x: startX, y: endY))
                     }
                     .stroke(
                         Color.white.opacity(0.2),
-                        lineWidth: CGFloat.random(in: 1 ... 3)
+                        lineWidth: CGFloat.random(in: 1 ... 3, using: &rng)
                     )
                     .blur(radius: 2)
                 }
 
                 // 涟漪效果
-                ForEach(0 ..< 10) { _ in
+                ForEach(0 ..< 10) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 10617743044)
                     Circle()
                         .stroke(Color.white.opacity(0.2), lineWidth: 1)
-                        .frame(width: CGFloat.random(in: 20 ... 60))
+                        .frame(width: CGFloat.random(in: 20 ... 60, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0 ... geometry.size.width),
-                            y: CGFloat.random(in: geometry.size.height / 2 ... geometry.size.height)
+                            x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: geometry.size.height / 2 ... geometry.size.height, using: &rng)
                         )
                         .blur(radius: 2)
                 }
@@ -112,15 +116,16 @@ extension MagicBackground {
 
             // 瀑布效果
             GeometryReader { geometry in
-                ForEach(0 ..< 15) { _ in
+                ForEach(0 ..< 15) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 13272178805)
                     Path { path in
-                        let startX = CGFloat.random(in: 0 ... geometry.size.width)
+                        let startX = CGFloat.random(in: 0 ... geometry.size.width, using: &rng)
                         path.move(to: CGPoint(x: startX, y: 0))
 
                         var currentY: CGFloat = 0
                         while currentY < geometry.size.height {
-                            currentY += CGFloat.random(in: 10 ... 30)
-                            let newX = startX + CGFloat.random(in: -10 ... 10)
+                            currentY += CGFloat.random(in: 10 ... 30, using: &rng)
+                            let newX = startX + CGFloat.random(in: -10 ... 10, using: &rng)
                             path.addLine(to: CGPoint(x: newX, y: currentY))
                         }
                     }
@@ -129,13 +134,14 @@ extension MagicBackground {
                 }
 
                 // 水雾效果
-                ForEach(0 ..< 20) { _ in
+                ForEach(0 ..< 20) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 15926614566)
                     Circle()
                         .fill(Color.white.opacity(0.15))
-                        .frame(width: CGFloat.random(in: 5 ... 15))
+                        .frame(width: CGFloat.random(in: 5 ... 15, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0 ... geometry.size.width),
-                            y: CGFloat.random(in: 0 ... geometry.size.height)
+                            x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                         )
                         .blur(radius: 3)
                 }

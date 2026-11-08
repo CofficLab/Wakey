@@ -23,7 +23,7 @@ extension QualityOfService {
         case .default: return withName ? "3️⃣ Default" : "3️⃣"
         case .utility: return withName ? "4️⃣ Utility" : "4️⃣"
         case .background: return withName ? "5️⃣ Background" : "5️⃣"
-        default: return withName ? "6️⃣ Unknown" : "6️⃣"
+        @unknown default: return withName ? "6️⃣ Unknown" : "6️⃣"
         }
     }
 }

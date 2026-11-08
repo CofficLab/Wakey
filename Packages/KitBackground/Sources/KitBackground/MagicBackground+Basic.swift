@@ -15,18 +15,19 @@ extension MagicBackground {
 
             // 霜花效果
             GeometryReader { geometry in
-                ForEach(0 ..< 10) { _ in
+                ForEach(0 ..< 10) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 2654435761)
                     Path { path in
                         let startPoint = CGPoint(
-                            x: CGFloat.random(in: 0 ... geometry.size.width),
-                            y: CGFloat.random(in: 0 ... geometry.size.height)
+                            x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                         )
                         path.move(to: startPoint)
 
                         for _ in 0 ..< 3 {
                             let endPoint = CGPoint(
-                                x: startPoint.x + CGFloat.random(in: -20 ... 20),
-                                y: startPoint.y + CGFloat.random(in: -20 ... 20)
+                                x: startPoint.x + CGFloat.random(in: -20 ... 20, using: &rng),
+                                y: startPoint.y + CGFloat.random(in: -20 ... 20, using: &rng)
                             )
                             path.addLine(to: endPoint)
                         }

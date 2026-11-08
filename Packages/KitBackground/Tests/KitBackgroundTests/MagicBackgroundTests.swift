@@ -153,7 +153,7 @@ struct MagicBackgroundStyleTests {
     @Test("全部 style 均可经 allCases 穷举")
     func allStylesAreEnumerable() {
         let styles = MagicBackgroundStyle.allCases
-        #expect(styles.count == 72)
+        #expect(styles.count == 73)
         #expect(!styles.isEmpty)
     }
 
@@ -174,7 +174,82 @@ struct MagicBackgroundStyleTests {
     func allCasesAreUnique() {
         // 重复的 case 会让 allCases.count 虚高，掩盖新增 case 时遗漏 view 分支的问题。
         let allCases = MagicBackgroundStyle.allCases
-        #expect(allCases.count == 72)
+        #expect(allCases.count == 73)
         #expect(Set(allCases.map(String.init(describing:))).count == allCases.count)
+    }
+
+    /// `MagicBackground.orange` 曾漏登记，Fruits 家族只有四款能通过枚举访问。
+    @Test("Fruits 家族五款背景都能通过枚举访问")
+    func fruitsIncludeOrange() {
+        let fruits: [MagicBackgroundStyle] = [.watermelon, .blueberry, .strawberry, .kiwi, .orange]
+        let allCases = MagicBackgroundStyle.allCases
+        for fruit in fruits {
+            #expect(allCases.contains(fruit), "\(fruit) 未出现在 allCases 中")
+        }
+    }
+}
+
+@Suite("SeededGenerator")
+struct SeededGeneratorTests {
+    @Test("相同种子产生完全相同的序列")
+    func sameSeedProducesSameSequence() {
+        var first = SeededGenerator(seed: 42)
+        var second = SeededGenerator(seed: 42)
+        let firstValues = (0 ..< 20).map { _ in first.next() }
+        let secondValues = (0 ..< 20).map { _ in second.next() }
+        #expect(firstValues == secondValues)
+    }
+
+    @Test("不同种子产生不同的序列")
+    func differentSeedsProduceDifferentSequences() {
+        var first = SeededGenerator(seed: 1)
+        var second = SeededGenerator(seed: 2)
+        let firstValues = (0 ..< 5).map { _ in first.next() }
+        let secondValues = (0 ..< 5).map { _ in second.next() }
+        #expect(firstValues != secondValues)
+    }
+}
+
+/// 源码级回归保护：这两个缺陷都不会让编译失败，只会让背景静悄悄地变样，
+/// 所以用静态检查锁住写法，而不是构造不可断言的 SwiftUI 视图。
+@Suite("背景源码不变量")
+struct BackgroundSourceInvariantTests {
+    private var sourcesDirectory: URL {
+        URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent() // KitBackgroundTests
+            .deletingLastPathComponent() // Tests
+            .deletingLastPathComponent() // KitBackground
+            .appendingPathComponent("Sources/KitBackground")
+    }
+
+    private func sourceFiles() throws -> [URL] {
+        try FileManager.default
+            .contentsOfDirectory(at: sourcesDirectory, includingPropertiesForKeys: nil)
+            .filter { $0.pathExtension == "swift" }
+    }
+
+    @Test("十六进制颜色一律走 Color(hex:)，不写成资产名查找")
+    func noNamedColorLookups() throws {
+        for file in try sourceFiles() {
+            let text = try String(contentsOf: file, encoding: .utf8)
+            #expect(
+                !text.contains("Color(\""),
+                "\(file.lastPathComponent) 使用了 Color(\"…\")，会做资产查找而不是解析十六进制"
+            )
+        }
+    }
+
+    @Test("所有粒子随机取值都使用确定性种子")
+    func allRandomCallsAreSeeded() throws {
+        for file in try sourceFiles() {
+            let lines = try String(contentsOf: file, encoding: .utf8)
+                .split(separator: "\n", omittingEmptySubsequences: false)
+            for (index, line) in lines.enumerated() where line.contains(".random(in:") {
+                #expect(
+                    line.contains("using:"),
+                    "\(file.lastPathComponent):\(index + 1) 的随机取值没有使用种子，会在每次布局时重新洗牌"
+                )
+            }
+        }
     }
 }
