@@ -96,8 +96,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiProviders.git",
       "state" : {
-        "revision" : "87a3b538037a7886145399d80746d7f05091b86b",
-        "version" : "1.20.0"
+        "revision" : "822c4c7fd75ee8af46f483515bc34ad54968f683",
+        "version" : "1.21.0"
       }
     },
     {
