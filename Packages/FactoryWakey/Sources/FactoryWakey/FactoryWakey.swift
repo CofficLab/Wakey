@@ -3,7 +3,7 @@ import LumiUI
 import OSLog
 import ProviderTheme
 import ProviderLogo
-import ProviderStatusBarPopup
+import ProviderMenuBar
 import ProviderSettingView
 import ProviderPluginControl
 import ProviderPluginManaging
@@ -70,7 +70,7 @@ public enum FactoryWakey {
         let kernel = KernelCoreContainer()
 
         // 注册共享 Host Provider（由 Factory 持有，插件向其贡献 UI）
-        try kernel.registerHostProvider(StatusBarPopupProviding.self, DefaultStatusBarPopupProviding())
+        try kernel.registerHostProvider(MenuBarProviding.self, DefaultMenuBarProviding())
         try kernel.registerHostProvider((any SettingViewProviding).self, DefaultSettingViewProviding())
         try kernel.registerHostProvider(LogoProviding.self, DefaultLogoProviding())
         try kernel.registerHostProvider(
@@ -178,10 +178,10 @@ public enum FactoryWakey {
 
     // MARK: - View Factories
 
-    /// 状态栏弹窗视图：从内核解析 StatusBarPopupProviding 并渲染插件贡献的内容。
+    /// 状态栏弹窗视图：从内核解析 MenuBarProviding 并渲染插件贡献的内容。
     public static func makeStatusBarView(kernel: KernelCoreContainer) -> AnyView {
-        let popupViews = kernel.resolveProvider(StatusBarPopupProviding.self)?.popupViews ?? []
-        let view = AnyView(StatusBarHostView(popupViews: popupViews))
+        let menuBar = kernel.resolveProvider(MenuBarProviding.self)
+        let view = AnyView(StatusBarHostView(menuBar: menuBar))
         guard let rootView = kernel.resolveProvider((any RootViewProviding).self) else {
             return themed(view, kernel: kernel)
         }
@@ -260,7 +260,7 @@ public enum FactoryWakey {
 
 @MainActor
 struct StatusBarHostView: View {
-    let popupViews: [AnyView]
+    let menuBar: (any MenuBarProviding)?
     @LumiUI.LumiTheme private var theme: any LumiUI.LumiUITheme
 
     var body: some View {
@@ -268,10 +268,8 @@ struct StatusBarHostView: View {
             // 应用基本信息
             appInfoSection
 
-            if !popupViews.isEmpty {
-                Divider()
-                pluginViewsSection
-                Divider()
+            if let menuBar {
+                StatusBarPopupSection(menuBar: menuBar)
             }
 
             menuItemsSection
@@ -307,21 +305,6 @@ struct StatusBarHostView: View {
         .padding(12)
     }
 
-    private var pluginViewsSection: some View {
-        VStack(spacing: 0) {
-            let views = popupViews
-            ForEach(views.indices, id: \.self) { index in
-                views[index]
-                    .frame(maxWidth: .infinity)
-                    .fixedSize(horizontal: false, vertical: true)
-                if index < views.count - 1 {
-                    Divider().padding(.horizontal, 0)
-                }
-            }
-        }
-        .padding(.vertical, 0)
-    }
-
     private var menuItemsSection: some View {
         VStack(spacing: 0) {
             SettingsMenuItemRow(
@@ -339,6 +322,35 @@ struct StatusBarHostView: View {
 
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+    }
+}
+
+@MainActor
+private struct StatusBarPopupSection: View {
+    private let menuBar: any MenuBarProviding
+    @StateObject private var refreshModel: MenuBarRefreshModel
+
+    init(menuBar: any MenuBarProviding) {
+        self.menuBar = menuBar
+        _refreshModel = StateObject(wrappedValue: MenuBarRefreshModel(provider: menuBar))
+    }
+
+    var body: some View {
+        let items = menuBar.popupItems
+        if !items.isEmpty {
+            Divider()
+            VStack(spacing: 0) {
+                ForEach(items) { item in
+                    item.makeView()
+                        .frame(maxWidth: .infinity)
+                        .fixedSize(horizontal: false, vertical: true)
+                    if item.id != items.last?.id {
+                        Divider()
+                    }
+                }
+            }
+            Divider()
+        }
     }
 }
 

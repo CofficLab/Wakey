@@ -1,13 +1,13 @@
 import KernelCore
 import ProviderDocsView
 import ProviderSettingView
-import ProviderStatusBarPopup
+import ProviderMenuBar
 import SwiftUI
 import Testing
 @testable import PluginCaffeinate
 
 /// 插件的核心契约是「onBoot 贡献状态栏弹窗与设置入口、onShutdown 按 id 撤回」。
-/// 这里通过真实的 `DefaultStatusBarPopupProviding` / `DefaultSettingViewProviding`
+/// 这里通过真实的 `DefaultMenuBarProviding` / `DefaultSettingViewProviding`
 /// 验证注册表行为，不触碰视图渲染。
 @Suite("PluginCaffeinate 插件生命周期")
 @MainActor
@@ -19,23 +19,23 @@ struct PluginCaffeinateLifecycleTests {
     @Test("onBoot 注册状态栏弹窗")
     func onBootRegistersPopupView() throws {
         let kernel = makeKernel()
-        let popups = DefaultStatusBarPopupProviding()
+        let popups = DefaultMenuBarProviding()
         let settings = DefaultSettingViewProviding()
-        try kernel.registerProvider(StatusBarPopupProviding.self, popups)
+        try kernel.registerProvider(MenuBarProviding.self, popups)
         try kernel.registerProvider((any SettingViewProviding).self, settings)
 
         let plugin = PluginCaffeinate()
         try kernel.start(plugins: [plugin])
 
-        #expect(popups.popupViews.count == 1)
+        #expect(popups.popupItems.count == 1)
     }
 
     @Test("onBoot 注册设置入口")
     func onBootRegistersSettingEntry() throws {
         let kernel = makeKernel()
-        let popups = DefaultStatusBarPopupProviding()
+        let popups = DefaultMenuBarProviding()
         let settings = DefaultSettingViewProviding()
-        try kernel.registerProvider(StatusBarPopupProviding.self, popups)
+        try kernel.registerProvider(MenuBarProviding.self, popups)
         try kernel.registerProvider((any SettingViewProviding).self, settings)
 
         let plugin = PluginCaffeinate()
@@ -48,38 +48,61 @@ struct PluginCaffeinateLifecycleTests {
     @Test("onShutdown 撤回本插件贡献的弹窗与入口")
     func onShutdownRemovesContributions() throws {
         let kernel = makeKernel()
-        let popups = DefaultStatusBarPopupProviding()
+        let popups = DefaultMenuBarProviding()
         let settings = DefaultSettingViewProviding()
-        try kernel.registerProvider(StatusBarPopupProviding.self, popups)
+        try kernel.registerProvider(MenuBarProviding.self, popups)
         try kernel.registerProvider((any SettingViewProviding).self, settings)
 
         let plugin = PluginCaffeinate()
         try kernel.start(plugins: [plugin])
-        #expect(popups.popupViews.count == 1)
+        #expect(popups.popupItems.count == 1)
 
         try kernel.stop()
 
-        #expect(popups.popupViews.isEmpty)
+        #expect(popups.popupItems.isEmpty)
         #expect(settings.entries.isEmpty)
+    }
+
+    @Test("禁用自动撤回，重新启用恢复弹窗")
+    func disableAndEnableRestoresPopup() async throws {
+        let kernel = makeKernel()
+        let popups = DefaultMenuBarProviding()
+        let settings = DefaultSettingViewProviding()
+        try kernel.registerProvider(MenuBarProviding.self, popups)
+        try kernel.registerProvider((any SettingViewProviding).self, settings)
+        let plugin = PluginCaffeinate()
+        try kernel.start(plugins: [plugin])
+
+        try await kernel.disablePlugin(id: plugin.id)
+        #expect(popups.popupItems.isEmpty)
+
+        try await kernel.enablePlugin(id: plugin.id)
+        #expect(popups.popupItems.map(\.id) == ["\(plugin.id).popup"])
     }
 
     @Test("onShutdown 不影响其它 owner 的弹窗")
     func onShutdownKeepsOtherOwnersPopupViews() throws {
         let kernel = makeKernel()
-        let popups = DefaultStatusBarPopupProviding()
+        let popups = DefaultMenuBarProviding()
         let settings = DefaultSettingViewProviding()
-        try kernel.registerProvider(StatusBarPopupProviding.self, popups)
+        try kernel.registerProvider(MenuBarProviding.self, popups)
         try kernel.registerProvider((any SettingViewProviding).self, settings)
 
-        popups.addPopupView(ownerID: "OtherPlugin", AnyView(Text("Other")))
+        popups.addPopup(MenuBarContribution(
+            id: "OtherPlugin.popup",
+            title: "Other",
+            ownerPluginID: "OtherPlugin"
+        ) {
+            Text("Other")
+        })
 
         let plugin = PluginCaffeinate()
         try kernel.start(plugins: [plugin])
-        #expect(popups.popupViews.count == 2)
+        #expect(popups.popupItems.count == 2)
 
         try kernel.stop()
 
-        #expect(popups.popupViews.count == 1)
+        #expect(popups.popupItems.count == 1)
     }
 
     @Test("缺少 provider 时优雅降级")

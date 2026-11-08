@@ -8,7 +8,6 @@ let package = Package(
         .library(name: "PluginCaffeinate", targets: ["PluginCaffeinate"])
     ],
     dependencies: [
-        .package(path: "../ProviderStatusBarPopup"),
         .package(path: "../KitLogging"),
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiKernel.git", from: "1.1.0"),
@@ -19,7 +18,7 @@ let package = Package(
         .target(
             name: "PluginCaffeinate",
             dependencies: [
-                "ProviderStatusBarPopup",
+                .product(name: "ProviderMenuBar", package: "LumiProviders"),
                                 "KitLogging",
                 .product(name: "ProviderSettingView", package: "LumiSettings"),
                 .product(name: "KernelCore", package: "LumiKernel"),
@@ -33,6 +32,7 @@ let package = Package(
             dependencies: [
                 "PluginCaffeinate",
                 .product(name: "ProviderDocsView", package: "LumiProviders"),
+                .product(name: "ProviderMenuBar", package: "LumiProviders"),
             ]
         ),
     ]

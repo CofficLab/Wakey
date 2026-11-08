@@ -1,7 +1,7 @@
 import KernelCore
 import OSLog
 import ProviderDocsView
-import ProviderStatusBarPopup
+import ProviderMenuBar
 import ProviderSettingView
 import SwiftUI
 
@@ -28,9 +28,7 @@ public final class PluginCaffeinate: SuperPlugin {
                 CaffeinateManualView()
             })
 
-        // 状态栏弹窗
-        kernel.resolveProvider(StatusBarPopupProviding.self)?
-            .addPopupView(ownerID: id, AnyView(CaffeinatePopupView()))
+        try contributeMenuBar(to: kernel)
 
         // 设置页标签
         kernel.resolveProvider((any SettingViewProviding).self)?
@@ -44,14 +42,33 @@ public final class PluginCaffeinate: SuperPlugin {
             ])
     }
 
+    public func onEnable(kernel: KernelCoreContainer) async throws {
+        try contributeMenuBar(to: kernel)
+    }
+
     public func onShutdown(kernel: KernelCoreContainer) throws {
         kernel.resolveProvider((any DocsViewProviding).self)?.removeEntries(id: id)
-        kernel.resolveProvider(StatusBarPopupProviding.self)?.removePopupViews(ownerID: id)
         kernel.resolveProvider((any SettingViewProviding).self)?.removeEntries(ids: [id])
 
         // 清理：卸载插件时若仍处于防休眠状态则释放电源断言与定时器
         if CaffeinateManager.shared.isActive {
             CaffeinateManager.shared.deactivate()
         }
+    }
+
+    private func contributeMenuBar(to kernel: KernelCoreContainer) throws {
+        guard let menuBar = kernel.resolveProvider(MenuBarProviding.self) else { return }
+        let ownerID = id
+        try kernel.trackContribution {
+            menuBar.removeItems(ownedBy: ownerID)
+        }
+        menuBar.addPopup(MenuBarContribution(
+            id: "\(id).popup",
+            title: metadata.name,
+            order: order,
+            ownerPluginID: id
+        ) {
+            CaffeinatePopupView()
+        })
     }
 }

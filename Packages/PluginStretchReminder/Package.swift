@@ -8,7 +8,6 @@ let package = Package(
         .library(name: "PluginStretchReminder", targets: ["PluginStretchReminder"])
     ],
     dependencies: [
-        .package(path: "../ProviderStatusBarPopup"),
         .package(path: "../KitLogging"),
         .package(path: "../KitReminder"),
         .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.18.0"),
@@ -20,7 +19,7 @@ let package = Package(
         .target(
             name: "PluginStretchReminder",
             dependencies: [
-                "ProviderStatusBarPopup",
+                .product(name: "ProviderMenuBar", package: "LumiProviders"),
                 "KitLogging",
                 "KitReminder",
                 .product(name: "ProviderSettingView", package: "LumiSettings"),
@@ -36,6 +35,7 @@ let package = Package(
             dependencies: [
                 "PluginStretchReminder",
                 .product(name: "ProviderDocsView", package: "LumiProviders"),
+                .product(name: "ProviderMenuBar", package: "LumiProviders"),
             ]
         ),
     ]

@@ -1,7 +1,7 @@
 import KernelCore
 import ProviderDocsView
 import ProviderSettingView
-import ProviderStatusBarPopup
+import ProviderMenuBar
 import SwiftUI
 import Testing
 @testable import PluginHydrationReminder
@@ -20,15 +20,15 @@ struct PluginHydrationReminderLifecycleTests {
         withSettings: Bool = true
     ) throws -> (
         kernel: KernelCoreContainer,
-        popups: DefaultStatusBarPopupProviding?,
+        popups: DefaultMenuBarProviding?,
         settings: DefaultSettingViewProviding?
     ) {
         let kernel = KernelCoreContainer()
-        var popups: DefaultStatusBarPopupProviding?
+        var popups: DefaultMenuBarProviding?
         var settings: DefaultSettingViewProviding?
         if withPopups {
-            let provider = DefaultStatusBarPopupProviding()
-            try kernel.registerProvider(StatusBarPopupProviding.self, provider)
+            let provider = DefaultMenuBarProviding()
+            try kernel.registerProvider(MenuBarProviding.self, provider)
             popups = provider
         }
         if withSettings {
@@ -45,7 +45,7 @@ struct PluginHydrationReminderLifecycleTests {
 
         try kernel.start(plugins: [PluginHydrationReminder()])
 
-        #expect((popups?.popupViews ?? []).count == 1)
+        #expect((popups?.popupItems ?? []).count == 1)
     }
 
     @Test("onBoot 注册设置入口")
@@ -65,25 +65,44 @@ struct PluginHydrationReminderLifecycleTests {
         let (kernel, popups, settings) = try makeKernel()
 
         try kernel.start(plugins: [PluginHydrationReminder()])
-        #expect((popups?.popupViews ?? []).count == 1)
+        #expect((popups?.popupItems ?? []).count == 1)
 
         try kernel.stop()
 
-        #expect((popups?.popupViews ?? []).isEmpty)
+        #expect((popups?.popupItems ?? []).isEmpty)
         #expect((settings?.entries ?? []).isEmpty)
+    }
+
+    @Test("禁用自动撤回，重新启用恢复弹窗")
+    func disableAndEnableRestoresPopup() async throws {
+        let (kernel, popups, _) = try makeKernel()
+        let plugin = PluginHydrationReminder()
+        try kernel.start(plugins: [plugin])
+
+        try await kernel.disablePlugin(id: plugin.id)
+        #expect((popups?.popupItems ?? []).isEmpty)
+
+        try await kernel.enablePlugin(id: plugin.id)
+        #expect(popups?.popupItems.map(\.id) == ["\(plugin.id).popup"])
     }
 
     @Test("onShutdown 不影响其它 owner 的弹窗")
     func onShutdownKeepsOtherOwnersPopupViews() throws {
         let (kernel, popups, _) = try makeKernel()
-        popups?.addPopupView(ownerID: "OtherPlugin", AnyView(Text("Other")))
+        popups?.addPopup(MenuBarContribution(
+            id: "OtherPlugin.popup",
+            title: "Other",
+            ownerPluginID: "OtherPlugin"
+        ) {
+            Text("Other")
+        })
 
         try kernel.start(plugins: [PluginHydrationReminder()])
-        #expect((popups?.popupViews ?? []).count == 2)
+        #expect((popups?.popupItems ?? []).count == 2)
 
         try kernel.stop()
 
-        #expect((popups?.popupViews ?? []).count == 1)
+        #expect((popups?.popupItems ?? []).count == 1)
     }
 
     @Test("缺少 provider 时优雅降级")

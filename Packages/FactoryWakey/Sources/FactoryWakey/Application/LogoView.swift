@@ -1,4 +1,3 @@
-import AppKit
 import KernelCore
 import ProviderLogo
 import SwiftUI
@@ -49,15 +48,5 @@ extension LogoScene {
                 .resizable().aspectRatio(contentMode: .fit)
                 .foregroundColor(.cyan)
         }
-    }
-}
-
-// MARK: - Interactive Hosting View
-
-/// 能够穿透点击事件的 NSHostingView
-/// 用于状态栏图标，让点击事件穿透到下层的 NSStatusBarButton
-class InteractiveHostingView<Content: View>: NSHostingView<Content> {
-    override func hitTest(_ point: NSPoint) -> NSView? {
-        return nil
     }
 }

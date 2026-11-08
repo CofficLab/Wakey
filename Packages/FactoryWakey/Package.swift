@@ -16,7 +16,6 @@ let package = Package(
         .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.12"),
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginSettingView.git", from: "1.0.3"),
-        .package(path: "../ProviderStatusBarPopup"),
         .package(path: "../KitBackground"),
         .package(path: "../KitDesktop"),
         .package(path: "../KitLogging"),
@@ -44,7 +43,8 @@ let package = Package(
             name: "FactoryWakey",
             dependencies: [
                 .product(name: "ProviderLogo", package: "LumiProviders"),
-                "ProviderStatusBarPopup",
+                .product(name: "ProviderMenuBar", package: "LumiProviders"),
+                .product(name: "MenuBarHostKit", package: "LumiProviders"),
                 "KitBackground",
                 "KitDesktop",
                 "KitLogging",

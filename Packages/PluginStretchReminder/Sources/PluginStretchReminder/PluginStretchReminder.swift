@@ -1,7 +1,7 @@
 import KernelCore
 import OSLog
 import ProviderDocsView
-import ProviderStatusBarPopup
+import ProviderMenuBar
 import ProviderStorage
 import ProviderSettingView
 import SwiftUI
@@ -35,9 +35,7 @@ public final class PluginStretchReminder: SuperPlugin {
             StretchReminderManager.shared.attachStateStore(directory: storage.pluginDataDirectory(for: id))
         }
 
-        // 状态栏弹窗
-        kernel.resolveProvider(StatusBarPopupProviding.self)?
-            .addPopupView(ownerID: id, AnyView(StretchReminderPopupView()))
+        try contributeMenuBar(to: kernel)
 
         // 设置页标签
         kernel.resolveProvider((any SettingViewProviding).self)?
@@ -51,12 +49,31 @@ public final class PluginStretchReminder: SuperPlugin {
             ])
     }
 
+    public func onEnable(kernel: KernelCoreContainer) async throws {
+        try contributeMenuBar(to: kernel)
+    }
+
     public func onShutdown(kernel: KernelCoreContainer) throws {
         kernel.resolveProvider((any DocsViewProviding).self)?.removeEntries(id: id)
-        kernel.resolveProvider(StatusBarPopupProviding.self)?.removePopupViews(ownerID: id)
         kernel.resolveProvider((any SettingViewProviding).self)?.removeEntries(ids: [id])
 
         // 清理：卸载插件时停止提醒定时器
         StretchReminderManager.shared.stop()
+    }
+
+    private func contributeMenuBar(to kernel: KernelCoreContainer) throws {
+        guard let menuBar = kernel.resolveProvider(MenuBarProviding.self) else { return }
+        let ownerID = id
+        try kernel.trackContribution {
+            menuBar.removeItems(ownedBy: ownerID)
+        }
+        menuBar.addPopup(MenuBarContribution(
+            id: "\(id).popup",
+            title: metadata.name,
+            order: order,
+            ownerPluginID: id
+        ) {
+            StretchReminderPopupView()
+        })
     }
 }
