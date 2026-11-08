@@ -16,7 +16,7 @@
             "value": "%lld"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "%lld"
@@ -39,7 +39,7 @@
             "value": "同时删除 Keychain 中的 API Key、密码和凭据"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "同時刪除 Keychain 中的 API Key、密碼和憑證"
@@ -62,7 +62,7 @@
             "value": "同时将 Wakey 应用移到废纸篓"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "同時將 Wakey 應用程式移到垃圾桶"
@@ -85,7 +85,7 @@
             "value": "浏览说明书"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "瀏覽使用手冊"
@@ -108,7 +108,7 @@
             "value": "Bundle ID"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "Bundle ID"
@@ -131,19 +131,7 @@
             "value": "构建"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "建置"
-          }
-        },
         "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "构建"
-          }
-        },
-        "zh-TW": {
           "stringUnit": {
             "state": "translated",
             "value": "构建"
@@ -166,7 +154,7 @@
             "value": "取消"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "取消"
@@ -189,7 +177,7 @@
             "value": "清除数据并退出"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "清除資料並結束"
@@ -212,7 +200,7 @@
             "value": "正在清除插件数据、偏好设置、扩展数据和凭据。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "正在清除外掛資料、偏好設定、擴充資料和憑證。"
@@ -235,7 +223,7 @@
             "value": "关闭"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "關閉"
@@ -258,7 +246,7 @@
             "value": "彻底卸载 Wakey"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "徹底卸載 Wakey"
@@ -281,7 +269,7 @@
             "value": "诊断日志"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "診斷記錄"
@@ -304,7 +292,7 @@
             "value": "导出"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "匯出"
@@ -327,7 +315,7 @@
             "value": "导出日志"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "匯出記錄"
@@ -350,7 +338,7 @@
             "value": "导出中…"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "匯出中…"
@@ -373,19 +361,7 @@
             "value": "通用"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "一般"
-          }
-        },
         "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "一般"
-          }
-        },
-        "zh-TW": {
           "stringUnit": {
             "state": "translated",
             "value": "一般"
@@ -408,19 +384,7 @@
             "value": "通用设置"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "一般設定"
-          }
-        },
         "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "一般設定"
-          }
-        },
-        "zh-TW": {
           "stringUnit": {
             "state": "translated",
             "value": "一般設定"
@@ -443,19 +407,7 @@
             "value": "名称"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "名稱"
-          }
-        },
         "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "名称"
-          }
-        },
-        "zh-TW": {
           "stringUnit": {
             "state": "translated",
             "value": "名称"
@@ -478,7 +430,7 @@
             "value": "未设置"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "未設定"
@@ -501,7 +453,7 @@
             "value": "打开"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "開啟"
@@ -524,7 +476,7 @@
             "value": "打开数据库目录"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "開啟資料庫目錄"
@@ -547,7 +499,7 @@
             "value": "永久删除并卸载"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "永久刪除並卸載"
@@ -570,19 +522,7 @@
             "value": "设置…"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "設定…"
-          }
-        },
         "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "设置…"
-          }
-        },
-        "zh-TW": {
           "stringUnit": {
             "state": "translated",
             "value": "设置…"
@@ -605,7 +545,7 @@
             "value": "部分数据未能清除，应用未移除。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "部分資料未能清除，應用程式未移除。"
@@ -628,7 +568,7 @@
             "value": "占用空间"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "佔用空間"
@@ -651,7 +591,7 @@
             "value": "此操作无法撤销"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "此操作無法撤銷"
@@ -674,7 +614,7 @@
             "value": "此操作会永久删除 Wakey 自己保存的数据。用户自己的数据、偏好和文件不会被删除。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "此操作會永久刪除 Wakey 自己儲存的資料。用戶自己的資料、偏好和檔案不會被刪除。"
@@ -697,7 +637,7 @@
             "value": "卸载"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "卸載"
@@ -720,7 +660,7 @@
             "value": "卸载完成"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "卸載完成"
@@ -743,7 +683,7 @@
             "value": "卸载未完成"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "卸載未完成"
@@ -766,7 +706,7 @@
             "value": "正在卸载 Wakey…"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "正在卸載 Wakey…"
@@ -789,7 +729,7 @@
             "value": "说明书"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "使用手冊"
@@ -812,19 +752,7 @@
             "value": "版本"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "版本"
-          }
-        },
         "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "版本"
-          }
-        },
-        "zh-TW": {
           "stringUnit": {
             "state": "translated",
             "value": "版本"
@@ -847,19 +775,7 @@
             "value": "Wakey"
           }
         },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wakey"
-          }
-        },
         "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wakey"
-          }
-        },
-        "zh-TW": {
           "stringUnit": {
             "state": "translated",
             "value": "Wakey"
@@ -882,7 +798,7 @@
             "value": "Wakey 数据已清除，应用即将退出。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "Wakey 資料已清除，應用程式即將結束。"
@@ -905,7 +821,7 @@
             "value": "Wakey 已从你的 Mac 移除，应用已移到废纸篓。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "Wakey 已從你的 Mac 移除，應用程式已移至垃圾桶。"
@@ -928,7 +844,7 @@
             "value": "各功能的使用指南。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "各功能的使用指南。"
@@ -951,7 +867,7 @@
             "value": "暂时还没有说明书。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "暫時還沒有使用手冊。"
@@ -974,7 +890,7 @@
             "value": "清除 Wakey 的插件数据、偏好设置、扩展数据和可选凭据。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "清除 Wakey 的外掛資料、偏好設定、擴充資料和可選憑證。"
@@ -997,7 +913,7 @@
             "value": "打包最近的运行日志，便于提交问题反馈。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "打包最近的執行記錄，便於提交問題回報。"
@@ -1020,7 +936,7 @@
             "value": "卸载…"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "卸載…"
@@ -1043,7 +959,7 @@
             "value": "卸载中…"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "卸載中…"
@@ -1066,7 +982,7 @@
             "value": "正在检查 Wakey 数据…"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "正在檢查 Wakey 資料…"
@@ -1089,7 +1005,7 @@
             "value": "秒后自动退出"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "秒後自動結束"
@@ -1112,7 +1028,7 @@
             "value": "将处理 %1$lld 项 Wakey 数据，总计 %2$@。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "將處理 %1$lld 項 Wakey 資料，總計 %2$@。"
@@ -1135,7 +1051,7 @@
             "value": "还有 %lld 项，将在确认后一起处理。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "還有 %lld 項，將在確認後一併處理。"
@@ -1158,7 +1074,7 @@
             "value": "存储服务暂不可用"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "儲存服務暫不可用"
@@ -1181,7 +1097,7 @@
             "value": "正在计算…"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "正在計算…"
@@ -1204,7 +1120,7 @@
             "value": "日志服务暂不可用。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "記錄服務暫不可用。"
@@ -1227,7 +1143,7 @@
             "value": "选择诊断日志保存位置"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "選擇診斷記錄儲存位置"
@@ -1250,7 +1166,7 @@
             "value": "已取消导出。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "已取消匯出。"
@@ -1273,7 +1189,7 @@
             "value": "日志已导出：%@"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "記錄已匯出：%@"
@@ -1296,7 +1212,7 @@
             "value": "导出失败：%@"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "匯出失敗：%@"
@@ -1319,7 +1235,7 @@
             "value": "卸载服务暂不可用。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "卸載服務暫不可用。"
@@ -1342,7 +1258,7 @@
             "value": "部分数据未能清除，应用未移除：\n%@"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "部分資料未能清除，應用程式未移除：\n%@"
@@ -1365,7 +1281,7 @@
             "value": "卸载失败：%@"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "卸載失敗：%@"
@@ -1388,7 +1304,7 @@
             "value": "开始"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "開始"
@@ -1411,7 +1327,7 @@
             "value": "Registers the General settings entry with app info, manuals, diagnostics and uninstall."
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "Registers the General settings entry with app info, manuals, diagnostics and uninstall."

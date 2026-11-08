@@ -16,7 +16,7 @@
             "value" : "能量闪电"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "能量閃電"
@@ -39,7 +39,7 @@
             "value" : "提供闪电图标样式"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "提供閃電圖示樣式"

@@ -16,7 +16,7 @@
             "value" : "下载速度"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "下載速度"
@@ -39,7 +39,7 @@
             "value" : "网络监控"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "網絡監控"
@@ -62,7 +62,7 @@
             "value" : "暂无设置"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "暫無設定"
@@ -85,7 +85,7 @@
             "value" : "退出"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "結束"
@@ -108,7 +108,7 @@
             "value" : "设置…"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定…"
@@ -131,7 +131,7 @@
             "value" : "上传速度"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "上傳速度"
@@ -154,7 +154,7 @@
             "value" : "Wakey"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wakey"
@@ -177,7 +177,7 @@
             "value" : "v%@"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "v%@"

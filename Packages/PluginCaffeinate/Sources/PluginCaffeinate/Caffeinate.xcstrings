@@ -10,7 +10,7 @@
             "value": "%1$lld 小时"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$lld 小時"
@@ -33,7 +33,7 @@
             "value": "%1$lld 分钟"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$lld 分鐘"
@@ -55,7 +55,7 @@
             "value": "1 小时"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "1 小時"
@@ -77,7 +77,7 @@
             "value": "2 小时"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "2 小時"
@@ -99,7 +99,7 @@
             "value": "30 分钟"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "30 分鐘"
@@ -121,7 +121,7 @@
             "value": "操作"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "操作"
@@ -143,7 +143,7 @@
             "value": "操作：三种防休眠模式，每项配一个图标，选中时显示对勾。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "操作：三種防休眠模式，每項配一個圖示，選中時顯示打勾。"
@@ -165,7 +165,7 @@
             "value": "添加自定义(分钟):"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "添加自訂(分鐘):"
@@ -187,7 +187,7 @@
             "value": "添加自定义防休眠时长。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "新增自訂防休眠時長。"
@@ -209,7 +209,7 @@
             "value": "防睡眠时长"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "防睡眠時長"
@@ -232,7 +232,7 @@
             "value": "防休眠"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "防休眠"
@@ -254,7 +254,7 @@
             "value": "防休眠模式"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "防休眠模式"
@@ -277,7 +277,7 @@
             "value": "用户通过 Wakey 开启了防休眠模式"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "用戶通過 Wakey 開啟了防休眠模式"
@@ -300,7 +300,7 @@
             "value": "定时自动恢复"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "定時自動恢復"
@@ -322,7 +322,7 @@
             "value": "基本操作"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "基本操作"
@@ -345,7 +345,7 @@
             "value": "防休眠"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "防休眠"
@@ -368,7 +368,7 @@
             "value": "防休眠海报"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "防休眠海報"
@@ -390,7 +390,7 @@
             "value": "在「操作」区选择一种模式即可开启防休眠，对勾标识当前生效的模式。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "在「操作」區選擇一種模式即可開啟防休眠，打勾標示目前生效的模式。"
@@ -412,7 +412,7 @@
             "value": "点击「重置」可恢复内置时长，并清除所有自定义时长。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "點擊「重設」可恢復內建時長，並清除所有自訂時長。"
@@ -434,7 +434,7 @@
             "value": "再次点击当前生效的模式可停止防休眠，并释放电源断言。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "再次點擊目前生效的模式可停止防休眠，並釋放電源斷言。"
@@ -456,7 +456,7 @@
             "value": "点击自定义时长旁的删除按钮即可移除。内置时长不可删除。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "點擊自訂時長旁的刪除按鈕即可移除。內建時長不可刪除。"
@@ -479,7 +479,7 @@
             "value": "点击即可阻止系统进入睡眠模式"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "點擊即可阻止系統進入睡眠模式"
@@ -501,7 +501,7 @@
             "value": "自定义时长"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "自訂時長"
@@ -523,7 +523,7 @@
             "value": "自定义时长"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "自訂時長"
@@ -545,7 +545,7 @@
             "value": "自定义时长"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "自訂時長"
@@ -567,7 +567,7 @@
             "value": "删除"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "刪除"
@@ -589,7 +589,7 @@
             "value": "时长"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "時長"
@@ -611,7 +611,7 @@
             "value": "时长：一排横向排列的时长按钮。选中的按钮会高亮；时长较多时可横向滚动查看。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "時長：一排橫向排列的時長按鈕。選中的按鈕會高亮；時長較多時可橫向捲動檢視。"
@@ -634,7 +634,7 @@
             "value": "确保演示或工作时屏幕不熄灭"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "確保演示或工作時螢幕不熄滅"
@@ -656,7 +656,7 @@
             "value": "在「添加自定义(分钟)」输入框中填入大于 0 的分钟数，点击添加按钮或按回车键。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "在「新增自訂(分鐘)」輸入框中填入大於 0 的分鐘數，點擊新增按鈕或按回車鍵。"
@@ -678,7 +678,7 @@
             "value": "图 1：状态栏弹窗布局"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "圖 1：狀態列彈出視窗版面"
@@ -701,7 +701,7 @@
             "value": "永久"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "永久"
@@ -723,7 +723,7 @@
             "value": "界面说明"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "介面說明"
@@ -746,7 +746,7 @@
             "value": "阻止休眠并允许屏幕关闭"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "阻止休眠並允許螢幕關閉"
@@ -768,7 +768,7 @@
             "value": "阻止休眠并允许屏幕关闭：阻止系统休眠，但允许屏幕自动熄灭。只需要电脑保持运行时适用。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "阻止休眠並允許螢幕關閉：阻止系統休眠，但允許螢幕自動熄滅。只需要電腦保持執行時適用。"
@@ -791,7 +791,7 @@
             "value": "阻止休眠并保持屏幕常亮"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "阻止休眠並保持螢幕常亮"
@@ -813,7 +813,7 @@
             "value": "阻止休眠并保持屏幕常亮：同时阻止系统休眠与屏幕休眠。适合演示演示或长时间阅读时使用。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "阻止休眠並保持螢幕常亮：同時阻止系統休眠與螢幕休眠。適合簡報演示或長時間閱讀時使用。"
@@ -836,7 +836,7 @@
             "value": "阻止休眠并立即关闭屏幕"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "阻止休眠並立即關閉螢幕"
@@ -858,7 +858,7 @@
             "value": "阻止休眠并立即关闭屏幕：立刻关闭屏幕，同时保持系统唤醒。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "阻止休眠並立即關閉螢幕：立刻關閉螢幕，同時保持系統喚醒。"
@@ -881,7 +881,7 @@
             "value": "保持屏幕常亮"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "保持螢幕常亮"
@@ -904,7 +904,7 @@
             "value": "阻止休眠，允许关闭屏幕"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "阻止休眠，允許關閉螢幕"
@@ -927,7 +927,7 @@
             "value": "阻止休眠，禁止关闭屏幕"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "阻止休眠，禁止關閉螢幕"
@@ -949,7 +949,7 @@
             "value": "核心功能"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "核心功能"
@@ -972,7 +972,7 @@
             "value": "低资源占用，静默运行，不打扰工作"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "低資源佔用，靜默運行，不打擾工作"
@@ -994,7 +994,7 @@
             "value": "注意事项"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "注意事項"
@@ -1017,7 +1017,7 @@
             "value": "一键防休眠"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "一鍵防休眠"
@@ -1039,7 +1039,7 @@
             "value": "打开设置，进入「防休眠」页面。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "開啟設定，進入「防休眠」頁面。"
@@ -1061,7 +1061,7 @@
             "value": "打开菜单栏弹窗，在「时长」区选择一个时长。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "開啟選單列彈出視窗，在「時長」區選擇一個時長。"
@@ -1083,7 +1083,7 @@
             "value": "概述"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "概述"
@@ -1106,7 +1106,7 @@
             "value": "阻止系统休眠，支持定时和手动控制"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "阻止系統休眠，支援定時和手動控制"
@@ -1129,7 +1129,7 @@
             "value": "提供防休眠相关的海报视图"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "提供防休眠相關的海報視圖"
@@ -1152,7 +1152,7 @@
             "value": "快捷菜单"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "快捷菜單"
@@ -1175,7 +1175,7 @@
             "value": "通过状态栏菜单快速切换不同的防休眠模式"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "通過狀態欄菜單快速切換不同的防休眠模式"
@@ -1197,7 +1197,7 @@
             "value": "重置"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "重設"
@@ -1219,7 +1219,7 @@
             "value": "恢复默认时长"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "恢復預設時長"
@@ -1241,7 +1241,7 @@
             "value": "恢复内置防休眠时长。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "恢復內建防休眠時長。"
@@ -1264,7 +1264,7 @@
             "value": "设置特定时长，结束后自动恢复系统休眠"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "設置特定時長，結束後自動恢復系統休眠"
@@ -1286,7 +1286,7 @@
             "value": "设置页：在「防睡眠时长」分组下，包含内置时长、添加自定义时长输入框和重置按钮。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "設定頁：在「防睡眠時長」分組下，包含內建時長、新增自訂時長輸入框和重設按鈕。"
@@ -1308,7 +1308,7 @@
             "value": "「永久」时长会一直保持系统唤醒，直到你手动停止。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "「永久」時長會一直保持系統喚醒，直到你手動停止。"
@@ -1330,7 +1330,7 @@
             "value": "新时长会出现在列表中，并标记为自定义时长。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "新時長會出現在列表中，並標記為自訂時長。"
@@ -1352,7 +1352,7 @@
             "value": "本手册介绍防休眠功能的界面与基本操作：选择时长、切换防休眠模式，以及管理自定义时长。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "本手冊介紹防休眠功能的介面與基本操作：選擇時長、切換防休眠模式，以及管理自訂時長。"
@@ -1374,7 +1374,7 @@
             "value": "防休眠运行期间若要更改时长，直接选择其他时长，计时器会以新值重新开始。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "防休眠執行期間若要變更時長，直接選擇其他時長，計時器會以新值重新開始。"
@@ -1397,7 +1397,7 @@
             "value": "极致轻量"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "極致輕量"
@@ -1419,7 +1419,7 @@
             "value": "防休眠生效期间卸载或停用插件，会立即释放电源断言。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "防休眠生效期間卸載或停用外掛，會立即釋放電源斷言。"
@@ -1441,7 +1441,7 @@
             "value": "使用手册"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "使用手冊"
@@ -1463,7 +1463,7 @@
             "value": "防休眠运行期间，到所选时长结束时，系统电源断言与计时器会自动释放。"
           }
         },
-        "zh-HK": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "防休眠執行期間，到所選時長結束時，系統電源斷言與計時器會自動釋放。"

@@ -23,6 +23,8 @@ jobs:
           fetch-depth: 1
       - name: 验证各 Swift 包测试
         run: ./scripts/test-all-packages.sh
+      - name: 验证本地化语言标签一致
+        run: python3 scripts/check-localizations.py
       - name: 验证 App 构建
         run: |
           xcodebuild build \
