@@ -11,6 +11,15 @@
       }
     },
     {
+      "identity" : "lumikitreminder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CofficLab/LumiKitReminder.git",
+      "state" : {
+        "revision" : "a2a984d8d84a9d14e9b131c9cf8a0f407820db8f",
+        "version" : "1.0.0"
+      }
+    },
+    {
       "identity" : "lumilocalization",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiLocalization.git",
@@ -35,6 +44,15 @@
       "state" : {
         "revision" : "419abd51827febdc97689742aa573f4850fa2ae6",
         "version" : "3.0.1"
+      }
+    },
+    {
+      "identity" : "lumipluginhydrationreminder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CofficLab/LumiPluginHydrationReminder.git",
+      "state" : {
+        "revision" : "8b67ea689e27fff7e16a03d602d3e529c2601f9f",
+        "version" : "1.0.1"
       }
     },
     {
@@ -78,8 +96,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiProviders.git",
       "state" : {
-        "revision" : "87a3b538037a7886145399d80746d7f05091b86b",
-        "version" : "1.20.0"
+        "revision" : "822c4c7fd75ee8af46f483515bc34ad54968f683",
+        "version" : "1.21.0"
       }
     },
     {

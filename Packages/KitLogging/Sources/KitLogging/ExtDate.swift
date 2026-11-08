@@ -9,10 +9,10 @@ public extension Date {
     ///
     /// # 示例
     /// ```swift
-    /// let currentTime = Date.now
+    /// let currentTime = Date.nowString
     /// print(currentTime) // 输出类似: "2024-03-15 14:30:45"
     /// ```
-    static var now: String {
+    static var nowString: String {
         Date().fullDateTime
     }
     
@@ -22,10 +22,10 @@ public extension Date {
     ///
     /// # 示例
     /// ```swift
-    /// let compactTime = Date.nowCompact
+    /// let compactTime = Date.nowCompactString
     /// print(compactTime) // 输出类似: "20240315143045"
     /// ```
-    static var nowCompact: String {
+    static var nowCompactString: String {
         Date().compactDateTime
     }
     
@@ -41,10 +41,7 @@ public extension Date {
     /// print(date.fullDateTime) // 输出类似: "2024-03-15 14:30:45"
     /// ```
     var fullDateTime: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        formatter.timeZone = TimeZone.current
-        return formatter.string(from: self)
+        DateFormatters.fullDateTime.string(from: self)
     }
     
     /// 紧凑的日期时间字符串
@@ -57,10 +54,7 @@ public extension Date {
     /// print(date.compactDateTime) // 输出类似: "20240315143045"
     /// ```
     var compactDateTime: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMddHHmmss"
-        formatter.timeZone = TimeZone.current
-        return formatter.string(from: self)
+        DateFormatters.compactDateTime.string(from: self)
     }
     
     /// 日志时间字符串
@@ -73,9 +67,7 @@ public extension Date {
     /// print(date.logTime) // 输出类似: "14:30:45"
     /// ```
     var logTime: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss"
-        return formatter.string(from: self)
+        DateFormatters.logTime.string(from: self)
     }
     
     // MARK: - 静态工具方法
@@ -175,9 +167,28 @@ public extension Date {
         if timeInterval < 604800 { // 7天内使用相对时间
             return relativeTime
         } else { // 超过7天显示具体日期
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MM-dd"
-            return formatter.string(from: self)
+            return DateFormatters.shortDate.string(from: self)
         }
+    }
+}
+
+/// 固定格式的日期格式化器。
+///
+/// 所有 formatter 都固定 `en_US_POSIX` + 公历：`yyyyMMddHHmmss` 这类字符串
+/// 用于文件名与日志键，若跟随用户日历会变成佛历/和历年份或阿拉伯数字，
+/// 解析方会直接失败。`DateFormatter` 创建开销大，这里只建一次。
+enum DateFormatters {
+    static let fullDateTime: DateFormatter = make("yyyy-MM-dd HH:mm:ss", timeZone: .current)
+    static let compactDateTime: DateFormatter = make("yyyyMMddHHmmss", timeZone: .current)
+    static let logTime: DateFormatter = make("HH:mm:ss", timeZone: .current)
+    static let shortDate: DateFormatter = make("MM-dd", timeZone: .current)
+
+    private static func make(_ format: String, timeZone: TimeZone) -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.timeZone = timeZone
+        formatter.dateFormat = format
+        return formatter
     }
 }

@@ -14,9 +14,10 @@ extension MagicBackground {
             
             // 光束效果
             GeometryReader { geometry in
-                ForEach(0..<5) { _ in
+                ForEach(0..<5) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 2654435761)
                     Path { path in
-                        let startX = CGFloat.random(in: 0...geometry.size.width)
+                        let startX = CGFloat.random(in: 0...geometry.size.width, using: &rng)
                         path.move(to: CGPoint(x: startX, y: 0))
                         path.addLine(to: CGPoint(x: startX + 50, y: geometry.size.height))
                     }
@@ -55,13 +56,14 @@ extension MagicBackground {
             
             // 光斑效果
             GeometryReader { geometry in
-                ForEach(0..<20) { _ in
+                ForEach(0..<20) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 5308871522)
                     Circle()
                         .fill(Color.white.opacity(0.1))
-                        .frame(width: CGFloat.random(in: 20...60))
+                        .frame(width: CGFloat.random(in: 20...60, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0...geometry.size.width),
-                            y: CGFloat.random(in: 0...geometry.size.height)
+                            x: CGFloat.random(in: 0...geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0...geometry.size.height, using: &rng)
                         )
                         .blur(radius: 15)
                 }
@@ -85,25 +87,27 @@ extension MagicBackground {
             
             // 树叶纹理
             GeometryReader { geometry in
-                ForEach(0..<30) { _ in
+                ForEach(0..<30) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 7963307283)
                     Circle()
                         .fill(Color(hex: "2D5A27").opacity(0.1))
-                        .frame(width: CGFloat.random(in: 30...80))
+                        .frame(width: CGFloat.random(in: 30...80, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0...geometry.size.width),
-                            y: CGFloat.random(in: 0...geometry.size.height)
+                            x: CGFloat.random(in: 0...geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0...geometry.size.height, using: &rng)
                         )
                         .blur(radius: 10)
                 }
                 
                 // 萤火虫效果
-                ForEach(0..<15) { _ in
+                ForEach(0..<15) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 10617743044)
                     Circle()
                         .fill(Color(hex: "FFFF00").opacity(0.3))
-                        .frame(width: CGFloat.random(in: 2...4))
+                        .frame(width: CGFloat.random(in: 2...4, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0...geometry.size.width),
-                            y: CGFloat.random(in: 0...geometry.size.height)
+                            x: CGFloat.random(in: 0...geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0...geometry.size.height, using: &rng)
                         )
                         .blur(radius: 2)
                 }

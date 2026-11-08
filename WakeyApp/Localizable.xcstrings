@@ -16,7 +16,7 @@
             "value" : "设置"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定"
@@ -39,7 +39,7 @@
             "value" : "设置…"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定…"
@@ -62,7 +62,7 @@
             "value" : "启动失败"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "啟動失敗"
@@ -85,7 +85,7 @@
             "value" : "未知错误"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "未知錯誤"

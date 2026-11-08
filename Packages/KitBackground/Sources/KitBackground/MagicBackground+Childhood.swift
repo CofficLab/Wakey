@@ -77,6 +77,7 @@ extension MagicBackground {
             // 积木方块效果
             GeometryReader { geometry in
                 ForEach(0..<12) { index in
+                    var rng = SeededGenerator(seed: UInt64(index) &+ 7963307283)
                     RoundedRectangle(cornerRadius: 8)
                         .fill(
                             Color(
@@ -88,7 +89,7 @@ extension MagicBackground {
                             x: CGFloat(index % 4) * geometry.size.width / 3,
                             y: CGFloat(index / 4) * geometry.size.height / 3
                         )
-                        .rotationEffect(.degrees(Double.random(in: -5...5)))
+                        .rotationEffect(.degrees(Double.random(in: -5...5, using: &rng)))
                         .shadow(radius: 2)
                 }
             }
@@ -105,22 +106,24 @@ extension MagicBackground {
             // 气球效果
             GeometryReader { geometry in
                 ForEach(0..<8) { index in
+                    var rng = SeededGenerator(seed: UInt64(index) &+ 10617743044)
                     Circle()
                         .fill(
                             Color(
                                 hex: ["FF9999", "99FF99", "9999FF", "FFFF99"][index % 4]
                             ).opacity(0.4)
                         )
-                        .frame(width: CGFloat.random(in: 40...80))
+                        .frame(width: CGFloat.random(in: 40...80, using: &rng))
                         .position(
                             x: CGFloat(index) * geometry.size.width / 8,
-                            y: geometry.size.height * CGFloat.random(in: 0.3...0.7)
+                            y: geometry.size.height * CGFloat.random(in: 0.3...0.7, using: &rng)
                         )
                         .blur(radius: 3)
                 }
                 
                 // 气球线
                 ForEach(0..<8) { index in
+                    var rng = SeededGenerator(seed: UInt64(index) &+ 13272178805)
                     Path { path in
                         path.move(to: CGPoint(
                             x: CGFloat(index) * geometry.size.width / 8,
@@ -129,7 +132,7 @@ extension MagicBackground {
                         path.addCurve(
                             to: CGPoint(
                                 x: CGFloat(index) * geometry.size.width / 8,
-                                y: geometry.size.height * CGFloat.random(in: 0.3...0.7)
+                                y: geometry.size.height * CGFloat.random(in: 0.3...0.7, using: &rng)
                             ),
                             control1: CGPoint(
                                 x: CGFloat(index) * geometry.size.width / 8 - 20,
@@ -173,7 +176,7 @@ extension MagicBackground {
                     .fill(Color.white.opacity(0.6))
                     .frame(width: 20, height: 20)
                     .position(
-                        x: CGFloat(index) * geometry.size.width / 5,
+                        x: CGFloat(index) * geometry.size.width / 6,
                         y: sin(CGFloat(index) * .pi / 3) * 50 + geometry.size.height / 2
                     )
                     .rotationEffect(.degrees(45))

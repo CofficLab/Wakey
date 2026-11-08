@@ -99,8 +99,14 @@ class WakeyUITestBase: XCTestCase {
         app.statusItems.matching(identifier: "wakey.statusbar.button").firstMatch
     }
 
+    /// 查找元素：优先匹配 accessibility identifier，其次匹配可见 label。
+    ///
+    /// 侧边栏与详情区的部分控件由 Lumi 渲染、只有 label 没有 identifier，
+    /// 只按 identifier 匹配会让 `openSettingsPage("Caffeinate")` 之类的调用永远失败。
     func element(_ identifier: String) -> XCUIElement {
-        app.descendants(matching: .any).matching(identifier: identifier).firstMatch
+        app.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier == %@ OR label == %@", identifier, identifier))
+            .firstMatch
     }
 
     func assertAccessibilityLabels(_ labels: [String], file: StaticString = #filePath, line: UInt = #line) {

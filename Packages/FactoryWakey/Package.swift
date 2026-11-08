@@ -29,7 +29,7 @@ let package = Package(
         .package(path: "../PluginCaffeinate"),
         .package(path: "../PluginEyeCareReminder"),
         .package(path: "../PluginStretchReminder"),
-        .package(url: "https://github.com/CofficLab/LumiPluginHydrationReminder.git", from: "1.0.0"),
+        .package(url: "https://github.com/CofficLab/LumiPluginHydrationReminder.git", from: "1.0.1"),
         // Other plugins (2)
         // Plugin management (remote package, aligned to Lumi)
         .package(url: "https://github.com/CofficLab/LumiPluginPluginManager.git", from: "1.7.0"),

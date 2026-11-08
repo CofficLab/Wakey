@@ -15,13 +15,14 @@ extension MagicBackground {
 
             // 雪花效果
             GeometryReader { geometry in
-                ForEach(0 ..< 50) { _ in
+                ForEach(0 ..< 50) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 2654435761)
                     Circle()
-                        .fill(Color.white.opacity(Double.random(in: 0.3 ... 0.7)))
-                        .frame(width: CGFloat.random(in: 2 ... 4))
+                        .fill(Color.white.opacity(Double.random(in: 0.3 ... 0.7, using: &rng)))
+                        .frame(width: CGFloat.random(in: 2 ... 4, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0 ... geometry.size.width),
-                            y: CGFloat.random(in: 0 ... geometry.size.height)
+                            x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                         )
                         .blur(radius: 1)
                 }
@@ -80,18 +81,19 @@ extension MagicBackground {
 
             // 冰霜效果
             GeometryReader { geometry in
-                ForEach(0 ..< 30) { _ in
+                ForEach(0 ..< 30) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 5308871522)
                     Path { path in
                         let startPoint = CGPoint(
-                            x: CGFloat.random(in: 0 ... geometry.size.width),
-                            y: CGFloat.random(in: 0 ... geometry.size.height)
+                            x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                         )
                         path.move(to: startPoint)
 
                         for _ in 0 ..< 3 {
                             let endPoint = CGPoint(
-                                x: startPoint.x + CGFloat.random(in: -20 ... 20),
-                                y: startPoint.y + CGFloat.random(in: -20 ... 20)
+                                x: startPoint.x + CGFloat.random(in: -20 ... 20, using: &rng),
+                                y: startPoint.y + CGFloat.random(in: -20 ... 20, using: &rng)
                             )
                             path.addLine(to: endPoint)
                         }
@@ -101,13 +103,14 @@ extension MagicBackground {
                 }
 
                 // 雾气效果
-                ForEach(0 ..< 5) { _ in
+                ForEach(0 ..< 5) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 7963307283)
                     Circle()
                         .fill(Color.white.opacity(0.2))
-                        .frame(width: CGFloat.random(in: 100 ... 200))
+                        .frame(width: CGFloat.random(in: 100 ... 200, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0 ... geometry.size.width),
-                            y: CGFloat.random(in: 0 ... geometry.size.height)
+                            x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                         )
                         .blur(radius: 30)
                 }
@@ -122,13 +125,14 @@ extension MagicBackground {
 private struct IceCrystals: View {
     var body: some View {
         GeometryReader { geometry in
-            ForEach(0 ..< 20) { _ in
+            ForEach(0 ..< 20) { i in
+                var rng = SeededGenerator(seed: UInt64(i) &+ 10617743044)
                 IceCrystal(
                     center: CGPoint(
-                        x: CGFloat.random(in: 0 ... geometry.size.width),
-                        y: CGFloat.random(in: 0 ... geometry.size.height)
+                        x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                        y: CGFloat.random(in: 0 ... geometry.size.height, using: &rng)
                     ),
-                    size: CGFloat.random(in: 10 ... 30)
+                    size: CGFloat.random(in: 10 ... 30, using: &rng)
                 )
             }
         }

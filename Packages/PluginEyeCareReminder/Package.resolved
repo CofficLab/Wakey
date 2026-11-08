@@ -1,5 +1,5 @@
 {
-  "originHash" : "cdd080f96b2bb3fbec279e76ed02611b584e11d6a3f6199ca7c1b99d668195c3",
+  "originHash" : "cd301d12513d90f336310d4eafca1b26bd93c6ed953ca5b98eda60efdc7a5e68",
   "pins" : [
     {
       "identity" : "lumikernel",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "b1a0e8028b40777cce0c9ee71ba7728350d9a52b",
         "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "lumikitreminder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CofficLab/LumiKitReminder.git",
+      "state" : {
+        "revision" : "a2a984d8d84a9d14e9b131c9cf8a0f407820db8f",
+        "version" : "1.0.0"
       }
     },
     {

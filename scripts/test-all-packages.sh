@@ -35,7 +35,9 @@ done
 
 echo "================ 测试结果 ================"
 echo "✅ 通过 (${#PASS[@]})"
-for item in "${PASS[@]}"; do echo "   $item"; done
+if [ ${#PASS[@]} -gt 0 ]; then
+    for item in "${PASS[@]}"; do echo "   $item"; done
+fi
 
 if [ ${#FAIL[@]} -gt 0 ]; then
     echo ""

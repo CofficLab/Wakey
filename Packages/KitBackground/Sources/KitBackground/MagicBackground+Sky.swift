@@ -15,13 +15,14 @@ extension MagicBackground {
 
             // 云彩效果
             GeometryReader { geometry in
-                ForEach(0 ..< 5) { _ in
+                ForEach(0 ..< 5) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 2654435761)
                     Circle()
                         .fill(Color.white.opacity(0.3))
-                        .frame(width: CGFloat.random(in: 100 ... 200))
+                        .frame(width: CGFloat.random(in: 100 ... 200, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0 ... geometry.size.width),
-                            y: CGFloat.random(in: 0 ... geometry.size.height / 2)
+                            x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0 ... geometry.size.height / 2, using: &rng)
                         )
                         .blur(radius: 30)
                 }
@@ -57,15 +58,16 @@ extension MagicBackground {
 
             // 闪电效果
             GeometryReader { geometry in
-                ForEach(0 ..< 3) { _ in
+                ForEach(0 ..< 3) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 5308871522)
                     Path { path in
-                        var x = CGFloat.random(in: 0 ... geometry.size.width)
+                        var x = CGFloat.random(in: 0 ... geometry.size.width, using: &rng)
                         var y: CGFloat = 0
                         path.move(to: CGPoint(x: x, y: y))
 
                         while y < geometry.size.height {
-                            x += CGFloat.random(in: -50 ... 50)
-                            y += CGFloat.random(in: 20 ... 60)
+                            x += CGFloat.random(in: -50 ... 50, using: &rng)
+                            y += CGFloat.random(in: 20 ... 60, using: &rng)
                             path.addLine(to: CGPoint(x: x, y: y))
                         }
                     }
@@ -76,13 +78,14 @@ extension MagicBackground {
 
             // 乌云效果
             GeometryReader { geometry in
-                ForEach(0 ..< 8) { _ in
+                ForEach(0 ..< 8) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 7963307283)
                     Circle()
                         .fill(Color(hex: "1C2833").opacity(0.4))
-                        .frame(width: CGFloat.random(in: 150 ... 300))
+                        .frame(width: CGFloat.random(in: 150 ... 300, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0 ... geometry.size.width),
-                            y: CGFloat.random(in: 0 ... geometry.size.height / 2)
+                            x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0 ... geometry.size.height / 2, using: &rng)
                         )
                         .blur(radius: 20)
                 }
@@ -124,13 +127,14 @@ extension MagicBackground {
                     .blur(radius: 20)
 
                 // 云彩效果
-                ForEach(0 ..< 6) { _ in
+                ForEach(0 ..< 6) { i in
+                    var rng = SeededGenerator(seed: UInt64(i) &+ 10617743044)
                     Circle()
                         .fill(Color.white.opacity(0.2))
-                        .frame(width: CGFloat.random(in: 100 ... 200))
+                        .frame(width: CGFloat.random(in: 100 ... 200, using: &rng))
                         .position(
-                            x: CGFloat.random(in: 0 ... geometry.size.width),
-                            y: CGFloat.random(in: 0 ... geometry.size.height * 0.6)
+                            x: CGFloat.random(in: 0 ... geometry.size.width, using: &rng),
+                            y: CGFloat.random(in: 0 ... geometry.size.height * 0.6, using: &rng)
                         )
                         .blur(radius: 25)
                 }

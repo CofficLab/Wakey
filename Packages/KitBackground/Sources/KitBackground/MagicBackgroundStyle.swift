@@ -10,7 +10,7 @@ public enum MagicBackgroundStyle: CaseIterable {
     case colorPink, colorBrown, colorGray, colorTeal
     case cosmicDust, galaxySpiral, nebulaMist, darkMatter, cosmicPortal
     case mysticalForest, enchantedGrove, deepForest
-    case watermelon, blueberry, strawberry, kiwi
+    case watermelon, blueberry, strawberry, kiwi, orange
     case vanillaMacaron, roseMacaron, lavenderMacaron, mintMacaron, lemonMacaron
     case jazzNight, classicalHarmony, rockStage, electronicBeats, acousticMorning
     case deepOceanCurrent, tropicalWaters, coralReef, mountainStream, calmRiver, cascadingRiver
@@ -69,6 +69,7 @@ public enum MagicBackgroundStyle: CaseIterable {
         case .blueberry: MagicBackground.blueberry
         case .strawberry: MagicBackground.strawberry
         case .kiwi: MagicBackground.kiwi
+        case .orange: MagicBackground.orange
         case .vanillaMacaron: MagicBackground.vanillaMacaron
         case .roseMacaron: MagicBackground.roseMacaron
         case .lavenderMacaron: MagicBackground.lavenderMacaron

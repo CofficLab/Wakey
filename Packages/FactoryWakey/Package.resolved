@@ -1,5 +1,5 @@
 {
-  "originHash" : "1806dfe6450c7b6dda773dde4acffe4223be2ba372246941156c86f3869f818d",
+  "originHash" : "522c38291ce71d1c55ecde027c1b5aa899e1cbe4f1def929d0274afd41812efa",
   "pins" : [
     {
       "identity" : "lumikernel",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "b1a0e8028b40777cce0c9ee71ba7728350d9a52b",
         "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "lumikitreminder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CofficLab/LumiKitReminder.git",
+      "state" : {
+        "revision" : "a2a984d8d84a9d14e9b131c9cf8a0f407820db8f",
+        "version" : "1.0.0"
       }
     },
     {
@@ -35,6 +44,15 @@
       "state" : {
         "revision" : "419abd51827febdc97689742aa573f4850fa2ae6",
         "version" : "3.0.1"
+      }
+    },
+    {
+      "identity" : "lumipluginhydrationreminder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CofficLab/LumiPluginHydrationReminder.git",
+      "state" : {
+        "revision" : "8b67ea689e27fff7e16a03d602d3e529c2601f9f",
+        "version" : "1.0.1"
       }
     },
     {
