@@ -90,6 +90,9 @@ jobs:
     needs:
       - bump
     runs-on: ubuntu-latest
+    concurrency:
+      group: sync-pre
+      cancel-in-progress: false
     steps:
       - name: 拉取 main 分支
         uses: actions/checkout@v4
@@ -99,19 +102,17 @@ jobs:
       - name: 检查 pre 分支是否存在
         id: check_pre
         run: |
-          if git ls-remote --heads origin pre | grep -q pre; then
+          if git ls-remote --heads origin pre | grep -q refs/heads/pre; then
             echo "exists=true" >> $GITHUB_OUTPUT
           else
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
-      - name: 拉取 pre 分支
+      - name: 同步 pre 分支
         if: steps.check_pre.outputs.exists == 'true'
-        run: git fetch origin pre
-      - name: Rebase pre on main
-        continue-on-error: true
-        if: steps.check_pre.outputs.exists == 'true'
-        run: git rebase origin/main
-      - name: Push the rebased pre branch
-        continue-on-error: true
-        if: steps.check_pre.outputs.exists == 'true'
-        run: git push origin pre
+        run: |
+          # 用 merge 而不是 rebase：rebase 会重写 pre 的历史，让 p* 预发布标签
+          # 指向不可达的旧提交；merge 保持历史与标签有效，且推送可以快进。
+          git checkout -B pre origin/pre
+          git merge --no-edit origin/main
+          git push origin pre
+
