@@ -636,29 +636,6 @@
         }
       }
     },
-    "The official website of Wakey.": {
-      "comment": "Description under the official website row",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The official website of Wakey."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wakey 官方网站。"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wakey 官方網站。"
-          }
-        }
-      }
-    },
     "This action cannot be undone": {
       "comment": "Warning shown while the uninstall runs",
       "localizations": {
@@ -932,29 +909,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Wakey 已從你的 Mac 移除，應用程式已移至垃圾桶。"
-          }
-        }
-      }
-    },
-    "Official Website": {
-      "comment": "Row title linking to the official website",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Official Website"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "官方网站"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "官方網站"
           }
         }
       }
@@ -1419,144 +1373,6 @@
         }
       }
     },
-    "About Us": {
-      "comment": "Section title for the about us section",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "About Us"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "关于我们"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "關於我們"
-          }
-        }
-      }
-    },
-    "Privacy Policy": {
-      "comment": "Row title linking to the privacy policy",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Privacy Policy"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "隐私政策"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "隱私政策"
-          }
-        }
-      }
-    },
-    "Terms of Service": {
-      "comment": "Row title linking to the terms of service",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Terms of Service"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "服务条款"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "服務條款"
-          }
-        }
-      }
-    },
-    "How Wakey handles your data.": {
-      "comment": "Description under the privacy policy row",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "How Wakey handles your data."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wakey 如何处理你的数据。"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wakey 如何處理你的資料。"
-          }
-        }
-      }
-    },
-    "The terms you agree to when using Wakey.": {
-      "comment": "Description under the terms of service row",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The terms you agree to when using Wakey."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用 Wakey 时你同意的条款。"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用 Wakey 時你同意的條款。"
-          }
-        }
-      }
-    },
-    "Registers the General settings entry with app info, manuals and about us.": {
-      "comment": "Description of the general settings plugin",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Registers the General settings entry with app info, manuals and about us."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在设置视图中注册「通用」入口，包含应用信息、使用说明书与关于我们。"
-          }
-        },
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在設定中註冊「一般」入口，包含應用程式資訊、使用手冊與關於我們。"
-          }
-        }
-      }
-    },
     "Start": {
       "comment": "Button label that starts the onboarding flow",
       "localizations": {
@@ -1576,6 +1392,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "開始"
+          }
+        }
+      }
+    },
+    "Registers the General settings entry with app info, manuals, diagnostics and uninstall.": {
+      "comment": "Plugin description for the General settings plugin",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registers the General settings entry with app info, manuals, diagnostics and uninstall."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registers the General settings entry with app info, manuals, diagnostics and uninstall."
+          }
+        },
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registers the General settings entry with app info, manuals, diagnostics and uninstall."
           }
         }
       }

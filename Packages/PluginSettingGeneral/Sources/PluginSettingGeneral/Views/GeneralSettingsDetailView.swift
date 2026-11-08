@@ -1,16 +1,10 @@
-#if canImport(AppKit)
-import AppKit
-#endif
-#if canImport(UIKit)
-import UIKit
-#endif
 import LumiUI
 import ProviderDocsView
 import ProviderAppUninstall
 import SwiftUI
 import UniformTypeIdentifiers
 
-/// 通用设置详情视图 —— 设置窗口「通用」标签页：五个分组卡片。
+/// 通用设置详情视图 —— 设置窗口「通用」标签页：四个分组卡片。
 ///
 /// 只依赖 `GeneralSettingsViewModel`；诊断导出、卸载扫描等业务状态全部由
 /// ViewModel 提供，外部操作经各 `GeneralSettings*Capability` 收敛。
@@ -18,13 +12,6 @@ import UniformTypeIdentifiers
 /// Wakey 通过 Mac App Store 分发，更新由系统与 App Store 负责，
 /// 因此这里不提供「检查更新」入口。
 struct GeneralSettingsDetailView: View {
-    /// 官网地址。
-    static let websiteURLString = "https://coffic.cn/wakey"
-    /// 隐私政策地址。
-    static let privacyPolicyURLString = "https://coffic.cn/privacy"
-    /// 服务条款地址。
-    static let termsOfServiceURLString = "https://coffic.cn/terms"
-
     let version: String?
     @ObservedObject var viewModel: GeneralSettingsViewModel
 
@@ -41,7 +28,6 @@ struct GeneralSettingsDetailView: View {
             VStack(alignment: .leading, spacing: 24) {
                 manualSection
                 lumiSection
-                aboutSection
                 diagnosticsSection
                 uninstallSection
             }
@@ -147,74 +133,6 @@ struct GeneralSettingsDetailView: View {
                 }
             }
         }
-    }
-
-    // MARK: - 关于我们
-
-    /// 「关于我们」分组：官网 + 隐私政策 + 服务条款。
-    ///
-    /// 三个入口都是整行可点（`AppSettingRow` 的 `action:`），行尾用
-    /// `arrow.up.right` 表示「在浏览器中打开」——与 Cisum 的「关于我们」
-    /// 保持一致，避免同一分组里出现三种不同的点击形态。
-    private var aboutSection: some View {
-        AppSettingSection(
-            title: pluginLocalization.string("About Us"),
-            titleAlignment: .leading
-        ) {
-            VStack(spacing: 0) {
-                aboutRow(
-                    title: pluginLocalization.string("Official Website"),
-                    description: pluginLocalization.string("The official website of Wakey."),
-                    icon: "globe",
-                    urlString: Self.websiteURLString
-                )
-                Divider()
-                    .padding(.vertical, 8)
-                aboutRow(
-                    title: pluginLocalization.string("Privacy Policy"),
-                    description: pluginLocalization.string("How Wakey handles your data."),
-                    icon: "hand.raised",
-                    urlString: Self.privacyPolicyURLString
-                )
-                Divider()
-                    .padding(.vertical, 8)
-                aboutRow(
-                    title: pluginLocalization.string("Terms of Service"),
-                    description: pluginLocalization.string("The terms you agree to when using Wakey."),
-                    icon: "doc.text",
-                    urlString: Self.termsOfServiceURLString
-                )
-            }
-        }
-    }
-
-    /// 「关于我们」里的一条外链行：整行可点，行尾箭头表示跳转到浏览器。
-    private func aboutRow(
-        title: String,
-        description: String,
-        icon: String,
-        urlString: String
-    ) -> some View {
-        AppSettingRow(
-            title: title,
-            description: description,
-            icon: icon,
-            action: { openURL(urlString) }
-        ) {
-            Image(systemName: "arrow.up.right")
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(.tertiary)
-        }
-    }
-
-    /// 在默认浏览器中打开链接。
-    private func openURL(_ urlString: String) {
-        guard let url = URL(string: urlString) else { return }
-        #if canImport(AppKit)
-        NSWorkspace.shared.open(url)
-        #elseif canImport(UIKit)
-        UIApplication.shared.open(url)
-        #endif
     }
 
     // MARK: - 诊断日志

@@ -27,7 +27,7 @@ public final class SettingGeneralPlugin: SuperPlugin, SuperLog {
     public let metadata = PluginMetadata(
         id: "com.coffic.wakey.plugin.setting-general",
         name: pluginLocalization.string("General Settings"),
-        description: pluginLocalization.string("Registers the General settings entry with app info, manuals and about us."),
+        description: pluginLocalization.string("Registers the General settings entry with app info, manuals, diagnostics and uninstall."),
         category: .system,
         stage: .stable,
         policy: .alwaysOn
