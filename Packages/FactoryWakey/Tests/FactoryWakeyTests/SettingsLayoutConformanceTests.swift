@@ -119,13 +119,6 @@ struct SettingsLayoutConformanceTests {
             kind: .singleColumn,
             detailPadding: nil
         ),
-        AuditedPage(
-            viewTypeNames: ["HydrationSettingsView"],
-            path: "Packages/PluginHydrationReminder/Sources/PluginHydrationReminder/HydrationSettingsView.swift",
-            relatedPaths: [],
-            kind: .singleColumn,
-            detailPadding: nil
-        ),
     ]
 
     /// 详情视图由外部包（`LumiThemePack`）提供，不在本仓库内审计。

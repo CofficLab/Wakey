@@ -150,8 +150,8 @@ public enum FactoryWakey {
             PluginEyeCareReminder(),
             // order 9
             PluginStretchReminder(),
-            // order 10
-            PluginHydrationReminder(),
+            // order 10：保留历史 id，继续读取既有启用状态与插件数据目录
+            PluginHydrationReminder(id: "HydrationReminderPlugin"),
             // order 15
             // order 79
             ThemePackPlugin(

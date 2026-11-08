@@ -9,7 +9,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../KitLogging"),
-        .package(path: "../KitReminder"),
+        .package(url: "https://github.com/CofficLab/LumiKitReminder.git", from: "1.0.0"),
         .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.18.0"),
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiKernel.git", from: "1.1.0"),
@@ -21,7 +21,7 @@ let package = Package(
             dependencies: [
                 .product(name: "ProviderMenuBar", package: "LumiProviders"),
                 "KitLogging",
-                "KitReminder",
+                .product(name: "KitReminder", package: "LumiKitReminder"),
                 .product(name: "ProviderSettingView", package: "LumiSettings"),
                 .product(name: "KernelCore", package: "LumiKernel"),
                 .product(name: "ProviderStorage", package: "LumiProviders"),

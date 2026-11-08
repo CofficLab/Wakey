@@ -84,6 +84,14 @@ struct FactoryWakeyTests {
         #expect(plugin.metadata.id == "com.coffic.wakey.plugin.plugin-manager")
     }
 
+    @Test("喝水提醒保留 Wakey 历史插件 id")
+    func hydrationReminderUsesLegacyPluginID() {
+        let pluginIDs = FactoryWakey.makePlugins().map(\.id)
+
+        #expect(pluginIDs.contains("HydrationReminderPlugin"))
+        #expect(!pluginIDs.contains("com.coffic.lumi.plugin.hydration"))
+    }
+
     /// 说明书链路：宿主注册 `DocsViewProviding`，各业务插件通过
     /// `addManual` 贡献说明书条目，设置页「通用 → 说明书」据此展示。
     ///
