@@ -46,6 +46,7 @@ NC='\033[0m' # No Color
 #   TEAM_ID: 开发者团队 ID
 #   SIGNING_IDENTITY: 签名身份
 #   KEYCHAIN_PATH: 临时钥匙串路径
+#   API_KEY_PATH: App Store Connect API 密钥路径
 # ====================================
 
 # 检查必要的环境变量
@@ -86,7 +87,9 @@ setup_certificates() {
 
     # 导入证书到钥匙串
     security import "$CERTIFICATE_PATH" -P "$BUILD_CERTIFICATE_P12_PASSWORD" -A -t cert -f pkcs12 -k "$KEYCHAIN_PATH"
-    security list-keychain -d user -s "$KEYCHAIN_PATH"
+    # 追加到现有搜索列表而不是替换它：直接把 login keychain 移出搜索路径会让
+    # Apple 的 WWDR 中间证书不可见，签名时报 errSecInternalComponent。
+    security list-keychain -d user -s "$KEYCHAIN_PATH" $(security list-keychain -d user | tr -d '"')
 
     # 导出环境变量
     export KEYCHAIN_PATH
@@ -115,7 +118,8 @@ get_certificate_info() {
     
     # 导出环境变量
     export CERT_ID=$(echo "$cert_info" | awk -F'"' '{print $2}')
-    export TEAM_ID=$(echo "$cert_info" | grep -o '[A-Z0-9]\{10\}' | tail -n 1)
+    # 团队 ID 只出现在身份行末尾的括号里，锚定括号避免误匹配组织名中的大写片段。
+    export TEAM_ID=$(echo "$cert_info" | sed -n 's/.*(\([A-Z0-9]\{10\}\))$/\1/p')
     export SIGNING_IDENTITY=$(echo "$cert_info" | awk -F'[(|)]' '{print $3}')
 
     echo "证书信息："
@@ -126,25 +130,30 @@ get_certificate_info() {
 
 # 主函数
 main() {
-    # 设置错误处理
+    # 脚本会被 source 到调用者的 shell，不能把 errexit 状态泄漏出去：
+    # 记住进入时的状态，成功返回前恢复。
+    local had_errexit=0
+    case $- in *e*) had_errexit=1 ;; esac
     set -e
 
     if ! check_required_env; then
+        [ "$had_errexit" -eq 1 ] || set +e
         return 1
     fi
 
     setup_certificates
     setup_appstore_connect
     get_certificate_info
-    
+
     echo "🎉 macOS 代码签名环境设置完成！"
     echo "可以使用以下环境变量进行签名操作："
     echo "CERT_ID: $CERT_ID"
     echo "TEAM_ID: $TEAM_ID"
     echo "SIGNING_IDENTITY: $SIGNING_IDENTITY"
     echo "KEYCHAIN_PATH: $KEYCHAIN_PATH"
-    echo "PP_PATH: $PP_PATH"
     echo "API_KEY_PATH: $API_KEY_PATH"
+
+    [ "$had_errexit" -eq 1 ] || set +e
 }
 
 # 执行主函数
