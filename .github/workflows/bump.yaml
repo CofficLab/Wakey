@@ -25,6 +25,12 @@ jobs:
         run: ./scripts/test-all-packages.sh
       - name: 验证本地化语言标签一致
         run: python3 scripts/check-localizations.py
+      - name: 验证 App Store 元数据
+        run: python3 scripts/check-metadata.py
+      - name: 验证脚本回归测试
+        run: |
+          bash scripts/tests/test-bump-version.sh
+          bash scripts/tests/test-shell-scripts.sh
       - name: 验证 App 构建
         run: |
           xcodebuild build \
