@@ -18,9 +18,12 @@ DEFAULT_ROOT = pathlib.Path(__file__).resolve().parent.parent
 ROOT = pathlib.Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else DEFAULT_ROOT
 
 
+IGNORED_PARTS = {".build", ".swiftpm", "temp", "_PluginsArchive"}
+
+
 def catalogs():
     for path in ROOT.rglob("*.xcstrings"):
-        if ".build" in path.parts:
+        if IGNORED_PARTS & set(path.parts):
             continue
         yield path
 
