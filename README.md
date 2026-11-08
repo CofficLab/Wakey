@@ -15,6 +15,7 @@ Wakey is a lightweight macOS status bar assistant.
 Wakey is designed to be your capable macOS status bar assistant, offering the following core capabilities:
 
 - **Caffeinate Control**: Prevent system sleep with a single click, featuring flexible modes and timers to ensure important tasks aren't interrupted.
+- **Break Reminders**: Eye Care, Hydration and Stretch reminders with configurable intervals and a full-screen break overlay on every display.
 - **Status Bar Assistant**: Persistent access to features directly from the menu bar, without switching context.
 - **Modular Design**: Built with a plugin-based architecture, making it easy to extend with new features.
 - **Personalized Experience**: Enable or disable features in settings to tailor Wakey to your specific needs.
@@ -22,8 +23,8 @@ Wakey is designed to be your capable macOS status bar assistant, offering the fo
 ## 📋 Requirements
 
 - macOS 14.0+
-- Xcode 15.0+
-- Swift 5.9+
+- Xcode 16.0+
+- Swift 6.0+
 
 ## 🛠 Development
 
