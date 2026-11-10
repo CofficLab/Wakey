@@ -19,7 +19,9 @@ class EyeCareReminderManager: NSObject, SuperLog {
     static let shared = EyeCareReminderManager(
         environment: SystemReminderEnvironment { kind in
             guard kind == .eyeCare else { return }
-            EyeCareReminderOverlayWindow().showAndFadeOut()
+            // 必须使用单例遮罩：临时对象会被立即释放，
+            // 导致控制器淡出回调不执行，遮罩永久滞留屏幕。
+            EyeCareReminderOverlayWindow.shared.showAndFadeOut()
         }
     )
 
@@ -125,6 +127,11 @@ class EyeCareReminderManager: NSObject, SuperLog {
 
     /// Stop break reminder
     func stop() {
+        // 停止提醒时立即收起正在展示的遮罩：
+        // 遮罩覆盖全屏且用户可能正在盯着它，没有理由让它继续停留。
+        // 放在 `guard` 之前，保证「提醒已停但遮罩仍在」的情况也能被清理。
+        EyeCareReminderOverlayWindow.shared.dismissAll()
+
         guard isActive else { return }
 
         if Self.verbose {

@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiKitReminder.git",
       "state" : {
-        "revision" : "a2a984d8d84a9d14e9b131c9cf8a0f407820db8f",
-        "version" : "1.0.0"
+        "revision" : "1c45366428bd94c98b48ca3e2462991192c72087",
+        "version" : "1.0.1"
       }
     },
     {
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiPluginHydrationReminder.git",
       "state" : {
-        "revision" : "8b67ea689e27fff7e16a03d602d3e529c2601f9f",
-        "version" : "1.0.1"
+        "revision" : "43c1a04cb8ec88d3b3e89c81dd1871d371f67c72",
+        "version" : "1.0.2"
       }
     },
     {

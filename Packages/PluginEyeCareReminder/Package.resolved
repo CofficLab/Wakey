@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiKitReminder.git",
       "state" : {
-        "revision" : "a2a984d8d84a9d14e9b131c9cf8a0f407820db8f",
-        "version" : "1.0.0"
+        "revision" : "1c45366428bd94c98b48ca3e2462991192c72087",
+        "version" : "1.0.1"
       }
     },
     {
