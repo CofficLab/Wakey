@@ -89,15 +89,10 @@ struct SettingsLayoutConformanceTests {
     }
 
     private static let auditedPages: [AuditedPage] = [
+        // 设置-通用插件的源码已迁到独立远程包 LumiPluginSettingGeneral，
+        // 布局守卫随之迁到该包的 PluginSettingGeneralLayoutTests。
         // 插件管理页的源码已迁到独立远程包 LumiPluginPluginManager，
         // 它的布局守卫随之迁到该包的 PluginManagementLayoutTests。
-        AuditedPage(
-            viewTypeNames: ["GeneralSettingsDetailView"],
-            path: "Packages/PluginSettingGeneral/Sources/PluginSettingGeneral/Views/GeneralSettingsDetailView.swift",
-            relatedPaths: [],
-            kind: .singleColumn,
-            detailPadding: nil
-        ),
         // 防休眠插件的源码已迁到独立远程包 LumiPluginCaffeinate，
         // 布局守卫随之迁到该包的 CaffeinateSettingsLayoutTests。
         // 护眼与拉伸提醒插件的源码已迁到独立远程包

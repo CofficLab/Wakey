@@ -188,8 +188,10 @@ public enum FactoryWakey {
             ),
             // order 90: 插件管理（远程包 LumiPluginPluginManager，传入 Wakey 品牌 id）
             PluginPluginManager(id: "com.coffic.wakey.plugin.plugin-manager"),
-            // order 100: 设置-通用（对齐 Lumi 的 PluginSettingGeneral）
-            SettingGeneralPlugin(),
+            // order 100: 设置-通用（共享远程包 LumiPluginSettingGeneral，注入 Wakey 品牌配置）
+            // 保留历史插件 id，继续读取既有设置数据；Wakey 通过 App Store 分发，
+            // 因此关闭「检查更新」与「CLI 安装」区块。
+            SettingGeneralPlugin(configuration: .wakey),
             // order 95: 关于（共享远程包 LumiPluginAbout，注入 Wakey 品牌配置）
             AboutPlugin(
                 id: "com.coffic.wakey.plugin.about",

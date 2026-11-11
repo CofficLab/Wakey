@@ -29,8 +29,8 @@ let package = Package(
         // Other plugins (2)
         // Plugin management (remote package, aligned to Lumi)
         .package(url: "https://github.com/CofficLab/LumiPluginPluginManager.git", from: "1.7.0"),
-        // Settings - General (aligned to Lumi)
-        .package(path: "../PluginSettingGeneral"),
+        // Settings - General (remote package, shared with CofficLab sibling apps)
+        .package(url: "https://github.com/lumi-softworks/LumiPluginSettingGeneral.git", from: "1.0.0"),
         // About page (remote package, shared with CofficLab sibling apps)
         .package(url: "https://github.com/CofficLab/LumiPluginAbout.git", from: "3.0.3"),
     ],
@@ -67,8 +67,8 @@ let package = Package(
                 // Other
                 // Plugin management (remote package, aligned to Lumi)
                 .product(name: "PluginPluginManager", package: "LumiPluginPluginManager"),
-                // Settings - General (aligned to Lumi)
-                "PluginSettingGeneral",
+                // Settings - General (remote package, shared with CofficLab sibling apps)
+                .product(name: "PluginSettingGeneral", package: "LumiPluginSettingGeneral"),
                 // About page (remote package, shared with CofficLab sibling apps)
                 .product(name: "PluginAbout", package: "LumiPluginAbout"),
             ],
