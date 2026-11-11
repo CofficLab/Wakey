@@ -36,7 +36,6 @@ open Wakey.xcodeproj   # 选择 Wakey scheme 运行
 
 - `WakeyApp/` —— App target、`Wakey-Info.plist` 与资源
 - `Packages/FactoryWakey/` —— App 使用的 kernel 与插件装配
-- `Packages/Kit*` —— 共享套件（提醒、日志、布局、背景）
 - `Packages/Plugin*`、`Packages/Provider*` —— 一方插件与 provider
 - `docs/metadata/` —— App Store 元数据（关键词、描述）
 
@@ -45,7 +44,7 @@ open Wakey.xcodeproj   # 选择 Wakey scheme 运行
 每个功能包都有独立测试目标：
 
 ```sh
-cd Packages/PluginCaffeinate
+cd Packages/PluginSettingGeneral
 swift test
 ```
 

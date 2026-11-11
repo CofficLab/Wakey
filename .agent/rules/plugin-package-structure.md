@@ -1,7 +1,11 @@
 # 插件包目录结构规范
 
 > 本规范定义了 Wakey 项目中 `Packages/` 下所有 SPM 插件包的内部目录结构标准。
-> 基于项目中 25+ 插件包的实际分析，提炼出统一的最佳实践。
+> 基于本仓库现有包的实际情况提炼出统一的最佳实践。
+>
+> 注意：本仓库只保留「一方独占」的包。业务插件（防休眠、护眼、拉伸、提醒）
+> 与共享插件（插件管理、关于页、主题）已迁到 `lumi-softworks` / `CofficLab`
+> 的远程包，本仓库不再存放其源码。
 
 ---
 
@@ -39,11 +43,10 @@ Packages/<PackageName>/
 
 | 范畴 | 规范 | 示例 |
 |------|------|------|
-| 插件包名 | `Plugin<Feature>` | `PluginCaffeinate`、`PluginHydrationReminder` |
-| 工具包名 | `Kit<Feature>` | `KitReminder` |
-| 提供者包名 | `Provider<Feature>` | `ProviderPoster`、`ProviderStatusBarPopup` |
+| 插件包名 | `Plugin<Feature>` | `PluginSettingGeneral`、`PluginFileLog` |
+| 提供者包名 | `Provider<Feature>` | `ProviderDiagnostics`、`ProviderAppUninstall` |
 | 工厂包名 | `Factory<App>` | `FactoryWakey` |
-| 测试目录 | `<PackageName>Tests` | `PluginCaffeinateTests` |
+| 测试目录 | `<PackageName>Tests` | `PluginSettingGeneralTests` |
 
 ---
 
@@ -78,13 +81,11 @@ Sources/
 
 ```
 Sources/
-  PluginCaffeinate/
-    CaffeinatePlugin.swift       # 入口
-    Models/                      # 数据模型
-    Observers/                   # 事件订阅
-    Support/                     # 本地化等
-    ViewModels/                  # 视图模型
-    Views/                       # SwiftUI 视图
+  PluginFileLog/
+    FileLogPlugin.swift           # 入口
+    FileLogCoordinator.swift      # 协调器
+    Support/                      # 本地化等
+    Views/                        # SwiftUI 视图
 ```
 
 #### 复杂插件（> 10 个源文件）
@@ -107,35 +108,22 @@ Sources/
 
 | 目录 | 职责 | 存放内容 |
 |------|------|---------|
-| `Models/` | 数据模型 | struct / class / enum 数据定义 |
 | `Observers/` | 事件订阅 | `*Observer` 等监听类型 |
 | `Support/` | 辅助 | `PluginLocalization.swift`、轻量扩展 |
 | `ViewModels/` | 视图模型 | `@Observable` / `ObservableObject` 类 |
 | `Views/` | 视图 | SwiftUI `View` 组件 |
 | `Capabilities/` | 能力扩展 | 插件能力声明 |
-| `Providers/` | 协议实现 | `*Providing` 协议的具体实现 |
-| `Services/` | 业务服务 | 复杂业务逻辑 |
-| `Posters/` | 海报/宣传图 | 海报渲染相关（PluginPoster* 专用） |
+| `Application/` | 应用装配 | AppKit 宿主、AppDelegate、状态栏控制器（仅 FactoryWakey 使用） |
 
-### 2.4 Kit / 框架类包分层
-
-```
-Sources/
-  KitReminder/
-    Contracts/                   # 公共协议
-    Core/                        # 核心实现
-    Support/                     # 辅助代码
-```
-
-### 2.5 Provider 类包分层
+### 2.4 Provider 类包分层
 
 Provider 包通常结构最简：
 
 ```
 Sources/
-  ProviderPoster/
-    PosterProviding.swift
-    DefaultPosterProvider.swift
+  ProviderAppUninstall/
+    UninstallProviding.swift
+    DefaultUninstallProvider.swift
 ```
 
 ---
@@ -168,8 +156,8 @@ Views/
 
 ```
 Tests/
-  PluginCaffeinateTests/         ← ✅ 包裹目录
-    CaffeinatePluginTests.swift
+  PluginSettingGeneralTests/      ← ✅ 包裹目录
+    GeneralSettingsViewModelTests.swift
 
 Tests/
   SomeTests.swift                ← ❌ 禁止：缺少包裹目录
@@ -179,8 +167,8 @@ Tests/
 
 | 项 | 规范 | 示例 |
 |----|------|------|
-| 测试目录 | `<PackageName>Tests` | `PluginCaffeinateTests` |
-| 测试文件 | `<SourceFileName>Tests.swift` | `CaffeinatePluginTests.swift` |
+| 测试目录 | `<PackageName>Tests` | `PluginSettingGeneralTests` |
+| 测试文件 | `<SourceFileName>Tests.swift` | `GeneralSettingsViewModelTests.swift` |
 
 ### 4.3 测试框架
 
@@ -188,11 +176,11 @@ Tests/
 
 ```swift
 import Testing
-@testable import PluginCaffeinate
+@testable import PluginSettingGeneral
 
-@Suite("CaffeinatePlugin")
-struct CaffeinatePluginTests {
-    @Test("activates caffeinate mode")
+@Suite("GeneralSettingsViewModel")
+struct GeneralSettingsViewModelTests {
+    @Test("activates mode")
     func activatesMode() {
         // ...
     }
@@ -209,8 +197,8 @@ struct CaffeinatePluginTests {
 
 ```swift
 .testTarget(
-    name: "PluginCaffeinateTests",
-    dependencies: ["PluginCaffeinate"]
+    name: "PluginSettingGeneralTests",
+    dependencies: ["PluginSettingGeneral"]
 )
 ```
 
@@ -220,7 +208,7 @@ struct CaffeinatePluginTests {
 
 ```swift
 .target(
-    name: "PluginCaffeinate",
+    name: "PluginSettingGeneral",
     dependencies: [...],
     resources: [.process("Resources")]
 )
@@ -252,10 +240,9 @@ struct CaffeinatePluginTests {
 
 | 包 | 复杂度 | 分层方式 |
 |----|--------|---------|
-| `PluginSettingGeneral` | 标准 | Capabilities / Observers / Support / ViewModels / Views |
-| `PluginCaffeinate` | 标准 | Models / Observers / Support / ViewModels / Views |
-| `KitReminder` | 框架 | 按架构分层 |
-| `ProviderPoster` | 简单 | 平铺在包裹目录下 |
+| `PluginSettingGeneral` | 复杂 | Capabilities / Observers / Support / ViewModels / Views |
+| `PluginFileLog` | 标准 | 入口 + 协调器 + Support / Views |
+| `ProviderAppUninstall` | 简单 | 平铺在包裹目录下 |
 | `PluginLogoBolt` | 极简 | 入口 + 同级视图文件 |
 
 ---

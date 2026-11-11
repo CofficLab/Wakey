@@ -36,7 +36,6 @@ open Wakey.xcodeproj   # select the Wakey scheme and run
 
 - `WakeyApp/` — app target, `Wakey-Info.plist` and assets
 - `Packages/FactoryWakey/` — kernel and plugin assembly used by the app
-- `Packages/Kit*` — shared kits (reminders, logging, layout, background)
 - `Packages/Plugin*`, `Packages/Provider*` — first-party plugins and providers
 - `docs/metadata/` — App Store metadata (keywords, description)
 
@@ -45,7 +44,7 @@ open Wakey.xcodeproj   # select the Wakey scheme and run
 Each feature package has its own test target:
 
 ```sh
-cd Packages/PluginCaffeinate
+cd Packages/PluginSettingGeneral
 swift test
 ```
 

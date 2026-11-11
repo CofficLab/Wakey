@@ -29,7 +29,7 @@ if ! grep -q "❌ 失败" "$TMP/all-fail.log"; then
     echo "❌ 没有输出失败汇总"
     fail=1
 fi
-if ! grep -q "PluginCaffeinate" "$TMP/all-fail.log"; then
+if ! grep -q "FactoryWakey" "$TMP/all-fail.log"; then
     echo "❌ 失败清单里缺少具体包名"
     fail=1
 fi
