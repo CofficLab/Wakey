@@ -6,7 +6,7 @@ Wakey 是一款轻量级的 macOS 状态栏助手。
 
 [![Swift](https://img.shields.io/badge/Swift-5.9+-orange.svg)](https://swift.org)
 [![macOS](https://img.shields.io/badge/macOS-14.0+-blue.svg)](https://developer.apple.com/macos/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
 ![Hero](./docs/wakey.intro.webp)
 
@@ -59,4 +59,4 @@ UI 测试位于 `WakeyUITests/`，在 Xcode 中针对已构建的 App 运行。
 
 ## 📄 许可证
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+本项目采用 GNU 通用公共许可证 v3.0（GPL-3.0） - 查看 [LICENSE](LICENSE) 文件了解详情。

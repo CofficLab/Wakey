@@ -6,7 +6,7 @@ Wakey is a lightweight macOS status bar assistant.
 
 [![Swift](https://img.shields.io/badge/Swift-5.9+-orange.svg)](https://swift.org)
 [![macOS](https://img.shields.io/badge/macOS-14.0+-blue.svg)](https://developer.apple.com/macos/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
 ![Hero](./docs/wakey.intro.webp)
 
@@ -59,4 +59,4 @@ UI tests live in `WakeyUITests/` and run from Xcode against a built app.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
+This project is licensed under the GNU General Public License v3.0. See [LICENSE](LICENSE) for details.
