@@ -1,5 +1,5 @@
 {
-  "originHash" : "c08a49b90d70df19ef3f738ff5f5530b2402810887dc26052bb2254a1db0ba9c",
+  "originHash" : "44eb35cd3366e694fd506c76557183cf2dd705e9e4339da4c4bb89ecc9ac7c37",
   "pins" : [
     {
       "identity" : "lumikernel",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiKitReminder.git",
       "state" : {
-        "revision" : "a2a984d8d84a9d14e9b131c9cf8a0f407820db8f",
-        "version" : "1.0.0"
+        "revision" : "1c45366428bd94c98b48ca3e2462991192c72087",
+        "version" : "1.0.1"
       }
     },
     {
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiPluginAbout.git",
       "state" : {
-        "revision" : "419abd51827febdc97689742aa573f4850fa2ae6",
-        "version" : "3.0.1"
+        "revision" : "747aa4fdb52becc2b9f92e652859f1d65be7c5ca",
+        "version" : "3.0.3"
       }
     },
     {
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiPluginHydrationReminder.git",
       "state" : {
-        "revision" : "8b67ea689e27fff7e16a03d602d3e529c2601f9f",
-        "version" : "1.0.1"
+        "revision" : "43c1a04cb8ec88d3b3e89c81dd1871d371f67c72",
+        "version" : "1.0.2"
       }
     },
     {
@@ -96,8 +96,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiProviders.git",
       "state" : {
-        "revision" : "822c4c7fd75ee8af46f483515bc34ad54968f683",
-        "version" : "1.21.0"
+        "revision" : "73b9610690101d186f2930e3f3d1ea4b611991bf",
+        "version" : "1.22.0"
       }
     },
     {
@@ -123,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiUI.git",
       "state" : {
-        "revision" : "6786ab3b708f4ffe5b8412b95ac4d932936364b7",
-        "version" : "1.12.0"
+        "revision" : "82f3fa6fd362107ae2201d240d5f0ebf1117fd95",
+        "version" : "1.13.1"
       }
     }
   ],
