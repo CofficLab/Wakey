@@ -47,6 +47,15 @@
       }
     },
     {
+      "identity" : "lumiplugincaffeinate",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiPluginCaffeinate.git",
+      "state" : {
+        "revision" : "294cedf75964e27438aa2e3aea2476f1791c0cb5",
+        "version" : "1.0.2"
+      }
+    },
+    {
       "identity" : "lumiplugineyecarereminder",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginEyeCareReminder.git",

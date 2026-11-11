@@ -18,7 +18,6 @@ let package = Package(
         .package(url: "https://github.com/CofficLab/LumiPluginSettingView.git", from: "1.0.3"),
         .package(path: "../KitBackground"),
         .package(path: "../KitDesktop"),
-        .package(path: "../KitLogging"),
         .package(path: "../KitLayout"),
         .package(path: "../PluginRootView"),
         .package(path: "../PluginFileLog"),
@@ -26,7 +25,7 @@ let package = Package(
         // Logo plugins (1)
         .package(path: "../PluginLogoBolt"),
         // Business plugins (4)
-        .package(path: "../PluginCaffeinate"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginCaffeinate.git", from: "1.0.1"),
         .package(url: "https://github.com/lumi-softworks/LumiPluginEyeCareReminder.git", from: "1.0.0"),
         .package(url: "https://github.com/lumi-softworks/LumiPluginStretchReminder.git", from: "1.0.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginHydrationReminder.git", from: "1.0.2"),
@@ -47,7 +46,6 @@ let package = Package(
                 .product(name: "MenuBarHostKit", package: "LumiProviders"),
                 "KitBackground",
                 "KitDesktop",
-                "KitLogging",
                 "KitLayout",
                 .product(name: "KernelCore", package: "LumiKernel"),
                 .product(name: "LumiUI", package: "LumiUI"),
@@ -68,7 +66,7 @@ let package = Package(
                                 // Logo
                 "PluginLogoBolt",
                 // Business
-                "PluginCaffeinate",
+                .product(name: "PluginCaffeinate", package: "LumiPluginCaffeinate"),
                 .product(name: "PluginEyeCareReminder", package: "LumiPluginEyeCareReminder"),
                 .product(name: "PluginStretchReminder", package: "LumiPluginStretchReminder"),
                 .product(name: "PluginHydrationReminder", package: "LumiPluginHydrationReminder"),

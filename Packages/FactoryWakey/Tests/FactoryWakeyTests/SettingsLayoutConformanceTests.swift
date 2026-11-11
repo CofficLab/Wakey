@@ -98,13 +98,8 @@ struct SettingsLayoutConformanceTests {
             kind: .singleColumn,
             detailPadding: nil
         ),
-        AuditedPage(
-            viewTypeNames: ["CaffeinateSettingsView"],
-            path: "Packages/PluginCaffeinate/Sources/PluginCaffeinate/CaffeinateSettingsView.swift",
-            relatedPaths: [],
-            kind: .singleColumn,
-            detailPadding: nil
-        ),
+        // 防休眠插件的源码已迁到独立远程包 LumiPluginCaffeinate，
+        // 布局守卫随之迁到该包的 CaffeinateSettingsLayoutTests。
         // 护眼与拉伸提醒插件的源码已迁到独立远程包
         // （LumiPluginEyeCareReminder / LumiPluginStretchReminder），
         // 布局守卫随之迁到各包的 *SettingsLayoutTests。

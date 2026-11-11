@@ -144,8 +144,15 @@ public enum FactoryWakey {
             // order 4
             // order 5: 设置外壳（替换 DefaultSettingViewProviding，渲染 App 图标头部）
             PluginSettingView(id: "com.coffic.wakey.plugin.setting-view"),
-            // order 7
-            PluginCaffeinate(),
+            // order 7：共享远程包 LumiPluginCaffeinate，注入 Wakey 品牌配置
+            // （保留历史 id，继续读取既有启用状态与插件数据目录）
+            PluginCaffeinate(
+                configuration: CaffeinateConfiguration(
+                    pluginID: "CaffeinatePlugin",
+                    loggerSubsystem: "com.coffic.wakey.plugin.caffeinate",
+                    accessibilityIdentifierPrefix: "wakey.caffeinate"
+                )
+            ),
             // order 8：共享远程包 LumiPluginEyeCareReminder，注入 Wakey 品牌配置
             // （保留历史 id，继续读取既有启用状态与插件数据目录）
             PluginEyeCareReminder(
