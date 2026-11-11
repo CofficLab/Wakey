@@ -1,5 +1,5 @@
 {
-  "originHash" : "7ce87dc803b0058ba5bd010c5e4f0bd68a97eb89e213a397d0843991c44c2af7",
+  "originHash" : "1161804890c451b286894e715ddd485081c5ad6aefaa8765c1087e36f6fadd26",
   "pins" : [
     {
       "identity" : "kitagenttool",
@@ -60,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginCaffeinate.git",
       "state" : {
-        "revision" : "1ad4f3a19d624ba21f59a5e3055ba3419fb6cceb",
-        "version" : "1.1.2"
+        "revision" : "ce8102858d0bb2a6c88605719ddfb6017e125057",
+        "version" : "1.1.3"
       }
     },
     {
