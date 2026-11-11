@@ -20,7 +20,7 @@ let package = Package(
         .package(url: "https://github.com/lumi-softworks/LumiPluginFileLog.git", from: "1.0.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginThemePack.git", from: "1.2.1"),
         // Logo plugins (1)
-        .package(path: "../PluginLogoBolt"),
+        .package(url: "https://github.com/CofficLab/LumiPluginLogos.git", from: "1.0.0"),
         // Business plugins (4)
         .package(url: "https://github.com/lumi-softworks/LumiPluginCaffeinate.git", from: "1.1.3"),
         .package(url: "https://github.com/lumi-softworks/LumiPluginEyeCareReminder.git", from: "1.0.0"),
@@ -58,7 +58,7 @@ let package = Package(
                 .product(name: "PluginFileLog", package: "LumiPluginFileLog"),
                 .product(name: "PluginThemePack", package: "LumiPluginThemePack"),
                                 // Logo
-                "PluginLogoBolt",
+                .product(name: "PluginLogoBolt", package: "LumiPluginLogos"),
                 // Business
                 .product(name: "PluginCaffeinate", package: "LumiPluginCaffeinate"),
                 .product(name: "PluginEyeCareReminder", package: "LumiPluginEyeCareReminder"),
