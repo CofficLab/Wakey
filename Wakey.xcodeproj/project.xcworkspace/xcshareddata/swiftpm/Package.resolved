@@ -47,6 +47,15 @@
       }
     },
     {
+      "identity" : "lumiplugineyecarereminder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CofficLab/LumiPluginEyeCareReminder.git",
+      "state" : {
+        "revision" : "94155bbe29c4f462fd8733a364d0489a36e85ef6",
+        "version" : "1.0.0"
+      }
+    },
+    {
       "identity" : "lumipluginhydrationreminder",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiPluginHydrationReminder.git",
@@ -71,6 +80,15 @@
       "state" : {
         "revision" : "56fc485b2e5c422e7105abfe76e6f18df8442b45",
         "version" : "1.0.3"
+      }
+    },
+    {
+      "identity" : "lumipluginstretchreminder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CofficLab/LumiPluginStretchReminder.git",
+      "state" : {
+        "revision" : "5cb2893dc2070f2f5aac65dc8ae0a035c00c0e6c",
+        "version" : "1.0.0"
       }
     },
     {

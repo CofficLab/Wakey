@@ -105,20 +105,9 @@ struct SettingsLayoutConformanceTests {
             kind: .singleColumn,
             detailPadding: nil
         ),
-        AuditedPage(
-            viewTypeNames: ["EyeCareSettingsView"],
-            path: "Packages/PluginEyeCareReminder/Sources/PluginEyeCareReminder/EyeCareSettingsView.swift",
-            relatedPaths: [],
-            kind: .singleColumn,
-            detailPadding: nil
-        ),
-        AuditedPage(
-            viewTypeNames: ["StretchSettingsView"],
-            path: "Packages/PluginStretchReminder/Sources/PluginStretchReminder/StretchSettingsView.swift",
-            relatedPaths: [],
-            kind: .singleColumn,
-            detailPadding: nil
-        ),
+        // 护眼与拉伸提醒插件的源码已迁到独立远程包
+        // （LumiPluginEyeCareReminder / LumiPluginStretchReminder），
+        // 布局守卫随之迁到各包的 *SettingsLayoutTests。
     ]
 
     /// 详情视图由外部包（`LumiThemePack`）提供，不在本仓库内审计。

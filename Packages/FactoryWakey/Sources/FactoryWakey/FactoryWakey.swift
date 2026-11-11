@@ -146,10 +146,23 @@ public enum FactoryWakey {
             PluginSettingView(id: "com.coffic.wakey.plugin.setting-view"),
             // order 7
             PluginCaffeinate(),
-            // order 8
-            PluginEyeCareReminder(),
-            // order 9
-            PluginStretchReminder(),
+            // order 8：共享远程包 LumiPluginEyeCareReminder，注入 Wakey 品牌配置
+            // （保留历史 id，继续读取既有启用状态与插件数据目录）
+            PluginEyeCareReminder(
+                configuration: EyeCareReminderConfiguration(
+                    pluginID: "EyeCareReminderPlugin",
+                    loggerSubsystem: "com.coffic.wakey.plugin.eyecare",
+                    accessibilityIdentifierPrefix: "wakey.eyecare"
+                )
+            ),
+            // order 9：共享远程包 LumiPluginStretchReminder，注入 Wakey 品牌配置
+            PluginStretchReminder(
+                configuration: StretchReminderConfiguration(
+                    pluginID: "StretchReminderPlugin",
+                    loggerSubsystem: "com.coffic.wakey.plugin.stretch",
+                    accessibilityIdentifierPrefix: "wakey.stretch"
+                )
+            ),
             // order 10：保留历史 id，继续读取既有启用状态与插件数据目录
             PluginHydrationReminder(id: "HydrationReminderPlugin"),
             // order 15
