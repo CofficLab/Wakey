@@ -1,6 +1,15 @@
 {
-  "originHash" : "e38649f4f5bea970531322a0affafb6c84a5af3896025fce82b350db7324e88d",
+  "originHash" : "7ce87dc803b0058ba5bd010c5e4f0bd68a97eb89e213a397d0843991c44c2af7",
   "pins" : [
+    {
+      "identity" : "kitagenttool",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/KitAgentTool.git",
+      "state" : {
+        "revision" : "e07e1c1f1a5d89554152b0fd21a555e116d522bb",
+        "version" : "1.0.1"
+      }
+    },
     {
       "identity" : "lumikernel",
       "kind" : "remoteSourceControl",
@@ -51,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginCaffeinate.git",
       "state" : {
-        "revision" : "294cedf75964e27438aa2e3aea2476f1791c0cb5",
-        "version" : "1.0.2"
+        "revision" : "1ad4f3a19d624ba21f59a5e3055ba3419fb6cceb",
+        "version" : "1.1.2"
       }
     },
     {
@@ -161,6 +170,15 @@
       "state" : {
         "revision" : "82f3fa6fd362107ae2201d240d5f0ebf1117fd95",
         "version" : "1.13.1"
+      }
+    },
+    {
+      "identity" : "providertoolmanager",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/ProviderToolManager.git",
+      "state" : {
+        "revision" : "ae298d0f65fbcfaeab1ff966be254b9f4bc764ce",
+        "version" : "1.0.0"
       }
     }
   ],
