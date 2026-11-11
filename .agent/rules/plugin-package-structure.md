@@ -40,7 +40,7 @@ Packages/<PackageName>/
 | 范畴 | 规范 | 示例 |
 |------|------|------|
 | 插件包名 | `Plugin<Feature>` | `PluginCaffeinate`、`PluginHydrationReminder` |
-| 工具包名 | `Kit<Feature>` | `KitBackground`、`KitLayout` |
+| 工具包名 | `Kit<Feature>` | `KitReminder` |
 | 提供者包名 | `Provider<Feature>` | `ProviderPoster`、`ProviderStatusBarPopup` |
 | 工厂包名 | `Factory<App>` | `FactoryWakey` |
 | 测试目录 | `<PackageName>Tests` | `PluginCaffeinateTests` |
@@ -121,7 +121,7 @@ Sources/
 
 ```
 Sources/
-  KitBackground/
+  KitReminder/
     Contracts/                   # 公共协议
     Core/                        # 核心实现
     Support/                     # 辅助代码
@@ -254,7 +254,7 @@ struct CaffeinatePluginTests {
 |----|--------|---------|
 | `PluginSettingGeneral` | 标准 | Capabilities / Observers / Support / ViewModels / Views |
 | `PluginCaffeinate` | 标准 | Models / Observers / Support / ViewModels / Views |
-| `KitBackground` | 框架 | 按架构分层 |
+| `KitReminder` | 框架 | 按架构分层 |
 | `ProviderPoster` | 简单 | 平铺在包裹目录下 |
 | `PluginLogoBolt` | 极简 | 入口 + 同级视图文件 |
 
