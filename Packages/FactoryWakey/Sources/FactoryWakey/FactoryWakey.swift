@@ -130,8 +130,14 @@ public enum FactoryWakey {
     /// 顺序约定：order 值越小越先启动。
     public static func makePlugins() -> [any SuperPlugin] {
         [
-            // order 1: 磁盘日志（对齐 Lumi 的 PluginFileLog，为设置页提供诊断导出）
-            FileLogPlugin(),
+            // order 1: 磁盘日志（共享远程包 LumiPluginFileLog，注入 Wakey 品牌配置）
+            // 保留历史插件 id，继续读取既有日志目录与插件数据
+            FileLogPlugin(
+                configuration: FileLogPluginConfiguration(
+                    branding: .wakey,
+                    uninstallBranding: .wakey
+                )
+            ),
             // order -1: shared root-view contract registration
             WakeyRootViewPlugin(),
             // order 0

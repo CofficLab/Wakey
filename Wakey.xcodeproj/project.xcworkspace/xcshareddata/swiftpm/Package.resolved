@@ -65,6 +65,15 @@
       }
     },
     {
+      "identity" : "lumipluginfilelog",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiPluginFileLog.git",
+      "state" : {
+        "revision" : "8d04232f3370a67e0c979d8b938d7000b6f7e9bb",
+        "version" : "1.0.0"
+      }
+    },
+    {
       "identity" : "lumipluginhydrationreminder",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiPluginHydrationReminder.git",

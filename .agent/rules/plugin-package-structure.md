@@ -43,7 +43,7 @@ Packages/<PackageName>/
 
 | 范畴 | 规范 | 示例 |
 |------|------|------|
-| 插件包名 | `Plugin<Feature>` | `PluginSettingGeneral`、`PluginFileLog` |
+| 插件包名 | `Plugin<Feature>` | `PluginSettingGeneral`、`PluginLogoBolt` |
 | 提供者包名 | `Provider<Feature>` | `ProviderDiagnostics`、`ProviderUninstall` |
 | 工厂包名 | `Factory<App>` | `FactoryWakey` |
 | 测试目录 | `<PackageName>Tests` | `PluginSettingGeneralTests` |
@@ -81,12 +81,15 @@ Sources/
 
 ```
 Sources/
-  PluginFileLog/
-    FileLogPlugin.swift           # 入口
-    FileLogCoordinator.swift      # 协调器
+  Plugin<Feature>/
+    Plugin<Feature>.swift         # 入口
+    <Feature>Coordinator.swift    # 协调器
     Support/                      # 本地化等
     Views/                        # SwiftUI 视图
 ```
+
+> 注：磁盘日志插件（`PluginFileLog`）的源码已迁到共享远程包
+> `LumiPluginFileLog`，不再位于本仓库 `Packages/` 下。
 
 #### 复杂插件（> 10 个源文件）
 
@@ -243,7 +246,6 @@ struct GeneralSettingsViewModelTests {
 | 包 | 复杂度 | 分层方式 |
 |----|--------|---------|
 | `PluginSettingGeneral` | 复杂 | Capabilities / Observers / Support / ViewModels / Views |
-| `PluginFileLog` | 标准 | 入口 + 协调器 + Support / Views |
 | `PluginLogoBolt` | 极简 | 入口 + 同级视图文件 |
 
 ---

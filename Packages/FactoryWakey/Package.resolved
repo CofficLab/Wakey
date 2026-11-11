@@ -1,5 +1,5 @@
 {
-  "originHash" : "fdd41abb2ebac01e21ee393d92db1fd712fd74c3e77b0eeb38ddd500ee1b17f9",
+  "originHash" : "e38649f4f5bea970531322a0affafb6c84a5af3896025fce82b350db7324e88d",
   "pins" : [
     {
       "identity" : "lumikernel",
@@ -61,6 +61,15 @@
       "location" : "https://github.com/lumi-softworks/LumiPluginEyeCareReminder.git",
       "state" : {
         "revision" : "94155bbe29c4f462fd8733a364d0489a36e85ef6",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "lumipluginfilelog",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiPluginFileLog.git",
+      "state" : {
+        "revision" : "8d04232f3370a67e0c979d8b938d7000b6f7e9bb",
         "version" : "1.0.0"
       }
     },
