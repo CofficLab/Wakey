@@ -12,6 +12,5 @@ struct StatusBarIconView: View {
             scene: viewModel.isActive ? .statusBarHighlighted : .statusBar
         )
         .frame(width: 20, height: 20)
-        .inRootView()
     }
 }

@@ -45,7 +45,6 @@ struct WakeyApp: App {
         ) {
             if let kernel {
                 FactoryWakey.makeSettingsView(kernel: kernel)
-                    .inRootView()
             } else {
                 BootstrapFailureView(error: bootstrapError)
             }

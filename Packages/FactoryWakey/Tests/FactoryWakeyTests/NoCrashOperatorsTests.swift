@@ -24,7 +24,9 @@ struct NoCrashOperatorsTests {
             guard url.pathExtension == "swift" else { continue }
             files.append(url)
         }
-        #expect(files.count > 10)
+        // 防呆：枚举器为空说明路径变了，本用例会静默通过。断言的是「扫到了
+        // 装配层的文件」，而不是某个具体数量——文件数会随死代码清理增减。
+        #expect(files.contains { $0.lastPathComponent == "FactoryWakey.swift" })
         for file in files {
             let text = try String(contentsOf: file, encoding: .utf8)
             for (index, line) in text.split(separator: "\n", omittingEmptySubsequences: false).enumerated() {
