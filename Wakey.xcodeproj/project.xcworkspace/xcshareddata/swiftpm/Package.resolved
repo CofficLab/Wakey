@@ -49,7 +49,7 @@
     {
       "identity" : "lumiplugineyecarereminder",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/CofficLab/LumiPluginEyeCareReminder.git",
+      "location" : "https://github.com/lumi-softworks/LumiPluginEyeCareReminder.git",
       "state" : {
         "revision" : "94155bbe29c4f462fd8733a364d0489a36e85ef6",
         "version" : "1.0.0"
@@ -85,7 +85,7 @@
     {
       "identity" : "lumipluginstretchreminder",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/CofficLab/LumiPluginStretchReminder.git",
+      "location" : "https://github.com/lumi-softworks/LumiPluginStretchReminder.git",
       "state" : {
         "revision" : "5cb2893dc2070f2f5aac65dc8ae0a035c00c0e6c",
         "version" : "1.0.0"
