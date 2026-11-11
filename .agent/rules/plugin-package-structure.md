@@ -44,7 +44,7 @@ Packages/<PackageName>/
 | 范畴 | 规范 | 示例 |
 |------|------|------|
 | 插件包名 | `Plugin<Feature>` | `PluginSettingGeneral`、`PluginFileLog` |
-| 提供者包名 | `Provider<Feature>` | `ProviderDiagnostics`、`ProviderAppUninstall` |
+| 提供者包名 | `Provider<Feature>` | `ProviderDiagnostics`、`ProviderUninstall` |
 | 工厂包名 | `Factory<App>` | `FactoryWakey` |
 | 测试目录 | `<PackageName>Tests` | `PluginSettingGeneralTests` |
 
@@ -121,10 +121,12 @@ Provider 包通常结构最简：
 
 ```
 Sources/
-  ProviderAppUninstall/
-    UninstallProviding.swift
-    DefaultUninstallProvider.swift
+  ProviderDiagnostics/
+    DiagnosticsProviding.swift
 ```
+
+> 注：Provider 类包（`ProviderDiagnostics`、`ProviderUninstall` 等）已并入共享的
+> `LumiProviders` 远程包，本仓库不再存放其源码。
 
 ---
 
@@ -242,7 +244,6 @@ struct GeneralSettingsViewModelTests {
 |----|--------|---------|
 | `PluginSettingGeneral` | 复杂 | Capabilities / Observers / Support / ViewModels / Views |
 | `PluginFileLog` | 标准 | 入口 + 协调器 + Support / Views |
-| `ProviderAppUninstall` | 简单 | 平铺在包裹目录下 |
 | `PluginLogoBolt` | 极简 | 入口 + 同级视图文件 |
 
 ---

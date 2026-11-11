@@ -19,7 +19,7 @@ Wakey 磁盘日志插件（对齐 Lumi 的 `PluginFileLog`）。
   异步写入磁盘文件，支持按大小轮转与过期清理。
 - 实现 `DiagnosticsProviding`（来自 `ProviderDiagnostics`），为设置页
   「通用 → 诊断日志 → 导出日志」提供打包好的 zip 诊断包（含 `manifest.json`）。
-- 监听 `Notification.Name.wakeyWillUninstall`，在卸载前关闭文件句柄并 flush。
+- 监听 `Notification.Name.willUninstall(branding: .wakey)`，在卸载前关闭文件句柄并 flush。
 
 ## 依赖与集成
 

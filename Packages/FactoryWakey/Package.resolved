@@ -1,5 +1,5 @@
 {
-  "originHash" : "15f165feff59d0e9fb5c0ca3349dff5b80dad26a9ca87e0c1ba0d2f1826b72d5",
+  "originHash" : "fdd41abb2ebac01e21ee393d92db1fd712fd74c3e77b0eeb38ddd500ee1b17f9",
   "pins" : [
     {
       "identity" : "lumikernel",
@@ -123,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiProviders.git",
       "state" : {
-        "revision" : "73b9610690101d186f2930e3f3d1ea4b611991bf",
-        "version" : "1.22.0"
+        "revision" : "58db682f0b7153206f2c8e377f279eba99534fba",
+        "version" : "1.23.0"
       }
     },
     {

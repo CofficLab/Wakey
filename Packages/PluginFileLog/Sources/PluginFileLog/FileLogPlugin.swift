@@ -1,7 +1,7 @@
 import Foundation
 import KernelCore
 import ProviderDiagnostics
-import ProviderAppUninstall
+import ProviderUninstall
 import ProviderStorage
 import LumiLoggingKit
 import os
@@ -50,7 +50,7 @@ public final class FileLogPlugin: SuperPlugin, PluginDataMigrating, SuperLog {
         }
         FileLogCoordinator.shared.start()
         uninstallObserver = NotificationCenter.default.addObserver(
-            forName: .wakeyWillUninstall,
+            forName: .willUninstall(branding: .wakey),
             object: nil,
             queue: nil
         ) { _ in

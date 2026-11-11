@@ -4,7 +4,7 @@ import ProviderCommand
 import ProviderDiagnostics
 import ProviderDocsView
 import ProviderStorage
-import ProviderAppUninstall
+import ProviderUninstall
 import ProviderSettingView
 import SwiftUI
 import LumiLoggingKit
@@ -40,7 +40,10 @@ public final class SettingGeneralPlugin: SuperPlugin, SuperLog {
 
     public init(
         versionProvider: @escaping @MainActor () -> String? = { AppVersion.current },
-        uninstallProvider: any UninstallProviding = DefaultUninstallProvider()
+        uninstallProvider: any UninstallProviding = DefaultUninstallProvider(
+            scope: UninstallScope.branded(branding: .wakey, isDebug: false),
+            branding: .wakey
+        )
     ) {
         self.versionProvider = versionProvider
         self.uninstallProvider = uninstallProvider

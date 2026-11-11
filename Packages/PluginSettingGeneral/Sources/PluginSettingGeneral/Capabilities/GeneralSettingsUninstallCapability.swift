@@ -1,4 +1,4 @@
-import ProviderAppUninstall
+import ProviderUninstall
 
 /// 通用设置页需要的最小卸载能力。
 @MainActor

@@ -1,6 +1,6 @@
 import LumiUI
 import ProviderDocsView
-import ProviderAppUninstall
+import ProviderUninstall
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -285,7 +285,7 @@ struct GeneralSettingsDetailView: View {
             VStack(spacing: 0) {
                 ForEach(Array(scan.targets.prefix(8).enumerated()), id: \.element.id) { index, target in
                     AppSettingRow(
-                        title: target.kind.displayName,
+                        title: target.kind.displayName(branding: .wakey),
                         description: target.sizeInBytes > 0 ? formattedBytes(target.sizeInBytes) : "—",
                         icon: uninstallIcon(for: target)
                     ) {

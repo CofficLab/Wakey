@@ -3,7 +3,7 @@ import Darwin
 import Foundation
 import LumiUI
 import ProviderDocsView
-import ProviderAppUninstall
+import ProviderUninstall
 import SwiftUI
 
 /// 通用设置页的唯一数据来源。
@@ -193,14 +193,14 @@ final class GeneralSettingsViewModel: ObservableObject {
                 self.restoreApplicationAfterUninstallFailure()
             }
         )
-        NotificationCenter.default.post(name: .wakeyWillUninstall, object: nil)
+        NotificationCenter.default.post(name: .willUninstall(branding: .wakey), object: nil)
 
         Task { @MainActor in
             defer { isUninstalling = false }
             do {
                 await uninstallCapability.prepareForUninstall()
                 let result = try await uninstallCapability.uninstall(options: UninstallOptions(
-                    confirmation: UninstallOptions.confirmationPhrase,
+                    confirmation: UninstallBranding.wakey.confirmationPhrase,
                     removeKeychainCredentials: removeKeychainCredentials,
                     removeApplication: removeApplication
                 ))
