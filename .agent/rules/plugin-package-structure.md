@@ -91,6 +91,9 @@ Sources/
 > 注：磁盘日志插件（`PluginFileLog`）的源码已迁到共享远程包
 > `LumiPluginFileLog`，不再位于本仓库 `Packages/` 下。
 
+> 注：根视图插件（`PluginRootView`）的源码已迁到共享远程包
+> `LumiPluginRootView`，不再位于本仓库 `Packages/` 下。
+
 #### 复杂插件（> 10 个源文件）
 
 ```

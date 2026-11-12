@@ -16,7 +16,7 @@ let package = Package(
         .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.12"),
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginSettingView.git", from: "1.0.3"),
-        .package(path: "../PluginRootView"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginRootView.git", from: "1.0.0"),
         .package(url: "https://github.com/lumi-softworks/LumiPluginFileLog.git", from: "1.0.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginThemePack.git", from: "1.2.1"),
         // Logo plugins (1)
@@ -54,7 +54,7 @@ let package = Package(
                 .product(name: "ProviderPluginManaging", package: "LumiProviders"),
                 .product(name: "ProviderStorage", package: "LumiProviders"),
                 .product(name: "PluginToast", package: "LumiPluginToast"),
-                "PluginRootView",
+                .product(name: "PluginRootView", package: "LumiPluginRootView"),
                 .product(name: "PluginFileLog", package: "LumiPluginFileLog"),
                 .product(name: "PluginThemePack", package: "LumiPluginThemePack"),
                                 // Logo
@@ -84,6 +84,7 @@ let package = Package(
                 .product(name: "ProviderDocsView", package: "LumiProviders"),
                 .product(name: "LumiThemePack", package: "LumiThemePack"),
                 .product(name: "ProviderTheme", package: "LumiProviders"),
+                .product(name: "ProviderRootView", package: "LumiProviders"),
             ]
         )
     ]

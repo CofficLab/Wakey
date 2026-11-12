@@ -139,7 +139,8 @@ public enum FactoryWakey {
                 )
             ),
             // order -1: shared root-view contract registration
-            WakeyRootViewPlugin(),
+            // （共享远程包 LumiPluginRootView，注入 Wakey 品牌配置）
+            RootViewPlugin(configuration: .wakey),
             // order 0
             PluginLogoBolt(),
             // order 10

@@ -1,5 +1,5 @@
 {
-  "originHash" : "1161927047e5e2ff45a7058a0c504f56844996ca95c80385db2dff048bc4782b",
+  "originHash" : "385b675267eb2acdacf92af8d6ad1f1db9e60346719159f0421c95a2c8695594",
   "pins" : [
     {
       "identity" : "kitagenttool",
@@ -107,6 +107,15 @@
       "state" : {
         "revision" : "7c0fb64e524ef3423efd422d98ea8a5425f623eb",
         "version" : "1.7.0"
+      }
+    },
+    {
+      "identity" : "lumipluginrootview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiPluginRootView.git",
+      "state" : {
+        "revision" : "3f332407248d9bc15f2ea3ac7bc6475551f34b19",
+        "version" : "1.0.0"
       }
     },
     {

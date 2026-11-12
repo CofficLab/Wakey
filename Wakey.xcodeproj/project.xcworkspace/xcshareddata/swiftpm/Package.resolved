@@ -110,6 +110,15 @@
       }
     },
     {
+      "identity" : "lumipluginrootview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiPluginRootView.git",
+      "state" : {
+        "revision" : "3f332407248d9bc15f2ea3ac7bc6475551f34b19",
+        "version" : "1.0.0"
+      }
+    },
+    {
       "identity" : "lumipluginsettinggeneral",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginSettingGeneral.git",
