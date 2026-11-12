@@ -114,8 +114,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginRootView.git",
       "state" : {
-        "revision" : "3f332407248d9bc15f2ea3ac7bc6475551f34b19",
-        "version" : "1.0.0"
+        "revision" : "e237ff5c6131d60a0608e36aa7af8d7cf8e4dd7a",
+        "version" : "1.1.0"
       }
     },
     {

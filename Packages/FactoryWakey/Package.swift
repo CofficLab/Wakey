@@ -16,7 +16,7 @@ let package = Package(
         .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.12"),
         .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginSettingView.git", from: "1.0.3"),
-        .package(url: "https://github.com/lumi-softworks/LumiPluginRootView.git", from: "1.0.0"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginRootView.git", from: "1.1.0"),
         .package(url: "https://github.com/lumi-softworks/LumiPluginFileLog.git", from: "1.0.0"),
         .package(url: "https://github.com/CofficLab/LumiPluginThemePack.git", from: "1.2.1"),
         // Logo plugins (1)

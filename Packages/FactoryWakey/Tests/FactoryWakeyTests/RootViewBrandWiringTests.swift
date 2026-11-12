@@ -56,6 +56,20 @@ struct RootViewBrandWiringTests {
         #expect(plugin.order == -1)
     }
 
+    /// 分类必须保持 `.general`。
+    ///
+    /// 迁移前的本地包没有显式传 category，落在 `PluginMetadata` 的默认值上。
+    /// 插件管理页按 category 分组展示，分类漂移会让根视图插件从「通用」
+    /// 挪到「系统」分组。
+    @Test("插件分类保持 .general")
+    func metadataCategoryStaysGeneral() {
+        let plugin = RootViewPlugin(configuration: .wakey)
+
+        #expect(plugin.metadata.category == .general)
+        #expect(plugin.metadata.stage == .stable)
+        #expect(plugin.metadata.policy == .alwaysOn)
+    }
+
     @Test("内核启动后解析到的根视图 provider 来自该插件")
     func kernelResolvesTheRootViewProvider() throws {
         let kernel = try FactoryWakey.makeKernel()
