@@ -16,6 +16,7 @@ import PluginSettingView
 // Plugin imports — Logo (1)
 import PluginLogoBolt
 // Plugin imports — Business (4)
+import PluginDevice
 import PluginCaffeinate
 import PluginEyeCareReminder
 import PluginStretchReminder
@@ -151,6 +152,17 @@ public enum FactoryWakey {
             // order 4
             // order 5: 设置外壳（替换 DefaultSettingViewProviding，渲染 App 图标头部）
             PluginSettingView(id: "com.coffic.wakey.plugin.setting-view"),
+            // order 6：共享远程包 LumiPluginDevice，注入 Wakey 品牌配置。
+            // Wakey 是纯菜单栏宿主：只消费菜单栏 popover，不注入对话贡献；
+            // 没有 ActivityBar 时插件不会覆盖主内容视图。
+            DevicePlugin(
+                configuration: DevicePluginConfiguration(
+                    pluginID: "com.coffic.wakey.plugin.device-info",
+                    loggerSubsystem: "com.coffic.wakey.plugin.device-info"
+                ),
+                order: 6,
+                policy: .enabledByDefault
+            ),
             // order 7：共享远程包 LumiPluginCaffeinate，注入 Wakey 品牌配置
             // （保留历史 id，继续读取既有启用状态与插件数据目录）
             PluginCaffeinate(
