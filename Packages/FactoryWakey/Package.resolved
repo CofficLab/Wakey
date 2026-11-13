@@ -94,10 +94,10 @@
     {
       "identity" : "lumipluginlogos",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/CofficLab/LumiPluginLogos.git",
+      "location" : "https://github.com/lumi-softworks/LumiPluginLogos.git",
       "state" : {
-        "revision" : "7b8076f94140980faa690fe009a3090a79c6feaf",
-        "version" : "1.0.0"
+        "revision" : "76d2c7a01f54b03e5fb6ae9af33d7baec7c1e37c",
+        "version" : "1.0.1"
       }
     },
     {
