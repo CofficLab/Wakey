@@ -11,6 +11,7 @@ import ProviderStorage
 import ProviderDocsView
 import ProviderContentView
 import ProviderToolbar
+import ProviderActivityBar
 import SwiftUI
 
 // Plugin imports — Settings shell (Lumi 同款设置外壳：左上角 App 图标 + 名称/版本)
@@ -19,6 +20,7 @@ import PluginSettingView
 import PluginLogoBolt
 // Plugin imports — Business (4)
 import PluginDevice
+import PluginSystemBenchmark
 import PluginCaffeinate
 import PluginEyeCareReminder
 import PluginStretchReminder
@@ -111,8 +113,12 @@ public enum FactoryWakey {
         )
 
         // 主内容区：设备信息插件在 onBoot 中解析 ContentViewProviding，把设备信息页
-        // 注入主窗口内容区（Wakey 没有 ActivityBar，走插件的精简宿主分支）。
+        // 注入主窗口内容区。
         try kernel.registerHostProvider((any ContentViewProviding).self, DefaultContentViewProviding())
+
+        // 左侧入口栏：设备信息与系统测速等插件在 onBoot 中贡献入口（对齐 Lumi 主窗口）。
+        // 仅一个入口时不渲染竖栏，主窗口保持原来的「工具栏 + 内容区」形态。
+        try kernel.registerHostProvider((any ActivityBarProviding).self, DefaultActivityBarProviding())
 
         // 顶部工具栏：宿主贡献右侧设置按钮，插件可向其追加自己的工具栏项（对齐 Lumi）。
         try kernel.registerHostProvider((any ToolbarProviding).self, DefaultToolbarProviding())
@@ -183,7 +189,7 @@ public enum FactoryWakey {
             // （共享远程包 LumiPluginRootView，注入 Wakey 品牌配置）
             RootViewPlugin(
                 configuration: rootViewConfiguration,
-                provider: ConfigurableRootViewProviding(layout: rootViewLayout)
+                provider: WakeyRootViewProviding(layout: rootViewLayout)
             ),
             // order 0
             PluginLogoBolt(),
@@ -208,6 +214,13 @@ public enum FactoryWakey {
                 ),
                 order: 6,
                 policy: .required
+            ),
+            // order 7：共享远程包 LumiPluginSystemBenchmark（系统测速），注入 Wakey 品牌 id。
+            // 默认禁用；用户在「插件管理」启用后，主窗口左侧出现「系统测速」入口。
+            SystemBenchmarkPlugin(
+                configuration: SystemBenchmarkConfiguration(
+                    pluginID: "com.coffic.wakey.plugin.system-benchmark"
+                )
             ),
             // order 7：共享远程包 LumiPluginCaffeinate，注入 Wakey 品牌配置
             // （保留历史 id，继续读取既有启用状态与插件数据目录）
@@ -279,6 +292,25 @@ public enum FactoryWakey {
         if let toolbar = kernel.resolveProvider((any ToolbarProviding).self) {
             toolbar.addToolbarItems([WakeyToolbarSettings.makeItem()])
             rootView.setToolbarView(toolbar.makeToolbarView())
+        }
+
+        // 左侧入口栏：多个插件贡献入口时显示（如设备信息 + 系统测速）。
+        //
+        // 共享包的 `ActivityBarView` 只在入口栏可见时才注册观察者，因此「启动时
+        // 只有一个入口、之后在设置里启用第二个插件」的路径不会自动出现入口栏。
+        // 这里在入口数量变化时重挂视图，并用入口数量作为视图标识：SwiftUI 默认
+        // 会复用同类型的旧视图（它的 body 已按「不可见」求值过），必须换身份才会
+        // 按当前入口重新渲染。
+        if let activityBar = kernel.resolveProvider((any ActivityBarProviding).self) {
+            func makeActivityBarView() -> AnyView {
+                AnyView(activityBar.makeActivityBarView().id(activityBar.items.count))
+            }
+
+            rootView.setActivityBarView(makeActivityBarView())
+            activityBar.addActivityBarObserver { event in
+                guard case .itemsChanged = event else { return }
+                rootView.setActivityBarView(makeActivityBarView())
+            }
         }
 
         if let content = kernel.resolveProvider((any ContentViewProviding).self) {

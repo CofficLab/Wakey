@@ -1,9 +1,20 @@
+import AppKit
 import XCTest
 
 /// 状态栏与弹窗：菜单栏条目可见性、popup 呈现与切换。
 final class WakeyLaunchUITests: WakeyUITestBase {
     func testLaunchCreatesAccessibleMenuBarItem() {
         XCTAssertTrue(statusBarButton.exists)
+    }
+
+    /// 对齐 Lumi：Wakey 是普通 App（`.regular`，Dock 有图标），
+    /// 而不是仅菜单栏代理（`LSUIElement` 会得到 `.accessory`）。
+    func testAppRunsAsRegularAppWithDockIcon() {
+        guard let instance = latestWakeyInstance else {
+            XCTFail("Wakey instance not found")
+            return
+        }
+        XCTAssertEqual(instance.activationPolicy, .regular)
     }
 
     func testStatusBarPopupShowsAppAndCommands() {
