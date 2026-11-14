@@ -20,6 +20,15 @@ class WakeyUITestBase: XCTestCase {
     /// 启动后由 app 自动打开设置窗口。
     var openSettingsOnLaunch: Bool { true }
 
+    /// 设置窗口就绪后是否保留启动时自动出现的主窗口。
+    ///
+    /// 主窗口里的设备信息每秒刷新指标，持续变化的 AX 树会让 XCUITest 的全局
+    /// `descendants` 查询偶发「No matches found for Descendant with identity
+    /// binding」失配。设置 / popup 类用例不需要主窗口，启动后随即关闭它，
+    /// 回到与历史一致的「只开设置窗口」状态；主窗口本身由
+    /// `WakeyWindowRestorationUITests` 与状态栏入口用例覆盖。
+    var keepsMainWindowOpen: Bool { false }
+
     /// 当前最新启动的 Wakey 实例（多实例并存时避免测错进程）。
     var latestWakeyInstance: NSRunningApplication? {
         NSRunningApplication
@@ -56,15 +65,38 @@ class WakeyUITestBase: XCTestCase {
         app.launch()
         XCTAssertTrue(statusBarButton.waitForExistence(timeout: 20), "Wakey did not create its menu-bar item")
         if openSettingsOnLaunch {
-            // 等待 app 自行打开设置窗口（CGWindowList 轮询，AX-free）
-            let deadline = Date().addingTimeInterval(12)
+            // 等待任一普通窗口出现（主窗口启动即出现；CGWindowList 不走 AX，
+            // 避免无窗口状态下做深层 AX 枚举导致 XCTest 崩溃）
+            let deadline = Date().addingTimeInterval(20)
             while Date() < deadline, !appHasNormalWindow {
                 Thread.sleep(forTimeInterval: 0.25)
             }
             XCTAssertTrue(
                 appHasNormalWindow,
+                "UI 测试前置条件失败：没有可见窗口。诊断：\(dumpAppWindowInfo())"
+            )
+            // 主窗口会先满足「有普通窗口」，因此还要用设置根视图的稳定标识符
+            // 确认设置窗口本身已经打开。
+            XCTAssertTrue(
+                element("wakey.settings.window").waitForExistence(timeout: 15),
                 "UI 测试前置条件失败：设置窗口未自动打开。诊断：\(dumpAppWindowInfo())"
             )
+            if !keepsMainWindowOpen {
+                closeMainWindow()
+            }
+        }
+    }
+
+    /// 关闭启动时自动出现的主窗口（不涉及主窗口的用例在 setUp 里调用）。
+    private func closeMainWindow() {
+        let mainWindow = app.windows["wakey.main"]
+        guard mainWindow.waitForExistence(timeout: 5) else { return }
+        let closeButton = mainWindow.buttons["_XCUI:CloseWindow"]
+        guard closeButton.waitForExistence(timeout: 5) else { return }
+        closeButton.click()
+        let deadline = Date().addingTimeInterval(5)
+        while Date() < deadline, app.windows["wakey.main"].exists {
+            Thread.sleep(forTimeInterval: 0.1)
         }
     }
 

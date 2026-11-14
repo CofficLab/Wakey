@@ -37,6 +37,18 @@ struct WakeyApp: App {
     }
 
     var body: some Scene {
+        // 主窗口：首个 `Window` 场景，启动即出现（对齐 Lumi）。
+        // 内容由设备信息插件通过 `ContentViewProviding` 注入。
+        Window("Wakey", id: "wakey.main") {
+            if let kernel {
+                FactoryWakey.makeMainView(kernel: kernel)
+                    .frame(minWidth: 820, minHeight: 560)
+            } else {
+                BootstrapFailureView(error: bootstrapError)
+            }
+        }
+        .defaultSize(width: 1000, height: 760)
+
         // 对齐 Lumi：设置窗口用 `Window` 场景（`Settings` 场景的系统偏好设置风格
         // 默认不允许用户缩放窗口；`Window` 默认可调节大小）。
         Window(

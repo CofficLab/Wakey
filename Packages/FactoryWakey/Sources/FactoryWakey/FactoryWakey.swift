@@ -9,6 +9,7 @@ import ProviderPluginControl
 import ProviderPluginManaging
 import ProviderStorage
 import ProviderDocsView
+import ProviderContentView
 import SwiftUI
 
 // Plugin imports — Settings shell (Lumi 同款设置外壳：左上角 App 图标 + 名称/版本)
@@ -82,6 +83,10 @@ public enum FactoryWakey {
             )
         )
 
+        // 主内容区：设备信息插件在 onBoot 中解析 ContentViewProviding，把设备信息页
+        // 注入主窗口内容区（Wakey 没有 ActivityBar，走插件的精简宿主分支）。
+        try kernel.registerHostProvider((any ContentViewProviding).self, DefaultContentViewProviding())
+
         // 文档条目：各插件通过 addManual / addAbout 贡献说明书与关于页，
         // 由设置页「通用 → 说明书」统一展示（对齐 Lumi 的 ProviderFactory）。
         try kernel.registerProvider((any DocsViewProviding).self, DefaultDocsViewProviding())
@@ -153,15 +158,18 @@ public enum FactoryWakey {
             // order 5: 设置外壳（替换 DefaultSettingViewProviding，渲染 App 图标头部）
             PluginSettingView(id: "com.coffic.wakey.plugin.setting-view"),
             // order 6：共享远程包 LumiPluginDevice，注入 Wakey 品牌配置。
-            // Wakey 是纯菜单栏宿主：只消费菜单栏 popover，不注入对话贡献；
-            // 没有 ActivityBar 时插件不会覆盖主内容视图。
+            // Wakey 不注入对话贡献；宿主注册 ContentViewProviding 后，插件在
+            // onBoot 直接把设备信息页注入主窗口内容区。
+            //
+            // 设备信息是主窗口唯一的内容来源，因此是宿主硬依赖（`.required`）：
+            // 若允许用户禁用，主窗口只会剩下空内容占位。
             DevicePlugin(
                 configuration: DevicePluginConfiguration(
                     pluginID: "com.coffic.wakey.plugin.device-info",
                     loggerSubsystem: "com.coffic.wakey.plugin.device-info"
                 ),
                 order: 6,
-                policy: .enabledByDefault
+                policy: .required
             ),
             // order 7：共享远程包 LumiPluginCaffeinate，注入 Wakey 品牌配置
             // （保留历史 id，继续读取既有启用状态与插件数据目录）
@@ -231,6 +239,31 @@ public enum FactoryWakey {
         // 包装），避免 popover 场景的 AX 崩溃（菜单栏 app 无主窗口）。
         rootView.setContentView(view)
         return themed(rootView.makeRootView(), kernel: kernel)
+    }
+
+    /// 主窗口视图：渲染插件通过 `ContentViewProviding` 注入的主内容。
+    ///
+    /// 宿主只注册了 `ContentViewProviding`（没有 ActivityBar / Toolbar），
+    /// `DevicePlugin` 在 onBoot 时直接注入设备信息页（插件内精简宿主分支）。
+    public static func makeMainView(kernel: KernelCoreContainer) -> AnyView {
+        let content: AnyView
+        if let contentView = kernel.resolveProvider((any ContentViewProviding).self) {
+            content = contentView.makeContentView()
+        } else {
+            content = AnyView(
+                AppEmptyState(
+                    icon: "gauge.with.dots.needle.50percent",
+                    title: String(
+                        localized: "No content",
+                        table: "Core",
+                        bundle: .module,
+                        comment: "Fallback shown when the main content provider is unavailable"
+                    )
+                )
+            )
+        }
+        // 稳定的窗口内容标识符，供 UI 测试等待主窗口出现（与设置窗口对齐）。
+        return themed(AnyView(content.accessibilityIdentifier("wakey.main.window")), kernel: kernel)
     }
 
     /// 设置视图：由 LumiSettings 的 `SettingViewProviding` 渲染（侧边栏 + 详情区），
@@ -348,8 +381,16 @@ struct StatusBarHostView: View {
 
     private var menuItemsSection: some View {
         VStack(spacing: 0) {
-            SettingsMenuItemRow(
-                title: String(localized: "Settings...", table: "Core", bundle: .module, comment: "Menu item to open settings")
+            WindowMenuItemRow(
+                title: String(localized: "Device Info...", table: "Core", bundle: .module, comment: "Menu item to open the device info window"),
+                windowID: "wakey.main",
+                accessibilityIdentifier: "wakey.statusbar.device-info"
+            )
+            Divider()
+            WindowMenuItemRow(
+                title: String(localized: "Settings...", table: "Core", bundle: .module, comment: "Menu item to open settings"),
+                windowID: "wakey.settings",
+                accessibilityIdentifier: "wakey.statusbar.settings"
             )
             Divider()
             MenuItemRow(
@@ -397,16 +438,18 @@ private struct StatusBarPopupSection: View {
 
 // MARK: - Menu Rows (shared with App target)
 
-struct SettingsMenuItemRow: View {
+struct WindowMenuItemRow: View {
     let title: String
+    let windowID: String
+    let accessibilityIdentifier: String
     @Environment(\.openWindow) private var openWindow
     @State private var isHovering = false
 
     var body: some View {
-        // 对齐 Lumi：设置窗口为 `Window` 场景（id "wakey.settings"），
-        // 用 openWindow 打开（`SettingsLink` 仅对 Settings 场景生效）。
+        // 窗口都是 `Window` 场景（id 由调用方指定），用 openWindow 打开
+        //（`SettingsLink` 仅对 Settings 场景生效）。
         Button {
-            openWindow(id: "wakey.settings")
+            openWindow(id: windowID)
         } label: {
             HStack(spacing: 12) {
                 Text(title).font(.system(size: 13))
@@ -418,7 +461,7 @@ struct SettingsMenuItemRow: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .accessibilityIdentifier("wakey.statusbar.settings")
+        .accessibilityIdentifier(accessibilityIdentifier)
         .background(Rectangle().fill(isHovering ? Color(nsColor: .selectedContentBackgroundColor) : Color.clear))
         .onHover { isHovering = $0 }
     }

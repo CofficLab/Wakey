@@ -1,5 +1,6 @@
 import FactoryWakey
 import PluginToast
+@testable import ProviderContentView
 import ProviderDocsView
 import ProviderSettingView
 import ProviderToast
@@ -26,6 +27,24 @@ struct FactoryWakeyTests {
     func sharedToastPluginIsActive() throws {
         let kernel = try FactoryWakey.makeKernel()
         #expect(kernel.resolveProvider((any ToastProviding).self) is ToastCenter)
+    }
+
+    /// 主窗口内容由设备信息插件注入：宿主注册 `ContentViewProviding`，插件在
+    /// `onBoot` 里 `setContentView`（Wakey 没有 ActivityBar 的精简宿主分支）。
+    ///
+    /// 设备信息是主窗口唯一的内容来源，所以插件必须是宿主硬依赖（`.required`）：
+    /// 一旦允许用户禁用，主窗口就只剩「没有插件注册视图」的空占位。
+    @Test("设备信息插件驱动主窗口内容且不可禁用")
+    func deviceInfoDrivesMainWindowContent() throws {
+        let kernel = try FactoryWakey.makeKernel()
+
+        let provider = try #require(
+            kernel.resolveProvider((any ContentViewProviding).self) as? DefaultContentViewProviding
+        )
+        #expect(provider.currentRenderedContent != nil)
+
+        #expect(kernel.isPluginRegistered(id: "com.coffic.wakey.plugin.device-info"))
+        #expect(kernel.isPluginEnabled(id: "com.coffic.wakey.plugin.device-info"))
     }
 
     /// 默认选中规则：全新启动后选中 order 最小的入口（「通用」），
