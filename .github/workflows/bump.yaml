@@ -16,7 +16,7 @@ env:
 
 jobs:
   verify:
-    runs-on: macos-latest
+    runs-on: macos-27
     steps:
       - uses: actions/checkout@v4
         with:
@@ -41,7 +41,7 @@ jobs:
 
   bump:
     needs: verify
-    runs-on: macos-latest
+    runs-on: macos-27
     steps:
       - uses: actions/checkout@v4
         with:
