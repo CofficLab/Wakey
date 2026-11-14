@@ -43,10 +43,15 @@ struct WakeyApp: App {
             if let kernel {
                 FactoryWakey.makeMainView(kernel: kernel)
                     .frame(minWidth: 820, minHeight: 560)
+                    // 与 Lumi 主窗口一致：隐藏标题栏、内容延伸到标题栏区域，
+                    // 顶部工具栏承载红绿灯与右侧设置按钮。
+                    .wakeyMinimalWindowChrome()
             } else {
                 BootstrapFailureView(error: bootstrapError)
             }
         }
+        .windowStyle(.hiddenTitleBar)
+        .windowToolbarStyle(.unified(showsTitle: false))
         .defaultSize(width: 1000, height: 760)
 
         // 对齐 Lumi：设置窗口用 `Window` 场景（`Settings` 场景的系统偏好设置风格

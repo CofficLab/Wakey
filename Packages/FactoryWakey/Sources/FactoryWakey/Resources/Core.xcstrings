@@ -139,6 +139,29 @@
         }
       }
     },
+    "Settings" : {
+      "comment" : "Tooltip for the toolbar settings button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定"
+          }
+        }
+      }
+    },
     "Settings..." : {
       "comment" : "Menu item to open settings",
       "localizations" : {

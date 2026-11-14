@@ -1,6 +1,29 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Failed to Start" : {
+      "comment" : "Title shown when the kernel fails to assemble",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to Start"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启动失败"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "啟動失敗"
+          }
+        }
+      }
+    },
     "Settings" : {
       "comment" : "Title of the settings window",
       "localizations" : {
@@ -47,29 +70,6 @@
         }
       }
     },
-    "Failed to Start" : {
-      "comment" : "Title shown when the kernel fails to assemble",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Failed to Start"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "启动失败"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "啟動失敗"
-          }
-        }
-      }
-    },
     "Unknown error" : {
       "comment" : "Fallback text when the bootstrap error carries no description",
       "localizations" : {
@@ -92,6 +92,9 @@
           }
         }
       }
+    },
+    "Wakey" : {
+
     }
   },
   "version" : "1.0"

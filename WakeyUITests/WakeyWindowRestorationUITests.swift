@@ -39,6 +39,11 @@ final class WakeyWindowRestorationUITests: WakeyUITestBase {
             "Main window should show the device info dashboard"
         )
 
+        XCTAssertTrue(
+            element("wakey.toolbar.settings").waitForExistence(timeout: 10),
+            "Main window toolbar should show the settings button"
+        )
+
         // 设置窗口自动弹出后会在启动压制期内被关掉；留出余量后轮询确认。
         let settingsDeadline = Date().addingTimeInterval(8)
         while Date() < settingsDeadline {
@@ -51,5 +56,20 @@ final class WakeyWindowRestorationUITests: WakeyUITestBase {
 
         // 状态栏条目用 typed 查询（不触发深层枚举），确认 app 正常运行。
         XCTAssertTrue(statusBarButton.exists, "Status bar item should exist after launch")
+    }
+
+    /// 工具栏右侧设置按钮（对齐 Lumi）应打开设置窗口。
+    func testToolbarSettingsButtonOpensSettingsWindow() {
+        let settingsButton = element("wakey.toolbar.settings")
+        XCTAssertTrue(
+            settingsButton.waitForExistence(timeout: 20),
+            "Main window toolbar should show the settings button"
+        )
+        settingsButton.click()
+
+        XCTAssertTrue(
+            app.windows["wakey.settings"].waitForExistence(timeout: 15),
+            "Toolbar settings button should open the settings window. 诊断：\(dumpAppWindowInfo())"
+        )
     }
 }

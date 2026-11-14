@@ -47,6 +47,7 @@ let package = Package(
                 .product(name: "LumiThemePack", package: "LumiThemePack"),
                 .product(name: "ProviderTheme", package: "LumiProviders"),
                 .product(name: "ProviderRootView", package: "LumiProviders"),
+                .product(name: "ProviderToolbar", package: "LumiProviders"),
                 .product(name: "ProviderContentView", package: "LumiProviders"),
                 .product(name: "ProviderDocsView", package: "LumiProviders"),
                 .product(name: "ProviderToast", package: "LumiProviders"),
@@ -89,6 +90,8 @@ let package = Package(
                 .product(name: "LumiThemePack", package: "LumiThemePack"),
                 .product(name: "ProviderTheme", package: "LumiProviders"),
                 .product(name: "ProviderRootView", package: "LumiProviders"),
+                .product(name: "ProviderToolbar", package: "LumiProviders"),
+                .product(name: "PluginRootView", package: "LumiPluginRootView"),
             ]
         )
     ]

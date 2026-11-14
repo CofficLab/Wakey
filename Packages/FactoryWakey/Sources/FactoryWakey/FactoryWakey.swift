@@ -10,6 +10,7 @@ import ProviderPluginManaging
 import ProviderStorage
 import ProviderDocsView
 import ProviderContentView
+import ProviderToolbar
 import SwiftUI
 
 // Plugin imports — Settings shell (Lumi 同款设置外壳：左上角 App 图标 + 名称/版本)
@@ -65,6 +66,32 @@ public enum FactoryWakey {
     /// 过滤，保证「内置主题」与「目录主题」两路都收敛到同一组外观。
     nonisolated static let builtinThemeIDs = ["lumi", "lumi-system", "lumi-dark", "lumi-light"]
 
+    // MARK: - Root View Configuration
+
+    /// 主窗口根布局：顶部工具栏 + 内容区（对齐 Lumi 主窗口）。
+    ///
+    /// 空态文案沿用宿主的 "No content"，与设备信息插件缺失时的旧表现一致。
+    nonisolated static let rootViewLayout = RootViewLayoutConfiguration(
+        showsToolbar: true,
+        emptyStateTitle: String(
+            localized: "No content",
+            table: "Core",
+            bundle: .module,
+            comment: "Fallback shown when the main content provider is unavailable"
+        )
+    )
+
+    /// 根视图插件的 Wakey 品牌配置：字段与 `RootViewPluginConfiguration.wakey`
+    /// 逐字一致，只把布局换成主窗口的「工具栏 + 内容区」。
+    nonisolated static let rootViewConfiguration = RootViewPluginConfiguration(
+        pluginID: "com.coffic.wakey.plugin.root-view",
+        pluginName: "Root View",
+        pluginDescription: "Provides Wakey's root view regions",
+        order: -1,
+        loggerSubsystem: "com.coffic.wakey.plugin.root-view",
+        layout: rootViewLayout
+    )
+
     // MARK: - Kernel Assembly
 
     /// 创建并启动生产内核：注册 Host Provider → 设置状态持久化 → 启动全部插件。
@@ -86,6 +113,9 @@ public enum FactoryWakey {
         // 主内容区：设备信息插件在 onBoot 中解析 ContentViewProviding，把设备信息页
         // 注入主窗口内容区（Wakey 没有 ActivityBar，走插件的精简宿主分支）。
         try kernel.registerHostProvider((any ContentViewProviding).self, DefaultContentViewProviding())
+
+        // 顶部工具栏：宿主贡献右侧设置按钮，插件可向其追加自己的工具栏项（对齐 Lumi）。
+        try kernel.registerHostProvider((any ToolbarProviding).self, DefaultToolbarProviding())
 
         // 文档条目：各插件通过 addManual / addAbout 贡献说明书与关于页，
         // 由设置页「通用 → 说明书」统一展示（对齐 Lumi 的 ProviderFactory）。
@@ -113,6 +143,11 @@ public enum FactoryWakey {
         try kernel.start(plugins: plugins)
 
         Self.logger.info("🧠 Wakey kernel started with \(plugins.count) plugins")
+
+        // 根视图在插件启动后注册，工具栏与主内容必须在装配期写入：
+        // `RootViewProviding` 的贡献字段是 `@Published`，在 SwiftUI 视图更新期间
+        // 写入会触发 "Publishing changes from within view updates" 警告。
+        wireMainWindowRootView(kernel: kernel)
 
         // 默认选中 order 最小的入口（「通用」）：首个 addEntries 的插件会把
         // 选中态锁定为当时的唯一入口（如 boot order 7 的 Caffeinate），后续
@@ -146,7 +181,10 @@ public enum FactoryWakey {
             ),
             // order -1: shared root-view contract registration
             // （共享远程包 LumiPluginRootView，注入 Wakey 品牌配置）
-            RootViewPlugin(configuration: .wakey),
+            RootViewPlugin(
+                configuration: rootViewConfiguration,
+                provider: ConfigurableRootViewProviding(layout: rootViewLayout)
+            ),
             // order 0
             PluginLogoBolt(),
             // order 10
@@ -227,43 +265,57 @@ public enum FactoryWakey {
 
     // MARK: - View Factories
 
-    /// 状态栏弹窗视图：从内核解析 MenuBarProviding 并渲染插件贡献的内容。
-    public static func makeStatusBarView(kernel: KernelCoreContainer) -> AnyView {
-        let menuBar = kernel.resolveProvider(MenuBarProviding.self)
-        let view = AnyView(StatusBarHostView(menuBar: menuBar))
-        guard let rootView = kernel.resolveProvider((any RootViewProviding).self) else {
-            return themed(view, kernel: kernel)
-        }
-        rootView.setView(view, for: .statusBar)
-        // 状态栏 popover 通过 RootView 呈现内容（ViewBuilder 分支，无 ZStack/Group
-        // 包装），避免 popover 场景的 AX 崩溃（菜单栏 app 无主窗口）。
-        rootView.setContentView(view)
-        return themed(rootView.makeRootView(), kernel: kernel)
-    }
-
-    /// 主窗口视图：渲染插件通过 `ContentViewProviding` 注入的主内容。
+    /// 把工具栏与主内容接到根视图（装配期调用一次）。
     ///
-    /// 宿主只注册了 `ContentViewProviding`（没有 ActivityBar / Toolbar），
-    /// `DevicePlugin` 在 onBoot 时直接注入设备信息页（插件内精简宿主分支）。
-    public static func makeMainView(kernel: KernelCoreContainer) -> AnyView {
-        let content: AnyView
-        if let contentView = kernel.resolveProvider((any ContentViewProviding).self) {
-            content = contentView.makeContentView()
-        } else {
-            content = AnyView(
-                AppEmptyState(
-                    icon: "gauge.with.dots.needle.50percent",
-                    title: String(
-                        localized: "No content",
-                        table: "Core",
-                        bundle: .module,
-                        comment: "Fallback shown when the main content provider is unavailable"
-                    )
-                )
+    /// - 工具栏：按 `ToolbarProviding` 渲染，右侧包含宿主贡献的设置按钮；
+    /// - 内容：`ContentViewProviding` 返回的宿主视图本身是活视图，只挂接一次，
+    ///   设备信息插件后续 `setContentView` 会直接刷新。
+    private static func wireMainWindowRootView(kernel: KernelCoreContainer) {
+        guard let rootView = kernel.resolveProvider((any RootViewProviding).self) else {
+            Self.logger.error("⚠️ RootViewProviding 未注册，主窗口将退回空内容")
+            return
+        }
+
+        if let toolbar = kernel.resolveProvider((any ToolbarProviding).self) {
+            toolbar.addToolbarItems([WakeyToolbarSettings.makeItem()])
+            rootView.setToolbarView(toolbar.makeToolbarView())
+        }
+
+        if let content = kernel.resolveProvider((any ContentViewProviding).self) {
+            // 稳定的窗口内容标识符，供 UI 测试等待主窗口出现（与设置窗口对齐）。
+            rootView.setContentView(
+                AnyView(content.makeContentView().accessibilityIdentifier("wakey.main.window"))
             )
         }
-        // 稳定的窗口内容标识符，供 UI 测试等待主窗口出现（与设置窗口对齐）。
-        return themed(AnyView(content.accessibilityIdentifier("wakey.main.window")), kernel: kernel)
+    }
+
+    /// 状态栏弹窗视图：从内核解析 MenuBarProviding 并渲染插件贡献的内容。
+    ///
+    /// 不再经过 RootView：RootView 的内容区由主窗口占用，每次打开 popover
+    /// 都写入会把主窗口内容替换成菜单。
+    public static func makeStatusBarView(kernel: KernelCoreContainer) -> AnyView {
+        let menuBar = kernel.resolveProvider(MenuBarProviding.self)
+        return themed(AnyView(StatusBarHostView(menuBar: menuBar)), kernel: kernel)
+    }
+
+    /// 主窗口视图：RootView 组合「顶部工具栏 + 主内容区」。
+    ///
+    /// 工具栏与内容已在 `makeKernel()` 装配期写入，这里只读取最终视图，
+    /// 保证每次 SwiftUI body 求值都是纯读取。
+    public static func makeMainView(kernel: KernelCoreContainer) -> AnyView {
+        guard let rootView = kernel.resolveProvider((any RootViewProviding).self) else {
+            let fallback = AppEmptyState(
+                icon: "gauge.with.dots.needle.50percent",
+                title: String(
+                    localized: "No content",
+                    table: "Core",
+                    bundle: .module,
+                    comment: "Fallback shown when the main content provider is unavailable"
+                )
+            )
+            return themed(AnyView(fallback.accessibilityIdentifier("wakey.main.window")), kernel: kernel)
+        }
+        return themed(rootView.makeRootView(), kernel: kernel)
     }
 
     /// 设置视图：由 LumiSettings 的 `SettingViewProviding` 渲染（侧边栏 + 详情区），
