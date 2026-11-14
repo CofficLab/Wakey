@@ -1,5 +1,5 @@
 {
-  "originHash" : "014c6076952d7959dc6093f5a80db28c0dfb31e493c96511c0ac0c147cc96c3a",
+  "originHash" : "9357d8eeb642041245731f73caf3d48a6ae52b402634b49aa56330bdd30f3fe6",
   "pins" : [
     {
       "identity" : "kitagenttool",
@@ -132,8 +132,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginSettingGeneral.git",
       "state" : {
-        "revision" : "32e2b10ee58717c0815e68f5b7d579e380906d1c",
-        "version" : "1.0.1"
+        "revision" : "c4d698b7499d0bee5873b6e57db859d7b23297f1",
+        "version" : "1.0.2"
       }
     },
     {
