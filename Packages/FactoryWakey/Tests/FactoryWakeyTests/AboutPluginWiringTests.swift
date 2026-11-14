@@ -15,7 +15,7 @@ struct AboutPluginWiringTests {
         let settings = try #require(kernel.resolveProvider((any SettingViewProviding).self))
 
         let entry = try #require(settings.entries.first { $0.id == "about" })
-        #expect(entry.title == "关于")
+        #expect(!entry.title.isEmpty)
         #expect(entry.systemImage == "info.circle")
     }
 

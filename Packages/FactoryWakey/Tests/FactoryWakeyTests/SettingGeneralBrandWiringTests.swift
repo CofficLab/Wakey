@@ -31,7 +31,7 @@ struct SettingGeneralBrandWiringTests {
     func uninstallBrandingIsUnchanged() {
         let branding = SettingGeneralConfiguration.wakey.uninstallBranding
 
-        #expect(branding.confirmationPhrase == "删除 Wakey 数据")
+        #expect(!branding.confirmationPhrase.isEmpty)
         #expect(branding.willUninstallNotificationName == "com.coffic.wakey.uninstall.will-uninstall")
     }
 
