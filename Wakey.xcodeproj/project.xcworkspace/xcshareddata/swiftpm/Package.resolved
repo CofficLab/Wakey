@@ -1,13 +1,31 @@
 {
-  "originHash" : "c08a49b90d70df19ef3f738ff5f5530b2402810887dc26052bb2254a1db0ba9c",
+  "originHash" : "44eb35cd3366e694fd506c76557183cf2dd705e9e4339da4c4bb89ecc9ac7c37",
   "pins" : [
+    {
+      "identity" : "kitagenttool",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/KitAgentTool.git",
+      "state" : {
+        "revision" : "e07e1c1f1a5d89554152b0fd21a555e116d522bb",
+        "version" : "1.0.1"
+      }
+    },
     {
       "identity" : "lumikernel",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiKernel.git",
       "state" : {
-        "revision" : "b1a0e8028b40777cce0c9ee71ba7728350d9a52b",
-        "version" : "1.1.0"
+        "revision" : "c0aace6a4b0b428f3b059020327a558c470538ed",
+        "version" : "1.1.1"
+      }
+    },
+    {
+      "identity" : "lumikitreminder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CofficLab/LumiKitReminder.git",
+      "state" : {
+        "revision" : "1c45366428bd94c98b48ca3e2462991192c72087",
+        "version" : "1.0.1"
       }
     },
     {
@@ -15,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiLocalization.git",
       "state" : {
-        "revision" : "6dbb3c9d646538ffccb77b1edd3515bc5bb8aa3e",
-        "version" : "1.0.1"
+        "revision" : "da8ca9d0cc77e9c1f979680f9cb79e87f79a3f87",
+        "version" : "1.0.2"
       }
     },
     {
@@ -24,7 +42,70 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiLogging.git",
       "state" : {
-        "revision" : "8c00bb13b76a21f88bee186a68ca20568550f65e",
+        "revision" : "ed01ea8d6e95c627be241a01924c75999b6d8256",
+        "version" : "1.0.2"
+      }
+    },
+    {
+      "identity" : "lumipluginabout",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CofficLab/LumiPluginAbout.git",
+      "state" : {
+        "revision" : "747aa4fdb52becc2b9f92e652859f1d65be7c5ca",
+        "version" : "3.0.3"
+      }
+    },
+    {
+      "identity" : "lumiplugincaffeinate",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiPluginCaffeinate.git",
+      "state" : {
+        "revision" : "ce8102858d0bb2a6c88605719ddfb6017e125057",
+        "version" : "1.1.3"
+      }
+    },
+    {
+      "identity" : "lumiplugindevice",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiPluginDevice.git",
+      "state" : {
+        "revision" : "ea573a509f249331283be83fff57fefe987d2838",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "lumiplugineyecarereminder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiPluginEyeCareReminder.git",
+      "state" : {
+        "revision" : "94155bbe29c4f462fd8733a364d0489a36e85ef6",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "lumipluginfilelog",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiPluginFileLog.git",
+      "state" : {
+        "revision" : "8d04232f3370a67e0c979d8b938d7000b6f7e9bb",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "lumipluginhydrationreminder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CofficLab/LumiPluginHydrationReminder.git",
+      "state" : {
+        "revision" : "43c1a04cb8ec88d3b3e89c81dd1871d371f67c72",
+        "version" : "1.0.2"
+      }
+    },
+    {
+      "identity" : "lumipluginlogos",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiPluginLogos.git",
+      "state" : {
+        "revision" : "76d2c7a01f54b03e5fb6ae9af33d7baec7c1e37c",
         "version" : "1.0.1"
       }
     },
@@ -38,12 +119,48 @@
       }
     },
     {
+      "identity" : "lumipluginrootview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiPluginRootView.git",
+      "state" : {
+        "revision" : "e237ff5c6131d60a0608e36aa7af8d7cf8e4dd7a",
+        "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "lumipluginsettinggeneral",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiPluginSettingGeneral.git",
+      "state" : {
+        "revision" : "32e2b10ee58717c0815e68f5b7d579e380906d1c",
+        "version" : "1.0.1"
+      }
+    },
+    {
       "identity" : "lumipluginsettingview",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiPluginSettingView.git",
       "state" : {
         "revision" : "56fc485b2e5c422e7105abfe76e6f18df8442b45",
         "version" : "1.0.3"
+      }
+    },
+    {
+      "identity" : "lumipluginstretchreminder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiPluginStretchReminder.git",
+      "state" : {
+        "revision" : "5cb2893dc2070f2f5aac65dc8ae0a035c00c0e6c",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "lumipluginsystembenchmark",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiPluginSystemBenchmark.git",
+      "state" : {
+        "revision" : "26c018a7bd615962aa34b656e3d440c9c8ee999d",
+        "version" : "1.0.1"
       }
     },
     {
@@ -69,8 +186,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiProviders.git",
       "state" : {
-        "revision" : "95d82d5e1f11854aef87ed88d30094ddf10c3551",
-        "version" : "1.18.0"
+        "revision" : "58db682f0b7153206f2c8e377f279eba99534fba",
+        "version" : "1.23.0"
       }
     },
     {
@@ -96,8 +213,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CofficLab/LumiUI.git",
       "state" : {
-        "revision" : "6786ab3b708f4ffe5b8412b95ac4d932936364b7",
-        "version" : "1.12.0"
+        "revision" : "6071aeccea31a48039bdecfffbdc34a98e4e4b20",
+        "version" : "1.17.1"
+      }
+    },
+    {
+      "identity" : "providertoolmanager",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/ProviderToolManager.git",
+      "state" : {
+        "revision" : "ae298d0f65fbcfaeab1ff966be254b9f4bc764ce",
+        "version" : "1.0.0"
       }
     }
   ],

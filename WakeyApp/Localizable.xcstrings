@@ -1,6 +1,29 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Failed to Start" : {
+      "comment" : "Title shown when the kernel fails to assemble",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to Start"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启动失败"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "啟動失敗"
+          }
+        }
+      }
+    },
     "Settings" : {
       "comment" : "Title of the settings window",
       "localizations" : {
@@ -16,7 +39,7 @@
             "value" : "设置"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定"
@@ -39,33 +62,10 @@
             "value" : "设置…"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定…"
-          }
-        }
-      }
-    },
-    "Failed to Start" : {
-      "comment" : "Title shown when the kernel fails to assemble",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Failed to Start"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "启动失败"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "啟動失敗"
           }
         }
       }
@@ -85,13 +85,16 @@
             "value" : "未知错误"
           }
         },
-        "zh-HK" : {
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "未知錯誤"
           }
         }
       }
+    },
+    "Wakey" : {
+
     }
   },
   "version" : "1.0"

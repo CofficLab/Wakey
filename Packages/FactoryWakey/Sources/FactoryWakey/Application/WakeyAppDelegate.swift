@@ -48,7 +48,7 @@ public final class WakeyAppDelegate: NSObject, NSApplicationDelegate {
         NotificationCenter.postApplicationDidFinishLaunching()
     }
 
-    /// 关闭最后一个窗口后绝不能退出——菜单栏应用没有主窗口，
+    /// 关闭最后一个窗口后绝不能退出——Wakey 关闭窗口后仍需驻留状态栏，
     /// 且启动期会主动关闭自动弹出的设置窗口。
     public func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         false

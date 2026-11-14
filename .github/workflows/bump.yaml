@@ -15,7 +15,32 @@ env:
   SCHEME: Wakey
 
 jobs:
+  verify:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: 验证各 Swift 包测试
+        run: ./scripts/test-all-packages.sh
+      - name: 验证本地化语言标签一致
+        run: python3 scripts/check-localizations.py
+      - name: 验证 App Store 元数据
+        run: python3 scripts/check-metadata.py
+      - name: 验证脚本回归测试
+        run: |
+          bash scripts/tests/test-bump-version.sh
+          bash scripts/tests/test-shell-scripts.sh
+      - name: 验证 App 构建
+        run: |
+          xcodebuild build \
+            -project "${{ env.PROJECT }}" \
+            -scheme "${{ env.SCHEME }}" \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO
+
   bump:
+    needs: verify
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -90,6 +115,9 @@ jobs:
     needs:
       - bump
     runs-on: ubuntu-latest
+    concurrency:
+      group: sync-pre
+      cancel-in-progress: false
     steps:
       - name: 拉取 main 分支
         uses: actions/checkout@v4
@@ -99,19 +127,17 @@ jobs:
       - name: 检查 pre 分支是否存在
         id: check_pre
         run: |
-          if git ls-remote --heads origin pre | grep -q pre; then
+          if git ls-remote --heads origin pre | grep -q refs/heads/pre; then
             echo "exists=true" >> $GITHUB_OUTPUT
           else
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
-      - name: 拉取 pre 分支
+      - name: 同步 pre 分支
         if: steps.check_pre.outputs.exists == 'true'
-        run: git fetch origin pre
-      - name: Rebase pre on main
-        continue-on-error: true
-        if: steps.check_pre.outputs.exists == 'true'
-        run: git rebase origin/main
-      - name: Push the rebased pre branch
-        continue-on-error: true
-        if: steps.check_pre.outputs.exists == 'true'
-        run: git push origin pre
+        run: |
+          # 用 merge 而不是 rebase：rebase 会重写 pre 的历史，让 p* 预发布标签
+          # 指向不可达的旧提交；merge 保持历史与标签有效，且推送可以快进。
+          git checkout -B pre origin/pre
+          git merge --no-edit origin/main
+          git push origin pre
+

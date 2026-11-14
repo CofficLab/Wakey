@@ -45,13 +45,16 @@ final class WakeySettingsUITests: WakeyUITestBase {
         appearanceEntry.click()
         XCTAssertTrue(element("All").waitForExistence(timeout: 5), "Appearance detail did not show")
 
-        // 关闭设置窗口（⌘W），确认已关闭
+        // 关闭设置窗口（⌘W），确认已关闭。
+        // 主窗口在 setUp 里已被关掉，此时 app 没有窗口：用按窗口类型限定的
+        // 查询（不触发深层 AX 枚举）确认设置窗口消失。
         app.typeKey("w", modifierFlags: .command)
+        let settingsWindow = app.windows["wakey.settings"]
         let deadline = Date().addingTimeInterval(8)
-        while Date() < deadline, appHasNormalWindow {
+        while Date() < deadline, settingsWindow.exists {
             Thread.sleep(forTimeInterval: 0.25)
         }
-        XCTAssertFalse(appHasNormalWindow, "Settings window did not close")
+        XCTAssertFalse(settingsWindow.exists, "Settings window did not close")
 
         // 重新打开：应停留在「外观」，而不是重置回「通用」
         openSettings()
