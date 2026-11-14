@@ -132,8 +132,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginSettingGeneral.git",
       "state" : {
-        "revision" : "32e2b10ee58717c0815e68f5b7d579e380906d1c",
-        "version" : "1.0.1"
+        "revision" : "c4d698b7499d0bee5873b6e57db859d7b23297f1",
+        "version" : "1.0.2"
       }
     },
     {
