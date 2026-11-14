@@ -30,6 +30,10 @@ for dir in Packages/*/; do
     else
         reason=$(echo "$output" | grep -E "error:|signal code|Expectation failed" | head -1)
         FAIL+=("$pkg: ${reason:-测试失败}")
+        # 在 CI 日志里输出完整错误（collapsible），方便定位编译 / 测试失败原因
+        echo "::group::❌ $pkg 详细错误"
+        echo "$output" | grep -E "error:|note:|\^" | head -40
+        echo "::endgroup::"
     fi
 done
 
