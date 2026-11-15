@@ -23,7 +23,7 @@ let package = Package(
         .package(url: "https://github.com/lumi-softworks/LumiPluginLogos.git", from: "1.0.0"),
         // Business plugins (4)
         .package(url: "https://github.com/lumi-softworks/LumiPluginDevice.git", from: "1.0.0"),
-        .package(url: "https://github.com/lumi-softworks/LumiPluginSystemBenchmark.git", from: "1.0.1"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginSystemBenchmark.git", from: "1.1.0"),
         .package(url: "https://github.com/lumi-softworks/PluginDiskManager.git", from: "1.0.0"),
         .package(url: "https://github.com/lumi-softworks/LumiPluginCaffeinate.git", from: "1.1.3"),
         .package(url: "https://github.com/lumi-softworks/LumiPluginEyeCareReminder.git", from: "1.0.0"),
