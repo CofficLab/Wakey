@@ -86,8 +86,8 @@
       "kind": "remoteSourceControl",
       "location": "https://github.com/lumi-softworks/LumiPluginCaffeinate.git",
       "state": {
-        "revision": "b465486509c6da9ec421f133dc63e009fd89113b",
-        "version": "1.1.5"
+        "revision": "e213650f943fd853af49bf349fb2d26c96ee19ee",
+        "version": "1.1.6"
       }
     },
     {
@@ -97,6 +97,15 @@
       "state": {
         "revision": "8e766434b01d7af9d99bedba680a0a8c8e009982",
         "version": "1.1.0"
+      }
+    },
+    {
+      "identity": "lumiplugindiskmanager",
+      "kind": "remoteSourceControl",
+      "location": "https://github.com/lumi-softworks/LumiPluginDiskManager.git",
+      "state": {
+        "revision": "332b9ac8dc1bb2be5b9f1686a71cfaa07ebdac5a",
+        "version": "1.0.2"
       }
     },
     {
@@ -217,6 +226,15 @@
       }
     },
     {
+      "identity": "lumiprovidertoolmanager",
+      "kind": "remoteSourceControl",
+      "location": "https://github.com/lumi-softworks/LumiProviderToolManager.git",
+      "state": {
+        "revision": "e19e919316824ee5a4db6ab38898b36cbe3d6b65",
+        "version": "1.0.2"
+      }
+    },
+    {
       "identity": "lumisettings",
       "kind": "remoteSourceControl",
       "location": "https://github.com/CofficLab/LumiSettings.git",
@@ -241,24 +259,6 @@
       "state": {
         "revision": "6071aeccea31a48039bdecfffbdc34a98e4e4b20",
         "version": "1.17.1"
-      }
-    },
-    {
-      "identity": "plugindiskmanager",
-      "kind": "remoteSourceControl",
-      "location": "https://github.com/lumi-softworks/PluginDiskManager.git",
-      "state": {
-        "revision": "5ba267f03dc1cf6d960883201fcf447ba7fa7828",
-        "version": "1.0.1"
-      }
-    },
-    {
-      "identity": "providertoolmanager",
-      "kind": "remoteSourceControl",
-      "location": "https://github.com/lumi-softworks/ProviderToolManager.git",
-      "state": {
-        "revision": "02ea97532f13ede79150206689148d9f11d671cb",
-        "version": "1.0.1"
       }
     }
   ],
