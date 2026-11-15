@@ -21,6 +21,7 @@ import PluginLogoBolt
 // Plugin imports — Business (4)
 import PluginDevice
 import PluginSystemBenchmark
+import PluginDiskManager
 import PluginCaffeinate
 import PluginEyeCareReminder
 import PluginStretchReminder
@@ -222,6 +223,8 @@ public enum FactoryWakey {
                     pluginID: "com.coffic.wakey.plugin.system-benchmark"
                 )
             ),
+            // order 250：磁盘管理（共享远程包 PluginDiskManager），默认禁用
+            DiskManagerPlugin(),
             // order 7：共享远程包 LumiPluginCaffeinate，注入 Wakey 品牌配置
             // （保留历史 id，继续读取既有启用状态与插件数据目录）
             PluginCaffeinate(

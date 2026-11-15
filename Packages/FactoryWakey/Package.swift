@@ -24,6 +24,7 @@ let package = Package(
         // Business plugins (4)
         .package(url: "https://github.com/lumi-softworks/LumiPluginDevice.git", from: "1.0.0"),
         .package(url: "https://github.com/lumi-softworks/LumiPluginSystemBenchmark.git", from: "1.0.1"),
+        .package(url: "https://github.com/lumi-softworks/PluginDiskManager.git", from: "1.0.0"),
         .package(url: "https://github.com/lumi-softworks/LumiPluginCaffeinate.git", from: "1.1.3"),
         .package(url: "https://github.com/lumi-softworks/LumiPluginEyeCareReminder.git", from: "1.0.0"),
         .package(url: "https://github.com/lumi-softworks/LumiPluginStretchReminder.git", from: "1.0.0"),
@@ -66,6 +67,7 @@ let package = Package(
                 // Business
                 .product(name: "PluginDevice", package: "LumiPluginDevice"),
                 .product(name: "PluginSystemBenchmark", package: "LumiPluginSystemBenchmark"),
+                "PluginDiskManager",
                 .product(name: "PluginCaffeinate", package: "LumiPluginCaffeinate"),
                 .product(name: "PluginEyeCareReminder", package: "LumiPluginEyeCareReminder"),
                 .product(name: "PluginStretchReminder", package: "LumiPluginStretchReminder"),
