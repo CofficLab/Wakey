@@ -3,86 +3,51 @@ import KernelCore
 import OSLog
 import SwiftUI
 
-/// 主应用入口，负责应用生命周期管理和核心服务初始化。
+/// 应用入口：按平台选择对应的场景实现（对齐兄弟项目 Cisum 的单一 target 模式）。
 ///
-/// 架构：内核在 `init()` 中同步装配并持有（非可选路径），body 直接使用；
-/// 装配失败时降级为 `BootstrapFailureView`，绝不在 body 中强解包。
+/// - macOS: `WakeyMacApp`（状态栏常驻 + 主窗口 + 设置窗口）
+/// - iOS / iPadOS: `WakeyIOSApp`（标签页：三个提醒 + 设置）
+///
+/// 单个 target、单个 bundle id：平台差异全部由文件级 `#if` 隔离。
 @main
 struct WakeyApp: App {
-    @NSApplicationDelegateAdaptor private var appDelegate: WakeyAppDelegate
+    var body: some Scene {
+        #if os(macOS)
+        WakeyMacApp().body
+        #else
+        WakeyIOSApp().body
+        #endif
+    }
+}
 
-    /// 内核容器（init 中同步装配，失败为 nil 并展示失败视图）
-    private let kernel: KernelCoreContainer?
-    /// 装配失败时的错误（用于失败视图展示）
-    private let bootstrapError: Error?
+/// 宿主级装配单例：平台入口结构体不持有存储属性（对齐 Cisum），
+/// 这样两个入口都能满足 `App.init()`，装配也只执行一次。
+@MainActor
+enum WakeyAssembly {
+    static let bootstrap = WakeyAppBootstrap()
+}
 
-    @Environment(\.openWindow) private var openWindow
+/// 内核装配结果：两端共用同一份装配，失败时降级为 `BootstrapFailureView`。
+///
+/// 内核在 `init` 中同步装配并持有（非可选路径），body 直接使用；
+/// 绝不在 body 中强解包。
+@MainActor
+final class WakeyAppBootstrap {
+    let kernel: KernelCoreContainer?
+    let error: Error?
 
     private static let logger = Logger(subsystem: "com.coffic.wakey.app", category: "WakeyApp")
 
     init() {
         do {
-            // 同步装配内核：注册 Host Provider + 启动显式注册的插件
             let k = try FactoryWakey.makeKernel()
             kernel = k
-            bootstrapError = nil
-            // 提前注入到 AppDelegate，确保 applicationDidFinishLaunching 时已就绪
-            appDelegate.kernel = k
+            error = nil
             Self.logger.info("🧠 Kernel assembled in App.init with \(k.registeredPluginCount) plugins")
-        } catch {
+        } catch let failure {
             kernel = nil
-            bootstrapError = error
-            Self.logger.error("❌ Kernel assembly failed: \(error.localizedDescription)")
-        }
-    }
-
-    var body: some Scene {
-        // 主窗口：首个 `Window` 场景，启动即出现（对齐 Lumi）。
-        // 内容由设备信息插件通过 `ContentViewProviding` 注入。
-        Window("Wakey", id: "wakey.main") {
-            if let kernel {
-                FactoryWakey.makeMainView(kernel: kernel)
-                    .frame(minWidth: 820, minHeight: 560)
-                    // 与 Lumi 主窗口一致：隐藏标题栏、内容延伸到标题栏区域，
-                    // 顶部工具栏承载红绿灯与右侧设置按钮。
-                    .wakeyMinimalWindowChrome()
-            } else {
-                BootstrapFailureView(error: bootstrapError)
-            }
-        }
-        .windowStyle(.hiddenTitleBar)
-        .windowToolbarStyle(.unified(showsTitle: false))
-        .defaultSize(width: 1000, height: 760)
-
-        // 对齐 Lumi：设置窗口用 `Window` 场景（`Settings` 场景的系统偏好设置风格
-        // 默认不允许用户缩放窗口；`Window` 默认可调节大小）。
-        Window(
-            String(localized: "Settings", table: "Localizable", comment: "Title of the settings window"),
-            id: "wakey.settings"
-        ) {
-            if let kernel {
-                FactoryWakey.makeSettingsView(kernel: kernel)
-            } else {
-                BootstrapFailureView(error: bootstrapError)
-            }
-        }
-        // `SettingsHostView` follows Lumi's full-height settings shell. Its
-        // content may extend through the title-bar area only when the scene
-        // owns the same hidden-title-bar chrome as Lumi's settings window.
-        .windowStyle(.hiddenTitleBar)
-        .windowToolbarStyle(.unified(showsTitle: false))
-        // Preserve the legacy `AppBootstrap.defaultSettingsWindowSize` (Lumi 同款)。
-        // 宽度对齐设置壳的 minWidth: 960，避免窄窗口触发 compact size class。
-        .defaultSize(width: 960, height: 560)
-        .commands {
-            // Settings 场景换成 Window 场景后，系统不再自动把 Cmd+, 绑定到设置窗口，
-            // 这里等价补回「设置…」命令（对齐 Lumi 的 CommandItem "Settings..."）。
-            CommandGroup(replacing: .appSettings) {
-                Button(
-                    String(localized: "Settings...", table: "Localizable", comment: "Menu item that opens the settings window")
-                ) { openWindow(id: "wakey.settings") }
-                    .keyboardShortcut(",", modifiers: .command)
-            }
+            error = failure
+            Self.logger.error("❌ Kernel assembly failed: \(failure.localizedDescription)")
         }
     }
 }

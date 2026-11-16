@@ -3,7 +3,10 @@ import LumiUI
 import OSLog
 import ProviderTheme
 import ProviderLogo
+#if os(macOS)
 import ProviderMenuBar
+import MenuBarHostKit
+#endif
 import ProviderSettingView
 import ProviderPluginControl
 import ProviderPluginManaging
@@ -86,6 +89,7 @@ public enum FactoryWakey {
 
     /// 根视图插件的 Wakey 品牌配置：字段与 `RootViewPluginConfiguration.wakey`
     /// 逐字一致，只把布局换成主窗口的「工具栏 + 内容区」。
+    #if os(macOS)
     nonisolated static let rootViewConfiguration = RootViewPluginConfiguration(
         pluginID: "com.coffic.wakey.plugin.root-view",
         pluginName: "Root View",
@@ -94,6 +98,7 @@ public enum FactoryWakey {
         loggerSubsystem: "com.coffic.wakey.plugin.root-view",
         layout: rootViewLayout
     )
+    #endif
 
     // MARK: - Kernel Assembly
 
@@ -102,7 +107,9 @@ public enum FactoryWakey {
         let kernel = KernelCoreContainer()
 
         // 注册共享 Host Provider（由 Factory 持有，插件向其贡献 UI）
+        #if os(macOS)
         try kernel.registerHostProvider(MenuBarProviding.self, DefaultMenuBarProviding())
+        #endif
         try kernel.registerHostProvider((any SettingViewProviding).self, DefaultSettingViewProviding())
         try kernel.registerHostProvider(LogoProviding.self, DefaultLogoProviding())
         try kernel.registerHostProvider(
@@ -113,6 +120,7 @@ public enum FactoryWakey {
             )
         )
 
+        #if os(macOS)
         // 主内容区：设备信息插件在 onBoot 中解析 ContentViewProviding，把设备信息页
         // 注入主窗口内容区。
         try kernel.registerHostProvider((any ContentViewProviding).self, DefaultContentViewProviding())
@@ -123,6 +131,14 @@ public enum FactoryWakey {
 
         // 顶部工具栏：宿主贡献右侧设置按钮，插件可向其追加自己的工具栏项（对齐 Lumi）。
         try kernel.registerHostProvider((any ToolbarProviding).self, DefaultToolbarProviding())
+        #else
+        // iOS 没有窗口工具栏，设置入口挂在系统导航栏（对齐 Cisum 的
+        // IOSNavigationBarProviding 契约）。
+        try kernel.registerHostProvider(
+            (any IOSNavigationBarProviding).self,
+            DefaultIOSNavigationBarProviding()
+        )
+        #endif
 
         // 文档条目：各插件通过 addManual / addAbout 贡献说明书与关于页，
         // 由设置页「通用 → 说明书」统一展示（对齐 Lumi 的 ProviderFactory）。
@@ -154,7 +170,9 @@ public enum FactoryWakey {
         // 根视图在插件启动后注册，工具栏与主内容必须在装配期写入：
         // `RootViewProviding` 的贡献字段是 `@Published`，在 SwiftUI 视图更新期间
         // 写入会触发 "Publishing changes from within view updates" 警告。
+        #if os(macOS)
         wireMainWindowRootView(kernel: kernel)
+        #endif
 
         // 默认选中 order 最小的入口（「通用」）：首个 addEntries 的插件会把
         // 选中态锁定为当时的唯一入口（如 boot order 7 的 Caffeinate），后续
@@ -177,37 +195,47 @@ public enum FactoryWakey {
     ///
     /// 顺序约定：order 值越小越先启动。
     public static func makePlugins() -> [any SuperPlugin] {
-        [
-            // order 1: 磁盘日志（共享远程包 LumiPluginFileLog，注入 Wakey 品牌配置）
-            // 保留历史插件 id，继续读取既有日志目录与插件数据
+        // 数组字面量不支持 `#if`，因此逐条追加；顺序与原字面量完全一致。
+        var plugins: [any SuperPlugin] = []
+
+        // order 1: 磁盘日志（共享远程包 LumiPluginFileLog，注入 Wakey 品牌配置）
+        // 保留历史插件 id，继续读取既有日志目录与插件数据
+        plugins.append(
             FileLogPlugin(
                 configuration: FileLogPluginConfiguration(
                     branding: .wakey,
                     uninstallBranding: .wakey
                 )
-            ),
-            // order -1: shared root-view contract registration
-            // （共享远程包 LumiPluginRootView，注入 Wakey 品牌配置）
+            )
+        )
+
+        #if os(macOS)
+        // order -1: shared root-view contract registration
+        // （共享远程包 LumiPluginRootView，注入 Wakey 品牌配置）
+        plugins.append(
             RootViewPlugin(
                 configuration: rootViewConfiguration,
                 provider: WakeyRootViewProviding(layout: rootViewLayout)
-            ),
-            // order 0
-            PluginLogoBolt(),
-            // order 10
-            ToastSuperPlugin(),
-            // order 1
-            // order 2
-            // order 3
-            // order 4
-            // order 5: 设置外壳（替换 DefaultSettingViewProviding，渲染 App 图标头部）
-            PluginSettingView(id: "com.coffic.wakey.plugin.setting-view"),
-            // order 6：共享远程包 LumiPluginDevice，注入 Wakey 品牌配置。
-            // Wakey 不注入对话贡献；宿主注册 ContentViewProviding 后，插件在
-            // onBoot 直接把设备信息页注入主窗口内容区。
-            //
-            // 设备信息是主窗口唯一的内容来源，因此是宿主硬依赖（`.required`）：
-            // 若允许用户禁用，主窗口只会剩下空内容占位。
+            )
+        )
+        #endif
+
+        // order 0
+        plugins.append(PluginLogoBolt())
+        // order 10
+        plugins.append(ToastSuperPlugin())
+
+        #if os(macOS)
+        // order 5: 设置外壳（替换 DefaultSettingViewProviding，渲染 App 图标头部）
+        plugins.append(PluginSettingView(id: "com.coffic.wakey.plugin.setting-view"))
+
+        // order 6：共享远程包 LumiPluginDevice，注入 Wakey 品牌配置。
+        // Wakey 不注入对话贡献；宿主注册 ContentViewProviding 后，插件在
+        // onBoot 直接把设备信息页注入主窗口内容区。
+        //
+        // 设备信息是主窗口唯一的内容来源，因此是宿主硬依赖（`.required`）：
+        // 若允许用户禁用，主窗口只会剩下空内容占位。
+        plugins.append(
             DevicePlugin(
                 configuration: DevicePluginConfiguration(
                     pluginID: "com.coffic.wakey.plugin.device-info",
@@ -215,59 +243,72 @@ public enum FactoryWakey {
                 ),
                 order: 6,
                 policy: .required
-            ),
-            // order 7：共享远程包 LumiPluginSystemBenchmark（系统测速），注入 Wakey 品牌 id。
-            // 默认禁用；用户在「插件管理」启用后，主窗口左侧出现「系统测速」入口。
+            )
+        )
+        // order 7：共享远程包 LumiPluginSystemBenchmark（系统测速），注入 Wakey 品牌 id。
+        // 默认禁用；用户在「插件管理」启用后，主窗口左侧出现「系统测速」入口。
+        plugins.append(
             SystemBenchmarkPlugin(
                 configuration: SystemBenchmarkConfiguration(
                     pluginID: "com.coffic.wakey.plugin.system-benchmark"
                 )
-            ),
-            // order 250：磁盘管理（共享远程包 PluginDiskManager），默认禁用
-            DiskManagerPlugin(),
-            // order 7：共享远程包 LumiPluginCaffeinate，注入 Wakey 品牌配置
-            // （保留历史 id，继续读取既有启用状态与插件数据目录）
+            )
+        )
+        // order 250：磁盘管理（共享远程包 PluginDiskManager），默认禁用
+        plugins.append(DiskManagerPlugin())
+        // order 7：共享远程包 LumiPluginCaffeinate，注入 Wakey 品牌配置
+        // （保留历史 id，继续读取既有启用状态与插件数据目录）
+        plugins.append(
             PluginCaffeinate(
                 configuration: CaffeinateConfiguration(
                     pluginID: "CaffeinatePlugin",
                     loggerSubsystem: "com.coffic.wakey.plugin.caffeinate",
                     accessibilityIdentifierPrefix: "wakey.caffeinate"
                 )
-            ),
-            // order 8：共享远程包 LumiPluginEyeCareReminder，注入 Wakey 品牌配置
-            // （保留历史 id，继续读取既有启用状态与插件数据目录）
+            )
+        )
+        #endif
+
+        // order 8：共享远程包 LumiPluginEyeCareReminder，注入 Wakey 品牌配置
+        // （保留历史 id，继续读取既有启用状态与插件数据目录）
+        plugins.append(
             PluginEyeCareReminder(
                 configuration: EyeCareReminderConfiguration(
                     pluginID: "EyeCareReminderPlugin",
                     loggerSubsystem: "com.coffic.wakey.plugin.eyecare",
                     accessibilityIdentifierPrefix: "wakey.eyecare"
                 )
-            ),
-            // order 9：共享远程包 LumiPluginStretchReminder，注入 Wakey 品牌配置
+            )
+        )
+        // order 9：共享远程包 LumiPluginStretchReminder，注入 Wakey 品牌配置
+        plugins.append(
             PluginStretchReminder(
                 configuration: StretchReminderConfiguration(
                     pluginID: "StretchReminderPlugin",
                     loggerSubsystem: "com.coffic.wakey.plugin.stretch",
                     accessibilityIdentifierPrefix: "wakey.stretch"
                 )
-            ),
-            // order 10：保留历史 id，继续读取既有启用状态与插件数据目录
-            PluginHydrationReminder(id: "HydrationReminderPlugin"),
-            // order 15
-            // order 79
+            )
+        )
+        // order 10：保留历史 id，继续读取既有启用状态与插件数据目录
+        plugins.append(PluginHydrationReminder(id: "HydrationReminderPlugin"))
+        // order 79
+        plugins.append(
             ThemePackPlugin(
                 id: "com.coffic.wakey.plugin.theme-pack",
                 order: 79,
                 policy: .alwaysOn,
                 themeIDs: catalogThemeIDs
-            ),
-            // order 90: 插件管理（远程包 LumiPluginPluginManager，传入 Wakey 品牌 id）
-            PluginPluginManager(id: "com.coffic.wakey.plugin.plugin-manager"),
-            // order 100: 设置-通用（共享远程包 LumiPluginSettingGeneral，注入 Wakey 品牌配置）
-            // 保留历史插件 id，继续读取既有设置数据；Wakey 通过 App Store 分发，
-            // 因此关闭「检查更新」与「CLI 安装」区块。
-            SettingGeneralPlugin(configuration: .wakey),
-            // order 95: 关于（共享远程包 LumiPluginAbout，注入 Wakey 品牌配置）
+            )
+        )
+        // order 90: 插件管理（远程包 LumiPluginPluginManager，传入 Wakey 品牌 id）
+        plugins.append(PluginPluginManager(id: "com.coffic.wakey.plugin.plugin-manager"))
+        // order 100: 设置-通用（共享远程包 LumiPluginSettingGeneral，注入 Wakey 品牌配置）
+        // 保留历史插件 id，继续读取既有设置数据；Wakey 通过 App Store 分发，
+        // 因此关闭「检查更新」与「CLI 安装」区块。
+        plugins.append(SettingGeneralPlugin(configuration: .wakey))
+        // order 95: 关于（共享远程包 LumiPluginAbout，注入 Wakey 品牌配置）
+        plugins.append(
             AboutPlugin(
                 id: "com.coffic.wakey.plugin.about",
                 configuration: AboutConfiguration(
@@ -275,12 +316,15 @@ public enum FactoryWakey {
                     privacyPolicyURLString: "https://coffic.cn/privacy",
                     termsOfServiceURLString: "https://coffic.cn/terms"
                 )
-            ),
-        ]
+            )
+        )
+
+        return plugins
     }
 
     // MARK: - View Factories
 
+    #if os(macOS)
     /// 把工具栏与主内容接到根视图（装配期调用一次）。
     ///
     /// - 工具栏：按 `ToolbarProviding` 渲染，右侧包含宿主贡献的设置按钮；
@@ -332,6 +376,20 @@ public enum FactoryWakey {
         let menuBar = kernel.resolveProvider(MenuBarProviding.self)
         return themed(AnyView(StatusBarHostView(menuBar: menuBar)), kernel: kernel)
     }
+    #endif
+
+    #if !os(macOS)
+    /// iOS 主界面：标签页承载提醒功能与设置。
+    public static func makeMobileMainView(kernel: KernelCoreContainer) -> AnyView {
+        themed(
+            AnyView(
+                WakeyMobileRootView(kernel: kernel)
+                    .accessibilityIdentifier("wakey.main.window")
+            ),
+            kernel: kernel
+        )
+    }
+    #endif
 
     /// 主窗口视图：RootView 组合「顶部工具栏 + 主内容区」。
     ///
@@ -419,6 +477,7 @@ public enum FactoryWakey {
 
 // MARK: - Status Bar Host View
 
+#if os(macOS)
 @MainActor
 struct StatusBarHostView: View {
     let menuBar: (any MenuBarProviding)?
@@ -580,6 +639,8 @@ struct MenuItemRow: View {
 }
 
 // MARK: - Logo Fallback
+
+#endif
 
 struct LogoFallbackView: View {
     let scene: LogoScene

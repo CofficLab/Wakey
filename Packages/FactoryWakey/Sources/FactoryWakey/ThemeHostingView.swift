@@ -27,7 +27,9 @@ enum ThemeSynchronizer {
         let chrome = LumiPaletteChromeTheme(theme: selected, colorScheme: colorScheme)
         ActiveChromeTheme.current = chrome
         LumiUIThemeStore.shared.setTheme(ChromeToUIThemeAdapter(chrome: chrome))
+        #if os(macOS)
         ThemeWindowAppearanceSync.syncAllWindows()
+        #endif
     }
 }
 
@@ -80,7 +82,11 @@ struct ThemeHostingView<Content: View>: View {
 
     private var backgroundColor: Color {
         guard let selected = theme.selectedTheme else {
+            #if os(macOS)
             return Color(nsColor: .windowBackgroundColor)
+            #else
+            return Color(uiColor: .systemBackground)
+            #endif
         }
         let colorScheme = preferredColorScheme ?? SystemAppearanceResolver.effectiveColorScheme
         return selected.palette.backgroundMedium.color(colorScheme: colorScheme)

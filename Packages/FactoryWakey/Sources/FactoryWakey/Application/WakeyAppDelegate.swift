@@ -1,3 +1,4 @@
+#if os(macOS)
 import AppKit
 import KernelCore
 import OSLog
@@ -239,3 +240,4 @@ public final class WakeyAppDelegate: NSObject, NSApplicationDelegate {
         NotificationCenter.default.removeObserver(self)
     }
 }
+#endif

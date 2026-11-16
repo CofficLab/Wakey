@@ -1,3 +1,4 @@
+#if os(macOS)
 import AppKit
 import KernelCore
 import MenuBarHostKit
@@ -72,3 +73,4 @@ class StatusBarController: NSObject {
         iconViewModel.activeSources = activeSources
     }
 }
+#endif
