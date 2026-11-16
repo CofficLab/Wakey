@@ -9,33 +9,34 @@ let package = Package(
         .library(name: "FactoryWakey", targets: ["FactoryWakey"])
     ],
     dependencies: [
-        .package(url: "https://github.com/CofficLab/LumiKernel.git", from: "1.1.0"),
-        .package(url: "https://github.com/CofficLab/LumiUI.git", from: "1.13.1"),
-        .package(url: "https://github.com/CofficLab/LumiProviders.git", from: "1.23.0"),
-        .package(url: "https://github.com/CofficLab/LumiPluginToast.git", from: "1.2.3"),
-        .package(url: "https://github.com/CofficLab/LumiThemePack.git", from: "1.0.12"),
-        .package(url: "https://github.com/CofficLab/LumiSettings.git", from: "1.1.0"),
-        .package(url: "https://github.com/CofficLab/LumiPluginSettingView.git", from: "1.0.3"),
-        .package(url: "https://github.com/lumi-softworks/LumiPluginRootView.git", from: "1.1.0"),
-        .package(url: "https://github.com/lumi-softworks/LumiPluginFileLog.git", from: "1.0.0"),
-        .package(url: "https://github.com/CofficLab/LumiPluginThemePack.git", from: "1.2.1"),
+        .package(url: "https://github.com/lumi-softworks/LumiKernel.git", from: "1.1.0"),
+        .package(url: "https://github.com/lumi-softworks/LumiUI.git", from: "1.13.1"),
+        .package(url: "https://github.com/lumi-softworks/LumiProviders.git", from: "1.26.0"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginToast.git", from: "1.2.4"),
+        .package(url: "https://github.com/lumi-softworks/LumiThemePack.git", from: "1.0.12"),
+        .package(url: "https://github.com/lumi-softworks/LumiSettings.git", from: "1.1.0"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginSettingView.git", from: "1.0.3"),
+        // 1.3.0 起模块改名为 WorkbenchRootView，Wakey 仍用 PluginRootView，锁在 1.2.x。
+        .package(url: "https://github.com/lumi-softworks/LumiPluginRootView.git", .upToNextMinor(from: "1.2.0")),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginFileLog.git", from: "1.1.0"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginThemePack.git", from: "1.2.1"),
         // Logo plugins (1)
-        .package(url: "https://github.com/lumi-softworks/LumiPluginLogos.git", from: "1.0.0"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginLogos.git", from: "1.0.1"),
         // Business plugins (4)
-        .package(url: "https://github.com/lumi-softworks/LumiPluginDevice.git", from: "1.0.0"),
-        .package(url: "https://github.com/lumi-softworks/LumiPluginSystemBenchmark.git", from: "1.1.0"),
-        .package(url: "https://github.com/lumi-softworks/LumiPluginDiskManager.git", from: "1.0.0"),
-        .package(url: "https://github.com/lumi-softworks/LumiPluginCaffeinate.git", from: "1.1.3"),
-        .package(url: "https://github.com/lumi-softworks/LumiPluginEyeCareReminder.git", from: "1.0.0"),
-        .package(url: "https://github.com/lumi-softworks/LumiPluginStretchReminder.git", from: "1.0.0"),
-        .package(url: "https://github.com/CofficLab/LumiPluginHydrationReminder.git", from: "1.0.2"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginDevice.git", from: "1.2.0"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginSystemBenchmark.git", from: "1.2.0"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginDiskManager.git", from: "1.1.0"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginCaffeinate.git", from: "1.2.0"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginEyeCareReminder.git", from: "1.1.0"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginStretchReminder.git", from: "1.1.0"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginHydrationReminder.git", from: "1.1.0"),
         // Other plugins (2)
         // Plugin management (remote package, aligned to Lumi)
-        .package(url: "https://github.com/CofficLab/LumiPluginPluginManager.git", from: "1.7.0"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginPluginManager.git", from: "1.7.0"),
         // Settings - General (remote package, shared with CofficLab sibling apps)
-        .package(url: "https://github.com/lumi-softworks/LumiPluginSettingGeneral.git", from: "1.0.2"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginSettingGeneral.git", from: "1.1.0"),
         // About page (remote package, shared with CofficLab sibling apps)
-        .package(url: "https://github.com/CofficLab/LumiPluginAbout.git", from: "3.0.3"),
+        .package(url: "https://github.com/lumi-softworks/LumiPluginAbout.git", from: "3.0.3"),
     ],
     targets: [
         .target(
