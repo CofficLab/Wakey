@@ -226,6 +226,15 @@ public final class WakeyAppDelegate: NSObject, NSApplicationDelegate {
     private func setupControllers() {
         statusBarController = StatusBarController()
         statusBarController?.kernel = kernel
+    }
+
+    /// 安装状态栏图标（在主窗口 `.onAppear` 时调用，确保 SwiftUI 视图层级已就绪）。
+    ///
+    /// 与 Lumi 的 `LumiMenuBarController.install(kernel:)` 对齐：在窗口出现后才创建
+    /// `NSStatusItem`，避免 `NSHostingView` 在按钮内因视图层级未就绪而渲染失败。
+    /// 幂等：`MenuBarHost.install` 内部已有 `isInstalled` 守卫。
+    public func installStatusBarIfNeeded() {
+        guard statusBarController?.kernel != nil else { return }
         statusBarController?.setupStatusBar()
     }
 

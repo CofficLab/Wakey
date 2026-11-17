@@ -26,6 +26,11 @@ struct WakeyMacApp: App {
                     // 与 Lumi 主窗口一致：隐藏标题栏、内容延伸到标题栏区域，
                     // 顶部工具栏承载红绿灯与右侧设置按钮。
                     .wakeyMinimalWindowChrome()
+                    .onAppear {
+                        // 对齐 Lumi：在主窗口 SwiftUI 视图层级就绪后才安装状态栏图标，
+                        // 避免 `NSHostingView` 在 `NSStatusItem` 按钮内因视图未就绪而渲染失败。
+                        appDelegate.installStatusBarIfNeeded()
+                    }
             } else {
                 BootstrapFailureView(error: bootstrap.error)
             }
