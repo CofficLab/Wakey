@@ -45,19 +45,6 @@ final class WakeyCaffeinateUITests: WakeyUITestBase {
         XCTAssertNotEqual(value, "not selected")
     }
 
-    /// 点击即时动作后，运行模式落在「允许关屏」那一项上。
-    ///
-    /// 这是关屏动作的稳态语义：它就是「防休眠 + 允许关屏」加上一次立即关屏。
-    func testTurnOffDisplayLeavesSystemOnlyModeActive() {
-        openPopup()
-        let action = element("wakey.caffeinate.action.turn-off-display")
-        XCTAssertTrue(action.waitForExistence(timeout: 5))
-        action.click()
-
-        let systemOnly = element("wakey.caffeinate.action.system-only")
-        XCTAssertTrue(
-            systemOnly.waitForExistence(timeout: 5),
-            "Mode row must remain present after an instant action"
-        )
-    }
+    // 关屏即时动作的稳态链路不做 UI 自动化：熄屏后系统自动锁屏，
+    // XCUITest 会话被挡、AX 查询一律挂到超时（用户确认，2026-11-17 移除）。
 }

@@ -198,7 +198,16 @@ class WakeyUITestBase: XCTestCase {
         let field = element(fieldID)
         XCTAssertTrue(field.waitForExistence(timeout: 5), "Custom interval field is missing")
         field.click()
-        field.typeKey("a", modifierFlags: .command)
+        // 不用 Cmd+A 全选：产生选区会触发常驻划词工具栏（如 Lumi Text Actions）
+        // 弹窗抢焦点，后续输入丢失且 XCUITest 中断监视会快照到工具栏所属进程。
+        // 改为光标移末 + 逐字退格清空，全程不产生选区。
+        let currentLength = (field.value as? String)?.count ?? 0
+        for _ in 0...currentLength {
+            field.typeKey(XCUIKeyboardKey.rightArrow, modifierFlags: [])
+        }
+        for _ in 0..<currentLength {
+            field.typeKey(XCUIKeyboardKey.delete, modifierFlags: [])
+        }
         field.typeText("\(minutes)")
 
         let addButton = element(addButtonID)
