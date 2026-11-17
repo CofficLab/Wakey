@@ -3,6 +3,7 @@
   "strings" : {
     "Eye Care" : {
       "comment" : "iOS tab title for the eye care reminder",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -49,6 +50,7 @@
     },
     "Hydration" : {
       "comment" : "iOS tab title for the hydration reminder",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -72,6 +74,7 @@
     },
     "Notifications are off" : {
       "comment" : "Banner title shown when the user denied notification permission",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -95,6 +98,7 @@
     },
     "Open Settings" : {
       "comment" : "Button opening the system settings page for this app",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -164,6 +168,7 @@
     },
     "Stretch" : {
       "comment" : "iOS tab title for the stretch reminder",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -208,9 +213,12 @@
         }
       }
     },
-    "Wakey" : {},
+    "Wakey" : {
+
+    },
     "Wakey can only remind you while it is open. Turn on notifications to get reminders in the background." : {
       "comment" : "Banner text explaining that background reminders need notification permission",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
