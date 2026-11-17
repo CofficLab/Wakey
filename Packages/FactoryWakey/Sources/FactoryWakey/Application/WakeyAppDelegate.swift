@@ -55,6 +55,22 @@ public final class WakeyAppDelegate: NSObject, NSApplicationDelegate {
         false
     }
 
+    // MARK: - State Restoration (disabled)
+
+    /// 菜单栏 App 不做窗口状态恢复：否则「主窗口被关闭」的快照会在下次启动
+    /// 抑制首个 Window 场景自动开窗（表现为启动后没有主窗口）。
+    public func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
+        false
+    }
+
+    public func application(_ app: NSApplication, shouldSaveSecureApplicationState coder: NSCoder) -> Bool {
+        false
+    }
+
+    public func application(_ app: NSApplication, shouldRestoreSecureApplicationState coder: NSCoder) -> Bool {
+        false
+    }
+
     // MARK: - Window auto-close (fix settings window popping up on launch)
 
     /// SwiftUI 的 `Window` 场景在前台化启动（Xcode Run、`open -a`、UI 测试）时
@@ -226,12 +242,12 @@ public final class WakeyAppDelegate: NSObject, NSApplicationDelegate {
     private func setupControllers() {
         statusBarController = StatusBarController()
         statusBarController?.kernel = kernel
+        // 状态栏不依赖任何窗口：UI 测试后台启动时主窗口可能不 appear，
+        // 若只靠主窗口 onAppear 安装，状态栏会永远缺失。
+        installStatusBarIfNeeded()
     }
 
-    /// 安装状态栏图标（在主窗口 `.onAppear` 时调用，确保 SwiftUI 视图层级已就绪）。
-    ///
-    /// 与 Lumi 的 `LumiMenuBarController.install(kernel:)` 对齐：在窗口出现后才创建
-    /// `NSStatusItem`，避免 `NSHostingView` 在按钮内因视图层级未就绪而渲染失败。
+    /// 安装状态栏图标。启动期（`setupControllers`）与主窗口 `.onAppear` 都会调用，
     /// 幂等：`MenuBarHost.install` 内部已有 `isInstalled` 守卫。
     public func installStatusBarIfNeeded() {
         guard statusBarController?.kernel != nil else { return }

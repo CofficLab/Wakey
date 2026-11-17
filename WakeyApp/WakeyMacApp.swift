@@ -5,16 +5,12 @@ import OSLog
 import SwiftUI
 
 /// macOS 场景：状态栏常驻 + 主窗口 + 设置窗口。
+///
+/// 注意：本结构体在 `WakeyApp.body` 中临时创建，不是 @main 根 App，
+/// 因此不能在这里挂 `@NSApplicationDelegateAdaptor`（SwiftUI 不会安装它）。
+/// delegate 由根 App 持有并经 `WakeyAssembly.appDelegate` 共享。
 struct WakeyMacApp: App {
     private let bootstrap = WakeyAssembly.bootstrap
-
-    @NSApplicationDelegateAdaptor private var appDelegate: WakeyAppDelegate
-    @Environment(\.openWindow) private var openWindow
-
-    init() {
-        // 提前注入到 AppDelegate，确保 applicationDidFinishLaunching 时已就绪
-        appDelegate.kernel = WakeyAssembly.bootstrap.kernel
-    }
 
     var body: some Scene {
         // 主窗口：首个 `Window` 场景，启动即出现（对齐 Lumi）。
@@ -27,9 +23,9 @@ struct WakeyMacApp: App {
                     // 顶部工具栏承载红绿灯与右侧设置按钮。
                     .wakeyMinimalWindowChrome()
                     .onAppear {
-                        // 对齐 Lumi：在主窗口 SwiftUI 视图层级就绪后才安装状态栏图标，
-                        // 避免 `NSHostingView` 在 `NSStatusItem` 按钮内因视图未就绪而渲染失败。
-                        appDelegate.installStatusBarIfNeeded()
+                        // 启动期已安装过状态栏（见 AppDelegate.setupControllers），
+                        // 这里幂等补调一次，覆盖装配晚于启动回调的边界情况。
+                        WakeyAssembly.appDelegate?.installStatusBarIfNeeded()
                     }
             } else {
                 BootstrapFailureView(error: bootstrap.error)
@@ -60,14 +56,28 @@ struct WakeyMacApp: App {
         // 宽度对齐设置壳的 minWidth: 960，避免窄窗口触发 compact size class。
         .defaultSize(width: 960, height: 560)
         .commands {
-            // Settings 场景换成 Window 场景后，系统不再自动把 Cmd+, 绑定到设置窗口，
-            // 这里等价补回「设置…」命令（对齐 Lumi 的 CommandItem "Settings..."）。
-            CommandGroup(replacing: .appSettings) {
-                Button(
-                    String(localized: "Settings...", table: "Localizable", comment: "Menu item that opens the settings window")
-                ) { openWindow(id: "wakey.settings") }
-                    .keyboardShortcut(",", modifiers: .command)
-            }
+            WakeyAppCommands()
+        }
+    }
+}
+
+/// 应用菜单命令。
+///
+/// `@Environment(\.openWindow)` 必须放在独立的 `Commands` 结构体里：
+/// SwiftUI 只为 Commands 安装 environment；挂在（嵌套的）App 结构体上
+/// 只会读到默认值并告警。也不能把 `.commands` 提升到根 App 的场景上——
+/// 那会破坏首个 Window 场景启动即开的行为。
+struct WakeyAppCommands: Commands {
+    @Environment(\.openWindow) private var openWindow
+
+    var body: some Commands {
+        // Settings 场景换成 Window 场景后，系统不再自动把 Cmd+, 绑定到设置窗口，
+        // 这里等价补回「设置…」命令（对齐 Lumi 的 CommandItem "Settings..."）。
+        CommandGroup(replacing: .appSettings) {
+            Button(
+                String(localized: "Settings...", table: "Localizable", comment: "Menu item that opens the settings window")
+            ) { openWindow(id: "wakey.settings") }
+                .keyboardShortcut(",", modifiers: .command)
         }
     }
 }

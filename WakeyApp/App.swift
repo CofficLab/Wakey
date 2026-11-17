@@ -11,6 +11,26 @@ import SwiftUI
 /// 单个 target、单个 bundle id：平台差异全部由文件级 `#if` 隔离。
 @main
 struct WakeyApp: App {
+    // delegate adaptor 必须挂在 @main 根 App 上：SwiftUI 只为根 App 安装
+    // NSApplicationDelegateAdaptor。放在 body 里临时创建的嵌套 App（WakeyMacApp）
+    // 上不会生效——applicationDidFinishLaunching 永不回调，状态栏与设置开窗都会失效。
+    #if os(macOS)
+    @NSApplicationDelegateAdaptor private var appDelegate: WakeyAppDelegate
+    #endif
+
+    init() {
+        #if os(macOS)
+        // 菜单栏 App 不恢复上次窗口状态（对齐 Cisum）。必须在根 App.init 写入：
+        // 状态恢复发生在 AppDelegate 回调之前，只靠 delegate 里写
+        // NSQuitAlwaysKeepsWindows 拦不住「主窗口被关闭」的恢复快照，
+        // 会导致后续启动主窗口不再自动出现。
+        UserDefaults.standard.set(true, forKey: "ApplePersistenceIgnoreState")
+        // 提前注入到 AppDelegate，确保 applicationDidFinishLaunching 时已就绪
+        appDelegate.kernel = WakeyAssembly.bootstrap.kernel
+        WakeyAssembly.appDelegate = appDelegate
+        #endif
+    }
+
     var body: some Scene {
         #if os(macOS)
         WakeyMacApp().body
@@ -25,6 +45,11 @@ struct WakeyApp: App {
 @MainActor
 enum WakeyAssembly {
     static let bootstrap = WakeyAppBootstrap()
+
+    #if os(macOS)
+    /// 根 App 安装的 delegate（见 WakeyApp.init），供嵌套的 WakeyMacApp 场景引用。
+    static var appDelegate: WakeyAppDelegate?
+    #endif
 }
 
 /// 内核装配结果：两端共用同一份装配，失败时降级为 `BootstrapFailureView`。
