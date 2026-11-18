@@ -1,4 +1,5 @@
 @testable import Wakey
+import LumiFactory
 import PluginRootView
 import ProviderRootView
 import ProviderToolbar
@@ -37,11 +38,11 @@ struct MainWindowToolbarTests {
         #expect(configurable.layout.showsToolbar)
     }
 
-    @Test("根视图是宿主注入的 Wakey 品牌布局")
-    func rootViewIsHostOwnedWakeyLayout() async throws {
+    @Test("根视图是工厂默认布局，品牌差异由清单声明")
+    func rootViewUsesFactoryDefaultLayout() async throws {
         let kernel = try await WakeyKernelFixture.makeKernel()
         let rootView = try #require(kernel.resolveProvider((any RootViewProviding).self))
 
-        #expect(rootView is WakeyRootViewProviding)
+        #expect(rootView is FactoryRootViewProviding)
     }
 }

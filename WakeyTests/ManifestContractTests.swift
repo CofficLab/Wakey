@@ -86,10 +86,10 @@ struct ManifestContractTests {
         #expect(items[2].action != nil)
     }
 
-    @Test("根视图由宿主注入 Wakey 布局")
-    func rootViewProviderIsHostInjected() throws {
-        let provider = try #require(WakeyManifest.manifest.makeRootViewProvider?())
-        #expect(provider is WakeyRootViewProviding)
+    @Test("根视图用工厂默认实现，清单只声明布局差异")
+    func rootViewUsesFactoryDefaultWithManifestLayout() {
+        #expect(WakeyManifest.manifest.makeRootViewProvider == nil)
+        #expect(WakeyManifest.manifest.rootViewLayout.showsToolbar)
     }
     #else
     @Test("iOS 自带完整 Tab 壳，不装状态栏")

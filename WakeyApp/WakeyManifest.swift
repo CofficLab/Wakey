@@ -2,9 +2,6 @@ import KernelCore
 import LumiFactory
 import ProviderRootView
 import SwiftUI
-#if os(macOS)
-import AppKit
-#endif
 
 // Plugin imports — Settings shell (Lumi 同款设置外壳：左上角 App 图标 + 名称/版本)
 import PluginSettingView
@@ -36,8 +33,8 @@ import PluginToast
 /// 解释执行；App 侧只保留真正属于 Wakey 的差异：
 /// 1. `manifest`：品牌身份、窗口 / AX 契约、存储与主题配置、功能开关；
 /// 2. `makePlugins()`：稳定顺序的显式插件数组（禁止 ObjC 运行时扫描）；
-/// 3. 品牌视图：macOS 根布局（`WakeyRootViewProviding`）与 iOS Tab 壳
-///    （`WakeyMobileRootView`）。
+/// 3. 品牌配置：根布局（`rootViewLayout`）、iOS Tab 声明、状态栏品牌菜单行。
+///    壳本身（macOS 根视图 / iOS Tab 壳 / 设置列表 / 通知横幅）由工厂默认实现提供。
 ///
 /// 线程/actor：全部方法 `@MainActor`。
 @MainActor
@@ -78,15 +75,16 @@ enum WakeyManifest {
     ///
     /// 窗口 id 与 AX 标识是 UI 测试的稳定锚点，一旦发布不可随意更改。
     static var manifest: HostManifest {
+        let identity = HostIdentity(
+            appName: "Wakey",
+            loggerSubsystem: "com.coffic.wakey.app",
+            mainWindowID: "wakey.main",
+            settingsWindowID: "wakey.settings",
+            accessibilityPrefix: "wakey",
+            mainWindowMinimumSize: CGSize(width: 820, height: 560)
+        )
         var manifest = HostManifest(
-            identity: HostIdentity(
-                appName: "Wakey",
-                loggerSubsystem: "com.coffic.wakey.app",
-                mainWindowID: "wakey.main",
-                settingsWindowID: "wakey.settings",
-                accessibilityPrefix: "wakey",
-                mainWindowMinimumSize: CGSize(width: 820, height: 560)
-            ),
+            identity: identity,
             makePlugins: { makePlugins() },
             storage: HostStorageConfiguration(
                 stateStorePluginID: "com.coffic.wakey.plugin-manager"
@@ -95,22 +93,38 @@ enum WakeyManifest {
                 builtinThemeIDs: builtinThemeIDs,
                 catalogThemeIDs: catalogThemeIDs
             ),
+            // macOS 根视图用工厂默认实现（工具栏 + ActivityBar + 内容区），
+            // 只声明布局差异；不再由宿主提供根视图 Provider。
+            rootViewLayout: rootViewLayout,
             features: HostFeatures(
-                statusBar: statusBarConfiguration,
+                statusBar: statusBarConfiguration(identity: identity),
                 suppressSettingsWindowOnLaunch: true,
                 settingsWindowOpenArgument: "-wakey-open-settings"
             )
         )
-        #if os(macOS)
-        // 根视图是宿主拥有的基础设施（host provider），不再经 RootViewPlugin
-        // 注册——所有权归宿主，插件只向其贡献内容。
-        manifest.makeRootViewProvider = { WakeyRootViewProviding(layout: rootViewLayout) }
-        #else
+        #if !os(macOS)
         // iOS 自带完整 Tab 壳（三个提醒 + 设置），不走标准 iOS 设置 sheet 壳。
+        // 壳由工厂 HostMobileTabShell 提供；App 只声明 Tab 数据与品牌。
+        // Tab id 与存储键沿用迁移前取值，延续用户上次选中的标签。
         manifest.makeMainView = { kernel in
             AnyView(
-                WakeyMobileRootView(kernel: kernel)
-                    .accessibilityIdentifier("wakey.main.window")
+                HostMobileTabShell(
+                    kernel: kernel,
+                    tabs: [
+                        HostMobileTab(id: "eyeCare", title: "Eye Care", systemImage: "eye.fill") {
+                            AnyView(EyeCareReminderPopupView())
+                        },
+                        HostMobileTab(id: "stretch", title: "Stretch", systemImage: "figure.walk") {
+                            AnyView(StretchReminderPopupView())
+                        },
+                        HostMobileTab(id: "hydration", title: "Hydration", systemImage: "drop.fill") {
+                            AnyView(HydrationReminderPopupView())
+                        },
+                    ],
+                    appName: "Wakey",
+                    selectedTabStorageKey: "WakeyMobileSelectedTab"
+                )
+                .accessibilityIdentifier("wakey.main.window")
             )
         }
         #endif
@@ -119,45 +133,24 @@ enum WakeyManifest {
 
     #if os(macOS)
     /// 状态栏弹窗菜单行：设备信息（主窗口）/ 设置 / 退出。
-    private static var statusBarConfiguration: HostStatusBarConfiguration? {
-        HostStatusBarConfiguration(
-            menuItems: [
-                HostStatusMenuItem(
-                    title: String(
-                        localized: "Device Info...",
-                        table: "Core",
-                        bundle: .main,
-                        comment: "Menu item to open the device info window"
-                    ),
-                    windowID: "wakey.main",
-                    accessibilityIdentifier: "wakey.statusbar.device-info"
-                ),
-                HostStatusMenuItem(
-                    title: String(
-                        localized: "Settings...",
-                        table: "Core",
-                        bundle: .main,
-                        comment: "Menu item to open settings"
-                    ),
-                    windowID: "wakey.settings",
-                    accessibilityIdentifier: "wakey.statusbar.settings"
-                ),
-                HostStatusMenuItem(
-                    title: String(
-                        localized: "Quit",
-                        table: "Core",
-                        bundle: .main,
-                        comment: "Menu item to quit the application"
-                    ),
-                    accessibilityIdentifier: "wakey.statusbar.quit",
-                    isDestructive: true,
-                    action: { NSApp.terminate(nil) }
-                ),
-            ]
+    /// 设置 / 退出两行用工厂默认实现（本地化与 AX 契约一致），
+    /// 只把首行品牌化为「设备信息…」；AX 标识沿用 UI 测试锚点。
+    private static func statusBarConfiguration(identity: HostIdentity) -> HostStatusBarConfiguration? {
+        var items = HostStatusBarConfiguration.defaultMenuItems(identity: identity)
+        items[0] = HostStatusMenuItem(
+            title: String(
+                localized: "Device Info...",
+                table: "Core",
+                bundle: .main,
+                comment: "Menu item to open the device info window"
+            ),
+            windowID: identity.mainWindowID,
+            accessibilityIdentifier: "\(identity.accessibilityPrefix).statusbar.device-info"
         )
+        return HostStatusBarConfiguration(menuItems: items)
     }
     #else
-    private static var statusBarConfiguration: HostStatusBarConfiguration? { nil }
+    private static func statusBarConfiguration(identity: HostIdentity) -> HostStatusBarConfiguration? { nil }
     #endif
 
     // MARK: - Plugin Assembly

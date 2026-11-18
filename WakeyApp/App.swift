@@ -4,7 +4,7 @@ import SwiftUI
 /// 应用入口：单个 target、单个 bundle id，平台差异由 `#if` 隔离。
 ///
 /// - macOS: 共享 `HostMacScenes`（状态栏常驻 + 主窗口 + 设置窗口）
-/// - iOS / iPadOS: `WindowGroup` + `HostRootWindowView`（Wakey 自带 Tab 壳）
+/// - iOS / iPadOS: `WindowGroup` + `HostRootWindowView`（manifest 声明的共享 Tab 壳）
 ///
 /// 装配流水线、窗口壳与生命周期协调全部由 LumiFactory 解释
 /// `WakeyManifest.manifest` 执行；本文件只负责把启动器接到 SwiftUI 入口。

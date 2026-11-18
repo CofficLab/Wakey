@@ -1,4 +1,5 @@
 @testable import Wakey
+import LumiFactory
 import PluginRootView
 import ProviderActivityBar
 import ProviderPluginControl
@@ -28,7 +29,7 @@ struct MainWindowActivityBarTests {
         let kernel = try await WakeyKernelFixture.makeKernel()
         let rootView = try #require(kernel.resolveProvider((any RootViewProviding).self))
 
-        #expect(rootView is WakeyRootViewProviding)
+        #expect(rootView is FactoryRootViewProviding)
         #expect(rootView.view(for: .activityBar) != nil)
     }
 

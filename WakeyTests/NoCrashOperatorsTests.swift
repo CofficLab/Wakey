@@ -2,17 +2,17 @@ import Foundation
 import Testing
 @testable import Wakey
 
-/// 应用装配层不应包含会在用户机器上直接崩溃的操作符。
-@Suite("装配层无崩溃操作符")
+/// App 源码不应包含会在用户机器上直接崩溃的操作符。
+@Suite("App 源码无崩溃操作符")
 struct NoCrashOperatorsTests {
     private var sourcesDirectory: URL {
         URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
-            .appendingPathComponent("WakeyApp/Assembly")
+            .appendingPathComponent("WakeyApp")
     }
 
-    @Test("WakeyManifest 源码中没有 try! 与 fatalError")
+    @Test("App 源码中没有 try! 与 fatalError")
     func noCrashingOperators() throws {
         let enumerator = FileManager.default.enumerator(
             at: sourcesDirectory,
