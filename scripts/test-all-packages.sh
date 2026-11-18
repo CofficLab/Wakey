@@ -9,7 +9,15 @@ PASS=()
 FAIL=()
 SKIP=()
 
+# 如果没有 Packages 目录或为空，直接跳过
+if [ ! -d "Packages" ] || [ -z "$(ls -A Packages 2>/dev/null)" ]; then
+    echo "⏭️  没有 Packages 目录或为空，跳过包测试"
+    exit 0
+fi
+
 for dir in Packages/*/; do
+    # 如果 glob 没匹配到任何目录，跳过
+    [ -d "$dir" ] || continue
     pkg="$(basename "$dir")"
 
     # 跳过空目录（只剩 .swiftpm 残留）
