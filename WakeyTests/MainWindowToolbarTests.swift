@@ -1,4 +1,5 @@
-import FactoryWakey
+@testable import Wakey
+import LumiFactory
 import PluginRootView
 import ProviderRootView
 import ProviderToolbar
@@ -13,8 +14,8 @@ import Testing
 @MainActor
 struct MainWindowToolbarTests {
     @Test("工具栏右侧提供打开设置的按钮")
-    func toolbarContributesTrailingSettingsButton() throws {
-        let kernel = try FactoryWakey.makeKernel()
+    func toolbarContributesTrailingSettingsButton() async throws {
+        let kernel = try await WakeyKernelFixture.makeKernel()
         let toolbar = try #require(kernel.resolveProvider((any ToolbarProviding).self))
 
         let item = try #require(toolbar.visibleToolbarItems.first { $0.id == "settings" })
@@ -26,8 +27,8 @@ struct MainWindowToolbarTests {
     }
 
     @Test("根视图渲染工具栏与设备信息内容")
-    func rootViewWiresToolbarAndContent() throws {
-        let kernel = try FactoryWakey.makeKernel()
+    func rootViewWiresToolbarAndContent() async throws {
+        let kernel = try await WakeyKernelFixture.makeKernel()
         let rootView = try #require(kernel.resolveProvider((any RootViewProviding).self))
 
         #expect(RootContentComposer.shouldRenderToolbar(for: rootView))
@@ -37,18 +38,11 @@ struct MainWindowToolbarTests {
         #expect(configurable.layout.showsToolbar)
     }
 
-    @Test("根视图插件沿用 Wakey 品牌配置并开启工具栏")
-    func rootViewPluginKeepsWakeyBrandWithToolbar() throws {
-        let kernel = try FactoryWakey.makeKernel()
-        let plugin = try #require(
-            kernel.resolvePlugin(id: "com.coffic.wakey.plugin.root-view") as? RootViewPlugin
-        )
+    @Test("根视图是工厂默认布局，品牌差异由清单声明")
+    func rootViewUsesFactoryDefaultLayout() async throws {
+        let kernel = try await WakeyKernelFixture.makeKernel()
+        let rootView = try #require(kernel.resolveProvider((any RootViewProviding).self))
 
-        #expect(plugin.configuration.pluginID == "com.coffic.wakey.plugin.root-view")
-        #expect(plugin.configuration.pluginName == "Root View")
-        #expect(plugin.configuration.pluginDescription == "Provides Wakey's root view regions")
-        #expect(plugin.configuration.order == -1)
-        #expect(plugin.configuration.loggerSubsystem == "com.coffic.wakey.plugin.root-view")
-        #expect(plugin.configuration.layout.showsToolbar)
+        #expect(rootView is FactoryRootViewProviding)
     }
 }

@@ -1,6 +1,6 @@
 import Foundation
+import LumiFactory
 import Testing
-@testable import FactoryWakey
 
 @Suite("应用通知事件")
 @MainActor

@@ -1,4 +1,4 @@
-import FactoryWakey
+@testable import Wakey
 import ProviderSettingView
 import Testing
 
@@ -10,8 +10,8 @@ import Testing
 @MainActor
 struct AboutPluginWiringTests {
     @Test("About entry is contributed by the shared about plugin")
-    func aboutEntryIsRegistered() throws {
-        let kernel = try FactoryWakey.makeKernel()
+    func aboutEntryIsRegistered() async throws {
+        let kernel = try await WakeyKernelFixture.makeKernel()
         let settings = try #require(kernel.resolveProvider((any SettingViewProviding).self))
 
         let entry = try #require(settings.entries.first { $0.id == "about" })
@@ -20,8 +20,8 @@ struct AboutPluginWiringTests {
     }
 
     @Test("About plugin is enabled")
-    func aboutPluginIsEnabled() throws {
-        let kernel = try FactoryWakey.makeKernel()
+    func aboutPluginIsEnabled() async throws {
+        let kernel = try await WakeyKernelFixture.makeKernel()
         #expect(kernel.isPluginEnabled(id: "com.coffic.wakey.plugin.about"))
     }
 }

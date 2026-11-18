@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FactoryWakey
+@testable import Wakey
 import PluginSettingGeneral
 
 /// 设置插件品牌接线守卫。
@@ -58,7 +58,7 @@ struct SettingGeneralBrandWiringTests {
 
     @Test("插件装配时用的是 Wakey 品牌配置")
     func factoryAssemblesWithWakeyConfiguration() {
-        let plugins = FactoryWakey.makePlugins()
+        let plugins = WakeyManifest.makePlugins()
         let settingPlugin = plugins.compactMap { $0 as? SettingGeneralPlugin }.first
 
         #expect(settingPlugin != nil, "装配列表里应当有设置-通用插件")

@@ -14,7 +14,7 @@ final class WakeySettingsUITests: WakeyUITestBase {
     /// 详情区 StaticText 的文本暴露为 AX value（侧边栏按钮才是 label），
     /// 因此用 label == OR value == 双匹配（与 assertAccessibilityLabels 一致）。
     /// 历史 bug：首个注册入口的插件（Caffeinate）会锁定默认选中态，
-    /// 由 `FactoryWakey.makeKernel` 在全部入口就位后重置修复。
+    /// 由共享装配流水线（KernelAssembler）在全部入口就位后重置修复。
     func testSettingsDefaultsToGeneralPageOnFreshLaunch() {
         openSettings()
 
@@ -185,7 +185,7 @@ final class WakeySettingsUITests: WakeyUITestBase {
         openSettingsPage("Appearance")
 
         // 主题数量：Wakey 只加载品牌 + 三个基础外观，共 4 个主题。
-        // 白名单见 FactoryWakey.catalogThemeIDs / builtinThemeIDs。
+        // 白名单见 WakeyManifest.catalogThemeIDs / builtinThemeIDs。
         // 详情区的文本暴露为 AX value（侧边栏按钮才是 label），两者都要匹配。
         let themeCount = textContaining("4 Themes")
         XCTAssertTrue(

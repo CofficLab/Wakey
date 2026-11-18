@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FactoryWakey
+@testable import Wakey
 import PluginFileLog
 import ProviderUninstall
 

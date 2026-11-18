@@ -1,6 +1,30 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Eye Care" : {
+      "comment" : "iOS tab title for the eye care reminder",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eye Care"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "护眼"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "護眼"
+          }
+        }
+      }
+    },
     "Failed to Start" : {
       "comment" : "Title shown when the kernel fails to assemble",
       "localizations" : {
@@ -20,6 +44,78 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "啟動失敗"
+          }
+        }
+      }
+    },
+    "Hydration" : {
+      "comment" : "iOS tab title for the hydration reminder",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hydration"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "补水"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "補水"
+          }
+        }
+      }
+    },
+    "Notifications are off" : {
+      "comment" : "Banner title shown when the user denied notification permission",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications are off"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知权限已关闭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知權限已關閉"
+          }
+        }
+      }
+    },
+    "Open Settings" : {
+      "comment" : "Button opening the system settings page for this app",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Settings"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "前往设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "前往設定"
           }
         }
       }
@@ -70,6 +166,30 @@
         }
       }
     },
+    "Stretch" : {
+      "comment" : "iOS tab title for the stretch reminder",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stretch"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活動"
+          }
+        }
+      }
+    },
     "Unknown error" : {
       "comment" : "Fallback text when the bootstrap error carries no description",
       "localizations" : {
@@ -95,6 +215,30 @@
     },
     "Wakey" : {
 
+    },
+    "Wakey can only remind you while it is open. Turn on notifications to get reminders in the background." : {
+      "comment" : "Banner text explaining that background reminders need notification permission",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wakey can only remind you while it is open. Turn on notifications to get reminders in the background."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wakey 只能在打开时提醒你。开启通知后，退到后台也能收到提醒。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wakey 只能在開啟時提醒你。開啟通知後，退到背景也能收到提醒。"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

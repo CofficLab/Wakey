@@ -1,4 +1,5 @@
-@testable import FactoryWakey
+@testable import Wakey
+import LumiFactory
 import PluginRootView
 import ProviderActivityBar
 import ProviderPluginControl
@@ -14,8 +15,8 @@ import Testing
 @MainActor
 struct MainWindowActivityBarTests {
     @Test("宿主注册 ActivityBar，设备信息贡献唯一入口时不显示竖栏")
-    func activityBarStartsWithDeviceEntryOnly() throws {
-        let kernel = try FactoryWakey.makeKernel()
+    func activityBarStartsWithDeviceEntryOnly() async throws {
+        let kernel = try await WakeyKernelFixture.makeKernel()
         let activityBar = try #require(kernel.resolveProvider((any ActivityBarProviding).self))
 
         let deviceEntry = activityBar.items.first { $0.ownerPluginID == "com.coffic.wakey.plugin.device-info" }
@@ -24,17 +25,17 @@ struct MainWindowActivityBarTests {
     }
 
     @Test("根视图装配了 ActivityBar 区域")
-    func rootViewWiresActivityBarView() throws {
-        let kernel = try FactoryWakey.makeKernel()
+    func rootViewWiresActivityBarView() async throws {
+        let kernel = try await WakeyKernelFixture.makeKernel()
         let rootView = try #require(kernel.resolveProvider((any RootViewProviding).self))
 
-        #expect(rootView is WakeyRootViewProviding)
+        #expect(rootView is FactoryRootViewProviding)
         #expect(rootView.view(for: .activityBar) != nil)
     }
 
     @Test("系统测速插件以 Wakey 品牌 id 注册且默认禁用")
-    func systemBenchmarkPluginUsesWakeyBrandID() throws {
-        let kernel = try FactoryWakey.makeKernel()
+    func systemBenchmarkPluginUsesWakeyBrandID() async throws {
+        let kernel = try await WakeyKernelFixture.makeKernel()
 
         #expect(kernel.isPluginRegistered(id: "com.coffic.wakey.plugin.system-benchmark"))
         #expect(kernel.isPluginEnabled(id: "com.coffic.wakey.plugin.system-benchmark") == false)
@@ -44,7 +45,7 @@ struct MainWindowActivityBarTests {
     /// 必须由宿主重挂入口栏视图，否则要重启 App 才看得到竖栏。
     @Test("运行中启用系统测速会补充入口并重挂入口栏视图")
     func enablingBenchmarkLiveRefreshesActivityBar() async throws {
-        let kernel = try FactoryWakey.makeKernel()
+        let kernel = try await WakeyKernelFixture.makeKernel()
         let activityBar = try #require(kernel.resolveProvider((any ActivityBarProviding).self))
         let rootView = try #require(kernel.resolveProvider((any RootViewProviding).self))
         let controlling = try #require(kernel.resolveProvider((any PluginControlling).self))

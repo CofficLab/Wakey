@@ -1,125 +1,43 @@
-import FactoryWakey
-import KernelCore
-import OSLog
+import LumiFactory
 import SwiftUI
 
-/// 主应用入口，负责应用生命周期管理和核心服务初始化。
+/// 应用入口：单个 target、单个 bundle id，平台差异由 `#if` 隔离。
 ///
-/// 架构：内核在 `init()` 中同步装配并持有（非可选路径），body 直接使用；
-/// 装配失败时降级为 `BootstrapFailureView`，绝不在 body 中强解包。
+/// - macOS: 共享 `HostMacScenes`（状态栏常驻 + 主窗口 + 设置窗口）
+/// - iOS / iPadOS: `WindowGroup` + `HostRootWindowView`（manifest 声明的共享 Tab 壳）
+///
+/// 装配流水线、窗口壳与生命周期协调全部由 LumiFactory 解释
+/// `WakeyManifest.manifest` 执行；本文件只负责把启动器接到 SwiftUI 入口。
 @main
 struct WakeyApp: App {
-    @NSApplicationDelegateAdaptor private var appDelegate: WakeyAppDelegate
-
-    /// 内核容器（init 中同步装配，失败为 nil 并展示失败视图）
-    private let kernel: KernelCoreContainer?
-    /// 装配失败时的错误（用于失败视图展示）
-    private let bootstrapError: Error?
-
-    @Environment(\.openWindow) private var openWindow
-
-    private static let logger = Logger(subsystem: "com.coffic.wakey.app", category: "WakeyApp")
+    // delegate adaptor 必须挂在 @main 根 App 上：SwiftUI 只为根 App 安装
+    // NSApplicationDelegateAdaptor。放在 body 里临时创建的嵌套结构上不会生效。
+    #if os(macOS)
+    @NSApplicationDelegateAdaptor private var appDelegate: HostAppDelegate
+    #endif
 
     init() {
-        do {
-            // 同步装配内核：注册 Host Provider + 启动显式注册的插件
-            let k = try FactoryWakey.makeKernel()
-            kernel = k
-            bootstrapError = nil
-            // 提前注入到 AppDelegate，确保 applicationDidFinishLaunching 时已就绪
-            appDelegate.kernel = k
-            Self.logger.info("🧠 Kernel assembled in App.init with \(k.registeredPluginCount) plugins")
-        } catch {
-            kernel = nil
-            bootstrapError = error
-            Self.logger.error("❌ Kernel assembly failed: \(error.localizedDescription)")
-        }
+        #if os(macOS)
+        // 禁用窗口状态恢复必须在根 App.init 写入（恢复发生在 delegate 回调之前）。
+        HostAppDelegate.prepareForLaunch()
+        appDelegate.bootstrapper = WakeyAssembly.bootstrapper
+        #endif
     }
 
     var body: some Scene {
-        // 主窗口：首个 `Window` 场景，启动即出现（对齐 Lumi）。
-        // 内容由设备信息插件通过 `ContentViewProviding` 注入。
-        Window("Wakey", id: "wakey.main") {
-            if let kernel {
-                FactoryWakey.makeMainView(kernel: kernel)
-                    .frame(minWidth: 820, minHeight: 560)
-                    // 与 Lumi 主窗口一致：隐藏标题栏、内容延伸到标题栏区域，
-                    // 顶部工具栏承载红绿灯与右侧设置按钮。
-                    .wakeyMinimalWindowChrome()
-            } else {
-                BootstrapFailureView(error: bootstrapError)
-            }
+        #if os(macOS)
+        HostMacScenes(bootstrapper: WakeyAssembly.bootstrapper).body
+        #else
+        WindowGroup("Wakey", id: "wakey.main") {
+            HostRootWindowView(bootstrapper: WakeyAssembly.bootstrapper)
         }
-        .windowStyle(.hiddenTitleBar)
-        .windowToolbarStyle(.unified(showsTitle: false))
-        .defaultSize(width: 1000, height: 760)
-
-        // 对齐 Lumi：设置窗口用 `Window` 场景（`Settings` 场景的系统偏好设置风格
-        // 默认不允许用户缩放窗口；`Window` 默认可调节大小）。
-        Window(
-            String(localized: "Settings", table: "Localizable", comment: "Title of the settings window"),
-            id: "wakey.settings"
-        ) {
-            if let kernel {
-                FactoryWakey.makeSettingsView(kernel: kernel)
-            } else {
-                BootstrapFailureView(error: bootstrapError)
-            }
-        }
-        // `SettingsHostView` follows Lumi's full-height settings shell. Its
-        // content may extend through the title-bar area only when the scene
-        // owns the same hidden-title-bar chrome as Lumi's settings window.
-        .windowStyle(.hiddenTitleBar)
-        .windowToolbarStyle(.unified(showsTitle: false))
-        // Preserve the legacy `AppBootstrap.defaultSettingsWindowSize` (Lumi 同款)。
-        // 宽度对齐设置壳的 minWidth: 960，避免窄窗口触发 compact size class。
-        .defaultSize(width: 960, height: 560)
-        .commands {
-            // Settings 场景换成 Window 场景后，系统不再自动把 Cmd+, 绑定到设置窗口，
-            // 这里等价补回「设置…」命令（对齐 Lumi 的 CommandItem "Settings..."）。
-            CommandGroup(replacing: .appSettings) {
-                Button(
-                    String(localized: "Settings...", table: "Localizable", comment: "Menu item that opens the settings window")
-                ) { openWindow(id: "wakey.settings") }
-                    .keyboardShortcut(",", modifiers: .command)
-            }
-        }
+        #endif
     }
 }
 
-// MARK: - Bootstrap Failure View
-
-/// 内核装配失败时展示的降级视图（替代崩溃）
-struct BootstrapFailureView: View {
-    let error: Error?
-
-    var body: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "exclamationmark.triangle.fill")
-                .font(.system(size: 48))
-                .foregroundColor(.orange)
-
-            Text(
-                String(
-                    localized: "Failed to Start",
-                    table: "Localizable",
-                    comment: "Title shown when the kernel fails to assemble"
-                )
-            )
-                .font(.title2.bold())
-
-            Text(verbatim: error?.localizedDescription
-                ?? String(
-                    localized: "Unknown error",
-                    table: "Localizable",
-                    comment: "Fallback text when the bootstrap error carries no description"
-                )
-            )
-                .font(.body)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-        }
-        .frame(width: 400, height: 300)
-        .padding()
-    }
+/// 宿主级装配单例：App.init 可能被 SwiftUI 多次求值，StateObject 只保留首个
+/// 实例——启动器必须经单例创建，保证视图持有的与注入 AppDelegate 的是同一个。
+@MainActor
+enum WakeyAssembly {
+    static let bootstrapper = KernelBootstrapper(manifest: WakeyManifest.manifest)
 }
