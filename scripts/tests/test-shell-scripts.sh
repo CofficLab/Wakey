@@ -7,30 +7,15 @@ TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 fail=0
 
-# 1) 全部包失败时，脚本必须打印失败清单而不是被空数组的 unbound variable 打断。
-mkdir -p "$TMP/bin"
-cat > "$TMP/bin/swift" <<'STUB'
-#!/bin/bash
-exit 1
-STUB
-chmod +x "$TMP/bin/swift"
-
-PATH="$TMP/bin:$PATH" bash "$ROOT/scripts/test-all-packages.sh" > "$TMP/all-fail.log" 2>&1
+# 1) 没有 Packages 目录时，脚本应该正常跳过并退出 0。
+bash "$ROOT/scripts/test-all-packages.sh" > "$TMP/no-pkg.log" 2>&1
 code=$?
-if [ "$code" -ne 1 ]; then
-    echo "❌ 全部失败时应以 1 退出，实际 ${code}"
+if [ "$code" -ne 0 ]; then
+    echo "❌ 无 Packages 目录时应以 0 退出，实际 ${code}"
     fail=1
 fi
-if grep -q "unbound variable" "$TMP/all-fail.log"; then
-    echo "❌ 出现 unbound variable，空数组展开未加保护"
-    fail=1
-fi
-if ! grep -q "❌ 失败" "$TMP/all-fail.log"; then
-    echo "❌ 没有输出失败汇总"
-    fail=1
-fi
-if ! grep -q "FactoryWakey" "$TMP/all-fail.log"; then
-    echo "❌ 失败清单里缺少具体包名"
+if ! grep -q "跳过" "$TMP/no-pkg.log"; then
+    echo "❌ 没有输出跳过提示"
     fail=1
 fi
 
