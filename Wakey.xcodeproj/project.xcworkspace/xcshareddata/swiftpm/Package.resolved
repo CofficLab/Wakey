@@ -1,6 +1,15 @@
 {
-  "originHash" : "734abf29d67a4bcef8e4a6ee96f06c32d91ecdbb3e7b6ce29be00d426244429e",
+  "originHash" : "e136bae68bd25dc89b86e776ea55bbe5983e6bd8c8dc117dd7310f56db73e5a5",
   "pins" : [
+    {
+      "identity" : "lumifactory",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lumi-softworks/LumiFactory.git",
+      "state" : {
+        "revision" : "51cd553385fbdadeae69fca7a42bf7162e42c741",
+        "version" : "1.0.0"
+      }
+    },
     {
       "identity" : "lumikernel",
       "kind" : "remoteSourceControl",

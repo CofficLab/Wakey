@@ -20,8 +20,132 @@
         "up-to-next-major-version": "1.1.0",
       },
     }, {
-      "kind": "local",
-      "path": "Packages/FactoryWakey",
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiFactory.git",
+      "version": {
+        "up-to-next-major-version": "1.0.0",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiUI.git",
+      "version": {
+        "up-to-next-major-version": "1.13.1",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiProviders.git",
+      "version": {
+        "up-to-next-major-version": "1.26.0",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiThemePack.git",
+      "version": {
+        "up-to-next-major-version": "1.0.12",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiSettings.git",
+      "version": {
+        "up-to-next-major-version": "1.1.0",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginToast.git",
+      "version": {
+        "up-to-next-major-version": "1.2.4",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginSettingView.git",
+      "version": {
+        "up-to-next-major-version": "1.0.3",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginRootView.git",
+      "version": {
+        "version-range-min": "1.2.0",
+        "version-range-max": "1.3.0",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginFileLog.git",
+      "version": {
+        "up-to-next-major-version": "1.1.0",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginThemePack.git",
+      "version": {
+        "up-to-next-major-version": "1.2.1",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginLogos.git",
+      "version": {
+        "up-to-next-major-version": "1.0.1",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginDevice.git",
+      "version": {
+        "up-to-next-major-version": "1.2.0",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginSystemBenchmark.git",
+      "version": {
+        "up-to-next-major-version": "1.2.0",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginDiskManager.git",
+      "version": {
+        "up-to-next-major-version": "1.1.0",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginCaffeinate.git",
+      "version": {
+        "up-to-next-major-version": "1.2.0",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginEyeCareReminder.git",
+      "version": {
+        "up-to-next-major-version": "1.1.0",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginStretchReminder.git",
+      "version": {
+        "up-to-next-major-version": "1.1.0",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginHydrationReminder.git",
+      "version": {
+        "up-to-next-major-version": "1.1.0",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginPluginManager.git",
+      "version": {
+        "up-to-next-major-version": "1.7.0",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginSettingGeneral.git",
+      "version": {
+        "up-to-next-major-version": "1.1.0",
+      },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/lumi-softworks/LumiPluginAbout.git",
+      "version": {
+        "up-to-next-major-version": "3.0.3",
+      },
     },
   ],
   "files": [
@@ -41,8 +165,10 @@
       ],
     },
     { "kind": "folder", "path": "WakeyUITests", "target-membership": [ "WakeyUITests" ] },
+    { "kind": "folder", "path": "WakeyTests", "target-membership": [ "WakeyTests" ] },
     { "path": "<PRODUCTS>/Wakey.app", "id": "F53C49142F1A42EC00929321", "type": "wrapper.application", "index": false },
     { "path": "<PRODUCTS>/WakeyUITests.xctest", "id": "5E97DD71ADF24E7C774F14F2", "type": "wrapper.cfbundle", "index": false },
+    { "path": "<PRODUCTS>/WakeyTests.xctest", "id": "7C1E9A4D2B8F4E6A9D0C3E60", "type": "wrapper.cfbundle", "index": false },
     { "kind": "group", "name": "Frameworks" },
   ],
   "targets": [
@@ -58,12 +184,96 @@
       ],
       "package-product-members": [
         {
-          "package": "FactoryWakey",
-          "product-name": "FactoryWakey",
+          "package": "LumiFactory",
+          "product-name": "LumiFactory",
           "build-phase": { "build-phase": "frameworks" },
         }, {
           "package": "LumiKernel",
           "product-name": "KernelCore",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiUI",
+          "product-name": "LumiUI",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiProviders",
+          "product-name": "ProviderRootView",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiProviders",
+          "product-name": "ProviderSettingView",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiProviders",
+          "product-name": "ProviderUninstall",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiSettings",
+          "product-name": "ProviderSettingView",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginToast",
+          "product-name": "PluginToast",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginSettingView",
+          "product-name": "PluginSettingView",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginRootView",
+          "product-name": "PluginRootView",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginFileLog",
+          "product-name": "PluginFileLog",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginThemePack",
+          "product-name": "PluginThemePack",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginLogos",
+          "product-name": "PluginLogoBolt",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginDevice",
+          "product-name": "PluginDevice",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginSystemBenchmark",
+          "product-name": "PluginSystemBenchmark",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginDiskManager",
+          "product-name": "PluginDiskManager",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginCaffeinate",
+          "product-name": "PluginCaffeinate",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginEyeCareReminder",
+          "product-name": "PluginEyeCareReminder",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginStretchReminder",
+          "product-name": "PluginStretchReminder",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginHydrationReminder",
+          "product-name": "PluginHydrationReminder",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginPluginManager",
+          "product-name": "PluginPluginManager",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginSettingGeneral",
+          "product-name": "PluginSettingGeneral",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginAbout",
+          "product-name": "PluginAbout",
           "build-phase": { "build-phase": "frameworks" },
         },
       ],
@@ -110,9 +320,9 @@
         "SDKROOT": "auto",
         "SUPPORTED_PLATFORMS": "macosx iphoneos iphonesimulator",
         "SUPPORTS_MACCATALYST": "NO",
-        "TARGETED_DEVICE_FAMILY": "1,2",
         "SWIFT_EMIT_LOC_STRINGS": "YES",
         "SWIFT_VERSION": "6.0",
+        "TARGETED_DEVICE_FAMILY": "1,2",
       },
     }, {
       "name": "WakeyUITests",
@@ -137,6 +347,108 @@
         "PRODUCT_NAME": "$(TARGET_NAME)",
         "SDKROOT": "macosx",
         "SWIFT_VERSION": "6.0",
+        "TEST_TARGET_NAME": "Wakey",
+      },
+    }, {
+      "name": "WakeyTests",
+      "id": "7C1E9A4D2B8F4E6A9D0C3E5F",
+      "product": "WakeyTests.xctest",
+      "product-type": "bundle.unit-test",
+      "test-host-target": "Wakey",
+      "dependencies": [
+        "Wakey",
+      ],
+      "build-phases": [
+        "compile-sources",
+        "frameworks",
+        "resources",
+      ],
+      "package-product-members": [
+        {
+          "package": "LumiFactory",
+          "product-name": "LumiFactory",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiKernel",
+          "product-name": "KernelCore",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiThemePack",
+          "product-name": "LumiThemePack",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiProviders",
+          "product-name": "ProviderActivityBar",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiProviders",
+          "product-name": "ProviderContentView",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiProviders",
+          "product-name": "ProviderDocsView",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiProviders",
+          "product-name": "ProviderPluginControl",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiProviders",
+          "product-name": "ProviderRootView",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiProviders",
+          "product-name": "ProviderTheme",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiProviders",
+          "product-name": "ProviderToast",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiProviders",
+          "product-name": "ProviderToolbar",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiProviders",
+          "product-name": "ProviderUninstall",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiSettings",
+          "product-name": "ProviderSettingView",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginFileLog",
+          "product-name": "PluginFileLog",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginRootView",
+          "product-name": "PluginRootView",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginSettingGeneral",
+          "product-name": "PluginSettingGeneral",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "LumiPluginToast",
+          "product-name": "PluginToast",
+          "build-phase": { "build-phase": "frameworks" },
+        },
+      ],
+      "build-settings": {
+        "BUNDLE_LOADER": "$(TEST_HOST)",
+        "CODE_SIGN_STYLE": "Automatic",
+        "ENABLE_APP_SANDBOX": "NO",
+        "GENERATE_INFOPLIST_FILE": "YES",
+        "IPHONEOS_DEPLOYMENT_TARGET": "17.0",
+        "MACOSX_DEPLOYMENT_TARGET": "14.0",
+        "OTHER_SWIFT_FLAGS[sdk=macosx*]": "$(inherited) -Xcc -fmodule-map-file=$(OBJROOT)/GeneratedModuleMaps/PluginDeviceThermalBridge.modulemap",
+        "PRODUCT_BUNDLE_IDENTIFIER": "com.coffic.wakey.tests",
+        "PRODUCT_NAME": "$(TARGET_NAME)",
+        "SDKROOT": "auto",
+        "SUPPORTED_PLATFORMS": "macosx iphoneos iphonesimulator",
+        "SWIFT_VERSION": "6.0",
+        "TEST_HOST[sdk=macosx*]": "$(BUILT_PRODUCTS_DIR)/Wakey.app/Contents/MacOS/Wakey",
+        "TEST_HOST[sdk=iphone*]": "$(BUILT_PRODUCTS_DIR)/Wakey.app/Wakey",
         "TEST_TARGET_NAME": "Wakey",
       },
     },

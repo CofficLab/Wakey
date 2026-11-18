@@ -2,7 +2,7 @@ import Foundation
 import LumiThemePack
 import ProviderTheme
 import Testing
-@testable import FactoryWakey
+@testable import Wakey
 
 /// 主题白名单守卫测试。
 ///
@@ -18,22 +18,22 @@ struct ThemeWhitelistTests {
 
     @Test("目录白名单只含品牌主题")
     func catalogWhitelistIsScoped() {
-        #expect(FactoryWakey.catalogThemeIDs == ["lumi"])
+        #expect(WakeyManifest.catalogThemeIDs == ["lumi"])
     }
 
     @Test("目录白名单里的 id 都真实存在于共享目录")
     func catalogWhitelistIDsExist() {
         // 拼错的 id 会被静默忽略（该主题就没了），这里当编译期检查用。
-        #expect(LumiThemeRegistration.unknownIDs(in: FactoryWakey.catalogThemeIDs).isEmpty)
+        #expect(LumiThemeRegistration.unknownIDs(in: WakeyManifest.catalogThemeIDs).isEmpty)
     }
 
     @Test("内置主题白名单是品牌 + 三个基础外观")
     func builtinWhitelistIsScoped() {
-        #expect(FactoryWakey.builtinThemeIDs == ["lumi", "lumi-system", "lumi-dark", "lumi-light"])
+        #expect(WakeyManifest.builtinThemeIDs == ["lumi", "lumi-system", "lumi-dark", "lumi-light"])
 
         // 白名单不能引用上游并不存在的内置主题。
         let builtinIDs = Set(ProviderTheme.BuiltinThemes.all.map(\.id))
-        #expect(FactoryWakey.builtinThemeIDs.allSatisfy { builtinIDs.contains($0) })
+        #expect(WakeyManifest.builtinThemeIDs.allSatisfy { builtinIDs.contains($0) })
     }
 
     @Test("最终注册的主题集合正好是这 4 个")
@@ -42,16 +42,16 @@ struct ThemeWhitelistTests {
             .appendingPathComponent("WakeyThemeWhitelistTests-\(UUID().uuidString)", isDirectory: true)
         defer { try? FileManager.default.removeItem(at: directory) }
 
-        // 复刻 FactoryWakey.makeKernel() 的两路注册：内置主题 + 目录主题。
+        // 复刻清单的两路注册：内置主题白名单 + 目录主题预注册。
         let provider = ProviderTheme.DefaultThemeProviding(
             storageDirectory: directory,
             builtinThemes: ProviderTheme.BuiltinThemes.all.filter {
-                FactoryWakey.builtinThemeIDs.contains($0.id)
+                WakeyManifest.builtinThemeIDs.contains($0.id)
             }
         )
-        LumiThemeRegistration.register(in: provider, themeIDs: FactoryWakey.catalogThemeIDs)
+        LumiThemeRegistration.register(in: provider, themeIDs: WakeyManifest.catalogThemeIDs)
 
-        #expect(Set(provider.themes.map(\.id)) == Set(FactoryWakey.builtinThemeIDs))
+        #expect(Set(provider.themes.map(\.id)) == Set(WakeyManifest.builtinThemeIDs))
         #expect(provider.themes.count == 4)
     }
 
@@ -62,7 +62,7 @@ struct ThemeWhitelistTests {
         defer { try? FileManager.default.removeItem(at: directory) }
 
         let provider = ProviderTheme.DefaultThemeProviding(storageDirectory: directory)
-        LumiThemeRegistration.register(in: provider, themeIDs: FactoryWakey.catalogThemeIDs)
+        LumiThemeRegistration.register(in: provider, themeIDs: WakeyManifest.catalogThemeIDs)
 
         let registered = Set(provider.themes.map(\.id))
         // 目录里确实存在这些主题，但它们不属于 Wakey 的暴露范围。

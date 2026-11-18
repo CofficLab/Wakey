@@ -34,6 +34,16 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7C1E9A4D2B8F4E6A9D0C3E5F"
+               BuildableName = "WakeyTests.xctest"
+               BlueprintName = "WakeyTests"
+               ReferencedContainer = "container:Wakey.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "0AE2DDA18B22DC9EAE34F2DB"
                BuildableName = "WakeyUITests.xctest"
                BlueprintName = "WakeyUITests"

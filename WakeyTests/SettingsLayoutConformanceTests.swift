@@ -303,23 +303,17 @@ struct SettingsLayoutConformanceTests {
     @Test("仓库里每个注册到设置窗口的入口都被审计表覆盖")
     func everyRegisteredEntryIsAudited() throws {
         let root = try Self.repositoryRoot()
-        let packagesRoot = root.appendingPathComponent("Packages")
-        let fileManager = FileManager.default
-        let packageDirectories = try fileManager.contentsOfDirectory(
-            at: packagesRoot,
-            includingPropertiesForKeys: [.isDirectoryKey]
-        ).filter { url in
-            (try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true
-        }
+        // 插件源码都在远程共享包，布局守卫随包迁移；本仓库只剩 App 侧
+        // 源码，完整性检查只扫 WakeyApp。
+        let appSources = root.appendingPathComponent("WakeyApp")
+        let files = try Self.swiftFiles(under: appSources)
+        // 防呆：扫不到装配清单说明路径变了，本用例会静默通过。
+        #expect(files.contains { $0.lastPathComponent == "WakeyManifest.swift" })
 
         var registeredViewTypes: Set<String> = []
-        for package in packageDirectories {
-            let sources = package.appendingPathComponent("Sources")
-            guard fileManager.fileExists(atPath: sources.path) else { continue }
-            for file in try Self.swiftFiles(under: sources) {
-                let source = try String(contentsOf: file, encoding: .utf8)
-                registeredViewTypes.formUnion(Self.registeredViewTypes(in: source))
-            }
+        for file in files {
+            let source = try String(contentsOf: file, encoding: .utf8)
+            registeredViewTypes.formUnion(Self.registeredViewTypes(in: source))
         }
 
         let auditedViewTypes = Set(Self.auditedPages.flatMap(\.viewTypeNames))
