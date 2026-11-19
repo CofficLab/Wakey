@@ -27,6 +27,7 @@
     },
     "Failed to Start" : {
       "comment" : "Title shown when the kernel fails to assemble",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -122,6 +123,7 @@
     },
     "Settings" : {
       "comment" : "Title of the settings window",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -145,6 +147,7 @@
     },
     "Settings..." : {
       "comment" : "Menu item that opens the settings window",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -192,6 +195,7 @@
     },
     "Unknown error" : {
       "comment" : "Fallback text when the bootstrap error carries no description",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
