@@ -22,7 +22,7 @@ import PluginSettingGeneral
 import PluginAbout
 // Plugin imports — Theme
 import PluginThemePack
-import PluginRootView
+import WorkbenchRootView
 import PluginFileLog
 // Plugin imports — Shared infrastructure
 import PluginToast

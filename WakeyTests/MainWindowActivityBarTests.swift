@@ -1,6 +1,6 @@
 @testable import Wakey
 import LumiFactory
-import PluginRootView
+import WorkbenchRootView
 import ProviderActivityBar
 import ProviderPluginControl
 import ProviderRootView
