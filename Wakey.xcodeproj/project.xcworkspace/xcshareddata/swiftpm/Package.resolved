@@ -123,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginEyeCareReminder.git",
       "state" : {
-        "revision" : "ce7eef2c456dd6c3c9d70171ce045e60283f46b8",
-        "version" : "1.1.0"
+        "revision" : "e8b8c8e0a0d3d21cbe746e64b9e29956f2fb98e1",
+        "version" : "1.2.0"
       }
     },
     {
@@ -141,8 +141,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginHydrationReminder.git",
       "state" : {
-        "revision" : "6314099f68c565dcd084ff0f23bda0075c9b60f5",
-        "version" : "1.1.0"
+        "revision" : "88fac495e95e2307130a91c69d412291d1a0fac2",
+        "version" : "1.2.0"
       }
     },
     {
@@ -177,8 +177,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginSettingGeneral.git",
       "state" : {
-        "revision" : "a35c670bdc94c522fdc211bdf72ce2b292b25acf",
-        "version" : "1.1.0"
+        "revision" : "4a0f1987a988ac6b8d244416ebb8fc0839e1b65a",
+        "version" : "1.4.0"
       }
     },
     {
@@ -195,8 +195,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginStretchReminder.git",
       "state" : {
-        "revision" : "ccdc0ecd2e00172b67db381911016dcfdd58244f",
-        "version" : "1.1.0"
+        "revision" : "00c81f10ee5f056318e9061351d92dbe9840aed5",
+        "version" : "1.2.0"
       }
     },
     {
