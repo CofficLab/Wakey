@@ -23,7 +23,7 @@
       "kind": "remote",
       "repository": "https://github.com/lumi-softworks/LumiFactory.git",
       "version": {
-        "up-to-next-major-version": "1.7.3",
+        "up-to-next-major-version": "1.7.4",
       },
     }, {
       "kind": "remote",
@@ -35,7 +35,7 @@
       "kind": "remote",
       "repository": "https://github.com/lumi-softworks/LumiProviders.git",
       "version": {
-        "up-to-next-major-version": "1.26.0",
+        "up-to-next-major-version": "1.27.1",
       },
     }, {
       "kind": "remote",
