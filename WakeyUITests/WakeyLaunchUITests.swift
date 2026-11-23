@@ -7,14 +7,14 @@ final class WakeyLaunchUITests: WakeyUITestBase {
         XCTAssertTrue(statusBarButton.exists)
     }
 
-    /// 对齐 Lumi：Wakey 是普通 App（`.regular`，Dock 有图标），
-    /// 而不是仅菜单栏代理（`LSUIElement` 会得到 `.accessory`）。
-    func testAppRunsAsRegularAppWithDockIcon() {
+    /// 纯菜单栏 App：`LSUIElement` 使进程以 `.accessory` 运行，Dock 无图标，
+    /// 启动只驻留状态栏。
+    func testAppRunsAsMenuBarAgentWithoutDockIcon() {
         guard let instance = latestWakeyInstance else {
             XCTFail("Wakey instance not found")
             return
         }
-        XCTAssertEqual(instance.activationPolicy, .regular)
+        XCTAssertEqual(instance.activationPolicy, .accessory)
     }
 
     func testStatusBarPopupShowsAppAndCommands() {
@@ -24,13 +24,33 @@ final class WakeyLaunchUITests: WakeyUITestBase {
         XCTAssertTrue(element("wakey.statusbar.quit").exists)
     }
 
-    /// 状态栏「设备信息…」入口：点击后主窗口可见（与启动自动显示的主窗口是同一个场景）。
+    /// 状态栏「设备信息…」入口：点击后主窗口可见（启动不自动打开主窗口）。
     func testStatusBarDeviceInfoShowsMainWindow() {
         openPopup()
         let deviceInfo = element("wakey.statusbar.device-info")
         XCTAssertTrue(deviceInfo.waitForExistence(timeout: 5), "Device Info command is missing from the popup")
         deviceInfo.click()
         XCTAssertTrue(element("wakey.main.window").waitForExistence(timeout: 10), "Main window did not show")
+    }
+
+    /// 主窗口工具栏右侧设置按钮（对齐 Lumi）应打开设置窗口。
+    func testToolbarSettingsButtonOpensSettingsWindow() {
+        openPopup()
+        let deviceInfo = element("wakey.statusbar.device-info")
+        XCTAssertTrue(deviceInfo.waitForExistence(timeout: 5))
+        deviceInfo.click()
+        XCTAssertTrue(element("wakey.main.window").waitForExistence(timeout: 10), "Main window did not show")
+
+        let settingsButton = element("wakey.toolbar.settings")
+        XCTAssertTrue(
+            settingsButton.waitForExistence(timeout: 20),
+            "Main window toolbar should show the settings button"
+        )
+        settingsButton.click()
+        XCTAssertTrue(
+            app.windows["wakey.settings"].waitForExistence(timeout: 15),
+            "Toolbar settings button should open the settings window. 诊断：\(dumpAppWindowInfo())"
+        )
     }
 
     func testStatusBarButtonTogglesPopup() {

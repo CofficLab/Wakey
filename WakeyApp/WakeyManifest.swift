@@ -98,6 +98,14 @@ enum WakeyManifest {
             rootViewLayout: rootViewLayout,
             features: HostFeatures(
                 statusBar: statusBarConfiguration(identity: identity),
+                // 纯菜单栏 App：启动只驻留状态栏，不自动打开主窗口；
+                // 设备信息主窗经状态栏弹窗「设备信息…」按需打开。
+                opensMainWindowOnLaunch: false,
+                suppressesMainWindowOnLaunch: true,
+                // 无 Dock 图标，没有「点 Dock 重开主窗」入口。
+                reopensMainWindowOnActivate: false,
+                // 关闭最后一个窗口后驻留状态栏，不退出。
+                quitsWhenLastWindowClosed: false,
                 suppressSettingsWindowOnLaunch: true,
                 settingsWindowOpenArgument: "-wakey-open-settings"
             )
