@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiFactory.git",
       "state" : {
-        "revision" : "39ed9e7250c3bd96b47f2ac6ad2f8a74370d2718",
-        "version" : "1.7.5"
+        "revision" : "a6614bd3e35ac61883f3106ac2488f6d496386a0",
+        "version" : "1.7.6"
       }
     },
     {
@@ -231,8 +231,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiProviders.git",
       "state" : {
-        "revision" : "a09b6712ef56ab66c017d4c429057ea063fbea7c",
-        "version" : "1.27.1"
+        "revision" : "e0e2408ef9c247cfc8d23c4afc2c04cd3f186c63",
+        "version" : "1.27.2"
       }
     },
     {
