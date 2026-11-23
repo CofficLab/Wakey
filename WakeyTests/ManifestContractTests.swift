@@ -60,6 +60,10 @@ struct ManifestContractTests {
 
         // 关窗后驻留状态栏，不退出。
         #expect(features.quitsWhenLastWindowClosed == false)
+        // 纯菜单栏 App：启动不自动打开主窗，点 Dock 也不重开（无 Dock 图标）。
+        #expect(features.opensMainWindowOnLaunch == false)
+        #expect(features.suppressesMainWindowOnLaunch == true)
+        #expect(features.reopensMainWindowOnActivate == false)
         // 启动期压制自动弹出的设置窗。
         #expect(features.suppressSettingsWindowOnLaunch == true)
         #expect(features.settingsWindowOpenArgument == "-wakey-open-settings")

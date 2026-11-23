@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiFactory.git",
       "state" : {
-        "revision" : "430cfcac1b1a30e8e2987cd1fd5af128fc46d07b",
-        "version" : "1.3.0"
+        "revision" : "197f6f125d467b7e89eebb7623b2dd7a5d6ddd9c",
+        "version" : "1.7.3"
       }
     },
     {
@@ -105,8 +105,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginDevice.git",
       "state" : {
-        "revision" : "41030f25d79efa092e06907e60f1a18ca1d8833c",
-        "version" : "1.2.1"
+        "revision" : "db00bad9f17b29543f4aae829770dc52bfc6c2d7",
+        "version" : "1.2.9"
       }
     },
     {
@@ -123,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginEyeCareReminder.git",
       "state" : {
-        "revision" : "ce7eef2c456dd6c3c9d70171ce045e60283f46b8",
-        "version" : "1.1.0"
+        "revision" : "e8b8c8e0a0d3d21cbe746e64b9e29956f2fb98e1",
+        "version" : "1.2.0"
       }
     },
     {
@@ -141,8 +141,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginHydrationReminder.git",
       "state" : {
-        "revision" : "6314099f68c565dcd084ff0f23bda0075c9b60f5",
-        "version" : "1.1.0"
+        "revision" : "88fac495e95e2307130a91c69d412291d1a0fac2",
+        "version" : "1.2.0"
       }
     },
     {
@@ -177,8 +177,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginSettingGeneral.git",
       "state" : {
-        "revision" : "a35c670bdc94c522fdc211bdf72ce2b292b25acf",
-        "version" : "1.1.0"
+        "revision" : "4a0f1987a988ac6b8d244416ebb8fc0839e1b65a",
+        "version" : "1.4.0"
       }
     },
     {
@@ -195,8 +195,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginStretchReminder.git",
       "state" : {
-        "revision" : "ccdc0ecd2e00172b67db381911016dcfdd58244f",
-        "version" : "1.1.0"
+        "revision" : "00c81f10ee5f056318e9061351d92dbe9840aed5",
+        "version" : "1.2.0"
       }
     },
     {
@@ -249,8 +249,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiSettings.git",
       "state" : {
-        "revision" : "e66207de1d7664177a2914b2c982245aa0f01035",
-        "version" : "1.1.1"
+        "revision" : "3b37a6038f7c58fe550dca95ed4f93f77dc8330a",
+        "version" : "1.1.2"
       }
     },
     {

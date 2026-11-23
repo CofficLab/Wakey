@@ -1,75 +1,29 @@
 import XCTest
 
-/// 回归测试：主窗口启动即出现，设置窗口不应被自动恢复。
+/// 回归测试：纯菜单栏启动形态。
 ///
-/// 主窗口是首个 `Window` 场景（对齐 Lumi），Wakey 启动后默认展示设备信息；
-/// 设置窗口仍由 `WakeyAppDelegate.prepareWindowAutoCloseIfNeeded` 在启动期压制。
-/// 本类特意不携带 `-wakey-open-settings`，等待清理窗口期后断言最终状态。
-/// 窗口存在性先用 CGWindowList（AX-free）判断，避免无窗口状态下做深层 AX 枚举。
+/// Wakey 以 `LSUIElement` 菜单栏 App 运行：启动只驻留状态栏，主窗口（设备信息）
+/// 与设置窗口都不自动出现，窗口只在用户经状态栏 / 工具栏入口请求时打开。
+/// 本类特意不携带 `-wakey-open-settings`，验证「启动后没有任何可见窗口」；
+/// 窗口存在性只用 CGWindowList（AX-free）判断，避免无窗口状态下对菜单栏应用
+/// 做深层 AX 枚举导致 XCTest 崩溃。主窗口与设置窗口的按需打开由
+/// `WakeyLaunchUITests` 覆盖。
 final class WakeyWindowRestorationUITests: WakeyUITestBase {
     override var openSettingsOnLaunch: Bool { false }
 
-    func testMainWindowOpensOnLaunchWithoutRestoringSettings() {
-        let deadline = Date().addingTimeInterval(20)
-        while Date() < deadline, !appHasNormalWindow {
-            Thread.sleep(forTimeInterval: 0.25)
-        }
-        XCTAssertTrue(
-            appHasNormalWindow,
-            "Main window should be visible on launch. 诊断：\(dumpAppWindowInfo())"
-        )
-        XCTAssertTrue(
-            element("wakey.main.window").waitForExistence(timeout: 10),
-            "Main window should render the device info content"
-        )
-        // 设备信息面板的卡片标题随系统语言本地化（CPU / 处理器 / 處理器），
-        // 且 SwiftUI 把标题暴露为 `value` 而非 `label`；SF Symbol 的
-        // identifier（cpu / memorychip）与语言无关，作为稳定锚点。
-        // 用它确认插件注入的设备信息页真的渲染出来，而不是空内容占位。
-        let cpuCard = app.descendants(matching: .any)
-            .matching(NSPredicate(
-                format: "identifier IN %@ OR label IN %@ OR value IN %@",
-                ["cpu", "memorychip"],
-                ["CPU", "处理器", "處理器"],
-                ["CPU", "处理器", "處理器"]
-            ))
-            .firstMatch
-        XCTAssertTrue(
-            cpuCard.waitForExistence(timeout: 10),
-            "Main window should show the device info dashboard"
-        )
-
-        XCTAssertTrue(
-            element("wakey.toolbar.settings").waitForExistence(timeout: 10),
-            "Main window toolbar should show the settings button"
-        )
-
-        // 设置窗口自动弹出后会在启动压制期内被关掉；留出余量后轮询确认。
-        let settingsDeadline = Date().addingTimeInterval(8)
-        while Date() < settingsDeadline {
-            XCTAssertFalse(
-                element("wakey.settings.window").exists,
-                "Settings window should not auto-restore on launch"
-            )
-            Thread.sleep(forTimeInterval: 0.5)
-        }
-
-        // 状态栏条目用 typed 查询（不触发深层枚举），确认 app 正常运行。
+    func testLaunchShowsOnlyMenuBarItemWithoutWindows() {
         XCTAssertTrue(statusBarButton.exists, "Status bar item should exist after launch")
-    }
-
-    /// 工具栏右侧设置按钮（对齐 Lumi）应打开设置窗口。
-    func testToolbarSettingsButtonOpensSettingsWindow() {
-        let settingsButton = element("wakey.toolbar.settings")
-        XCTAssertTrue(
-            settingsButton.waitForExistence(timeout: 20),
-            "Main window toolbar should show the settings button"
+        XCTAssertFalse(
+            appHasNormalWindow,
+            "No window should auto-open on launch. 诊断：\(dumpAppWindowInfo())"
         )
-        settingsButton.click()
 
-        XCTAssertTrue(
-            app.windows["wakey.settings"].waitForExistence(timeout: 15),
-            "Toolbar settings button should open the settings window. 诊断：\(dumpAppWindowInfo())"
+        // 启动压制期（2 秒轮询）结束后仍保持无窗口，确认不是「闪现后关闭」以外的
+        // 延迟自动恢复。
+        Thread.sleep(forTimeInterval: 2.5)
+        XCTAssertFalse(
+            appHasNormalWindow,
+            "Main window should stay hidden after launch suppression. 诊断：\(dumpAppWindowInfo())"
         )
     }
 }
