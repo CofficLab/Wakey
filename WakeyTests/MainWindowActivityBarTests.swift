@@ -1,3 +1,4 @@
+#if os(macOS)
 @testable import Wakey
 import LumiFactory
 import WorkbenchRootView
@@ -81,3 +82,4 @@ struct MainWindowActivityBarTests {
 private final class EventCounter {
     var value = 0
 }
+#endif

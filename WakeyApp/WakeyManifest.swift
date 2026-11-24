@@ -1,5 +1,6 @@
 import KernelCore
 import LumiFactory
+import ProviderMobileTabBar
 import ProviderRootView
 import SwiftUI
 
@@ -83,6 +84,18 @@ enum WakeyManifest {
             accessibilityPrefix: "wakey",
             mainWindowMinimumSize: CGSize(width: 820, height: 560)
         )
+        #if os(macOS)
+        let registerProviders: (@MainActor (KernelCoreContainer) throws -> Void)? = nil
+        #else
+        // iOS 没有菜单栏，插件改往移动端标签页注册表插入 UI。
+        // macOS 不注册该能力，插件的注册调用自动 no-op。
+        let registerProviders: (@MainActor (KernelCoreContainer) throws -> Void)? = { kernel in
+            try kernel.registerProvider(
+                (any MobileTabBarProviding).self,
+                DefaultMobileTabBarProviding()
+            )
+        }
+        #endif
         var manifest = HostManifest(
             identity: identity,
             makePlugins: { makePlugins() },
@@ -96,6 +109,7 @@ enum WakeyManifest {
             // macOS 根视图用工厂默认实现（工具栏 + ActivityBar + 内容区），
             // 只声明布局差异；不再由宿主提供根视图 Provider。
             rootViewLayout: rootViewLayout,
+            registerProviders: registerProviders,
             features: HostFeatures(
                 statusBar: statusBarConfiguration(identity: identity),
                 // 纯菜单栏 App：启动只驻留状态栏，不自动打开主窗口；
@@ -111,29 +125,21 @@ enum WakeyManifest {
             )
         )
         #if !os(macOS)
-        // iOS 自带完整 Tab 壳（三个提醒 + 设置），不走标准 iOS 设置 sheet 壳。
-        // 壳由工厂 HostMobileTabShell 提供；App 只声明 Tab 数据与品牌。
-        // Tab id 与存储键沿用迁移前取值，延续用户上次选中的标签。
+        // iOS 主界面只挂注册表驱动的壳：标签页由插件自己插入。
+        // 宿主不再硬编码功能清单；没有 iOS 入口的插件不会出现在这里。
         manifest.makeMainView = { kernel in
-            AnyView(
-                HostMobileTabShell(
-                    kernel: kernel,
-                    tabs: [
-                        HostMobileTab(id: "eyeCare", title: "Eye Care", systemImage: "eye.fill") {
-                            AnyView(EyeCareReminderPopupView())
-                        },
-                        HostMobileTab(id: "stretch", title: "Stretch", systemImage: "figure.walk") {
-                            AnyView(StretchReminderPopupView())
-                        },
-                        HostMobileTab(id: "hydration", title: "Hydration", systemImage: "drop.fill") {
-                            AnyView(HydrationReminderPopupView())
-                        },
-                    ],
-                    appName: "Wakey",
-                    selectedTabStorageKey: "WakeyMobileSelectedTab"
+            guard let tabs = kernel.resolveProvider((any MobileTabBarProviding).self) else {
+                return AnyView(
+                    HostMobileTabShell(
+                        kernel: kernel,
+                        tabs: [],
+                        appName: "Wakey",
+                        selectedTabStorageKey: "WakeyMobileSelectedTab"
+                    )
+                    .accessibilityIdentifier("wakey.main.window")
                 )
-                .accessibilityIdentifier("wakey.main.window")
-            )
+            }
+            return AnyView(WakeyMobileShell(kernel: kernel, tabs: tabs))
         }
         #endif
         return manifest
@@ -257,7 +263,8 @@ enum WakeyManifest {
                 configuration: EyeCareReminderConfiguration(
                     pluginID: "EyeCareReminderPlugin",
                     loggerSubsystem: "com.coffic.wakey.plugin.eyecare",
-                    accessibilityIdentifierPrefix: "wakey.eyecare"
+                    accessibilityIdentifierPrefix: "wakey.eyecare",
+                    mobileTabID: "eyeCare"
                 )
             )
         )
@@ -268,12 +275,13 @@ enum WakeyManifest {
                 configuration: StretchReminderConfiguration(
                     pluginID: "StretchReminderPlugin",
                     loggerSubsystem: "com.coffic.wakey.plugin.stretch",
-                    accessibilityIdentifierPrefix: "wakey.stretch"
+                    accessibilityIdentifierPrefix: "wakey.stretch",
+                    mobileTabID: "stretch"
                 )
             )
         )
         // order 10：保留历史 id，继续读取既有启用状态与插件数据目录
-        plugins.append(PluginHydrationReminder(id: "HydrationReminderPlugin"))
+        plugins.append(PluginHydrationReminder(id: "HydrationReminderPlugin", mobileTabID: "hydration"))
         // order 79
         plugins.append(
             ThemePackPlugin(

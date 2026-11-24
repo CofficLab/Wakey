@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiKitLLM.git",
       "state" : {
-        "revision" : "32b68d88408b627f075e36d04aca9d5629af3494",
-        "version" : "1.0.1"
+        "revision" : "8a0b79ce3b728be452df9f18257a3d7c5617988c",
+        "version" : "1.1.1"
       }
     },
     {
@@ -123,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginEyeCareReminder.git",
       "state" : {
-        "revision" : "e8b8c8e0a0d3d21cbe746e64b9e29956f2fb98e1",
-        "version" : "1.2.0"
+        "revision" : "5fae4b657d8d090d98fda975c31ce87f8b85bf14",
+        "version" : "1.4.0"
       }
     },
     {
@@ -141,8 +141,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginHydrationReminder.git",
       "state" : {
-        "revision" : "88fac495e95e2307130a91c69d412291d1a0fac2",
-        "version" : "1.2.0"
+        "revision" : "aee243764ab8d365e05c44e71fdd034abc6c9fd6",
+        "version" : "1.4.0"
       }
     },
     {
@@ -159,8 +159,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginPluginManager.git",
       "state" : {
-        "revision" : "29f1ada0b17b99e960cf86da1d330e65e831963e",
-        "version" : "1.7.1"
+        "revision" : "2db645d43e5c1812ea2886ac455ad48ce714f9e9",
+        "version" : "1.8.0"
       }
     },
     {
@@ -195,8 +195,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiPluginStretchReminder.git",
       "state" : {
-        "revision" : "00c81f10ee5f056318e9061351d92dbe9840aed5",
-        "version" : "1.2.0"
+        "revision" : "0d580851faf94772a4dd2cd3a9a15694f8e5c400",
+        "version" : "1.4.0"
       }
     },
     {
@@ -231,8 +231,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lumi-softworks/LumiProviders.git",
       "state" : {
-        "revision" : "e0e2408ef9c247cfc8d23c4afc2c04cd3f186c63",
-        "version" : "1.27.2"
+        "revision" : "db406abdba102b0a7d3641cc1741f9c98725ed02",
+        "version" : "1.28.0"
       }
     },
     {

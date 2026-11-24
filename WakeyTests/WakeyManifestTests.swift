@@ -42,11 +42,14 @@ struct WakeyManifestTests {
     }
     #endif
 
+    #if os(macOS)
     /// 主窗口内容由设备信息插件注入：宿主注册 `ContentViewProviding`，插件在
     /// `onBoot` 里 `setContentView`（Wakey 没有 ActivityBar 的精简宿主分支）。
     ///
     /// 设备信息是主窗口唯一的内容来源，所以插件必须是宿主硬依赖（`.required`）：
     /// 一旦允许用户禁用，主窗口就只剩「没有插件注册视图」的空占位。
+    ///
+    /// iOS 没有主窗口，设备信息插件也不参与 iOS 装配，这条守卫只在 macOS 有意义。
     @Test("设备信息插件驱动主窗口内容且不可禁用")
     func deviceInfoDrivesMainWindowContent() async throws {
         let kernel = try await WakeyKernelFixture.makeKernel()
@@ -59,6 +62,7 @@ struct WakeyManifestTests {
         #expect(kernel.isPluginRegistered(id: "com.coffic.wakey.plugin.device-info"))
         #expect(kernel.isPluginEnabled(id: "com.coffic.wakey.plugin.device-info"))
     }
+    #endif
 
     /// 默认选中规则：全新启动后选中 order 最小的入口（「通用」），
     /// 且入口列表按 order 升序（通用 1 → 外观 2 → 插件管理 3 → 功能页 200）。
@@ -135,14 +139,19 @@ struct WakeyManifestTests {
         let kernel = try await WakeyKernelFixture.makeKernel()
         let docs = try #require(kernel.resolveProvider((any DocsViewProviding).self))
 
-        // 四个核心业务插件 + 远程插件管理包各贡献一条
-        let manualIDs = Set(docs.manualEntries.map(\.id))
-        #expect(manualIDs.isSuperset(of: [
-            "CaffeinatePlugin",
+        // 三个提醒插件在所有平台都贡献说明书；凯法因只参与 macOS 装配。
+        // 远程插件管理包另贡献一条。
+        var expectedManualIDs: Set<String> = [
             "EyeCareReminderPlugin",
             "StretchReminderPlugin",
             "HydrationReminderPlugin",
-        ]))
+        ]
+        #if os(macOS)
+        expectedManualIDs.insert("CaffeinatePlugin")
+        #endif
+
+        let manualIDs = Set(docs.manualEntries.map(\.id))
+        #expect(manualIDs.isSuperset(of: expectedManualIDs))
 
         // 每条说明书都要有可展示的名字与可渲染的视图
         for entry in docs.manualEntries {
