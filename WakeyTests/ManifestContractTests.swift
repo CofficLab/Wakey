@@ -1,8 +1,11 @@
 import Foundation
+import KernelCore
 import SwiftUI
 import Testing
 @testable import Wakey
 import LumiFactory
+import ProviderMobileTabBar
+import ProviderPluginControl
 
 /// 宿主清单契约守卫。
 ///
@@ -94,12 +97,32 @@ struct ManifestContractTests {
     func rootViewUsesFactoryDefaultWithManifestLayout() {
         #expect(WakeyManifest.manifest.makeRootViewProvider == nil)
         #expect(WakeyManifest.manifest.rootViewLayout.showsToolbar)
+        // 移动端标签页注册表只在 iOS 注册，macOS 不装。
+        #expect(WakeyManifest.manifest.registerProviders == nil)
     }
     #else
-    @Test("iOS 自带完整 Tab 壳，不装状态栏")
-    func iosUsesCustomShellWithoutStatusBar() {
+    @Test("iOS 主界面由插件注册表驱动，不装状态栏")
+    func iosUsesRegistryDrivenShellWithoutStatusBar() {
         #expect(WakeyManifest.manifest.makeMainView != nil)
+        // 移动端标签页注册表由宿主在插件启动前注册；插件自行插入入口。
+        #expect(WakeyManifest.manifest.registerProviders != nil)
         #expect(WakeyManifest.manifest.features.statusBar == nil)
+    }
+
+    /// 插件面对 iOS 的心智是「往移动端标签页插 UI」：入口由插件声明，
+    /// 禁用插件后内核按 owner 撤回。宿主不再维护功能清单。
+    @Test("三个提醒插件各插入一个标签页，禁用后撤回")
+    func reminderPluginsContributeMobileTabs() async throws {
+        let kernel = try await WakeyKernelFixture.makeKernel()
+        let tabs = try #require(kernel.resolveProvider((any MobileTabBarProviding).self))
+
+        #expect(tabs.items.map(\.id) == ["eyeCare", "stretch", "hydration"])
+        // 设置页是宿主壳固定追加的，不来自注册表。
+        #expect(!tabs.items.contains { $0.id == "settings" })
+
+        let controlling = try #require(kernel.resolveProvider((any PluginControlling).self))
+        #expect(await controlling.disablePlugin(id: "EyeCareReminderPlugin"))
+        #expect(tabs.items.map(\.id) == ["stretch", "hydration"])
     }
     #endif
 }

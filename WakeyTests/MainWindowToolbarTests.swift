@@ -1,3 +1,4 @@
+#if os(macOS)
 @testable import Wakey
 import LumiFactory
 import WorkbenchRootView
@@ -46,3 +47,4 @@ struct MainWindowToolbarTests {
         #expect(rootView is FactoryRootViewProviding)
     }
 }
+#endif
