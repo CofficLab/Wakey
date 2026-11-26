@@ -89,7 +89,7 @@
       "kind": "remote",
       "repository": "https://github.com/lumi-softworks/LumiPluginDevice.git",
       "version": {
-        "up-to-next-major-version": "1.2.9",
+        "up-to-next-major-version": "1.3.0",
       },
     }, {
       "kind": "remote",
@@ -451,7 +451,6 @@
         "GENERATE_INFOPLIST_FILE": "YES",
         "IPHONEOS_DEPLOYMENT_TARGET": "17.0",
         "MACOSX_DEPLOYMENT_TARGET": "14.0",
-        "OTHER_SWIFT_FLAGS[sdk=macosx*]": "$(inherited) -Xcc -fmodule-map-file=$(OBJROOT)/GeneratedModuleMaps/PluginDeviceThermalBridge.modulemap",
         "PRODUCT_BUNDLE_IDENTIFIER": "com.coffic.wakey.tests",
         "PRODUCT_NAME": "$(TARGET_NAME)",
         "SDKROOT": "auto",
